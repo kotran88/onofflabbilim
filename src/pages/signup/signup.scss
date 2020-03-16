@@ -1,0 +1,139 @@
+page-signup {
+}
+
+.input-title{
+  margin: 0;
+  padding: 0;
+  // display: inline-block;
+  float: left;
+
+  width: 18%;
+
+  text-align: center;
+  background: white;
+  padding-top: 3%;
+  margin-left: 2%;
+}
+
+.input-box{
+  margin: 0;
+  padding: 0;
+
+  // display: inline-block;
+  float: left;
+
+  width: 70%;
+
+  margin-bottom: 10%;
+
+  border: solid rgb(229,229,229) 1px;
+  padding: 3%;
+  padding-left: 2%;
+
+  background-color: transparent;
+}
+
+.select-box{
+  margin: 0;
+  padding: 0;
+  float: left;
+  height: 10%;
+  width: 70%;
+  margin-bottom: 10%;
+  border: solid rgb(229,229,229) 1px;
+  padding: 3%;
+  margin-top: 1%;
+  background-color: transparent;
+}
+
+.radio-input{
+  margin: 3% 10% 10% 5%;
+  padding: 0;
+  display: inline-block;
+  width: 60%;
+  height: 30%;
+}
+
+.button-base{
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  text-align: center;
+
+  // margin-left: 50%;
+  color: white;
+}
+
+.i1{
+  display: inline-block;
+  width: 75%;
+  font-size: 80%;
+  margin: 0;
+  padding: 0;
+  margin-left: 10%;
+  margin-bottom: 5%;
+}
+
+.i2{
+  display: inline-block;
+  width: 45%;
+  font-size: 50%;
+  margin: 0;
+  padding: 0;
+  margin-left: 15%;
+}
+
+.i3{
+  display: inline-block;
+  margin: 0 0 0 5%;
+  padding: 1% 1% 1% 1%;
+  border-radius: 10%;
+  color: white;
+}
+
+.terms-check-box{
+  display:inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.terms-text{
+  display:inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+
+//   * {
+//         font-size: 3.4vw;
+//       }
+      
+//      ion-label {
+//         color: black;
+//       }
+      
+//      ion-list {
+//         margin-bottom: 16px;
+//       }
+      
+//      .scroll-content {
+//         overflow-y: hidden;
+//       }
+      
+//       .item-ios.item-block .item-inner {
+//         border-style: none;
+//       }
+      
+//       .email .item-inner > .input-wrapper {
+//         display: list-item;
+//       }
+      
+//      .boxBtn {
+//         font-weight: border;
+//         position: absolute;
+//         left: 15%;
+//         border: 1px solid grey;
+//         width: 70%;
+//         border-radius: 5px;
+//       }
+// }

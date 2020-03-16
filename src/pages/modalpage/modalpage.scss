@@ -1,0 +1,40 @@
+page-modalpage {
+    ion-content div.scroll-content {
+        background-color: transparent;
+        margin-bottom: auto !important;
+    }
+    .modal-wrapper {
+
+    width: 100% !important;
+    height: 45% !important;
+    position: absolute !important;
+    bottom: 0% !important;
+    }
+    .box {
+        text-align: center;
+        margin-top: 6px;
+        margin-left: 15px;
+        width: 90%;
+         font-size : 25px;
+        border: 1px solid #eee;
+        background-color: white;
+        height: 50px;
+    }
+    .gameshowwithborder{
+    }
+    .footer{
+        height: 85%;
+        /* height: 120px; */
+        /* text-align: left; */
+        display: flex;
+        bottom: 15%;
+        position: absolute;
+        background-color: #eff2f3;
+    }
+    .toolbar toolbar-md{
+        height: -webkit-fill-available !important;
+      }
+      .toolbar-content toolbar-content-md{
+          height: -webkit-fill-available !important;
+      }
+}

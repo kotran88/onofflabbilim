@@ -1,0 +1,63 @@
+<!--
+  Generated template for the LoginpagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>로그인</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div style="
+  margin-top: 30px; text-align: center;" class="upper">
+    아래의 방법중 원하는 방법으로 로그인 해주세요. 
+  </div>
+  <div style="margin-top: 25%;" class="main">
+    <div class="input-title">아이디</div>
+    <ion-input class="input-box" placeholder="이메일 주소" [(ngModel)]="id" type="text"></ion-input>
+    <div class="input-title">비밀번호</div>
+    <ion-input class="input-box" style="margin-bottom: 1%;" placeholder="6~12자 입력" [(ngModel)]="password" type="password"></ion-input>
+    <!-- <div calss="chk-box" style="margin-top: 1%;"> -->
+      <ion-checkbox class="check-box" [(ngModel)]="check" color="grey" checked slot="start"></ion-checkbox>
+      <ion-label class="check-name">로그인 상태 유지</ion-label>
+    <!-- </div> -->
+    <!-- <button class="fnid-id" (click)="find_admin()">아이디/비밀번호 찾기</button> -->
+    <br><br>
+  <div class="s">
+    <button ion-button calss="login-button" (click)="login()"
+    style="width: 60%; background-color: rgb(177,209,234);  border-radius: 10%;">
+      로그인
+  </button>
+  <br>
+  <hr>
+
+  <br>
+  <div class="a">
+    <button ion-button calss="login-button" (click)="signup()"
+    style="width: 60%; background-color: rgb(177,209,234);  border-radius: 10%;">
+      회원가입
+  </button>
+  <button ion-button calss="login-button" (click)="kakaologin()"
+  style="width: 60%; background-color: rgb(177,209,234); border-radius: 10%;">
+    카카오로 로그인
+</button>
+  </div>
+    
+  </div>
+   
+  </div>
+  
+   <!-- <div class="form">
+     <h4 style="width:100%;">아이디</h4>
+        <input  placeholder="아이디 입력" [(ngModel)]="id" type="text" />
+           <h4 style="width:100%;">비밀번호</h4>
+              <input placeholder="비밀번호 입력" [(ngModel)]="password" type="password"/>
+              
+              <button class="btn" (click)="login()">로그인</button>
+              <button class="btn" (click)="signup()">회원가입</button>
+            </div> -->
+</ion-content>

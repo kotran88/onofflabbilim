@@ -8,7 +8,8 @@
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "lint": "ionic-app-scripts lint",
+    "sync-android": "cordova platform rm android && rm -rf platforms && cordova platform add android"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -19,19 +20,60 @@
     "@angular/forms": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
-    "@ionic-native/core": "4.20.0",
-    "@ionic-native/splash-screen": "4.20.0",
-    "@ionic-native/status-bar": "4.20.0",
+    "@ionic-native/core": "^5.19.1",
+    "@ionic-native/date-picker": "^5.22.0",
+    "@ionic-native/in-app-browser": "^5.22.0",
+    "@ionic-native/splash-screen": "^5.0.0",
+    "@ionic-native/status-bar": "^5.0.0",
     "@ionic/storage": "2.2.0",
+    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/http-loader": "^4.0.0",
+    "angularfire2": "^5.0.2",
+    "cordova": "^7.1.0",
+    "cordova-android": "^8.0.0",
+    "cordova-plugin-datepicker": "^0.9.3",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-ionic-keyboard": "^2.2.0",
+    "cordova-plugin-ionic-webview": "^4.1.3",
+    "cordova-plugin-kakao-sdk": "^3.0.5",
+    "cordova-plugin-splashscreen": "^5.0.2",
+    "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-whitelist": "^1.3.3",
+    "firebase": "^5.5.2",
+    "iamport-cordova": "^0.9.3",
     "ionic-angular": "3.9.9",
+    "ionic3-star-rating": "^2.1.2",
     "ionicons": "3.0.0",
+    "jquery": "^3.4.1",
+    "kakao-sdk": "^3.1.0",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
+    "whatwg-fetch": "^3.0.0",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.4",
-    "typescript": "2.6.2"
+    "typescript": "^3.4.5"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
+      "cordova-plugin-ionic-keyboard": {},
+      "iamport-cordova": {},
+      "cordova-plugin-kakao-sdk": {
+        "KAKAO_APP_KEY": "9f499919aa20afde90187485d80f06d2"
+      },
+      "cordova-plugin-datepicker": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  }
 }

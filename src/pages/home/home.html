@@ -1,14 +1,339 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+<!-- <ion-header >
+  <ion-navbar style="background: #219B44;" >
+    <button ion-button menuToggle>
+      <ion-icon style="color: white;" name="menu"></ion-icon>
+    </button>
+    <div class="title">
+      배달하나
+    </div>
+    <div class="icons">
+        <span style="float:left;" class="floating_icon">
+           
+            <span [ngClass]="digitFlag ? 'floating_icon_inner':'floating_icon_inner_two'">
+                {{count}}
+            </span>
+        </span>
+        <button class="nav" (click)="goToMyList()" ion-button >
+            <ion-icon style="color: white;" name="list-box"></ion-icon>
+        </button>
+        <button class="nav" (click)="map.centerLocation()" ion-button >
+          <ion-icon style="color: white;" name="navigate" ></ion-icon>
+        </button>
+    </div>
+    
+     
+     
+      
   </ion-navbar>
-</ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+</ion-header> -->
+<ion-header no-border style="border: 0px !important;
+border-bottom-color: transparent !important;
+background-image: none !important;
+border-bottom: none !important; z-index: 11 !important">
+  <ion-navbar style="border: 0px !important;
+  border-bottom-color: transparent !important;
+  background-image: none !important;
+  border-bottom: none !important;">
+        <div style="  font-size:17px;  text-align: center;" class="title">
+                빌림
+              </div>
+    <img src="assets/img/magnify.png" (click)="search();" style="font-size: 1.8em;
+    right: 15%;
+    width:22px;
+    position: absolute;
+    color:gray;
+    bottom: 10px;
+     " name="search"/>
+      <button  style="right: 0px;
+      position: absolute;"  ion-button menuToggle>
+          <img src="assets/img/menumenu.png" style="width:22px;" right name="menu"/>
+        </button>
+  </ion-navbar>
+
+</ion-header>
+<ion-scroll #scroll class="scrolltest" style="
+margin-top: 30px; margin-bottom: -15px; height: 50px;" scrollX="true">
+  <button  *ngIf="selectedbutton=='vr'" (click)="category2('vr')" class="mybtnclicked" ion-button  >
+      VR
+    </button>
+    <button  *ngIf="selectedbutton!='vr'" (click)="category2('vr')" class="mybtn" ion-button  >
+      VR
+    </button>
+    <button *ngIf="selectedbutton=='switch'"  (click)="category2('switch')" class="mybtnclicked" ion-button  >
+    스위치
+    </button>
+    <button *ngIf="selectedbutton!='switch'"  (click)="category2('switch')" class="mybtn" ion-button  >
+      스위치
+      </button>
+    <a *ngIf="selectedbutton=='ps'"  (click)="category2('ps')" class="mybtnclicked" ion-button  >
+    Playstation
+    </a>
+    <a *ngIf="selectedbutton!='ps'"    (click)="category2('ps')" class="mybtn" ion-button  >
+      Playstation
+    </a>
+
+</ion-scroll>
+<ion-content class="home">
+  <!-- <div class="floating">
+     
+  </div> -->
+
+
+<ion-slides class="firstslide" style="     width:100% !important;" pager style="height:auto; margin-top: 20px;  ">
+  <ion-slide style="width:100% !important;" *ngFor="let slide of slides">
+      <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" [src]="slide.url">
+  </ion-slide>
+</ion-slides>
+
+<!-- <button (click)="onClickCertification()">본인인증</button> -->
+
+
+<p  style="
+font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
+<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
+  <div style="width:200000px;  display:block;" class="test">
+  <div (click)="gotoshop(a)" *ngFor="let a of vrarray; let i = index" class="tttttt">
+   <img *ngIf="i==0" style="height: 150px;"   class= 'imagereservation' src="{{a.url}}">
+   <span  *ngIf="i==0"   class="s">
+      <p  style="  
+      margin-top: 0;  font-size: 11px !important;
+        ">{{a.name}}</p>
+      </span>
+      <!-- <span  *ngIf="i!=0"   class="ss">
+      <p  style="  
+      font-size: 11px !important;
+        margin-top: 0;
+  ">{{a.name}}</p>
+      </span> -->
+  </div>
+  </div>
+</ion-scroll>
+
+
+
+<p id="ps"  style="
+font-size: 1.5rem; margin-left: 1em;">Playstation</p>
+<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
+  <div style="width:200000px;  display:block;" class="test">
+  <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" class="tttttt">
+   <img  style="height: 150px;"   class= 'imagereservation' src="{{a.url}}">
+   <span  *ngIf="i==0"     class="s">
+      <p  style="  
+      margin-top: 0;  font-size: 11px !important;
+        ">{{a.name}}</p>
+      </span>
+      <span  *ngIf="i!=0"     class="ss">
+      <p  style="  
+      font-size: 11px !important;
+        margin-top: 0;
+  ">{{a.name}}</p>
+      </span>
+  </div>
+  </div>
+</ion-scroll>
+
+
+<p  style="
+font-size: 1.5rem; margin-left: 1em;">Nintendo 3DS</p>
+<ion-scroll class="home2" style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
+  <div style="width:200000px;  display:block;" class="test">
+  <div  (click)="gotoshop(a)" *ngFor="let a of switcharray; let i = index" class="tttttt">
+   <img  style="height: 150px;"   class= 'imagereservation' src="{{a.url}}">
+   <span  *ngIf="i==0"     class="s">
+      <p  style="  
+      margin-top: 0;  font-size: 11px !important;
+        ">{{a.name}}</p>
+      </span>
+      <span  *ngIf="i!=0"    class="ss">
+      <p  style="  
+      font-size: 11px !important;
+        margin-top: 0;
+  ">{{a.name}}</p>
+      </span>
+  </div>
+  </div>
+</ion-scroll>
+
+<ion-menu class="menu" side="right"  [content]="content">
+    
+  <ion-content class="c">
+          <!-- <div class="profile">
+              <img class="img" src="{{imageUrl}}"/>
+              <div class="left" >
+                <p>aa</p>
+                <p>bb</p>
+                <p>포인트 : cc</p>
+                <button style="background: transparent;
+                color: black; top:2rem; width:2rem;border:solid 1px;" ion-button (click)="goSetting()" ><ion-icon name="settings"></ion-icon>
+                </button>
+              </div>
+              <div class="right">
+               
+              </div>
+              
+          </div> -->
+          
+            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+              dddd
+              <p class="logo" *ngIf="p.title=='고객센터(1:1문의)'"></p>
+            </button>
+            
+            <div *ngIf="loginflag=='true'" class="profile">
+              <div class="left" >
+                <p style="line-height: 6rem;">{{id}}</p>
+
+                <button (click)="logout();">로그아웃</button>
+              </div>
+              <div class="right">
+              </div>
+          </div>
+          <div  *ngIf="loginflag=='false'" class="profile">
+            <button style="    background: transparent;
+            color: black;
+            border: solid 1px;
+            width: 70%;
+
+border-radius: 10px;
+            font-size: 13px;" ion-button (click)="kakaoLogin()" > 로그인
+            </button>
+          </div>
+          <ion-list>
+                <ion-item (click)="openrulepage()">
+                     
+                  </ion-item>
+                  <ion-item  (click)="openrule2page()">
+                      개인정보 처리 방침
+                  </ion-item>
+                  
+                           
+                    
+                   
+          </ion-list>
+          <button style="background: aliceblue;
+          color: black;
+          top: 2rem;
+          height: 5%;
+          width: 70%;
+          left: 15%;
+
+          border-radius:10px;
+          font-size: 13px;" ion-button (click)="share()" >친구에게 알리기
+              </button>
+
+              <button *ngIf="logined=='true'" style="background: aliceblue;
+              color: black;
+              top: 2rem;
+              height: 5%;
+              width: 70%;
+              left: 15%;
+              border-radius:10px;
+              font-size: 13px;" ion-button  (click)="logout()" >로그아웃
+              </button>
+    
+  </ion-content>
+</ion-menu>
+
+
 </ion-content>
+
+
+  <ion-nav id="nav" #content [root]="rootPage"></ion-nav>
+
+<!-- <ion-header no-border style="border: 0px !important;
+border-bottom-color: transparent !important;
+background-image: none !important;
+border-bottom: none !important; z-index: 11 !important">
+  <ion-navbar style="border: 0px !important;
+  border-bottom-color: transparent !important;
+  background-image: none !important;
+  border-bottom: none !important;">
+        <div style="  font-size:17px;  text-align: center;" class="title">
+                다배달
+              </div>
+    <img src="assets/img/magnify.png" (click)="search();" style="font-size: 1.8em;
+    right: 15%;
+    width:22px;
+    position: absolute;
+    color:gray;
+    bottom: 10px;
+     " name="search"/>
+      <button  style="right: 0px;
+      position: absolute;"   menuToggle>
+          <img src="assets/img/menumenu.png" style="width:22px;" left name="menu"/>
+        </button>
+  </ion-navbar>
+
+</ion-header>
+<ion-content scroll="false" class="home">
+  <ion-scroll #scroll class="scrolltest" style=" margin-bottom: -15px;" scrollX="true">
+              <button  *ngIf="selectedbutton=='vr'" (click)="category2('vr')" class="mybtnclicked" ion-button  >
+                  VR
+                </button>
+                <button  *ngIf="selectedbutton!='vr'" (click)="category2('vr')" class="mybtn" ion-button  >
+                  VR
+                </button>
+                <button *ngIf="selectedbutton=='switch'"  (click)="category2('switch')" class="mybtnclicked" ion-button  >
+                스위치
+                </button>
+                <button *ngIf="selectedbutton!='switch'"  (click)="category2('switch')" class="mybtn" ion-button  >
+                  스위치
+                  </button>
+                <button *ngIf="selectedbutton=='ps'"  (click)="category2('ps')" class="mybtnclicked" ion-button  >
+                Playstation
+                </button>
+                <button *ngIf="selectedbutton!='ps'"  (click)="category2('ps')" class="mybtn" ion-button  >
+                  Playstation
+                  </button>
+           
+</ion-scroll>
+
+  <button (click)="onClickCertification()">본인인증</button>
+
+
+
+<ion-menu class="menu"  [content]="content">
+    
+  <ion-content class="c">
+          <div class="profile">
+              <img class="img" src="{{imageUrl}}"/>
+              <div class="left" >
+                <p>aa</p>
+                <p>bb</p>
+                <p>포인트 : cc</p>
+                <button style="background: transparent;
+                color: black; top:2rem; width:2rem;border:solid 1px;" ion-button (click)="goSetting()" ><ion-icon name="settings"></ion-icon>
+                </button>
+              </div>
+              <div class="right">
+               
+              </div>
+              
+          </div>
+          
+            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+              dddd
+              <p class="logo" *ngIf="p.title=='고객센터(1:1문의)'"></p>
+            </button>
+            
+
+            <br>
+            <ion-list>
+                <ion-item >
+                    즐겨찾기 
+                  </ion-item>
+                 <div>
+                      <ion-item class="test" style="cursor:pointer; width:100%; min-height:3.5rem; "     *ngFor="let ele of favorite_information ">
+                         <p (click)="getFavorite(ele)" style="float:left; height:100%; width:83%;" menuToggle>&nbsp;&nbsp;&nbsp;&nbsp;ㄴ &nbsp;&nbsp;{{ele.title}} </p>  
+                         <button style="background:transparent;float:right; border:solid 1px; color:black;"><ion-icon style="font-size: 2rem; " (click)="goDelete(ele)" md="md-trash"></ion-icon></button>
+                       </ion-item>
+                       
+                  </div>
+            </ion-list>
+            
+    
+  </ion-content>
+</ion-menu>
+
+
+</ion-content> -->
