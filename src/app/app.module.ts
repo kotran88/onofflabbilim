@@ -22,6 +22,7 @@ import { OrderpagePage } from '../pages/orderpage/orderpage';
 import { Modalbottom } from '../pages/modalbottom/modalbottom';
 import { ModalpagePage } from '../pages/modalpage/modalpage';
 import { SignupPage } from '../pages/signup/signup';
+import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -43,7 +44,8 @@ firebase.initializeApp(firebaseConfig);
     OrderpagePage,
     ModalpagePage,
     SignupPage,
-    Modalbottom
+    Modalbottom,
+    DeliveryAreaPage,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ firebase.initializeApp(firebaseConfig);
     SignupPage,
     ModalpagePage,
     Modalbottom,
-    OrderpagePage
+    OrderpagePage,
+    DeliveryAreaPage,
   ],
   providers: [
     // StatusBar,

@@ -14,10 +14,21 @@
   .modal-wrapper {
 
     width: 100% !important;
-    height: 45% !important;
+    height: 45% ;
     position: absolute !important;
     bottom: 0% !important;
     }
+    .select-modal .modal-wrapper {
+
+        width: 100% !important;
+        height: 90% ;
+        position: absolute !important;
+        bottom: 0% !important;
+        }
+.select-modal {
+    background: rgba(0, 0, 0, 0.5) !important;
+    padding: 20% 10%  !important;
+}
   
 ion-header.header {
     text-align: center;
