@@ -57,7 +57,7 @@ padding: 10px !important">
         <br>
         <br>
         <p style="font-size:15px; text-align: center;">게임기가 없으시다면? 게임기 추가해보세요</p>
-        <select  id="mySelect" class="box" name="location">
+        <select  id="mySelect" class="box" name="location" style="border: solid 1px black;">
           <option id="a"  value="no">추가안함 (+ 0 원)</option>
           <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}} (+{{a.pricedaily}} 원)</option>
          

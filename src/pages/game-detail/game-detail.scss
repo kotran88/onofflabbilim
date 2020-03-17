@@ -1,0 +1,29 @@
+page-game-detail {
+    .player-box{
+        position: absolute; 
+        display: inline-block;
+        padding: 0;
+        width: 20%;
+        height: 5%;
+        text-align: center;
+
+    }
+
+    .ST-box{
+        position: absolute; 
+        display: inline-block;
+        padding: 0;
+        width: 20%;
+        height: 5%;
+        text-align: center;
+        font-size: 80%;
+    }
+
+    .image-box{
+        position: absolute; 
+        display: inline-block;
+        padding: 0;
+        width: 45%;
+        text-align: center;
+    }
+}

@@ -24,6 +24,7 @@ import { ModalpagePage } from '../pages/modalpage/modalpage';
 import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { GameDetailPage } from '../pages/game-detail/game-detail';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -49,6 +50,7 @@ firebase.initializeApp(firebaseConfig);
     SignupPage,
     Modalbottom,
     DeliveryAreaPage,
+    GameDetailPage,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +72,7 @@ firebase.initializeApp(firebaseConfig);
     Modalbottom,
     OrderpagePage,
     DeliveryAreaPage,
+    GameDetailPage,
   ],
   providers: [
     // StatusBar,

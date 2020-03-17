@@ -7,6 +7,7 @@ import { LoginpagePage} from './../../pages/loginpage/loginpage'
 import { Modalbottom } from '../modalbottom/modalbottom';
 import { ModalpagePage } from '../modalpage/modalpage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { GameDetailPage } from '../game-detail/game-detail';
 
 
 /**
@@ -289,9 +290,11 @@ this.diff=Math.ceil(diff)
   gotogamedetail(game){
     console.log(game);
     console.log("g")
-const browser = this.inapp.create('https://store.nintendo.co.kr/70010000016050',"_blank","location=no");
-
+    // const browser = this.inapp.create('https://store.nintendo.co.kr/70010000016050',"_blank","location=no");
+    let modal = this.modal.create(GameDetailPage, {game:game}, { cssClass: 'test-modal' });
+    modal.present();
   }
+  
   ab(){
     console.log("callback")
   }

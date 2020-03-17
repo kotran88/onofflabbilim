@@ -28,13 +28,13 @@ float: left;" class="title">
         <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" [src]="slide">
     </ion-slide>
   </ion-slides>
-  <p>제조사</p>
-  <p>{{maker}}</p>
+  <p style="margin-left: 20px;">제조사</p>
+  <p style="margin-left: 20px;">{{maker}}</p>
   <div style="
   height: 80px;
   background: gray;" class="express">
     <p style="float:left; margin-left:20px; width:60%">배송비 </p> <p style="float:right;  width:30%">배송비 무료 </p>
-    <p style="float:left; margin-left:20px; width:45%">배송안내 </p> <p style="float:right;  width:45%">{{expressmessage}} </p>
+    <p style="float:left; margin-left:20px; width:45%;">배송안내 </p> <p style="float:right;  width:45%; margin-right:-45px;">{{expressmessage}} </p>
   </div>
 
   <div  class="startrent">
@@ -50,40 +50,30 @@ float: left;" class="title">
     </ion-list>
   </div>
 
-  <div style="
-  height: auto;
-  display: table;" class="gameselect">
-    <div  style="
-   width: 33%;
-    height: 220px;
-    text-align: center;
-    padding: 10px;
-    float: left;"  *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'" >
-    <div (click)="gameselected(game,i);" class="disp">
-      <img style="
-      height: 80px;
-      width: 100%;" src="{{game.url}}"/>
-      <br>
-      <span>
-        <p style="margin:0px; 
-        font-weight: bold;
-        font-size: 16px;"> {{game.name}}</p>
+  <div style="height: auto; display: table;" class="gameselect">
+    <div  style="width: 33%; height: 220px; text-align: center; padding: 10px;
+        float: left;"  *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'" >
+      <div (click)="gameselected(game,i);" class="disp">
+        <img style="height: 80px; width: 100%;" src="{{game.url}}"/>
+        <br>
+        <span>
+          <p style="margin:0px; font-weight: bold; font-size: 16px;"> {{game.name}}</p>
        
-       <p style="float:left; margin:0px;">정가 :</p>   <p style="text-decoration: line-through; margin:0px;">{{game.fullprice}} 원</p>
-       <p style="float:left; margin:0px;"> 대여(일) :</p>   <p style="margin:0px; 
-       font-weight: bold;
-       font-size: 15px;">{{game.price}} 원</p> <br>
-       
-      </span>
-    </div>
-    <button style="background: transparent;
-    border: solid 1px;
-    height: 40px;" (click)="gotogamedetail(game)">상세설명보기</button>
+          <p style="float:left; margin:0px;">정가 :</p>
+          <p style="text-decoration: line-through; margin:0px;">{{game.fullprice}} 원</p>
+          <p style="float:left; margin:0px;"> 대여(일) :</p>
+          <p style="margin:0px; font-weight: bold; font-size: 15px;">{{game.price}} 원</p> <br>
+        </span>
+      </div>
+
+      <button style="background: transparent; border: solid 1px; height: 40px;" (click)="gotogamedetail(game)">
+        상세설명보기
+      </button>
      
-          </div>
+    </div>
   </div>
 
-                        <br><br>  
+  <br><br>
 
 
   <!-- <div class="banner">

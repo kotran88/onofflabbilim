@@ -41,7 +41,7 @@ margin-left: 20px;" class="gameshowing">
   width: 90%;
   height: 110px; padding:10px;
   "  >
-  <p> {{user.email}}</p> 
+  <p> {{user.email}}</p>
   <p>{{user.name}}</p>
   <p>{{user.phone}}</p>
         </div>
@@ -53,16 +53,12 @@ margin-left: 20px;" class="gameshowing">
     <div style="position:relative" class="main">
      <p style="
      line-height: 40px;"  class="item-title">주문상품</p>
-     <img id="arrow1" *ngIf="selected==1" src="assets/img/open-up.png" class="no" style="
-       "/>
-        <img id="arrow1" *ngIf="selected!=1" src="assets/img/open-down.png" class="yes" style="
-        "/>
+     <img id="arrow1" *ngIf="selected==1" src="assets/img/open-up.png" class="no" style=""/>
+        <img id="arrow1" *ngIf="selected!=1" src="assets/img/open-down.png" class="yes" style=""/>
     </div>
-     <div class="clicked" class="display" style="background:rgb(246,246,246);
-      height:auto;
-   white-space: initial !important; font-size:13px;
-     border:0.5px solid rgb(234,234,234);
-   ">
+    
+    <div class="clicked" class="display" style="background:rgb(246,246,246); height:auto;
+        white-space: initial !important; font-size:13px;border:0.5px solid rgb(234,234,234);">
     <div style="min-height: 150px;
     padding: 15px;" class="gameshowing">
       <div  style="
@@ -171,16 +167,16 @@ margin-left: 20px;" class="gameshowing">
        
        </div>
        </ion-item>
-       <ion-item  >
+       <ion-item>
         <div style="position:relative" class="main">
           <p style="line-height: 44px;" class="item-title">주문시 결제금액 </p>
          
           </div>
           <div class="clicked"  style="background:rgb(246,246,246);
-          height:70px;
-       white-space: initial !important; font-size:13px;
-         border:0.5px solid rgb(234,234,234);
-       ">
+            height:70px; margin-bottom: 50px;
+            white-space: initial !important; font-size:13px;
+            border:0.5px solid rgb(234,234,234);
+          ">
        <p style="margin-left:20px; margin-top:20px;"> 총 결제 금액 {{totalprice}}</p>
       
        </div>
