@@ -100,10 +100,13 @@ margin-left: 20px;" class="gameshowing">
        <p style="
        line-height: 40px;   width: 70%;
        float: left;" class="item-title">배송지 정보</p>
-      <button (click)="Delivery_area()">입력/변경</button>
+      <button (click)="Delivery_area()" style="background: transparent;
+          border: solid 1px; border-radius: 5px; margin-left:10px; margin-top: 10px;">
+        입력/변경
+      </button>
       <!-- <button onclick="sample3_execDaumPostcode()" >입력/변경</button> -->
       </div>
-       <div class="clicked" *ngIf="user.address==undefined||user.address==null" [ngClass]="selected==2?'display2':'nodisplay2'" style="background:rgb(246,246,246);
+       <div class="clicked display2" *ngIf="user.address==undefined||user.address==null" style="background:rgb(246,246,246);
        padding:16px; height:auto;
      white-space: initial !important; font-size:13px;
        border:0.5px solid rgb(234,234,234);
@@ -195,7 +198,7 @@ z-index: 99999;
 height: 50px;
 text-align: center;
 background: #46B033;" class="order">
-<p>기 (3/3)</p>
+<p>빌리기 (3/3)</p>
 </div>
 
 <!-- <ion-content *ngIf="" class="main-view" style="background: transparent;

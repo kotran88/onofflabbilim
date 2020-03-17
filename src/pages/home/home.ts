@@ -5,6 +5,8 @@ import {DetailPage} from './../detail/detail'
 import { IonicPage, AlertController,NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { MypagePage} from './../../pages/mypage/mypage'
 import { LoginpagePage} from './../../pages/loginpage/loginpage'
 @Component({
   selector: 'page-home',
@@ -17,9 +19,9 @@ export class HomePage {
   firemain = firebase.database().ref();
   slides=[];
   switcharray=[];
-  vrarray=[];
+  dsarray=[];
   psarray=[];
-  vrgamearray=[];
+  dsgamearray=[];
   switchgamearray=[];
   psgamearray=[];
   setting:any;
@@ -27,7 +29,7 @@ export class HomePage {
   loginflag:any;
   userid:any;
   user:any;
-  constructor(public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController,public _kakaoCordovaSDK: KakaoCordovaSDK) {
+  constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController,public _kakaoCordovaSDK: KakaoCordovaSDK) {
     this.id=localStorage.getItem("id")
     this.loginflag=localStorage.getItem("loginflag");
     this.userid=localStorage.getItem("key");
@@ -61,27 +63,40 @@ if(this.userid!=null){
               this.slides.push(snapshot.val()[a][b])
             }
           }
-          if(a=="switch"){
-            for(var b in snapshot.val()[a]){
-              this.switcharray.push(snapshot.val()[a][b])
-            }
-          }
+          // if(a=="switch"){
+          //   for(var b in snapshot.val()[a]){
+          //     this.switcharray.push(snapshot.val()[a][b])
+          //   }
+          // }
           if(a=="ps"){
-            for(var b in snapshot.val()[a]){
-              this.psarray.push(snapshot.val()[a][b])
-            }
-          }
-          if(a=="vr"){
             for(var b in snapshot.val()[a]){
               console.log(b);
               console.log(snapshot.val()[a][b])
               if(b=="software"){
                 for(var c in snapshot.val()[a][b]){
-                  this.vrgamearray.push(snapshot.val()[a][b][c]);
+                  this.psgamearray.push(snapshot.val()[a][b][c]);
                 }
               }else if(b=="hardware"){
                 for(var c in snapshot.val()[a][b]){
-                  this.vrarray.push(snapshot.val()[a][b][c]);
+                  this.psarray.push(snapshot.val()[a][b][c]);
+                }
+                
+              }
+             
+              
+            }
+          }
+          if(a=="switch"){
+            for(var b in snapshot.val()[a]){
+              console.log(b);
+              console.log(snapshot.val()[a][b])
+              if(b=="software"){
+                for(var c in snapshot.val()[a][b]){
+                  this.switchgamearray.push(snapshot.val()[a][b][c]);
+                }
+              }else if(b=="hardware"){
+                for(var c in snapshot.val()[a][b]){
+                  this.switcharray.push(snapshot.val()[a][b][c]);
                 }
                 
               }
@@ -94,11 +109,47 @@ if(this.userid!=null){
         console.log(this.slides);
         console.log(this.switcharray)
         console.log(this.psarray);
-        console.log(this.vrarray);
+        console.log(this.dsarray);
         console.log("ddddd")
       })
     })
-   
+   this.OneSignalInstall();
+  }
+
+
+  OneSignalInstall()
+  {
+    this.oneSignal.startInit('6505b348-1705-4d73-abe4-55ab40758266');
+    console.log("onesignal-2-2");
+    // this.oneSignal.clearOneSignalNotifications();
+    console.log("onesignal 00");
+    var iosSettings = {
+      "kOSSettingsKeyAutoPrompt" : true,
+      "kOSSettingsKeyInAppLaunchURL" : true
+    };
+    console.log("onesignal 11");
+    this.oneSignal.iOSSettings(iosSettings);
+    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
+    console.log("onesignal 22");
+
+    console.log("onesiganl get id startedddddd")
+    this.oneSignal.getIds().then(data => {
+      console.log(data);
+      console.log("get id success"+data.userId)
+
+      window.alert(data.userId);
+      localStorage.setItem("tokenvalue",data.userId);
+
+    }).catch((e)=>{
+      // window.alert("onesignal error"+e);
+      console.log("onesignal error : "+e);
+    })
+    this.oneSignal.endInit();
+  }
+
+  mypage(){
+    console.log("mypage come")
+    this.navCtrl.push(MypagePage,{"id":this.id,"key":this.userid})
   }
   logout(){
     localStorage.setItem("key",null);
@@ -115,8 +166,8 @@ if(this.userid!=null){
   }
   gotoshop(a){
     console.log(a.flag);
-    if(a.flag=="vr"){
-      this.navCtrl.push(DetailPage,{"a":a,"game":this.vrgamearray,"setting":this.setting,"user":this.user});
+    if(a.flag=="ds"){
+      this.navCtrl.push(DetailPage,{"a":a,"game":this.dsgamearray,"setting":this.setting,"user":this.user});
     }
     if(a.flag=="switch"){
       this.navCtrl.push(DetailPage,{"a":a,"game":this.switchgamearray,"setting":this.setting,"user":this.user});

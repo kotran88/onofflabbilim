@@ -166,8 +166,8 @@ export class OrderpagePage {
   }
   orderpage(){
 
- var data = {
-  pay_method : 'card',
+    var data = {
+      pay_method : 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
       name : '주문명:결제테스트',
       amount : "1",
@@ -215,7 +215,7 @@ export class OrderpagePage {
           }
           
         }
-         },   
+      },   
     }
         
     

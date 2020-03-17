@@ -15,7 +15,7 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {DetailPage } from './../pages/detail/detail'
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { StarRatingModule } from 'ionic3-star-rating';
-
+import { MypagePage} from './../pages/mypage/mypage'
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { OrderpagePage } from '../pages/orderpage/orderpage';
@@ -23,6 +23,7 @@ import { Modalbottom } from '../pages/modalbottom/modalbottom';
 import { ModalpagePage } from '../pages/modalpage/modalpage';
 import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -40,9 +41,11 @@ firebase.initializeApp(firebaseConfig);
     MyApp,
     HomePage,
     DetailPage,
+    MypagePage,
     LoginpagePage,
     OrderpagePage,
     ModalpagePage,
+    
     SignupPage,
     Modalbottom,
     DeliveryAreaPage,
@@ -60,6 +63,7 @@ firebase.initializeApp(firebaseConfig);
     DetailPage,
     LoginpagePage,
     HomePage,
+    MypagePage,
 
     SignupPage,
     ModalpagePage,
@@ -71,6 +75,7 @@ firebase.initializeApp(firebaseConfig);
     // StatusBar,
     // SplashScreen,
     InAppBrowser,
+    OneSignal,
     AngularFireAuth,
     DatePicker,
     KakaoCordovaSDK,

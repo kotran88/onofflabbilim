@@ -1,0 +1,58 @@
+<!--
+  Generated template for the MypagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>mypage</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+
+  <ion-list>
+        <ion-item *ngFor="let a of orderlist" style="padding-left:0; 
+        min-height: 150px;"  >
+                    <ion-card  style="width:98%; min-height: 150px;" >
+                    <ion-card-content style=" padding:13px; margin:auto;
+                    min-height: 150px;">
+                      <div style="float: left; width:30%; 
+                      margin-top: 20px;" class="left">
+                        <img style="" *ngIf="a.hardware.flag=='switch'" src="assets/img/switchlogo.png"/>
+                        <img style="" *ngIf="a.hardware.flag=='ps'" src="assets/img/pslogo.png"/>
+                        <img style="" *ngIf="a.hardware.flag=='ds'" src="assets/img/dslogo.png"/>
+                      </div>
+                           
+                            <div style="width: 65%;
+                            float: right;
+                            line-height: 18px;
+                            margin-left:10px;
+                            height: 100%;" class="right">
+                             대여 기간 : {{a.startDate.split("T")[0].split("-")[1]}}월 {{a.startDate.split("T")[0].split("-")[2]}}일 ~ 
+                              {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}} 일
+                              <br> 대여 기기 : {{a.hardware.name}}
+                            <br> 결제 금액 : {{a.payment}}
+                            <br>
+                              <div class="game">
+                                <span style="float:left;" class="a" > 대여 게임 :</span>
+                                <div style="display: -webkit-box;
+                                height: auto;
+                                margin-left: 30%;
+                                width: 100%;" class="b"  >
+                                <span *ngFor="let b of a.game; let c = index ">{{b.name}} <br></span>
+                                </div>
+                                <br>
+                              </div>
+                              <br>
+                              주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시  {{a.orderdate.split(" ")[1].split(":")[1]}} 분
+                            </div>
+
+                    </ion-card-content>
+                    </ion-card  >
+        </ion-item>
+</ion-list>
+
+</ion-content>

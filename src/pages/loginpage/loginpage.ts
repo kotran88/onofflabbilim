@@ -31,6 +31,8 @@ export class LoginpagePage {
     if(localStorage.getItem("loginflag")==='true'){
       console.log('auto login');
     }
+
+  
     console.log(localStorage.getItem("loginflag"));
 
     this._kakaoCordovaSDK.logout();

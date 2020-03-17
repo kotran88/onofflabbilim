@@ -35,23 +35,30 @@ export class DeliveryAreaPage {
   
 
   check(){
-    var key=localStorage.getItem('key');
-    this.firemain.child("users").child(key).child('adress').update({
-      name:this.name,
-      phone:this.phone,
-      code:this.adress,
-      adress:this.adress2,
-      detail_adress:this.adress3,
-    })
-    this.viewCtrl.dismiss(
-      {
+    if(this.name==='') alert('수령인을 입력해주세요.');
+    else if(this.phone==='') alert('연락처를 입력해주세요.');
+    else if(this.adress==='') alert('우편번호를 입력해주세요.');
+    else if(this.adress2==='') alert('주소를 입력해주세요.');
+    else if(this.adress3==='') alert('상세주소를 입력해주세요.');
+    else{
+      var key=localStorage.getItem('key');
+      this.firemain.child("users").child(key).child('adress').update({
         name:this.name,
         phone:this.phone,
         code:this.adress,
         adress:this.adress2,
         detail_adress:this.adress3,
-      }
-    )
+      })
+      this.viewCtrl.dismiss(
+        {
+          name:this.name,
+          phone:this.phone,
+          code:this.adress,
+          adress:this.adress2,
+          detail_adress:this.adress3,
+        }
+      )
+    }
   }
 
   ionViewDidLoad() {

@@ -20,15 +20,17 @@
     <div class="input-title">연락처</div>
     <ion-input class="input-box" placeholder="" [(ngModel)]="phone" type="text"></ion-input>
 
-    <div class="input-title">주소</div>
+    <div class="input-title">우편번호</div>
     <ion-input id="adress_A" class="input-box" style="width: 30%;" value="" [(ngModel)]="adress" type="text"></ion-input>
-    <button onclick="sample3_execDaumPostcode()" style="width: 30%; padding: 3%;">우편번호 찾기</button>
+    <button onclick="sample3_execDaumPostcode()" style="width: 30%; padding: 3%;">
+      <a href="#postal-code" style="text-decoration: none; color: black;">우편번호 찾기</a>
+    </button>
     <button style="display: none;" (click)="adress_check();" id="postal-code-btn"></button>
 
-    <div class="input-title"></div>
+    <div class="input-title">주소</div>
     <ion-input id="adress_B" class="input-box" value="" [(ngModel)]="adress2" type="text"></ion-input>
 
-    <div class="input-title"></div>
+    <div class="input-title">상세주소</div>
     <ion-input id="adress_C" class="input-box" value="" [(ngModel)]="adress3" type="text"></ion-input>
 
 
@@ -40,4 +42,4 @@
       <button (click)="check()" ion-button style="width: 50%;">확인</button>
     </div>
   </div>
-</ion-content> 
+</ion-content>
