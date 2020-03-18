@@ -854,8 +854,9 @@ ion-fab{
       }
       .gameshowwithborder{
           border-radius:8px;
-          background:aliceblue;
-      }
+        //   background:aliceblue;
+        background-color: paleturquoise;
+    }
    
       .tabselected{
           background: aliceblue !important;

@@ -1,9 +1,88 @@
-<ion-content>
+<ion-content >
+  <div (click)="Dismiss()" style="position: sticky;
+      top: 90%;
+      width: 100%;
+      z-index: 99999;
+      height: 10%;
+      padding-top: 1%;
+      text-align: center;
+      background: #46B033;" class="order">
+    <p>닫기</p>    
+  </div>
 
-  <div style="position: absolute;">
+  <p class="game-title">
+    {{game.description.main_title}}
+  </p>
+<!-- 
+  <p class="game-body">
+    {{game.description.sub_title}}
+  </p> -->
+
+  <div class="option-box" style="margin-bottom: 100px;">
+
+    <div style="width: 100%;" *ngIf="game.description.model!=''">
+      <p class="option-title">대응 기종: </p>
+      <p class="option-text">{{game.description.model}}</p>
+    </div>
+
+    <div style="width: 100%;" *ngIf="game.description.genre!=''">
+      <p class="option-title">장르: </p>
+      <p class="option-text">{{game.description.genre}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.open_date!=''">
+      <p class="option-title">발매일: </p> 
+      <p class="option-text">{{game.description.open_date}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.maker!=''">
+      <p class="option-title">메이커: </p> 
+      <p class="option-text">{{game.description.maker}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.player!=''">
+      <p class="option-title">플레이 인원수: </p> 
+      <p class="option-text">{{game.description.player}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.net!=''">
+      <p class="option-title">인터넷 통신 플레이 인원수: </p> 
+      <p class="option-text">{{game.description.net}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.local!=''">
+      <p class="option-title">로컬 통신 플레이 인원수: </p> 
+      <p class="option-text">{{game.description.local}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.language!=''">
+      <p class="option-title" style="float: left;">대응언어: </p> 
+      <p class="option-text" style="width: 70%;">{{game.description.language}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.capacity!=''">
+      <p class="option-title">필요한 용량: </p> 
+      <p class="option-text">{{game.description.capacity}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.controller!=''">
+      <p class="option-title">대응 컨트롤러: </p> 
+      <p class="option-text" style="font-size:95%;">{{game.description.controller}}</p>
+    </div>
+    
+    <div style="width: 100%;" *ngIf="game.description.playmode!=''">
+      <p class="option-title">플레이 모드: </p> 
+      <p class="option-text">{{game.description.playmode}}</p>
+    </div>
+
+  </div>
+  <!-- 107 618 -->
+
+  <!-- <div style="position: absolute;">
     <img style="height: auto; width: 100%;" src="{{game.description.image1}}"/>
     <img style="height: auto; width: 100%;" src="{{game.description.image2}}"/>
     <img style="height: auto; width: 100%;" src="{{game.description.image3}}"/>
+    <div style="height: 100px; width: 100%;"></div>
   </div>
 
   <p class="player-box" style="margin: 59% 0 0 9%">{{game.description.player.split(',')[0]}}</p>
@@ -11,13 +90,11 @@
   <p class="player-box" style="margin: 59% 0 0 70%">{{game.description.player.split(',')[2]}}</p>
 
 
-  <p class="ST-box" style="margin: 96% 0 0 50%">{{game.description.local}}</p>
-  <p class="ST-box" style="margin: 137% 0 0 50%">{{game.description.net}}</p>
+  <p class="ST-box" style="margin: 96% 0 0 54%">{{game.description.local}}</p>
+  <p class="ST-box" style="margin: 137% 0 0 54%">{{game.description.net}}</p>
 
-  <img class="image-box" style="margin: 196% 0 0 5%" src="{{img[0]}}"/>
-  <img class="image-box" style="margin: 196% 0 0 50.2%" src="{{img[1]}}"/>
-  <img class="image-box" style="margin: 231.3% 0 0 5%" src="{{img[2]}}"/>
-  <img class="image-box" style="margin: 231.3% 0 0 50.2%" src="{{img[3]}}"/>
-  
-  
+  <img class="image-box" style="margin: 196% 0 0 6%" src="{{img[0]}}"/>
+  <img class="image-box" style="margin: 196% 0 0 51.2%" src="{{img[1]}}"/>
+  <img class="image-box" style="margin: 232.3% 0 0 6%" src="{{img[2]}}"/>
+  <img class="image-box" style="margin: 232.3% 0 0 51.2%" src="{{img[3]}}"/> -->
 </ion-content>

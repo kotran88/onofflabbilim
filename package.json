@@ -30,7 +30,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "angularfire2": "^5.0.2",
-    "cordova": "^7.1.0",
+    "cordova": "^9.0.0",
     "cordova-android": "^7.0.0",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.2",
@@ -55,6 +55,7 @@
     "zone.js": "0.8.29"
   },
   "devDependencies": {
+    "@ionic/app-scripts": "3.2.4",
     "typescript": "^3.4.5"
   },
   "description": "An Ionic project",

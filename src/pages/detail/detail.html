@@ -10,7 +10,7 @@ font-size: 1.5em;
 height: 24px;
 padding: 5px;" (click)="goback();" name="close"></ion-icon>
 
-상세페이지
+<div style="margin-top: 2%;">상세페이지</div>
 
 <div style="    font-size: 16px;
 text-align: center;
@@ -55,14 +55,15 @@ float: left;" class="title">
         float: left;"  *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'" >
       <div (click)="gameselected(game,i);" class="disp">
         <img style="height: 80px; width: 100%;" src="{{game.url}}"/>
+        <!-- <img style="position:" -->
         <br>
         <span>
-          <p style="margin:0px; font-weight: bold; font-size: 16px;"> {{game.name}}</p>
+          <p style="margin:0px; font-weight: bold; font-size: 16px; height: 40px;"> {{game.name}}</p>
        
-          <p style="float:left; margin:0px;">정가 :</p>
-          <p style="text-decoration: line-through; margin:0px;">{{game.fullprice}} 원</p>
-          <p style="float:left; margin:0px;"> 대여(일) :</p>
-          <p style="margin:0px; font-weight: bold; font-size: 15px;">{{game.price}} 원</p> <br>
+          <!-- <p style="float:left; margin:0px;">정가 :</p>
+          <p style="text-decoration: line-through; margin:0px;">{{game.fullprice}} 원</p> -->
+          <p style="float:left; margin:0px;"> 대여(일):</p>
+          <p style="margin:0px; font-weight: bold; font-size: 15px;">{{game.price}}원</p> <br>
         </span>
       </div>
 

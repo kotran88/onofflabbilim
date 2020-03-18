@@ -140,6 +140,7 @@ var Difference_In_Days = diff / (1000 * 3600 * 24);
 var diff=Difference_In_Days;
 this.diff=Math.ceil(diff)
     this.gamearray=navParams.get("game");
+    this.gamearray.push({'check':false});
     this.expressmessage=navParams.get("setting");
     this.maker=this.detail.maker;
     events.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
@@ -253,6 +254,7 @@ this.diff=Math.ceil(diff)
   }
   gameselected(v,i){
      this.count=0;
+    this.gamearray[i].check=!this.gamearray[i].check;
     console.log(this.gamearray);
     if(this.gamearray[i].fflag==true){
       this.gamearray[i].fflag=false;

@@ -33,6 +33,7 @@ export class HomePage {
     this.id=localStorage.getItem("id")
     this.loginflag=localStorage.getItem("loginflag");
     this.userid=localStorage.getItem("key");
+    // this.id="kotran88@gmail.com";
 
     console.log(this.id);
     console.log(this.loginflag);

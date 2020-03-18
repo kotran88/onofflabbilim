@@ -28,6 +28,7 @@ export class LoginpagePage {
 
   firemain = firebase.database().ref();
   constructor(public _kakaoCordovaSDK: KakaoCordovaSDK,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+    localStorage.setItem("loginflag","false")
     if(localStorage.getItem("loginflag")==='true'){
       console.log('auto login');
     }
