@@ -24,9 +24,11 @@ export class HomePage {
   dsgamearray=[];
   switchgamearray=[];
   psgamearray=[];
+  newspsarray:any;
   setting:any;
   id:any;
   loginflag:any;
+  newswitcharray:any;
   userid:any;
   user:any;
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController,public _kakaoCordovaSDK: KakaoCordovaSDK) {
@@ -108,9 +110,14 @@ if(this.userid!=null){
         }
         console.log(this.slides);
         console.log(this.switcharray)
+
         console.log(this.psarray);
+        this.newswitcharray=this.switcharray[0].url;
+
+        this.newspsarray=this.psarray[0].url;
         console.log(this.dsarray);
         console.log("ddddd")
+        console.log(this.newswitcharray)
       })
     })
    this.OneSignalInstall();

@@ -38,7 +38,6 @@ firemain = firebase.database().ref();
     console.log(this.user);
     this.firemain.child("users").child(this.userid).child("orderlist").once("value",(snap)=>{
       for(var a in snap.val()){
-        console.log(snap.val()[a].hardware.flag);
         this.orderlist.push(snap.val()[a]);
       }
       console.log(this.orderlist);

@@ -91,75 +91,40 @@ margin-top: 30px; margin-bottom: -15px; height: 50px;" scrollX="true">
 
 <p  style="
 font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
-<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
+<!-- <ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
   <div style="width:200000px;  display:block;" class="test">
-  <div (click)="gotoshop(a)" *ngFor="let a of switcharray; let i = index" class="tttttt">
-   <img *ngIf="i==0" style="
-   height: 150px; max-width:fit-content !important;
-   width: 150px;"   class= 'imagereservation' src="{{a.url}}">
-   <span  *ngIf="i==0"   class="s">
-      <p  style="  
-      margin-top: 15px; font-weight: bold;  font-size: 14px !important;
-        ">닌텐도 스위치</p>
-      </span>
-      <!-- <span  *ngIf="i!=0"   class="ss">
-      <p  style="  
-      font-size: 11px !important;
-        margin-top: 0;
-  ">{{a.name}}</p>
-      </span> -->
-  </div>
-  </div>
-</ion-scroll>
 
+  </div>
+</ion-scroll> -->
+<div (click)="gotoshop(a)" class="tttttt">
+  <img  style="
+  height: 150px; max-width:fit-content !important;
+  "   class= 'imagereservation' src="{{newswitcharray}}">
+  <span    class="s">
+     <p  style="  
+     margin-top: 15px; font-weight: bold;  font-size: 14px !important;
+       ">닌텐도 스위치</p>
+     </span>
+  
+ </div>
 
 
 <p id="ps"  style="
 font-size: 1.5rem; margin-left: 1em;">Playstation</p>
-<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
-  <div style="width:200000px;  display:block;" class="test">
-  <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" class="tttttt">
-   <img  style="
-   height: 150px;
-   width: 150px;"   class= 'imagereservation' src="{{a.url}}">
-   <span  *ngIf="i==0"     class="s">
-      <p  style="  
-      margin-top: 0;  font-weight: bold;  font-size: 14px !important;
-        ">플레이스테이션</p>
-      </span>
-      <span  *ngIf="i!=0"     class="ss">
-      <p  style="  
-      font-size: 11px !important;
-        margin-top: 0;
-  ">{{a.name}}</p>
-      </span>
-  </div>
-  </div>
-</ion-scroll>
+<div (click)="gotoshop(a)" class="tttttt">
+  <img  style="
+  height: 150px; max-width:fit-content !important;
+  "   class= 'imagereservation' src="{{newspsarray}}">
+  <span    class="s">
+     <p  style="  
+     margin-top: 15px; font-weight: bold;  font-size: 14px !important;
+       ">Playstation</p>
+     </span>
+  
+ </div>
 
 
-<p  style="
-font-size: 1.5rem; margin-left: 1em;">Nintendo 3DS</p>
-<ion-scroll class="home2" style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
-  <div style="width:200000px;  display:block;" class="test">
-  <div  (click)="gotoshop(a)" *ngFor="let a of dsarray; let i = index" class="tttttt">
-   <img  style="
-   height: 150px;
-   width: 150px;"   class= 'imagereservation' src="{{a.url}}">
-   <span  *ngIf="i==0"     class="s">
-      <p  style="  
-      margin-top: 0; font-weight: bold;  font-size: 14px !important;
-        ">3DS</p>
-      </span>
-      <span  *ngIf="i!=0"    class="ss">
-      <p  style="  
-      font-size: 11px !important;
-        margin-top: 0;
-  ">{{a.name}}</p>
-      </span>
-  </div>
-  </div>
-</ion-scroll>
+
 
 <ion-menu class="menu" side="right"  [content]="content">
     

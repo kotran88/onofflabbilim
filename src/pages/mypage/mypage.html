@@ -19,7 +19,7 @@ border-radius: 10px;
 margin-top: 20px;
 margin-bottom: 10px;" class="up">
   <div style="padding:10px" class="upper">
-    <p> <span style="font-size:15px">{{user.name}} 님</span>  <span style="
+    <p> <span style="font-size:17px">{{user.name}} 님</span>  <span style="
       text-decoration: underline;">로그인 관리</span>   </p>
     
   </div>
@@ -29,51 +29,62 @@ margin-bottom: 10px;" class="up">
   vertical-align: middle;
   text-align: center;
   display: flex;" class="upper2">
-    <span>코인 수 : </span> <img style="width:25px; height: 25px;" src="/assets/img/coinimage.png"/><span class="coin"> x 12345678910</span>
+    <span>보유 코인 수 : </span> <img style="width:25px; height: 25px;" src="/assets/img/coinimage.png"/><span class="coin">&nbsp;&nbsp; X 12</span>
   </div>
 </div>
  
 
-  <ion-list>
-        <ion-item *ngFor="let a of orderlist" style="padding-left:0; 
-        min-height: 150px;"  >
-                    <ion-card  style="width:98%; min-height: 150px;" >
-                    <ion-card-content style=" padding:13px; margin:auto;
-                    min-height: 150px;">
-                      <div style="float: left; width:30%; 
-                      margin-top: 20px;" class="left">
-                        <img style="" *ngIf="a.hardware.flag=='switch'" src="assets/img/switchlogo.png"/>
-                        <img style="" *ngIf="a.hardware.flag=='ps'" src="assets/img/pslogo.png"/>
-                        <img style="" *ngIf="a.hardware.flag=='ds'" src="assets/img/dslogo.png"/>
+<div style="     height: auto;
+background: aliceblue;
+border: solid 1px;
+border-radius: 10px;
+margin-top: 40px;
+margin-bottom: 10px;" class="up">
+<p>나의 주문 내역</p>
+<ion-list style="
+margin-top: 10px;">
+  <ion-item *ngFor="let a of orderlist" style="
+  background: aliceblue; padding-left:0; 
+  min-height: 150px;"  >
+              <ion-card  style="width:98%; min-height: 150px;" >
+              <ion-card-content style=" padding:13px; margin:auto;
+              min-height: 150px;">
+                <div style="float: left; width:30%; 
+                margin-top: 20px;" class="left">
+                  <img style="" *ngIf="a.flag=='switch'" src="assets/img/switchlogo.png"/>
+                  <img style="" *ngIf="a.flag=='ps'" src="assets/img/pslogo.png"/>
+                  <img style="" *ngIf="a.flag=='ds'" src="assets/img/dslogo.png"/>
+                </div>
+                     
+                      <div style="width: 65%;
+                      float: right;
+                      line-height: 18px;
+                      margin-left:10px;
+                      height: 100%;" class="right">
+                       대여 기간 : {{a.startDate.split("T")[0].split("-")[1]}}월 {{a.startDate.split("T")[0].split("-")[2]}}일 ~ 
+                        {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}} 일
+                       <span *ngIf="a.hardware!=undefined"> <br> 대여 기기 : {{a.hardware.name}} </span>
+                      <br> 결제 금액 : {{a.payment}}
+                      <br>
+                        <div class="game">
+                          <span style="float:left;" class="a" > 대여 게임 :</span>
+                          <div style="display: -webkit-box;
+                          height: auto;
+                          margin-left: 30%;
+                          width: 100%;" class="b"  >
+                          <span *ngFor="let b of a.game; let c = index ">{{b.name}} <br></span>
+                          </div>
+                          <br>
+                        </div>
+                        <br>
+                        주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시  {{a.orderdate.split(" ")[1].split(":")[1]}} 분
                       </div>
-                           
-                            <div style="width: 65%;
-                            float: right;
-                            line-height: 18px;
-                            margin-left:10px;
-                            height: 100%;" class="right">
-                             대여 기간 : {{a.startDate.split("T")[0].split("-")[1]}}월 {{a.startDate.split("T")[0].split("-")[2]}}일 ~ 
-                              {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}} 일
-                              <br> 대여 기기 : {{a.hardware.name}}
-                            <br> 결제 금액 : {{a.payment}}
-                            <br>
-                              <div class="game">
-                                <span style="float:left;" class="a" > 대여 게임 :</span>
-                                <div style="display: -webkit-box;
-                                height: auto;
-                                margin-left: 30%;
-                                width: 100%;" class="b"  >
-                                <span *ngFor="let b of a.game; let c = index ">{{b.name}} <br></span>
-                                </div>
-                                <br>
-                              </div>
-                              <br>
-                              주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시  {{a.orderdate.split(" ")[1].split(":")[1]}} 분
-                            </div>
 
-                    </ion-card-content>
-                    </ion-card  >
-        </ion-item>
+              </ion-card-content>
+              </ion-card  >
+  </ion-item>
 </ion-list>
+</div>
+
 
 </ion-content>

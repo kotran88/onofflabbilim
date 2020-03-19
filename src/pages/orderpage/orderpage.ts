@@ -34,11 +34,8 @@ export class OrderpagePage {
   point:any;
   startDate:any;
   endDate:any;
+  flag:any;
   constructor(public v:ViewController,public navCtrl: NavController, public navParams: NavParams) {
-    this.arraylist.push({"title":"abc","notice":"ba"})
-    this.arraylist.push({"title":"ab2c","notice":"ba"})
-    this.arraylist.push({"title":"abc3","notice":"ba"})
-    this.arraylist.push({"title":"ab4c","notice":"ba"})
 
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
@@ -47,7 +44,7 @@ export class OrderpagePage {
     this.diff=this.navParams.get("diff");
     this.hardware=this.navParams.get("hardware");
     this.gamearray=this.navParams.get("gamearray")
-
+    this.flag=this.gamearray[0].flag;
     var a = 0;
     for(var i=0; i<this.gamearray.length; i++){
       a+=this.gamearray[i].price*this.diff;
@@ -170,14 +167,14 @@ export class OrderpagePage {
           var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
           console.log(nnow);
           if(this.hardware!=undefined){
-            this.firemain.child("users").child(this.user.key).child("orderlist").push({"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
+            this.firemain.child("users").child(this.user.key).child("orderlist").push({"flag":this.flag,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
 
             }).catch((e)=>{
               console.log(e);
             })
   
           }else{
-            this.firemain.child("users").child(this.user.key).child("orderlist").push({"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
+            this.firemain.child("users").child(this.user.key).child("orderlist").push({"flag":this.flag,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
 
             }).catch((e)=>{
               console.log(e);
