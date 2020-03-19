@@ -18,7 +18,7 @@
     {{game.description.sub_title}}
   </p> -->
 
-  <img style="width: 90%; margin-left: 5%;" src="{{game.url}}"/>
+  <img (click)="image_viewer()" style="width: 90%; margin-left: 5%;" src="{{game.url}}"/>
   
   <div class="option-box" style="margin-bottom: 100px;">
     <div style="width: 100%;" *ngIf="game.description.model!=''">

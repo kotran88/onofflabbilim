@@ -6,7 +6,6 @@ import  firebase from 'firebase';
 import { HomePage } from '../home/home';
 import {IamportCordova} from '@ionic-native/iamport-cordova/'
 
-import { KakaoCordovaSDK, AuthTypes } from 'kakao-sdk/ngx';
 import { SignupPage } from '../signup/signup';
 /**
  * Generated class for the LoginpagePage page.
@@ -27,7 +26,7 @@ export class LoginpagePage {
   check=false;
 
   firemain = firebase.database().ref();
-  constructor(public _kakaoCordovaSDK: KakaoCordovaSDK,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     localStorage.setItem("loginflag","false")
     if(localStorage.getItem("loginflag")==='true'){
       console.log('auto login');
@@ -36,66 +35,8 @@ export class LoginpagePage {
   
     console.log(localStorage.getItem("loginflag"));
 
-    this._kakaoCordovaSDK.logout();
-    this._kakaoCordovaSDK.unlinkApp();
   }
-  kakaologin(){
-    //"AUTHORIZATION_FAILED: invalid android_key_hash or ios_bundle_id or web_site_url"
-    //cordova plugin add cordova-plugin-kakao-sdk --variable KAKAO_APP_KEY=9f499919aa20afde90187485d80f06d2
-    console.log("kakaologin")
-    var values = {
-      targetScopes: ['account_email', 'age_range', 'gender'],
-    };
-    var key="";
-    var flag=false;
-    let loginOptions = {};
-    loginOptions['authTypes'] = [
-                                  AuthTypes.AuthTypeTalk, 
-                                  AuthTypes.AuthTypeStory,
-                                  AuthTypes.AuthTypeAccount
-                                ];
-                            
-    this._kakaoCordovaSDK.login(loginOptions).then((res) => {
-        console.log(res);
-
-    localStorage.setItem("loginflag","true")
-        console.log(res.kakao_account.email)
-        this.firemain.child("users").once("value",(snap)=>{
-          console.log(snap.val());
-          
-          for(var a in snap.val()){
-            console.log(snap.val()[a].email);
-            if(res.kakao_account.email==snap.val()[a].email){
-              flag=true;
-              key=snap.val()[a].key;
-            }
-          }
-          if(flag){
-            //이미 로그인됨
-            window.alert("gotomain"+key);
-            this.firemain.child("users").child(key).update({"last_login":new Date()})
-        }else{
-          window.alert("first login")
-          //최초 로그인
-          var ab="false";
-          setTimeout(() => {
-            ab =this.certificating(res.kakao_account.email);
-          }, 1000);
-          
-          
-        }
-        })
-    
-      
-        // this.navCtrl.setRoot(HomePage);
-    
-    window.alert("done")
-  }
-    ).catch((e)=>{
-      console.log(e);
-      window.alert(e.errorCode);
-    })
-  }
+ 
 
   confirmAlert(str){
     var alert = this.alertCtrl.create({

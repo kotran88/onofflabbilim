@@ -1,6 +1,5 @@
 import { Component,NgZone } from '@angular/core';
 import { IamportCordova } from '@ionic-native/iamport-cordova';
-import { KakaoCordovaSDK, AuthTypes } from 'kakao-sdk/ngx';
 import {DetailPage} from './../detail/detail'
 import { IonicPage, AlertController,NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
@@ -29,7 +28,7 @@ export class HomePage {
   loginflag:any;
   userid:any;
   user:any;
-  constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController,public _kakaoCordovaSDK: KakaoCordovaSDK) {
+  constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
     this.id=localStorage.getItem("id")
     this.loginflag=localStorage.getItem("loginflag");
     this.userid=localStorage.getItem("key");

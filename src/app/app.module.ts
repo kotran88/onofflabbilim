@@ -6,9 +6,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { LoginpagePage} from './../pages/loginpage/loginpage'
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { DatePickerModule } from 'ionic-calendar-date-picker';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { KakaoCordovaSDK } from 'kakao-sdk/ngx';
 import * as firebase from 'firebase/app';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
@@ -25,6 +25,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
+// import {PhotoViewer} from '@ionic-native/photo-viewer'
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -57,7 +58,8 @@ firebase.initializeApp(firebaseConfig);
     StarRatingModule,
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    DatePickerModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -81,7 +83,7 @@ firebase.initializeApp(firebaseConfig);
     OneSignal,
     AngularFireAuth,
     DatePicker,
-    KakaoCordovaSDK,
+    // PhotoViewer,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
