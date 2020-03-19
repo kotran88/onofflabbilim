@@ -6,8 +6,8 @@ import { IonicPage, AlertController,NavController, NavParams } from 'ionic-angul
 import firebase from 'firebase';
 
 import { OneSignal } from '@ionic-native/onesignal/ngx';
-import { MypagePage} from './../../pages/mypage/mypage'
-import { LoginpagePage} from './../../pages/loginpage/loginpage'
+import { MypagePage} from './../../pages/mypage/mypage';
+import { LoginpagePage} from './../../pages/loginpage/loginpage';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -40,13 +40,13 @@ export class HomePage {
     console.log(this.userid);
 
     this.zone.run(()=>{
-console.log(this.userid);
-if(this.userid!=null){
-  this.firemain.child("users").child(this.userid).once("value",(snapshot)=>{
-    console.log(snapshot.val());
-    this.user=snapshot.val();
-  })
-}
+      console.log(this.userid);
+      if(this.userid!=null){
+        this.firemain.child("users").child(this.userid).once("value",(snapshot)=>{
+          console.log(snapshot.val());
+          this.user=snapshot.val();
+        })
+      }
      
       this.firemain.child("setting").once("value",(snapshot)=>{
         for(var a in snapshot.val()){
@@ -77,14 +77,12 @@ if(this.userid!=null){
                 for(var c in snapshot.val()[a][b]){
                   this.psgamearray.push(snapshot.val()[a][b][c]);
                 }
-              }else if(b=="hardware"){
+              }
+              else if(b=="hardware"){
                 for(var c in snapshot.val()[a][b]){
                   this.psarray.push(snapshot.val()[a][b][c]);
                 }
-                
               }
-             
-              
             }
           }
           if(a=="switch"){
