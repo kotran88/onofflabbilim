@@ -1,5 +1,22 @@
 
 // global
+
+@font-face {
+    font-family: 'nanum';
+    src: url('../assets/fonts/NanumGothic.ttf') format("ttf");
+    }
+    @font-face {
+        font-family: 'nanumbarun';
+        src: url('../assets/fonts/NanumBarunpenRegular.ttf') format("ttf");
+        }
+
+body{
+font-family: 'nanum' !important;
+}
+.coin{
+
+font-family: 'nanumbarun' !important;
+}
 * { 
     // font-family:'noto-sans';
     font-size: 14px;
@@ -14,21 +31,10 @@
   .modal-wrapper {
 
     width: 100% !important;
-    height: 45% ;
+    height: 45% !important;
     position: absolute !important;
     bottom: 0% !important;
     }
-    .select-modal .modal-wrapper {
-
-        width: 100% !important;
-        height: 90% ;
-        position: absolute !important;
-        bottom: 0% !important;
-        }
-.select-modal {
-    background: rgba(0, 0, 0, 0.5) !important;
-    padding: 20% 10%  !important;
-}
   
 ion-header.header {
     text-align: center;

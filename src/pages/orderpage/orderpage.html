@@ -100,31 +100,17 @@ margin-left: 20px;" class="gameshowing">
        <p style="
        line-height: 40px;   width: 70%;
        float: left;" class="item-title">배송지 정보</p>
-      <button (click)="Delivery_area()" style="background: transparent;
-          border: solid 1px; border-radius: 5px; margin-left:10px; margin-top: 10px;">
-        입력/변경
-      </button>
-      <!-- <button onclick="sample3_execDaumPostcode()" >입력/변경</button> -->
+      <button onclick="sample3_execDaumPostcode()" >입력/변경</button>
       </div>
-       <div class="clicked display2" *ngIf="user.address==undefined||user.address==null" style="background:rgb(246,246,246);
+       <div class="clicked" *ngIf="user.address==undefined||user.address==null" [ngClass]="selected==2?'display2':'nodisplay2'" style="background:rgb(246,246,246);
        padding:16px; height:auto;
      white-space: initial !important; font-size:13px;
        border:0.5px solid rgb(234,234,234);
      ">
-    <div *ngIf="Delivery_check===false">
-      <p >기본 배송지가 입력되지 않았습니다.</p>
-      <p >입력/변경 버튼을 통해 배송지 정보를 입력해주세요.</p>
-    </div>
+     <p >기본 배송지가 입력되지 않았습니다.</p>
+     <p >입력/변경 버튼을 통해 배송지 정보를 입력해주세요.</p>
 
-    <div *ngIf="Delivery_check===true">
-      <p>수령인 : {{Delivery.name}}</p>
-      <p>연락처 : {{Delivery.phone}}</p>
-      <p>우편번호 : {{Delivery.code}}</p>
-      <p>주소 : {{Delivery.adress}}</p>
-      <p>상세주소 : {{Delivery.detail_adress}}</p>
-    </div>
-
-   <!-- <input type="hidden" id="a" value=""/>
+   <input type="hidden" id="a" value=""/>
    <input type="hidden" id="b" value=""/>
 
    <input type="hidden" id="c" value=""/>
@@ -134,7 +120,7 @@ margin-left: 20px;" class="gameshowing">
       <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
       </div>
 
-       -->
+
      </div>
      <div class="clicked" *ngIf="user.address!=undefined||user.address!=null" [ngClass]="selected==2?'display2':'nodisplay2'" style="background:rgb(246,246,246);
      padding:16px; height:auto;
@@ -189,6 +175,9 @@ margin-left: 20px;" class="gameshowing">
 
 </ion-list>
 
+
+
+  
 </ion-content>
 
 <div (click)="orderpage()" style="position: absolute;
@@ -200,10 +189,3 @@ text-align: center;
 background: #46B033;" class="order">
 <p>빌리기 (3/3)</p>
 </div>
-
-<!-- <ion-content *ngIf="" class="main-view" style="background: transparent;
-background-color: transparent;
-height: 60%;
-top: 20%;" padding>
-    
-</ion-content> -->

@@ -148,8 +148,13 @@ if(this.userid!=null){
   }
 
   mypage(){
-    console.log("mypage come")
-    this.navCtrl.push(MypagePage,{"id":this.id,"key":this.userid})
+    if(this.loginflag==null||this.loginflag==undefined){
+
+    }else{
+      console.log("mypage come")
+      this.navCtrl.push(MypagePage,{"user":this.user,"id":this.id,"key":this.userid})
+    }
+   
   }
   logout(){
     localStorage.setItem("key",null);

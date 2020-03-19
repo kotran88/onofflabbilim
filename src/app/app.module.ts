@@ -22,7 +22,7 @@ import { OrderpagePage } from '../pages/orderpage/orderpage';
 import { Modalbottom } from '../pages/modalbottom/modalbottom';
 import { ModalpagePage } from '../pages/modalpage/modalpage';
 import { SignupPage } from '../pages/signup/signup';
-import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
+
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
@@ -47,8 +47,7 @@ firebase.initializeApp(firebaseConfig);
     ModalpagePage,
     
     SignupPage,
-    Modalbottom,
-    DeliveryAreaPage,
+    Modalbottom
   ],
   imports: [
     BrowserModule,
@@ -68,8 +67,7 @@ firebase.initializeApp(firebaseConfig);
     SignupPage,
     ModalpagePage,
     Modalbottom,
-    OrderpagePage,
-    DeliveryAreaPage,
+    OrderpagePage
   ],
   providers: [
     // StatusBar,
