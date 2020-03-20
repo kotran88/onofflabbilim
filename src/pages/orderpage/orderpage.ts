@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage,ViewController,NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
-import { DeliveryAreaPage } from '../delivery-area/delivery-area';
 /**
  * Generated class for the OrderpagePage page.
  *
@@ -35,15 +34,8 @@ export class OrderpagePage {
   point:any;
   startDate:any;
   endDate:any;
-
-  Delivery=[];
-  Delivery_check=false;
-
-  constructor(public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
-    this.arraylist.push({"title":"abc","notice":"ba"})
-    this.arraylist.push({"title":"ab2c","notice":"ba"})
-    this.arraylist.push({"title":"abc3","notice":"ba"})
-    this.arraylist.push({"title":"ab4c","notice":"ba"})
+  flag:any;
+  constructor(public v:ViewController,public navCtrl: NavController, public navParams: NavParams) {
 
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
@@ -52,14 +44,7 @@ export class OrderpagePage {
     this.diff=this.navParams.get("diff");
     this.hardware=this.navParams.get("hardware");
     this.gamearray=this.navParams.get("gamearray")
-
-    this.firemain.child("users").child(this.user.key).child('adress').once("value",(snap)=>{
-      if(snap.val()){
-        this.Delivery=snap.val();
-        this.Delivery_check=true;
-      }
-    })
-
+    this.flag=this.gamearray[0].flag;
     var a = 0;
     for(var i=0; i<this.gamearray.length; i++){
       a+=this.gamearray[i].price*this.diff;
@@ -82,23 +67,6 @@ export class OrderpagePage {
     console.log("total price is : "+(Number(a)+Number(b)));
     this.totalprice=(Number(a)+Number(b));
   }
-
-  Delivery_area(){
-    // let modal = this.modal.create(DeliveryAreaPage, {cssClass: 'select-modal' });
-    //   modal.onDidDismiss(data => {
-    //     console.log(data)
-    // });
-    // modal.present();
-    this.navCtrl.push(DeliveryAreaPage).then(() => {
-      this.navCtrl.getActive().onDidDismiss(data => {
-        if(data){
-          this.Delivery=data;
-          this.Delivery_check=true;
-        }
-      })
-    })
-  }
-
   btnclicked(){
    var a =  $("#a").val();
    var b =  $("#b").val();
@@ -166,8 +134,8 @@ export class OrderpagePage {
   }
   orderpage(){
 
-    var data = {
-      pay_method : 'card',
+ var data = {
+  pay_method : 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
       name : '주문명:결제테스트',
       amount : "1",
@@ -199,14 +167,14 @@ export class OrderpagePage {
           var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
           console.log(nnow);
           if(this.hardware!=undefined){
-            this.firemain.child("users").child(this.user.key).child("orderlist").push({"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
+            this.firemain.child("users").child(this.user.key).child("orderlist").push({"flag":this.flag,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
 
             }).catch((e)=>{
               console.log(e);
             })
   
           }else{
-            this.firemain.child("users").child(this.user.key).child("orderlist").push({"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
+            this.firemain.child("users").child(this.user.key).child("orderlist").push({"flag":this.flag,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
 
             }).catch((e)=>{
               console.log(e);
@@ -215,7 +183,7 @@ export class OrderpagePage {
           }
           
         }
-      },   
+         },   
     }
         
     
