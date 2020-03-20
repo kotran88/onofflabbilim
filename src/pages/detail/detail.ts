@@ -148,11 +148,10 @@ export class DetailPage {
     console.log(startDate2)
     var diff=date.getTime()-startDate2.getTime();
 
-var Difference_In_Days = diff / (1000 * 3600 * 24); 
-var diff=Difference_In_Days;
-this.diff=Math.ceil(diff)
+    var Difference_In_Days = diff / (1000 * 3600 * 24); 
+    var diff=Difference_In_Days;
+    this.diff=Math.ceil(diff)
     this.gamearray=navParams.get("game");
-    this.gamearray.push({'check':false});
     this.expressmessage=navParams.get("setting");
     this.maker=this.detail.maker;
     events.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
@@ -160,6 +159,7 @@ this.diff=Math.ceil(diff)
 
     for(var ii=0; ii<this.gamearray.length; ii++){
       this.gamearray[ii].fflag=false;
+      this.gamearray[ii].check=false;
     }
     console.log(this.detail);
     console.log(this.gamearray);
