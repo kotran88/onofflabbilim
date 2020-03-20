@@ -36,7 +36,7 @@ border-bottom: none !important; z-index: 11 !important">
   background-image: none !important;
   border-bottom: none !important;">
         <div style="  font-size:17px;  text-align: center;" class="title">
-                며칠만
+                빌림
               </div>
     <img src="assets/img/magnify.png" (click)="mypage();" style="font-size: 1.8em;
     right: 15%;
@@ -91,9 +91,8 @@ margin-top: 30px; margin-bottom: -15px; height: 50px;" scrollX="true">
 
 <p  style="
 font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
-<!-- <ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
+<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
   <div style="width:200000px;  display:block;" class="test">
-<<<<<<< HEAD
   <div (click)="gotoshop(a)" *ngFor="let a of switcharray; let i = index" class="tttttt">
    <img *ngIf="i==0" style="height: 150px;"   class= 'imagereservation' src="{{a.url}}" style="background: red;">
    <span  *ngIf="i==0"   class="s">
@@ -110,40 +109,51 @@ font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
   </div>
   </div>
 </ion-scroll>
-=======
->>>>>>> 637a44a1ffefb7acb1377f7a21b823a3699d2724
 
-  </div>
-</ion-scroll> -->
-<div (click)="gotoshop(a)" class="tttttt">
-  <img  style="
-  height: 150px; max-width:fit-content !important;
-  "   class= 'imagereservation' src="{{newswitcharray}}">
-  <span    class="s">
-     <p  style="  
-     margin-top: 15px; font-weight: bold;  font-size: 14px !important;
-       ">닌텐도 스위치</p>
-     </span>
-  
- </div>
 
 
 <p id="ps"  style="
 font-size: 1.5rem; margin-left: 1em;">Playstation</p>
-<div (click)="gotoshop(a)" class="tttttt">
-  <img  style="
-  height: 150px; max-width:fit-content !important;
-  "   class= 'imagereservation' src="{{newspsarray}}">
-  <span    class="s">
-     <p  style="  
-     margin-top: 15px; font-weight: bold;  font-size: 14px !important;
-       ">Playstation</p>
-     </span>
-  
- </div>
+<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
+  <div style="width:200000px;  display:block;" class="test">
+  <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" class="tttttt">
+   <img  style="height: 150px;"   class= 'imagereservation' src="{{a.url}}">
+   <span  *ngIf="i==0"     class="s">
+      <p  style="  
+      margin-top: 0;  font-size: 11px !important;
+        ">{{a.name}}</p>
+      </span>
+      <span  *ngIf="i!=0"     class="ss">
+      <p  style="  
+      font-size: 11px !important;
+        margin-top: 0;
+  ">{{a.name}}</p>
+      </span>
+  </div>
+  </div>
+</ion-scroll>
 
 
-
+<p  style="
+font-size: 1.5rem; margin-left: 1em;">Nintendo 3DS</p>
+<ion-scroll class="home2" style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
+  <div style="width:200000px;  display:block;" class="test">
+  <div  (click)="gotoshop(a)" *ngFor="let a of dsarray; let i = index" class="tttttt">
+   <img  style="height: 150px;"   class= 'imagereservation' src="{{a.url}}">
+   <span  *ngIf="i==0"     class="s">
+      <p  style="  
+      margin-top: 0;  font-size: 11px !important;
+        ">{{a.name}}</p>
+      </span>
+      <span  *ngIf="i!=0"    class="ss">
+      <p  style="  
+      font-size: 11px !important;
+        margin-top: 0;
+  ">{{a.name}}</p>
+      </span>
+  </div>
+  </div>
+</ion-scroll>
 
 <ion-menu class="menu" side="right"  [content]="content">
     
@@ -169,7 +179,7 @@ font-size: 1.5rem; margin-left: 1em;">Playstation</p>
               <p class="logo" *ngIf="p.title=='고객센터(1:1문의)'"></p>
             </button>
             
-            <div *ngIf="loginflag=='true'||loginflag==true" class="profile">
+            <div *ngIf="loginflag=='true'" class="profile">
               <div class="left" >
                 <p style="line-height: 6rem;">{{id}}</p>
 
@@ -178,7 +188,7 @@ font-size: 1.5rem; margin-left: 1em;">Playstation</p>
               <div class="right">
               </div>
           </div>
-          <div  *ngIf="loginflag=='false'||loginflag==null" class="profile">
+          <div  *ngIf="loginflag=='false'" class="profile">
             <button style="    background: transparent;
             color: black;
             border: solid 1px;

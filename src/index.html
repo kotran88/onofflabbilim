@@ -38,7 +38,7 @@
       }
   
       function sample3_execDaumPostcode() {
-        element_wrap = document.getElementById('wrap');
+        element_wrap = document.getElementById('postal-code');
           // 현재 scroll 위치를 저장해놓는다.
           var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
           new daum.Postcode({
@@ -73,18 +73,21 @@
                           extraAddr = ' (' + extraAddr + ')';
                       }
                       // 조합된 참고항목을 해당 필드에 넣는다.
-                      document.getElementById("c").value = extraAddr;
+                      document.getElementById("adress_C").value = extraAddr;
+                      console.log(extraAddr);
                   
                   } else {
-                      document.getElementById("c").value = '';
+                      document.getElementById("adress_C").value = '';
                   }
   
                   // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                  document.getElementById('a').value = data.zonecode;
-                  document.getElementById("b").value = addr;
+                  document.getElementById('adress_A').value = data.zonecode;
+                  document.getElementById("adress_B").value = addr;
+                  console.log(data.zonecode);
+                  console.log(addr);
                   // 커서를 상세주소 필드로 이동한다.
-                  document.getElementById("detailaddr").focus();
-                  document.getElementById("btn").click();
+                  document.getElementById("postal-code").focus();
+                  document.getElementById("postal-code-btn").click();
                   // iframe을 넣은 element를 안보이게 한다.
                   // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
                   element_wrap.style.display = 'none';

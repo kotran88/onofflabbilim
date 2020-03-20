@@ -1,129 +1,91 @@
-// page-loginpage {
-//     .item-ios.item-block .item-inner {
-//         border-style: none;
-//       }
-      
-//        h4 {
-//         font-size: 3.9vw;
-//       }
-      
-//        input {
-//         border: 1px solid grey;
-//         height: 40px;
-//         width: 100%;
-//         padding: 5px;
-//       }
-      
-//        .form {
-//         position: absolute;
-//         width: 70%;
-//         left: 15%;
-//         top: 30%;
-//       }
-      
-//        .btn {
-//         margin-top: 40px;
-//         border: 1px solid grey;
-//         border-radius: 5px;
-//         width: 100%;
-//         height: 40px;
-//         text-align: center;
-//       }
-      
-//        .signup {
-//         text-decoration: underline;
-//         text-align: center;
-//         width: 100%;
-//         border-style: none;
-//       }
-      
-// }
-.bottom{
-  display: flow-root;
-  top: 50%;
-  position: absolute;
-  width: 100%;
-  text-align: center;
-}
-.logo{
-  margin: 0;
-  padding: 0;
-  
-  width: 50%;
-  height: 30%;
-  margin: 20% 25% 10%;
-  
-}
+page-loginpage {
+  .bottom{
+    display: flow-root;
+    top: 50%;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+  }
+  .logo{
+    margin: 0;
+    padding: 0;
+    
+    width: 50%;
+    height: 30%;
+    margin: 20% 25% 10%;
+    
+  }
 
-.input-title{
-  margin: 0;
-  padding: 0;
-  display: inline-block;
+  .input-title{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
 
-  width: 20%;
-  margin-left: 0%;
+    width: 20%;
+    margin-left: 0%;
 
-  margin-bottom: 1%;
-  text-align: center;
-  background: white;
-}
+    margin-bottom: 1%;
+    text-align: center;
+    background: white;
+  }
 
-.input-box{
-  margin: 0;
-  padding: 0;
+  .input-box{
+    margin: 0;
+    padding: 0;
 
-  display: inline-block;
+    display: inline-block;
 
-  width: 70%;
+    width: 70%;
 
-  margin-bottom: 10%;
+    margin-bottom: 10%;
 
-  border: solid black 1px;
-  padding: 1%;
-  padding-left: 2%;
+    border: solid black 1px;
+    padding: 1%;
+    padding-left: 2%;
 
-  background-color: transparent;
-}
+    background-color: transparent;
+  }
 
-.check-box{
-  padding: 0;
-  margin-left: 22%;
-  // display: inline-block;
-  float: left;
-  margin-top: 1%;
-}
+  .check-box{
+    padding: 0;
+    margin-left: 22%;
+    // display: inline-block;
+    float: left;
+    margin-top: 1%;
+  }
 
-.check-name{
-  padding: 0;
-  margin: 0;
-  // display: inline-block;
-  float: left;
-  font-size: 60%;
-  margin-left: 1%;
-  margin-top: 1.5%;
-}
+  .check-name{
+    padding: 0;
+    margin: 0;
+    // display: inline-block;
+    float: left;
+    font-size: 60%;
+    margin-left: 1%;
+    margin-top: 1.5%;
+  }
 
-.fnid-id{
-  margin: 0;
-  padding: 0;
-  display: inline-block;;
-  font-size: 50%;
-  padding: 1%;
-  margin-left: 12%;
-  width: 30%;
-  margin-bottom: 10%;
-  border-radius: 5px;
-}
+  .fnid-id{
+    margin: 0;
+    padding: 0;
+    display: inline-block;;
+    font-size: 50%;
+    padding: 1%;
+    margin-left: 12%;
+    width: 30%;
+    margin-bottom: 10%;
+    border-radius: 5px;
+  }
 
-.login-button{
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  text-align: center;
+  .login-button{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    text-align: center;
 
-  // margin-left: 50%;
-  color: white;
-  width: 40%;
-  margin-left:30%;
-  border-radius: 10%;
+    // margin-left: 50%;
+    color: white;
+    width: 40%;
+    margin-left:30%;
+    border-radius: 10%;
+  }
 }

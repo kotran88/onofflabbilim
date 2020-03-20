@@ -1,0 +1,78 @@
+page-delivery-area {
+    ion-content div.scroll-content {
+        background-color: transparent;
+        margin-bottom: auto !important;
+    }
+    .md .modal-wrapper{
+       
+    }
+    .modal-wrapper {
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute !important;
+        bottom: 0% !important;
+    }
+    .md .modal-wrapper {
+        height:100% !important;
+      }
+    .box {
+        text-align: center;
+        margin-top: 6px;
+        margin-left: 15px;
+        width: 90%;
+         font-size : 25px;
+        border: 1px solid #eee;
+        background-color: white;
+        height: 50px;
+    }
+    .gameshowwithborder{
+    }
+    .footer{
+        height: 85%;
+        /* height: 120px; */
+        /* text-align: left; */
+        display: flex;
+        bottom: 15%;
+        position: absolute;
+        background-color: #eff2f3;
+    }
+    .toolbar toolbar-md{
+        height: -webkit-fill-available !important;
+    }
+    .toolbar-content toolbar-content-md{
+        height: -webkit-fill-available !important;
+    }
+
+    .text-input-md{
+        margin: 0;
+    }
+
+    .input-title{
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+    
+        width: 30%;
+        margin-left: 0%;
+    
+        margin-bottom: 1%;
+        text-align: center;
+        background: white;
+    }
+    
+    .input-box{
+        margin: 0;
+        padding: 0;
+    
+        display: inline-block;
+    
+        width: 60%;
+    
+        margin-bottom: 5%;
+    
+        border: solid lightgrey 1px;
+        padding: 2%;
+    
+        background-color: transparent;
+    }
+}

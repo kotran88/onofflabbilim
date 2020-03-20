@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams } from 'ionic-angular';
 
 import { DatePicker } from '@ionic-native/date-picker/ngx';
-
 
 import { LoginpagePage} from './../../pages/loginpage/loginpage'
 import { Modalbottom } from '../modalbottom/modalbottom';
@@ -23,9 +22,6 @@ import { GameDetailPage } from '../game-detail/game-detail';
   templateUrl: 'detail.html',
 })
 export class DetailPage {
-
-  num=0;
-
   detail:any;
   arraying=[];
   mainimage:any;
@@ -53,20 +49,18 @@ export class DetailPage {
   thismonth:any;
   thisdate:any;
   endDate:any;
-  endDate_text:any;
   gamearray=[];
   diff:any;
   maker:any;
-  startDate:any;
-  startDate_text:any;
+  startDate:any= new Date().toISOString();
   user:any;
-  now_date=new Date();
-
   logRatingChange(v){
     console.log(v)
   }
 
-  datechange(mode){
+
+
+  datechange1(){
     console.log(this.startDate);
 
     console.log(this.endDate)
@@ -84,21 +78,12 @@ export class DetailPage {
     this.diff=diff;
 
     // this.diff=this.diff+1;
-    if(Difference_In_Days>0){
-      if(mode===1){
-        window.alert("대여 시작일이 반납일보다 늦을 수는 없습니다.")
-        var a=new Date();
-        this.startDate=a.toISOString();
-        this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
-      }
-      else {
-        window.alert("반납일이 대여 시작일보다 빠를 수는 없습니다.")
-        var a=new Date(this.startDate);
-        a.setDate(a.getDate()+3);
-        this.endDate=a.toISOString();
-        this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
-      }
-    }
+        if(Difference_In_Days>0){
+          window.alert(" 대여 시작일이 반납일보다 늦을 수는 없습니다.")
+          var a=new Date();
+          this.startDate=a.toISOString();
+        }
+
   }
   datechange2(){
     console.log(this.startDate);
@@ -129,78 +114,32 @@ export class DetailPage {
         }
   }
 
-  pick_date(mode){
-    // this.datePicker.show({
-    //   date: new Date(),
-    //   mode: 'datetime',
-    //   androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-    // }).then(
-    //   date =>{
-    //     console.log('Got date: ', date)
-    //     if(mode==1||mode==='1'){
-    //       this.startDate=date;
-    //       console.log(this.startDate);
-    //       this.datechange1();
-    //     }
-    //     else{
-    //       this.endDate=date;
-    //       console.log(this.endDate)
-    //       this.datechange1();
-    //     }
-    //   },
-    //   err => console.log('Error occurred while getting date: ', err)
-    // );
-    this.platform.ready().then(() => {
-      let options = {
-        date: new Date(),
-        mode: 'date',
-        androidTheme: 5,
-      }
-      if(mode===1) options.date=new Date(this.startDate)
-      else options.date=new Date(this.endDate)
-
-      this.datePicker.show(options).then(
-        date => {
-          // alert('Selected date: ' + date);
-          if(mode===1||mode==='1'){
-            this.startDate=date.toISOString();
-            this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
-            this.datechange(1);
-          }
-          else{
-            this.endDate=date.toISOString();
-            this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
-            this.datechange(2);
-          }
-        },
-        error => {
-          // alert('Error: ' + error);
-        }
-      );
-    });
+  pick_date(){
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'date',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+    }).then(
+      date => console.log('Got date: ', date),
+      err => console.log('Error occurred while getting date: ', err)
+    );
   }
 
-  constructor(public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
+  constructor(public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams) {
     this.detail=navParams.get("a")
     this.user=navParams.get("user");
     console.log("user is : "+this.user);
    console.log(this.detail);
     var date = new Date();
-
-    this.startDate=date.toISOString();
-    this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
-
     date.setDate(date.getDate() + 3);
 
-    this.endDate=date.toISOString();
-    this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 
     // if(date.getMonth()+1<10){
     //   this.endDate=date.getFullYear()+"-0"+(date.getMonth()+1)+"-"+date.getDate();
     // }else{
     //   this.endDate=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
     // }
-    
+    this.endDate=date.toISOString();
     var startDate2=new Date();
     console.log(this.startDate);
     console.log(this.endDate);
@@ -209,9 +148,9 @@ export class DetailPage {
     console.log(startDate2)
     var diff=date.getTime()-startDate2.getTime();
 
-    var Difference_In_Days = diff / (1000 * 3600 * 24); 
-    var diff=Difference_In_Days;
-    this.diff=Math.ceil(diff);
+var Difference_In_Days = diff / (1000 * 3600 * 24); 
+var diff=Difference_In_Days;
+this.diff=Math.ceil(diff)
     this.gamearray=navParams.get("game");
     this.gamearray.push({'check':false});
     this.expressmessage=navParams.get("setting");

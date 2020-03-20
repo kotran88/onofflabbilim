@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import firebase from 'firebase';
 // import { PhotoViewer } from '@ionic-native/photo-viewer';
-
-// import { PhotoViewer } from '@ionic-native/photo-viewer';
 // import undefined from 'firebase/empty-import';
 
 
@@ -22,10 +20,6 @@ export class GameDetailPage {
   firemain = firebase.database().ref();
   game:any;
   img=[];
-
-  image_viewer(){
-    // this.photoViewer.show(this.game.url);
-  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
 

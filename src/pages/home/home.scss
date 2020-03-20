@@ -242,8 +242,12 @@ page-home {
     cursor: pointer;
     }
     .tttttt{
+        height: 120px;
         margin-left:10px;
         display: grid;
+        position: relative;
+        width: 100px;
+        float: left;
     }
     .scroll-content{
 

@@ -6,7 +6,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { LoginpagePage} from './../pages/loginpage/loginpage'
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { DatePickerModule } from 'ionic-calendar-date-picker';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import * as firebase from 'firebase/app';
@@ -22,10 +21,9 @@ import { OrderpagePage } from '../pages/orderpage/orderpage';
 import { Modalbottom } from '../pages/modalbottom/modalbottom';
 import { ModalpagePage } from '../pages/modalpage/modalpage';
 import { SignupPage } from '../pages/signup/signup';
-
+import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
-// import {PhotoViewer} from '@ionic-native/photo-viewer'
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -49,21 +47,16 @@ firebase.initializeApp(firebaseConfig);
     ModalpagePage,
     
     SignupPage,
-<<<<<<< HEAD
     Modalbottom,
     DeliveryAreaPage,
     GameDetailPage,
-=======
-    Modalbottom
->>>>>>> 637a44a1ffefb7acb1377f7a21b823a3699d2724
   ],
   imports: [
     BrowserModule,
     StarRatingModule,
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    DatePickerModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -76,13 +69,9 @@ firebase.initializeApp(firebaseConfig);
     SignupPage,
     ModalpagePage,
     Modalbottom,
-<<<<<<< HEAD
     OrderpagePage,
     DeliveryAreaPage,
     GameDetailPage,
-=======
-    OrderpagePage
->>>>>>> 637a44a1ffefb7acb1377f7a21b823a3699d2724
   ],
   providers: [
     // StatusBar,
@@ -91,7 +80,6 @@ firebase.initializeApp(firebaseConfig);
     OneSignal,
     AngularFireAuth,
     DatePicker,
-    // PhotoViewer,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
