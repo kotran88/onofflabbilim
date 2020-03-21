@@ -242,17 +242,20 @@ page-home {
     cursor: pointer;
     }
     .tttttt{
-        height: 120px;
-        margin-left:10px;
+        margin-left: 10px;
         display: grid;
         position: relative;
-        width: 100px;
         float: left;
     }
     .scroll-content{
 
         padding: 0 !important;
         text-align: unset !important;
+    }
+    .test{
+        
+    width: 200px;
+    display: flex;
     }
     ion-content .scroll-content{
         // margin-top: 50px !important;

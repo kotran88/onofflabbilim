@@ -14,6 +14,7 @@ import { LoginpagePage} from './../../pages/loginpage/loginpage';
 export class HomePage {
   selectedbutton:any='vr'
 
+  name:any;
   logined:any="false"
   firemain = firebase.database().ref();
   slides=[];
@@ -25,13 +26,15 @@ export class HomePage {
   psgamearray=[];
   setting:any;
   id:any;
+  realswitcharray:any;
   loginflag:any;
   userid:any;
+  realpsarray:any;
   user:any;
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
     this.id=localStorage.getItem("id")
+    this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
-    this.userid=localStorage.getItem("key");
     // this.id="kotran88@gmail.com";
 
     console.log(this.id);
@@ -104,6 +107,9 @@ export class HomePage {
           }
         
         }
+        this.realswitcharray=this.switcharray[0].url;
+
+        this.realpsarray=this.psarray[0].url;
         console.log(this.slides);
         console.log(this.switcharray)
         console.log(this.psarray);
@@ -163,6 +169,7 @@ export class HomePage {
     alert.present({animate:false});
   }
   gotoshop(a){
+    console.log(a)
     console.log(a.flag);
     if(a.flag=="ds"){
       this.navCtrl.push(DetailPage,{"a":a,"game":this.dsgamearray,"setting":this.setting,"user":this.user});
