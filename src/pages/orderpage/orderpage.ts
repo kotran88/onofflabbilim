@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage,AlertController,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
 import firebase from 'firebase';
 import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
@@ -42,7 +42,7 @@ export class OrderpagePage {
   Delivery=[];
   Delivery_check=false;
 
-  constructor(public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
+  constructor(public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
 
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
@@ -233,7 +233,7 @@ window.alert("모든 코인을 사용하였습니다.")
           console.log(nnow);
           if(this.hardware!=undefined){
             this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
-              window.alert("주문 완료!")
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);
@@ -241,7 +241,7 @@ window.alert("모든 코인을 사용하였습니다.")
   
           }else{
             this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
-              window.alert("주문완료!")
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);
@@ -264,5 +264,20 @@ window.alert("모든 코인을 사용하였습니다.")
         alert(err)
       })
     ;
+  }
+
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
   }
 }

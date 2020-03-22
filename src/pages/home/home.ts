@@ -36,7 +36,7 @@ export class HomePage {
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
     // this.id="kotran88@gmail.com";
-
+   
     console.log(this.id);
     console.log(this.loginflag);
     console.log(this.userid);
@@ -160,10 +160,40 @@ export class HomePage {
     localStorage.setItem("loginflag","false")
     this.navCtrl.setRoot(LoginpagePage);
   }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
+
   confirmAlert(str) {
     let alert = this.alertCtrl.create({      
         subTitle: str,
-        buttons: ['확인']
+        buttons: [  
+          {
+            role:'Cancel',
+            text: '취소',
+            handler: () => {
+              console.log('Buy clicked');
+            }
+          },
+        {
+          role:'Ok',
+          text: '확인2',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }]
+       
     });
     alert.present({animate:false});
   }
