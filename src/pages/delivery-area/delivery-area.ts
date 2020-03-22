@@ -41,7 +41,7 @@ export class DeliveryAreaPage {
     else if(this.adress2==='') alert('주소를 입력해주세요.');
     else if(this.adress3==='') alert('상세주소를 입력해주세요.');
     else{
-      var key=localStorage.getItem('key');
+      var key=localStorage.getItem('id');
       this.firemain.child("users").child(key).child('adress').update({
         name:this.name,
         phone:this.phone,

@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
 import { DeliveryAreaPage } from '../delivery-area/delivery-area';
+import {HomePage } from '../home/home'
 /**
  * Generated class for the OrderpagePage page.
  *
@@ -22,13 +23,15 @@ export class OrderpagePage {
   newcount:any=0;
   selected:any;
   count:any=0;
-
+  coins:any;
   firemain = firebase.database().ref();
   lastchecked:any;
   gamearray=[];
   user:any;
   hardware:any;
   postcode:any;
+  pricetopay=0;
+  discount=0;
   address:any;
   diff:any;
   totalprice:any;
@@ -40,10 +43,6 @@ export class OrderpagePage {
   Delivery_check=false;
 
   constructor(public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
-    this.arraylist.push({"title":"abc","notice":"ba"})
-    this.arraylist.push({"title":"ab2c","notice":"ba"})
-    this.arraylist.push({"title":"abc3","notice":"ba"})
-    this.arraylist.push({"title":"ab4c","notice":"ba"})
 
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
@@ -53,7 +52,7 @@ export class OrderpagePage {
     this.hardware=this.navParams.get("hardware");
     this.gamearray=this.navParams.get("gamearray")
 
-    this.firemain.child("users").child(this.user.key).child('adress').once("value",(snap)=>{
+    this.firemain.child("users").child(this.user.phone).child('adress').once("value",(snap)=>{
       if(snap.val()){
         this.Delivery=snap.val();
         this.Delivery_check=true;
@@ -77,12 +76,46 @@ export class OrderpagePage {
     console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
     
     console.log(this.user);
+    // this.coins=this.user.points;
+
+    this.coins=10;
     console.log(this.hardware);
     console.log(this.gamearray)
     console.log("total price is : "+(Number(a)+Number(b)));
     this.totalprice=(Number(a)+Number(b));
+    this.pricetopay=this.totalprice;
   }
-
+  goback(){
+    this.v.dismiss();
+  }
+  clickedcoin(){
+    console.log("clicked")
+    console.log(this.coins);
+    if(this.coins==0){
+window.alert("모든 코인을 사용하였습니다.")
+    }else{
+    this.coins=this.coins-1;
+    this.discount+=1000
+    this.pricetopay=this.totalprice-this.discount;
+      setTimeout(() => {
+        $('#abc').animate({
+          bottom: '+=10'
+        }, 100,function(){
+          console.log('done')
+          $('#abc').animate({
+            bottom: '-=10'
+          }, 100,function(){
+            console.log('done')
+          })
+        })
+      },10);
+    }
+    
+  }
+  number_format(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ',');
+}
   Delivery_area(){
     // let modal = this.modal.create(DeliveryAreaPage, {cssClass: 'select-modal' });
     //   modal.onDidDismiss(data => {
@@ -169,8 +202,8 @@ export class OrderpagePage {
     var data = {
       pay_method : 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
-      name : '주문명:결제테스트',
-      amount : "1",
+      name : '이응이응빌림',
+      amount : this.pricetopay+"",
       app_scheme : 'ionickcp',
       buyer_email : 'iamport@siot.do',
       buyer_name : '구매자이름',
@@ -199,15 +232,17 @@ export class OrderpagePage {
           var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
           console.log(nnow);
           if(this.hardware!=undefined){
-            this.firemain.child("users").child(this.user.key).child("orderlist").push({"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
-
+            this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
+              window.alert("주문 완료!")
+              this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);
             })
   
           }else{
-            this.firemain.child("users").child(this.user.key).child("orderlist").push({"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
-
+            this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
+              window.alert("주문완료!")
+              this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);
             })

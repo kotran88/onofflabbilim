@@ -34,13 +34,20 @@ export class LoginpagePage {
   constructor(public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     
    
-
     if(localStorage.getItem('loginflag')==='true'){
       // this.main_title='회원가입/로그인';
       this.login_check=true;
       this.name=localStorage.getItem('name');
       this.phone=localStorage.getItem('id');
-      this.loginagain();
+      console.log(this.name,this.phone);
+      console.log("loginagain")
+      if(this.name==null||this.phone==null){
+        console.log("this.name and phone ==null")
+        return;
+      }else{
+        this.loginagain();
+      }
+      
       // this.number=localStorage.getItem('number');
     }
     else{
@@ -94,6 +101,7 @@ export class LoginpagePage {
         'name':this.name,
         'phone':this.phone,
         'first_login':new Date(),
+        'points':1
       }
     )
     localStorage.setItem("loginflag","true");
@@ -103,7 +111,7 @@ export class LoginpagePage {
   }
 
   loginagain(){
-    this.firemain.child('user').child(this.phone).update(
+    this.firemain.child('users').child(this.phone).update(
       {
         'name':this.name,
         'phone':this.phone,

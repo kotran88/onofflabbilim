@@ -6,19 +6,48 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>mypage</ion-title>
+    <ion-title>나의 페이지</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
+<div style="    height: 120px;
+background: #70c5ed;
+border: solid 1px;
+    text-align: center;
+color:white;
+margin-top: 20px;
+margin-bottom: 10px;" class="up">
+  <div style="padding:10px" class="upper">
+   <span style="font-size:15px; 
+   margin-left: 120px;">{{user.name}} 님</span>  <button style="background: transparent;
+    border: solid 1px;
+    color: white;
+    height: 35px;
+    right: 0%;
+    margin-left: 50px;
+">로그아웃   </button>
+    
+  </div>
+  <div style="padding: 10px;
+  line-height: 25px;
+  height: 40px;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-flex;
+  text-align: center;" class="upper2">
+    <span>코인 수 : </span> <img style="width:25px; height: 25px;" src="/assets/img/coinimage.png"/><span class="coin"> x {{user.points}}</span>
+  </div>
+</div>
+ 
 
   <ion-list>
         <ion-item *ngFor="let a of orderlist" style="padding-left:0; 
-        min-height: 150px;"  >
+        min-height: 180px;"  >
                     <ion-card  style="width:98%; min-height: 150px;" >
                     <ion-card-content style=" padding:13px; margin:auto;
-                    min-height: 150px;">
+                    min-height: 180px;">
                       <div style="float: left; width:30%; 
                       margin-top: 20px;" class="left">
                         <img style="" *ngIf="a.hardware.flag=='switch'" src="assets/img/switchlogo.png"/>
@@ -34,7 +63,7 @@
                              대여 기간 : {{a.startDate.split("T")[0].split("-")[1]}}월 {{a.startDate.split("T")[0].split("-")[2]}}일 ~ 
                               {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}} 일
                               <br> 대여 기기 : {{a.hardware.name}}
-                            <br> 결제 금액 : {{a.payment}}
+                            <br> 결제 금액 : {{number_format(a.payment)}}
                             <br>
                               <div class="game">
                                 <span style="float:left;" class="a" > 대여 게임 :</span>
@@ -48,6 +77,14 @@
                               </div>
                               <br>
                               주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시  {{a.orderdate.split(" ")[1].split(":")[1]}} 분
+                              <br>
+                              <span *ngIf="a.status=='paid'">
+                                현재 상태 : 결제완료
+                              </span>
+                              <span *ngIf="a.status=='delivered'">
+                                현재 상태 : 배송완료
+                              </span>
+                             
                             </div>
 
                     </ion-card-content>

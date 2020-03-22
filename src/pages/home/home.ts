@@ -42,13 +42,13 @@ export class HomePage {
     console.log(this.userid);
 
     this.zone.run(()=>{
-      console.log(this.userid);
-      if(this.userid!=null){
-        this.firemain.child("users").child(this.userid).once("value",(snapshot)=>{
+      console.log("id is : "+this.id);
+        this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
           console.log(snapshot.val());
           this.user=snapshot.val();
+          console.log("user");
+          console.log(this.user);
         })
-      }
      
       this.firemain.child("setting").once("value",(snapshot)=>{
         for(var a in snapshot.val()){
@@ -140,8 +140,7 @@ export class HomePage {
     this.oneSignal.getIds().then(data => {
       console.log(data);
       console.log("get id success"+data.userId)
-
-      window.alert(data.userId);
+      this.firemain.child("users").child(this.id).update({"deviceId":data.userId})
       localStorage.setItem("tokenvalue",data.userId);
 
     }).catch((e)=>{
@@ -153,7 +152,7 @@ export class HomePage {
 
   mypage(){
     console.log("mypage come")
-    this.navCtrl.push(MypagePage,{"id":this.id,"key":this.userid})
+    this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
   }
   logout(){
     localStorage.setItem("key",null);
@@ -171,6 +170,7 @@ export class HomePage {
   gotoshop(a){
     console.log(a)
     console.log(a.flag);
+    console.log(this.user)
     if(a.flag=="ds"){
       this.navCtrl.push(DetailPage,{"a":a,"game":this.dsgamearray,"setting":this.setting,"user":this.user});
     }

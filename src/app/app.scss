@@ -6,6 +6,24 @@
     // font-weight: 500;
     // font-style: 500;
 }
+ion-title{
+
+    line-height: 40px !important;
+}
+ion-header{
+    height: 50px !important;
+    min-height: 50px !important;
+}
+.header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after, .footer-md::before, .tabs-md[tabsPlacement="bottom"] > .tabbar::before{
+    background-image: unset !important;
+}
+.toolbar-md{
+    min-height: 50px !important;
+}
+ion-navbar.toolbar{
+    height: 50px;
+}
+
 @media not all and (min-height: 600px) and (min-width: 768px) {
     ion-modal ion-backdrop {
       visibility: visible;
@@ -352,4 +370,11 @@ ion-label.label-md {
     margin: 0;
     display: inline-block;
     font-size: 12px;
+}
+@font-face {
+    font-family: 'nanum';
+    src: url('../assets/fonts/NanumGothic.ttf') format("ttf");
+    }
+body{
+font-family: 'nanum' !important;
 }

@@ -36,7 +36,7 @@ border-bottom: none !important; z-index: 11 !important">
   background-image: none !important;
   border-bottom: none !important;">
         <div style="  font-size:17px;  text-align: center;" class="title">
-                빌림
+                그그그?
               </div>
     <img src="assets/img/magnify.png" (click)="mypage();" style="font-size: 1.8em;
     right: 15%;
@@ -52,28 +52,7 @@ border-bottom: none !important; z-index: 11 !important">
   </ion-navbar>
 
 </ion-header>
-<ion-scroll #scroll class="scrolltest" style="
-margin-top: 30px; margin-bottom: -15px; height: 50px;" scrollX="true">
-  <button  *ngIf="selectedbutton=='vr'" (click)="category2('vr')" class="mybtnclicked" ion-button  >
-      VR
-    </button>
-    <button  *ngIf="selectedbutton!='vr'" (click)="category2('vr')" class="mybtn" ion-button  >
-      VR
-    </button>
-    <button *ngIf="selectedbutton=='switch'"  (click)="category2('switch')" class="mybtnclicked" ion-button  >
-    스위치
-    </button>
-    <button *ngIf="selectedbutton!='switch'"  (click)="category2('switch')" class="mybtn" ion-button  >
-      스위치
-      </button>
-    <a *ngIf="selectedbutton=='ps'"  (click)="category2('ps')" class="mybtnclicked" ion-button  >
-    Playstation
-    </a>
-    <a *ngIf="selectedbutton!='ps'"    (click)="category2('ps')" class="mybtn" ion-button  >
-      Playstation
-    </a>
 
-</ion-scroll>
 <ion-content class="home">
   <!-- <div class="floating">
      
