@@ -5,6 +5,7 @@ import firebase from 'firebase';
 
 
 import { OrderpagePage } from './../../pages/orderpage/orderpage';
+// import undefined from 'firebase/empty-import';
 
 /**
  * Generated class for the ModalpagePage page.
@@ -43,7 +44,12 @@ firemain = firebase.database().ref();
    this.diff=this.navParams.get("diff");
    this.user=this.navParams.get("user");
    console.log(this.user)
-this.points=this.user.point;
+   if(this.user.point==undefined){
+     this.points=0;
+   }else{
+    this.points=this.user.point;
+   }
+
    for(var i=0; i<this.gamearray.length; i++){
      var flag=this.gamearray[i].fflag;
      console.log(flag)

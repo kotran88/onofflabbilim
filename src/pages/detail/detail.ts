@@ -49,6 +49,8 @@ export class DetailPage {
   thismonth:any;
   thisdate:any;
   endDate:any;
+  startDate_text:any;
+  endDate_text:any;
   gamearray=[];
   diff:any;
   maker:any;
@@ -60,7 +62,7 @@ export class DetailPage {
 
 
 
-  datechange1(){
+  datechange(mode){
     console.log(this.startDate);
 
     console.log(this.endDate)
@@ -78,40 +80,21 @@ export class DetailPage {
     this.diff=diff;
 
     // this.diff=this.diff+1;
-        if(Difference_In_Days>0){
-          window.alert(" 대여 시작일이 반납일보다 늦을 수는 없습니다.")
-          var a=new Date();
-          this.startDate=a.toISOString();
-        }
-
-  }
-  datechange2(){
-    console.log(this.startDate);
-    console.log(this.endDate)
-    var a = new Date(this.startDate);
-    var b = new Date(this.endDate);
-    console.log(a);
-    console.log(b)
-    var diff=a.getTime()-b.getTime();
-
-    var Difference_In_Days = diff / (1000 * 3600 * 24); 
-    diff=Difference_In_Days
-    
-    console.log(Difference_In_Days)
-    console.log(diff)
-    diff=Math.floor(diff);
-    diff=Math.abs(diff);
-    console.log(diff)
-    this.diff=diff;
-    // this.diff=this.diff+1;
-    console.log("diff is : "+this.diff);
-
-        if(Difference_In_Days>0){
-          window.alert("반납일이 대여 시작일보다 앞설수는 없습니다.")
-          var a=new Date(this.startDate);
-          a.setDate(a.getDate()+3);
-          this.endDate=a.toISOString();
-        }
+    if(Difference_In_Days>0){
+      if(mode===1){
+        window.alert("대여 시작일이 반납일보다 늦을 수는 없습니다.")
+        var a=new Date();
+        this.startDate=a.toISOString();
+        this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      }
+      else {
+        window.alert("반납일이 대여 시작일보다 빠를 수는 없습니다.")
+        var a=new Date(this.startDate);
+        a.setDate(a.getDate()+3);
+        this.endDate=a.toISOString();
+        this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      }
+    }
   }
 
   pick_date(){
@@ -348,9 +331,6 @@ export class DetailPage {
     console.log(this.gamearray);
     var a = localStorage.getItem("loginflag");
     console.log(a);
-    if(a=="false"||a==null||this.user==undefined){
-      this.confirmAlert("로그인이 필요한 서비스입니다.\n 로그인 페이지로 이동하시겠습니까?");
-    }else{
       // this.navCtrl.push(OrderpagePage)
 
       var modaloption : ModalOptions={
@@ -362,7 +342,6 @@ export class DetailPage {
     });
     modal.present();
 
-    }
 
 
 
