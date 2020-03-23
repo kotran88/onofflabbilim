@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams } from 'ionic-angular';
+import { IonicPage, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
 
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 
@@ -97,25 +97,51 @@ export class DetailPage {
     }
   }
 
-  pick_date(){
-    this.datePicker.show({
-      date: new Date(),
-      mode: 'date',
-      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-    }).then(
-      date => console.log('Got date: ', date),
-      err => console.log('Error occurred while getting date: ', err)
-    );
+  pick_date(mode){
+    this.platform.ready().then(() => {
+      let options = {
+        date: new Date(),
+        mode: 'date',
+        androidTheme: 5,
+      }
+      if(mode===1) options.date=new Date(this.startDate)
+      else options.date=new Date(this.endDate)
+
+      this.datePicker.show(options).then(
+        date => {
+          // alert('Selected date: ' + date);
+          if(mode===1||mode==='1'){
+            this.startDate=date.toISOString();
+            this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
+            this.datechange(1);
+          }
+          else{
+            this.endDate=date.toISOString();
+            this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
+            this.datechange(2);
+          }
+        },
+        error => {
+          // alert('Error: ' + error);
+        }
+      );
+    });
   }
 
-  constructor(public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
     this.detail=navParams.get("a")
     this.user=navParams.get("user");
     console.log("user is : "+this.user);
    console.log(this.detail);
     var date = new Date();
+
+    this.startDate=date.toISOString();
+    this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
+
     date.setDate(date.getDate() + 3);
 
+    this.endDate=date.toISOString();
+    this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 
     // if(date.getMonth()+1<10){
     //   this.endDate=date.getFullYear()+"-0"+(date.getMonth()+1)+"-"+date.getDate();
@@ -331,12 +357,9 @@ export class DetailPage {
     console.log(this.gamearray);
     var a = localStorage.getItem("loginflag");
     console.log(a);
-<<<<<<< HEAD
-=======
     if(a=="false"||a==null){
       this.confirmAlert("로그인이 필요한 서비스입니다.\n 로그인 페이지로 이동하시겠습니까?");
     }else{
->>>>>>> 0955554de17def06e68ce161f9ffbdd40a4abd96
       // this.navCtrl.push(OrderpagePage)
 
       var modaloption : ModalOptions={
@@ -347,7 +370,9 @@ export class DetailPage {
         console.log(imagedata)
     });
     modal.present();
-
+   }
+  }
+}
 
 
 
@@ -393,6 +418,6 @@ export class DetailPage {
 //       })
 //     ;
 
-  }
+//   }
 
-}
+// }
