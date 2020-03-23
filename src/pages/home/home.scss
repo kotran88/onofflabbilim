@@ -1,4 +1,11 @@
 page-home {
+    p{
+
+font-family: 'nanum' !important;
+    }
+    body{
+
+    }
     .menu-inner{
         width: 60%;
     }
@@ -136,6 +143,9 @@ page-home {
         border-style:none !important;
         background: white !important;
     }
+    .toolbar-background-md {
+        background-color:white !important
+    }
     .i{
         width: 100%;
         height: 100px;
@@ -152,9 +162,7 @@ page-home {
         -webkit-transform: translate(0%, -40%);
         
     }
-    .toolbar-background-md {
-        background-color:white !important
-    }
+    
    .label-ios{
 
     }
@@ -242,17 +250,20 @@ page-home {
     cursor: pointer;
     }
     .tttttt{
-        height: 120px;
-        margin-left:10px;
+        margin-left: 10px;
         display: grid;
         position: relative;
-        width: 100px;
         float: left;
     }
     .scroll-content{
 
         padding: 0 !important;
         text-align: unset !important;
+    }
+    .test{
+        
+    width: 200px;
+    display: flex;
     }
     ion-content .scroll-content{
         // margin-top: 50px !important;
@@ -431,8 +442,14 @@ ion-fab{
     height: 2.3rem;
     font-size: 1.2rem;
 }
+div{
 
-    
+font-family: 'nanum' !important;
+}
+   .title{
+
+font-family: 'nanum' !important;
+   } 
     .title_menu{
         width:100%;
     }
@@ -466,6 +483,10 @@ ion-fab{
             overflow-y: hidden !important;
         }
     }
+    .alert-md .alert-button{
+        width:100% !important;
+    }
+    
   .c{
       .scroll-content{
       }
@@ -477,6 +498,8 @@ ion-fab{
         width: 100%;
         margin-left: auto;
         margin-right: auto;
+
+    margin-top: 45px;
         p{
             font-size: 1.2rem;
             text-align: left;

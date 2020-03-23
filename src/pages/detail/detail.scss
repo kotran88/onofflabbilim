@@ -21,12 +21,26 @@ page-detail {
     .label-ios {
         margin: 11px 0px 11px 0 !important;
     }
+    .header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after{
+        border-bottom:unset !important;
+    }
     ion-backdrop{
         display: -webkit-box;
         opacity: 0.35;
     }
     .input-wrapper{
         margin-bottom:0px;
+    }
+    .header-ios .toolbar-ios:last-child .toolbar-background-ios{
+        background:white;
+    }
+    
+    .header-ios .toolbar-background-ios, .footer-ios .toolbar-background-ios{
+        border-style:none !important;
+        background: white !important;
+    }
+    .toolbar-background-md {
+        background-color:white !important
     }
     .toolbar-content-md{
         // margin-right:20% !important;
@@ -854,10 +868,12 @@ ion-fab{
       }
       .gameshowwithborder{
           border-radius:8px;
-        //   background:aliceblue;
-        background-color: paleturquoise;
+    border: solid 1px #70c5ed;
     }
-   
+   div{
+
+font-family: 'nanum' !important;
+   }
       .tabselected{
           background: aliceblue !important;
       }

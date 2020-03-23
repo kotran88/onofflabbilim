@@ -14,6 +14,7 @@ import { LoginpagePage} from './../../pages/loginpage/loginpage';
 export class HomePage {
   selectedbutton:any='vr'
 
+  name:any;
   logined:any="false"
   firemain = firebase.database().ref();
   slides=[];
@@ -25,27 +26,29 @@ export class HomePage {
   psgamearray=[];
   setting:any;
   id:any;
+  realswitcharray:any;
   loginflag:any;
   userid:any;
+  realpsarray:any;
   user:any;
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
     this.id=localStorage.getItem("id")
+    this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
-    this.userid=localStorage.getItem("key");
     // this.id="kotran88@gmail.com";
-
+   
     console.log(this.id);
     console.log(this.loginflag);
     console.log(this.userid);
 
     this.zone.run(()=>{
-      console.log(this.userid);
-      if(this.userid!=null){
-        this.firemain.child("users").child(this.userid).once("value",(snapshot)=>{
+      console.log("id is : "+this.id);
+        this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
           console.log(snapshot.val());
           this.user=snapshot.val();
+          console.log("user");
+          console.log(this.user);
         })
-      }
      
       this.firemain.child("setting").once("value",(snapshot)=>{
         for(var a in snapshot.val()){
@@ -104,6 +107,9 @@ export class HomePage {
           }
         
         }
+        this.realswitcharray=this.switcharray[0].url;
+
+        this.realpsarray=this.psarray[0].url;
         console.log(this.slides);
         console.log(this.switcharray)
         console.log(this.psarray);
@@ -134,8 +140,7 @@ export class HomePage {
     this.oneSignal.getIds().then(data => {
       console.log(data);
       console.log("get id success"+data.userId)
-
-      window.alert(data.userId);
+      this.firemain.child("users").child(this.id).update({"deviceId":data.userId})
       localStorage.setItem("tokenvalue",data.userId);
 
     }).catch((e)=>{
@@ -147,7 +152,7 @@ export class HomePage {
 
   mypage(){
     console.log("mypage come")
-    this.navCtrl.push(MypagePage,{"id":this.id,"key":this.userid})
+    this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
   }
   logout(){
     localStorage.setItem("key",null);
@@ -155,15 +160,47 @@ export class HomePage {
     localStorage.setItem("loginflag","false")
     this.navCtrl.setRoot(LoginpagePage);
   }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
+
   confirmAlert(str) {
     let alert = this.alertCtrl.create({      
         subTitle: str,
-        buttons: ['확인']
+        buttons: [  
+          {
+            role:'Cancel',
+            text: '취소',
+            handler: () => {
+              console.log('Buy clicked');
+            }
+          },
+        {
+          role:'Ok',
+          text: '확인2',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }]
+       
     });
     alert.present({animate:false});
   }
   gotoshop(a){
+    console.log(a)
     console.log(a.flag);
+    console.log(this.user)
     if(a.flag=="ds"){
       this.navCtrl.push(DetailPage,{"a":a,"game":this.dsgamearray,"setting":this.setting,"user":this.user});
     }

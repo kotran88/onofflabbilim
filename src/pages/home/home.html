@@ -36,7 +36,7 @@ border-bottom: none !important; z-index: 11 !important">
   background-image: none !important;
   border-bottom: none !important;">
         <div style="  font-size:17px;  text-align: center;" class="title">
-                빌림
+                그그그?
               </div>
     <img src="assets/img/magnify.png" (click)="mypage();" style="font-size: 1.8em;
     right: 15%;
@@ -45,35 +45,14 @@ border-bottom: none !important; z-index: 11 !important">
     color:gray;
     bottom: 10px;
      " name="search"/>
-      <button  style="right: 0px;
+      <!-- <button  style="right: 0px;
       position: absolute;"  ion-button menuToggle>
           <img src="assets/img/menumenu.png" style="width:22px;" right name="menu"/>
-        </button>
+        </button> -->
   </ion-navbar>
 
 </ion-header>
-<ion-scroll #scroll class="scrolltest" style="
-margin-top: 30px; margin-bottom: -15px; height: 50px;" scrollX="true">
-  <button  *ngIf="selectedbutton=='vr'" (click)="category2('vr')" class="mybtnclicked" ion-button  >
-      VR
-    </button>
-    <button  *ngIf="selectedbutton!='vr'" (click)="category2('vr')" class="mybtn" ion-button  >
-      VR
-    </button>
-    <button *ngIf="selectedbutton=='switch'"  (click)="category2('switch')" class="mybtnclicked" ion-button  >
-    스위치
-    </button>
-    <button *ngIf="selectedbutton!='switch'"  (click)="category2('switch')" class="mybtn" ion-button  >
-      스위치
-      </button>
-    <a *ngIf="selectedbutton=='ps'"  (click)="category2('ps')" class="mybtnclicked" ion-button  >
-    Playstation
-    </a>
-    <a *ngIf="selectedbutton!='ps'"    (click)="category2('ps')" class="mybtn" ion-button  >
-      Playstation
-    </a>
 
-</ion-scroll>
 <ion-content class="home">
   <!-- <div class="floating">
      
@@ -91,14 +70,13 @@ margin-top: 30px; margin-bottom: -15px; height: 50px;" scrollX="true">
 
 <p  style="
 font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
-<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
-  <div style="width:200000px;  display:block;" class="test">
-  <div (click)="gotoshop(a)" *ngFor="let a of switcharray; let i = index" class="tttttt">
-   <img *ngIf="i==0" style="height: 150px;"   class= 'imagereservation' src="{{a.url}}" style="background: red;">
-   <span  *ngIf="i==0"   class="s">
+  <div class="test">
+  <div (click)="gotoshop(switcharray[2])"  class="tttttt">
+   <img  style="height: 150px;"   class= 'imagereservation' src="{{realswitcharray}}" style="background: red;">
+   <span   class="s">
       <p  style="  
-      margin-top: 0;  font-size: 11px !important;
-        ">{{a.name}}</p>
+      margin-top: 15px;  font-size: 12px !important;
+        ">스위치</p>
       </span>
       <!-- <span  *ngIf="i!=0"   class="ss">
       <p  style="  
@@ -108,33 +86,24 @@ font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
       </span> -->
   </div>
   </div>
-</ion-scroll>
 
 
 
 <p id="ps"  style="
 font-size: 1.5rem; margin-left: 1em;">Playstation</p>
-<ion-scroll class="home2"  style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
-  <div style="width:200000px;  display:block;" class="test">
+  <div  class="test">
   <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" class="tttttt">
-   <img  style="height: 150px;"   class= 'imagereservation' src="{{a.url}}">
-   <span  *ngIf="i==0"     class="s">
+   <img  style="height: 150px;"   class= 'imagereservation' src="{{realpsarray}}">
+   <span       class="s">
       <p  style="  
-      margin-top: 0;  font-size: 11px !important;
-        ">{{a.name}}</p>
-      </span>
-      <span  *ngIf="i!=0"     class="ss">
-      <p  style="  
-      font-size: 11px !important;
-        margin-top: 0;
-  ">{{a.name}}</p>
+    margin-top: 15px;  font-size: 12px !important;
+        ">Playstation</p>
       </span>
   </div>
   </div>
-</ion-scroll>
 
 
-<p  style="
+<!-- <p  style="
 font-size: 1.5rem; margin-left: 1em;">Nintendo 3DS</p>
 <ion-scroll class="home2" style="white-space: nowrap; overflow-y: hidden; text-align:unset !important;  margin-top:0px; height:200px !important;" scrollX="true">
   <div style="width:200000px;  display:block;" class="test">
@@ -153,7 +122,7 @@ font-size: 1.5rem; margin-left: 1em;">Nintendo 3DS</p>
       </span>
   </div>
   </div>
-</ion-scroll>
+</ion-scroll> -->
 
 <ion-menu class="menu" side="right"  [content]="content">
     

@@ -6,6 +6,34 @@
     // font-weight: 500;
     // font-style: 500;
 }
+ion-title{
+
+    line-height: 40px !important;
+}
+ion-header{
+    height: 50px !important;
+    min-height: 50px !important;
+}
+.header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after, .footer-md::before, .tabs-md[tabsPlacement="bottom"] > .tabbar::before{
+    background-image: unset !important;
+}
+.toolbar-md{
+    min-height: 50px !important;
+}
+ion-navbar.toolbar{
+    height: 50px;
+}
+.alert-md .alert-button{
+    color:green
+    }
+    .alertDanger{
+        background-color: white;
+        color: red;
+        button{
+            width:100% !important;
+            color: red;
+        }
+    }
 @media not all and (min-height: 600px) and (min-width: 768px) {
     ion-modal ion-backdrop {
       visibility: visible;
@@ -179,6 +207,16 @@ button .button-inner {
     color: #333;
     line-height: 21px;
 }
+.alert-md .alert-button .button-inner{
+    color:white !important;
+}
+.alertDanger{
+    background-color: white;
+    color: red;
+    button{
+        color: red;
+    }
+}
 .alert-button-group {
     background: #FFA200;
     padding: 8px !important;
@@ -186,12 +224,18 @@ button .button-inner {
 .alert-button {
     color: #ffffff;
 }
+.alert-button-group > button:nth-child( 2 ) {
+    background:#E5333F;
+}.alert-button-group > button:nth-child( 1 ) {
+    background:#70c5ed  ;
+}
+
 .alert-md .alert-head {
     padding-top: 40px;
 }
 .alert-md .alert-button {
     margin: 0px;
-    width: 100%;
+    width: 50%;
 }
 .alert-md .alert-button .button-inner {
     justify-content: center;
@@ -352,4 +396,12 @@ ion-label.label-md {
     margin: 0;
     display: inline-block;
     font-size: 12px;
+}
+
+@font-face {
+    font-family: 'nanum';
+    src: url('../assets/fonts/NanumGothic.ttf') format("ttf");
+    }
+body{
+font-family: 'nanum' !important;
 }
