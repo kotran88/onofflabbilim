@@ -331,12 +331,9 @@ export class DetailPage {
     console.log(this.gamearray);
     var a = localStorage.getItem("loginflag");
     console.log(a);
-<<<<<<< HEAD
-=======
     if(a=="false"||a==null){
       this.confirmAlert("로그인이 필요한 서비스입니다.\n 로그인 페이지로 이동하시겠습니까?");
     }else{
->>>>>>> 0955554de17def06e68ce161f9ffbdd40a4abd96
       // this.navCtrl.push(OrderpagePage)
 
       var modaloption : ModalOptions={
@@ -392,7 +389,7 @@ export class DetailPage {
 //         alert(err)
 //       })
 //     ;
-
+  }
   }
 
 }
