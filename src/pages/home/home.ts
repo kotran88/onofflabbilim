@@ -32,8 +32,6 @@ export class HomePage {
   realpsarray:any;
   user:any;
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
-    
-    localStorage.setItem('id','kotraner88@gmailcom')
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
