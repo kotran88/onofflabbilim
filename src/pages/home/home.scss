@@ -1,10 +1,42 @@
 page-home {
     p{
 
-font-family: 'nanum' !important;
+    font-family: 'nanum' !important;
     }
     body{
 
+    }
+
+    .putter_base{
+        width: 100%;
+        height:auto;
+        background-color: rgb(225,225,225);
+        bottom: 0px;
+        padding: 15px;
+        color: rgb(154,154,154);
+    }
+    .putter_text{
+        width: 40%;
+        display: inline-block;
+        margin: 0;
+        font-size: 80%;
+    }
+    .putter_text2{
+        width: 60%;
+        display: inline-block;
+        margin: 0;
+        font-size: 80%;
+    }
+    .anchor_base{
+        margin-top: 30px;
+    }
+    .anchor_text{
+        display: inline-block;
+        margin-right: 5px;
+        font-size: 70%;    
+        color: black;
+        // text-decoration: none;
+        text-decoration-line: underline;
     }
     .menu-inner{
         width: 60%;

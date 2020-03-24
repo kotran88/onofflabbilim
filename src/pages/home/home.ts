@@ -32,6 +32,7 @@ export class HomePage {
   realpsarray:any;
   user:any;
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
+    localStorage.setItem('id','01079998598')
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
@@ -43,12 +44,13 @@ export class HomePage {
 
     this.zone.run(()=>{
       console.log("id is : "+this.id);
-        this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
-          console.log(snapshot.val());
-          this.user=snapshot.val();
-          console.log("user");
-          console.log(this.user);
-        })
+      
+      this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
+        console.log(snapshot.val());
+        this.user=snapshot.val();
+        console.log("user");
+        console.log(this.user);
+      })
      
       this.firemain.child("setting").once("value",(snapshot)=>{
         for(var a in snapshot.val()){
