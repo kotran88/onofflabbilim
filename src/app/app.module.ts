@@ -24,6 +24,9 @@ import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
+import { ChatPage } from '../chat/chat';
+import { CameraselectPage } from './../pages/cameraselect/cameraselect'
+import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -45,11 +48,12 @@ firebase.initializeApp(firebaseConfig);
     LoginpagePage,
     OrderpagePage,
     ModalpagePage,
-    
+    ChatPage,
     SignupPage,
     Modalbottom,
     DeliveryAreaPage,
     GameDetailPage,
+    CameraselectPage
   ],
   imports: [
     BrowserModule,
@@ -65,17 +69,19 @@ firebase.initializeApp(firebaseConfig);
     LoginpagePage,
     HomePage,
     MypagePage,
-
+    ChatPage,
     SignupPage,
     ModalpagePage,
     Modalbottom,
     OrderpagePage,
     DeliveryAreaPage,
     GameDetailPage,
+    CameraselectPage
   ],
   providers: [
     // StatusBar,
     // SplashScreen,
+    Camera,
     InAppBrowser,
     OneSignal,
     AngularFireAuth,

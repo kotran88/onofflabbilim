@@ -8,7 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { OrderpagePage } from '../pages/orderpage/orderpage';
 
 import { SignupPage } from '../pages/signup/signup';
-
+import { ChatPage } from '../chat/chat';
 @Component({
   templateUrl: 'app.html'
 })

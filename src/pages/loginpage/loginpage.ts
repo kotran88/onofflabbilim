@@ -51,8 +51,8 @@ export class LoginpagePage {
       // this.number=localStorage.getItem('number');
     }
     else{
-      this.main_title='회원가입/로그인';
-      this.login_check=false;
+      // this.main_title='회원가입/로그인';
+      // this.login_check=false;
     }
 
     console.log(this.login_check)
