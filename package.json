@@ -72,7 +72,10 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "iamport-cordova": {},
-      "cordova-plugin-datepicker": {}
+      "cordova-plugin-datepicker": {},
+      "cordova-plugin-camera": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      }
     },
     "platforms": [
       "android"

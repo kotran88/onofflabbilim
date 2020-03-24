@@ -1,12 +1,13 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, Content,NavController, Platform,ModalController,NavParams } from 'ionic-angular';
-import { Chatting } from './../components/models/chatting';
+import { Chatting } from '../../components/models/chatting';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { storage } from 'firebase';
 import firebase from 'firebase';
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
-import { BigpicturePage } from './../pages/bigpicture/bigpicture'
-import { CameraselectPage} from './../pages/cameraselect/cameraselect';
+import { BigpicturePage } from '../bigpicture/bigpicture'
+import { CameraselectPage} from '../cameraselect/cameraselect';
+// import undefined from 'firebase/empty-import';
 /**
  * Generated class for the ChatPage page.
  *
@@ -48,25 +49,9 @@ export class ChatPage {
     this.item=this.navParams.get("item");
     this.flag=this.navParams.get("flag");
     var prefix="";
-    // if(this.flag=="first"){
-    //   prefix=this.item.user+" "+this.item.deliveryGuy;
-    //   this.objective=this.item.deliveryGuy;
-    //   this.flag_node=prefix;
-    // }else if(this.flag=="second"){
-    //   prefix=this.item.user+" "+this.item.deliveryGuy2;
-    //   this.objective=this.item.deliveryGuy2;
-    //   this.flag_node=prefix;
-    // }else if(this.flag=="third"){
-    //   prefix=this.item.user+" "+this.item.deliveryGuy3;
-    //   this.objective=this.item.deliveryGuy3;
-    //   this.flag_node=prefix;
-    // }else{
-    //   this.flag_node="";
-    // }
-    // this.chatContent=this.afDatabase.list('message/'+this.item.orderNo+" "+this.flag_node, { preserveSnapshot: true })
-    // this.chatContent.subscribe(snapshots=>{
-      console.log(this.id)
-      this.firedata.child("message").child(this.id).once('value').then((snapshots) =>{
+
+    console.log(this.id)
+    this.firedata.child("message").child(this.id).once('value').then((snapshots) =>{
       this.chatMsg=[];
       this.chat_date=[];
       snapshots.forEach(element => {
@@ -74,66 +59,43 @@ export class ChatPage {
         console.log(element.val())
         this.chatMsg.push(element.val())
         this.chat_date.push(element.val().created_date.substring(0,10))
-      //   var keysFiltered = Object.keys(element.val()).filter(function(item){return !( element.val()[item] == undefined)});
-      //  var valuesFiltered = keysFiltered.map((item)=> {
-      //      console.log(item);
-      //      console.log(element.val()[item]);
-      //      if(item=="id"){
-      //       if(element.val()[item]==this.deliveryGuy){
-      //         this.image=element.val()["foto"]
-      //       }else{
-              
-      //       }
-      //      }
-      //  });
       });
       this.chat_date= this.chat_date.filter(function(elem, index, self) {
         return index == self.indexOf(elem);
-    })
-    console.log(this.chatMsg);
-    console.log(this.chat_date)
+      })
+      console.log(this.chatMsg);
+      console.log(this.chat_date)
     })
 
-    // this.items=this.afDatabase.list('profile/'+this.uid, { preserveSnapshot: true })
-    // this.items.subscribe(snapshots=>{
-      // this.firedata.once('value').then((snapshot) =>{
-      // snapshots.forEach(element => {
-        this.firedata.once('value').then((snapshots) =>{
-          snapshots.forEach(element => {
-          console.log("element")
+    this.firedata.once('value').then((snapshots) =>{
+      snapshots.forEach(element => {
+        console.log("element")
         if(element.key==="foto"){
           this.image=element.val();
         }
-       
-      
-
       });
     })
-    // var messagenode=this.afDatabase.list('/message/'+this.item.orderNo+" "+this.flag_node , { preserveSnapshot: true })
-    // messagenode.subscribe(snapshots=>{
-      this.firedata.once('value').then((snapshots) =>{
+    this.firedata.once('value').then((snapshots) =>{
       snapshots.forEach(elements=>{
         console.log("!?!?!");
         if(elements.val().id!=this.userId){
           if(elements.val().read_flag=="false"){
-           console.log(elements.key);
-           var updating=this.afDatabase.object('/message/'+this.item.orderNo+" "+this.flag_node+'/'+elements.key)
-           updating.update({
-               read_flag:"true"
-           })
+            console.log(elements.key);
+            var updating=this.afDatabase.object('/message/'+this.item.orderNo+" "+this.flag_node+'/'+elements.key)
+            updating.update({read_flag:"true"})
           }
         }
       })
-      
-     
-   })
-
+    })
   }
   clicked(image){
     let modal = this.modal.create(BigpicturePage,{"image":image});
-            modal.onDidDismiss(data => {
-            });
-            modal.present();
+    modal.onDidDismiss(data => {
+      if(data!=undefined){
+        console.log('comeback chatpage')
+      }
+    });
+    modal.present();
   }
   
   async takeFoto(){
@@ -146,6 +108,7 @@ export class ChatPage {
     });
     modal.present();
   }
+  
   upload(){
     this.mypicref.child(this.uidd()).child('pic.png')
     .putString(this.picdata,'base64',{contentType:'image/jpeg'})
@@ -178,8 +141,8 @@ export class ChatPage {
       alert(error.message);
       alert(error.code);
     })
-
   }
+
   uidd(){
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g, function (c) {
@@ -189,6 +152,7 @@ export class ChatPage {
     });
     return uuid;
   }
+
   entered(){
     if(this.contents!=""){
       this.chatMsg=[];
@@ -213,22 +177,8 @@ export class ChatPage {
       this.chat.created_date=todayWithTime;
       this.chat.onlydate=todayWithTime.substring(0,10)
       this.firedata.child("message").child(this.id).push(this.chat).then(()=>{
-        // this.contents="";
-        // var notificationObj = {title:{en:"메세지!"}, contents: {en:"배달원으로부터 메세지가 도착하였습니다"},
-        // "data": {"status": "chat", "orderNo":this.item.orderNo,"obejct":this.item},
-        // include_player_ids: [this.item.messengertokenId]};
-  
-        // // Initialize
-        // if(this.platform.is('android')){
-        // window["plugins"].OneSignal.postNotification(notificationObj,
-        //   (successResponse)=> {
-        //     },
-        //   (error)=>{
-        //     alert(JSON.stringify(error));
-        //   }) 
-        // }
-        
-        })
+
+      })
       
     }else{
       alert("입력해주세요")

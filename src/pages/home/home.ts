@@ -68,11 +68,6 @@ export class HomePage {
               this.slides.push(snapshot.val()[a][b])
             }
           }
-          // if(a=="switch"){
-          //   for(var b in snapshot.val()[a]){
-          //     this.switcharray.push(snapshot.val()[a][b])
-          //   }
-          // }
           if(a=="ps"){
             for(var b in snapshot.val()[a]){
               console.log(b);
@@ -101,10 +96,7 @@ export class HomePage {
                 for(var c in snapshot.val()[a][b]){
                   this.switcharray.push(snapshot.val()[a][b][c]);
                 }
-                
               }
-             
-              
             }
           }
         

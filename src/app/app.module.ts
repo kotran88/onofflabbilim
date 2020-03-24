@@ -24,7 +24,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
-import { ChatPage } from '../chat/chat';
+import { ChatPage } from '../pages/chat/chat';
 import { CameraselectPage } from './../pages/cameraselect/cameraselect'
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 var firebaseConfig = {

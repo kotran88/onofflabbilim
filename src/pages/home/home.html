@@ -21,33 +21,33 @@
 
 <ion-content class="home">
 
-  <ion-slides class="firstslide" style="     width:100% !important;" pager style="height:auto; margin-top: 20px;  ">
+  <ion-slides class="firstslide" style="width:100% !important;" pager style="height:auto; margin-top: 20px;">
     <ion-slide style="width:100% !important;" *ngFor="let slide of slides">
         <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" [src]="slide.url">
     </ion-slide>
   </ion-slides>
+
   <p  style="font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
-  <div class="test">
-    <div (click)="gotoshop(switcharray[2])"  class="tttttt">
-      <img  style="height: 150px;"   class= 'imagereservation' src="{{realswitcharray}}" style="background: red;"/>
+  <!-- <div class="test"> -->
+    <div (click)="gotoshop(switcharray[2])" style="width: 200px; text-align: center;">
+      <img  class= 'imagereservation' src="{{realswitcharray}}" style="height:150px;"/>
       <span   class="s">
-        <p style="margin-top: 15px;  font-size: 12px !important;">스위치</p>
+        <p style="margin-top: 15px;  font-size: 12px !important;">Nintendo Switch</p>
       </span>
     </div>
-  </div>
+  <!-- </div> -->
 
   <p id="ps"  style="font-size: 1.5rem; margin-left: 1em;">Playstation</p>
-
-  <div  class="test">
-    <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" class="tttttt">
+  <!-- <div  class="test"> -->
+    <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" style="width: 200px; text-align: center;">
       <img  style="height: 150px;"   class= 'imagereservation' src="{{realpsarray}}"/>
       <span class="s">
-        <p  style="margin-top: 15px;  font-size: 12px !important;">Playstation</p>
+        <p  style="margin-top: 15px;  font-size: 12px !important;">PayStation</p>
       </span>
     </div>
-  </div>
+  <!-- </div> -->
 
-  <div class="putter_base">
+  <footer class="putter_base">
     <div class="putter_text">대표이사:</div><div class="putter_text2">정평두</div>
     <div class="putter_text">사업자등록번호:</div><div class="putter_text2">214-87-79183</div>
     <div class="putter_text">통신판매업신고번호:</div><div class="putter_text2">제2010-경기안양-402호</div>
@@ -64,8 +64,8 @@
       <a class="anchor_text">전자금융거래약관</a>
       <a class="anchor_text">개인정보처리방침</a>
     </div>
-    <div class="putter_text" style="width: 100%;">Copyright.....................................</div>
-  </div>
+    <div class="putter_text" style="width: 100%;">Copyright.........................................................</div>
+  </footer>
 
   <ion-menu class="menu" side="right"  [content]="content">  
     <ion-content class="c">      

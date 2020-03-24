@@ -8,13 +8,13 @@ import { HomePage } from '../pages/home/home';
 import { OrderpagePage } from '../pages/orderpage/orderpage';
 
 import { SignupPage } from '../pages/signup/signup';
-import { ChatPage } from '../chat/chat';
+import { ChatPage } from '../pages/chat/chat';
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   // rootPage:any = HomePage;
-  rootPage:any=HomePage;
+  rootPage:any=ChatPage;
 
   constructor(platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
     platform.ready().then(() => {
