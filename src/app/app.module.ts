@@ -27,6 +27,9 @@ import { GameDetailPage } from '../pages/game-detail/game-detail';
 import { ChatPage } from '../pages/chat/chat';
 import { CameraselectPage } from './../pages/cameraselect/cameraselect'
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { HttpModule } from '@angular/http'
+
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -60,6 +63,7 @@ firebase.initializeApp(firebaseConfig);
     StarRatingModule,
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
+    HttpModule,
     AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
@@ -86,6 +90,7 @@ firebase.initializeApp(firebaseConfig);
     OneSignal,
     AngularFireAuth,
     DatePicker,
+    PhotoViewer,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
