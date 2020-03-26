@@ -15,38 +15,56 @@ page-chat {
         // z-index: 10000;
     }
 
-    .other-user{
-        min-width: 10%;
-        max-width: 50%;
-        left: 0px;
-        // display: inline-block;
-        float: left;
-        // width: 50;
-        border: solid 1px aqua;
-        border-radius: 10px;
-        padding: 10px;
-
-        margin: 5px 45% 5px 5%;
-    }
-
-    .my-user{
-        min-width: 10%; 
-        max-width: 50%;
-        right: 0px;
-        // display: inline-block;
+    .my-userbox{
         float: right;
-        // width: 50%;
-        border: solid 1px red;
-        border-radius: 10px;
-        padding: 10px;
-
+        min-width: 20%;
+        max-width: 50%;
         margin: 5px 5% 5px 45%;
     }
 
+    .other-userbox{
+        float: left;
+        min-width: 20%;
+        max-width: 50%;
+        margin: 5px 45% 5px 5%;
+    }
+
+    .my_readck{
+        padding: 0;
+        margin: 0;
+        width: 2%;
+        display: inline-block;
+        margin-top: 30%;
+        margin-left: 15%;
+    }
+
+    .other_readck{
+        padding: 0;
+        margin: 0;
+        width: 2%;
+        display: inline-block;
+        margin-top: 30%;
+        margin-right: 15%;
+    }
+
+    .other-user{
+        border: solid 2px aqua;
+        border-radius: 10px;
+        padding: 10px;
+        float: left;
+    }
+
+    .my-user{
+        border: solid 2px red;
+        border-radius: 10px;
+        padding: 10px;
+        float: right;
+    }
+
     .img{
-        width: 90%;
+        width: 100%;
         height: auto;
-        margin: 5%;
+        // margin: 2%;
         padding: 0;
     }
 
