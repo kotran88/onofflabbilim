@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, Content,NavController, Platform,ModalController,NavParams,LoadingController } from 'ionic-angular';
+import { IonicPage, Content,NavController, Platform,ModalController,NavParams,LoadingController} from 'ionic-angular';
 import { Chatting } from '../../components/models/chatting';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { storage } from 'firebase';
@@ -22,6 +22,9 @@ import { Http, RequestOptions, Headers} from '@angular/http';
   templateUrl: 'chat.html',
 })
 export class ChatPage {
+
+  @ViewChild(Content) chatlist:Content
+
   firedata = firebase.database().ref('message');
   mypicref=firebase.storage().ref('message');
   id:any;
@@ -31,7 +34,7 @@ export class ChatPage {
   chatImage=[];
   image='';
   imageUrl='';
-  text:any;
+  text='';
   now='';
   log_cnt:any;
   admin_id="01079998598";
@@ -39,15 +42,13 @@ export class ChatPage {
   deviceId='';
   lloading:any;
 
+  room_list_flag=true;
+
   pre_diffHeight = 0;
-  bottom_flag = true;
-  chat_on_scroll = function(){
-  };
 
   constructor(public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
     // localStorage.setItem('id','01023393927');
     this.id=localStorage.getItem("id");
-    // this.id="01079998598";
     
     console.log(this.id)
     this.chatMsg=[];
@@ -56,8 +57,12 @@ export class ChatPage {
     this.chatImage=[];
     this.log_cnt=0;
 
-    if(this.id===this.admin_id) this.room_user="01023393927";
-    else this.room_user=this.id;
+    if(this.id===this.admin_id){
+      this.room_user=navParams.get("user").phone;
+    }
+    else{
+      this.room_user=this.id;
+    }
     console.log(this.room_user);
 
     var firetemp:any;
@@ -85,11 +90,14 @@ export class ChatPage {
     snapshots.forEach(element => {
       if(this.log_cnt>cnt){}
       else{
+        // document.getElementById("input").focus();
         this.chatUser.push(element.val().user);
         this.chatMsg.push(element.val().text);
         this.chatDate.push(element.val().date);
         this.chatImage.push(element.val().image);
         console.log(element.val())
+        console.log('update')
+        // this.chatlist.scrollTop=this.chatlist.scrollHeight;
       }
       cnt++;
     })
@@ -98,8 +106,9 @@ export class ChatPage {
     console.log(this.chatDate);
     console.log(this.chatImage);
     this.log_cnt=cnt;
-    // var objDiv = document.getElementById("chat-area");
-    // objDiv.scrollTop = objDiv.scrollHeight;
+    setTimeout(() => {
+      this.chatlist.scrollToBottom();          
+    }, 1000);
   }
 
   pad(n, width):String{
@@ -127,43 +136,46 @@ export class ChatPage {
         console.log(data);
         this.image=data;
 
-        this.uploadImageToFirebase(data);
+        // this.uploadImageToFirebase(data);
       }
+      else this.image='';
     });
     modal.present();
   }
   
   upload(mode){
-    if(mode===0){
+
+    console.log(mode);
+
+    if(mode===1){
       this.now_time();
-      this.upload(2);
-    }
-    else if(mode===1){
       this.imageUrl='';
       if(this.image!=''){
-        this.uploadImage(this.image)
-        console.log(this.imageUrl)
-        console.log('up ok')
-        this.image='';
+        this.uploadImageToFirebase(this.image)
       }
-      else this.upload(0);
+      else{
+        this.upload(2);
+      }
     }
     else if(mode===2){
-      this.firedata.child(this.room_user).child(this.now).update(
-        {
-          user:this.id,
-          text:this.text,
-          date: this.now,
-          image:this.imageUrl,
-        }
-      ).then(()=>{
-        this.text='';
-        console.log('upload ok')
-      });
-      this.upload(3);
-    }
-    else if(mode===3){
-      this.send_push(this.text,this.imageUrl);
+      console.log('room : '+this.room_user)
+      console.log('now : '+this.now)
+      if(this.text===''&&this.image===''){}
+      else{
+        this.firedata.child(this.room_user).child(this.now).update(
+          {
+            user:this.id,
+            text:this.text,
+            date: this.now,
+            image:this.imageUrl,
+          }
+        ).then(()=>{
+          this.text='';
+          this.image='';
+          console.log('upload ok')
+        });
+        this.send_push(this.text,this.imageUrl);
+      }
     }
   }
 
@@ -182,14 +194,15 @@ export class ChatPage {
   uploadImageToFirebase(image){
     console.log("upload iamge to firebase");
     console.log(image);
+    this.uploadImage(image);
   }
 
   uploadImage(imageURI){
-    let storageRef = firebase.storage().ref('message');
+    // let storageRef = firebase.storage().ref('message');
     // var result="design"+'1';
     // this.now_time();
     console.log(imageURI);
-    imageURI=  "data:image/png;base64," + imageURI;
+    imageURI=  "data:image/png;base64," + imageURI.data;
     console.log("sssssssssss : "+this.now);
     console.log(imageURI);
     console.log("donE!!!!!!!!!!")
@@ -207,7 +220,7 @@ export class ChatPage {
           this.imageUrl=url;
           // this.image
           this.loading_off();
-          this.upload(0)
+          this.upload(2);
 
           // window.alert("사진업로드 완료!")
 

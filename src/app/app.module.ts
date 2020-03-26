@@ -29,6 +29,7 @@ import { CameraselectPage } from './../pages/cameraselect/cameraselect'
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { HttpModule } from '@angular/http'
+import { ChatroomlistPage } from '../pages/chatroomlist/chatroomlist';
 
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
@@ -56,7 +57,8 @@ firebase.initializeApp(firebaseConfig);
     Modalbottom,
     DeliveryAreaPage,
     GameDetailPage,
-    CameraselectPage
+    CameraselectPage,
+    ChatroomlistPage,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ firebase.initializeApp(firebaseConfig);
     OrderpagePage,
     DeliveryAreaPage,
     GameDetailPage,
-    CameraselectPage
+    CameraselectPage,
+    ChatroomlistPage,
   ],
   providers: [
     // StatusBar,

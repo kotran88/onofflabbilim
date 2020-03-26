@@ -9,12 +9,13 @@ import { OrderpagePage } from '../pages/orderpage/orderpage';
 
 import { SignupPage } from '../pages/signup/signup';
 import { ChatPage } from '../pages/chat/chat';
+import {ChatroomlistPage} from '../pages/chatroomlist/chatroomlist'
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   // rootPage:any = HomePage;
-  rootPage:any=ChatPage;
+  rootPage:any=ChatroomlistPage;
 
   constructor(platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
     platform.ready().then(() => {
