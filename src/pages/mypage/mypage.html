@@ -61,7 +61,7 @@ margin-bottom: 10px;" class="up">
                             margin-left:10px;
                             height: 100%;" class="right">
                              대여 기간 : {{a.startDate.split("T")[0].split("-")[1]}}월 {{a.startDate.split("T")[0].split("-")[2]}}일 ~ 
-                              {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}} 일
+                              {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}}일
                               <br> 대여 기기 : {{a.hardware.name}}
                             <br> 결제 금액 : {{number_format(a.payment)}}
                             <br>
@@ -76,7 +76,7 @@ margin-bottom: 10px;" class="up">
                                 <br>
                               </div>
                               <br>
-                              주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시  {{a.orderdate.split(" ")[1].split(":")[1]}} 분
+                              주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시  {{a.orderdate.split(" ")[1].split(":")[1]}}분
                               <br>
                               <span *ngIf="a.status=='paid'">
                                 현재 상태 : 결제완료
@@ -86,9 +86,9 @@ margin-bottom: 10px;" class="up">
                               </span>
                              
                             </div>
-
                     </ion-card-content>
-                    </ion-card  >
+                    </ion-card>
+
         </ion-item>
 </ion-list>
 

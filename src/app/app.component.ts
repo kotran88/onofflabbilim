@@ -15,7 +15,7 @@ import {ChatroomlistPage} from '../pages/chatroomlist/chatroomlist'
 })
 export class MyApp {
   // rootPage:any = HomePage;
-  rootPage:any=ChatroomlistPage;
+  rootPage:any=HomePage;
 
   constructor(platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
     platform.ready().then(() => {

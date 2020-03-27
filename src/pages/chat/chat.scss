@@ -17,34 +17,34 @@ page-chat {
 
     .my-userbox{
         float: right;
-        min-width: 20%;
+        min-width: 10%;
         max-width: 50%;
+        // width: 45%;
         margin: 5px 5% 5px 45%;
+        position: relative;
     }
 
     .other-userbox{
         float: left;
-        min-width: 20%;
+        min-width: 10%;
         max-width: 50%;
+        // width: 45%;
         margin: 5px 45% 5px 5%;
+        position: relative;
     }
 
     .my_readck{
-        padding: 0;
-        margin: 0;
-        width: 2%;
-        display: inline-block;
-        margin-top: 30%;
-        margin-left: 15%;
+        margin: 1%;
+        position: absolute;
+        bottom: 1px;
+        left: -15px;
     }
 
     .other_readck{
-        padding: 0;
-        margin: 0;
-        width: 2%;
-        display: inline-block;
-        margin-top: 30%;
-        margin-right: 15%;
+        margin: 1%;
+        position: absolute;
+        bottom: 1px;
+        right: -15px;
     }
 
     .other-user{
@@ -52,6 +52,8 @@ page-chat {
         border-radius: 10px;
         padding: 10px;
         float: left;
+
+        width: 100%;
     }
 
     .my-user{
@@ -59,6 +61,8 @@ page-chat {
         border-radius: 10px;
         padding: 10px;
         float: right;
+
+        width: 100%;
     }
 
     .img{

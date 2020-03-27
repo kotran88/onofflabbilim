@@ -56,11 +56,11 @@ export class DetailPage {
   maker:any;
   startDate:any= new Date().toISOString();
   user:any;
+
+  font_size=[];
   logRatingChange(v){
     console.log(v)
   }
-
-
 
   datechange(mode){
     console.log(this.startDate);
@@ -191,6 +191,31 @@ export class DetailPage {
 
     this.thismonth=this.date.getMonth()+1;
     this.thisdate=this.date.getDate();
+    this.length_check();
+  }
+
+  length_check(){
+    for(var q in this.gamearray){
+      var n=0;
+      console.log(this.gamearray[q].name)
+      for(var w=0;w<this.gamearray[q].name.length;w++){
+        if(this.gamearray[q].name[w]>='A'&&this.gamearray[q].name[w]<='Z'){
+          n+=1;
+        }
+        else if(this.gamearray[q].name[w]>='a'&&this.gamearray[q].name[w]<='z'){
+          n+=1;
+        }
+        else if(this.gamearray[q].name[w]>='0'&&this.gamearray[q].name[w]<='9'){
+          n+=1;
+        }
+        else if(this.gamearray[q].name[w]===' '){
+          n+=1;
+        }
+        else n+=2;
+      }
+      this.gamearray[q].font_size=15-(n/5);
+      console.log(this.gamearray[q].font_size)
+    }
   }
 
   selectDate(v){

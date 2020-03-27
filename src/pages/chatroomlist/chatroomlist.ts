@@ -24,6 +24,17 @@ export class ChatroomlistPage {
 
   constructor(public oneSignal:OneSignal,public navCtrl: NavController, public navParams: NavParams) {
 
+    firebase.database().ref('message').once('value').then((snap)=>{
+      for(var q in snap.val()){
+        for(var w in snap.val()[q]){
+          if(snap.val()[q][w].readck!='1'){
+            firebase.database().ref('message').child(q).child(w).update({readck:'1'});
+          }
+        }
+      }
+      console.log("readck ok")
+    })
+
     this.id=localStorage.getItem('id');
     // this.id='01023393927'
 

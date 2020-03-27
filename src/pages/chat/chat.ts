@@ -47,8 +47,10 @@ export class ChatPage {
 
   constructor(public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
     // localStorage.setItem('id','01023393927');
-    this.id=localStorage.getItem("id");
-    
+    // this.id=localStorage.getItem("id");
+
+    this.id=navParams.get("id")
+
     console.log(this.id)
     this.chatMsg=[];
     this.chatDate=[];
@@ -56,12 +58,6 @@ export class ChatPage {
     this.chatImage=[];
     this.log_cnt=0;
 
-    if(this.id===this.admin_id){
-      this.room_user=navParams.get("user").phone;
-    }
-    else{
-      this.room_user=this.id;
-    }
     console.log(this.room_user);
 
     var firetemp:any;
@@ -76,11 +72,16 @@ export class ChatPage {
 
     this.firedata.child(this.room_user).once('value',(snapshots) =>{
       this.read_log(snapshots)
+    }).then(()=>{
+      this.firedata.child(this.room_user).on('value',(snapshots) =>{
+        this.read_log(snapshots)
+      })
     })
+  }
 
-    this.firedata.child(this.room_user).on('value',(snapshots) =>{
-      this.read_log(snapshots)
-    })
+  read_check(n,i){
+    this.chatck[n]=' ';
+    this.firedata.child(this.room_user).child(i).update({readck:' '})
   }
 
   read_log(snapshots){
@@ -92,8 +93,7 @@ export class ChatPage {
       else{
         
         if(snapshots.val()[i].user!=this.id){
-          this.chatck[this.chatck.length-1]=' ';
-          this.firedata.child(this.room_user).child(i).update({readck:' '})
+          this.read_check(cnt,i)
         }
 
         this.chatUser.push(snapshots.val()[i].user);
@@ -114,6 +114,8 @@ export class ChatPage {
     console.log(this.chatMsg);
     console.log(this.chatDate);
     console.log(this.chatImage);
+    console.log(this.chatck)
+    console.log()
     this.log_cnt=cnt;
     setTimeout(() => {
       this.chatlist.scrollToBottom();          

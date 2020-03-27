@@ -2,4 +2,10 @@ page-mypage {
     .header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after{
         border-bottom:unset !important;
     }
+
+    .gochatbtn{
+        position: absolute; 
+        bottom: 0px;
+        width: 100%;
+    }
 }

@@ -67,8 +67,14 @@
     <div class="putter_text" style="width: 100%;">Copyright.........................................................</div>
   </footer>
 
+  <ion-fab right bottom>
+    <button ion-fab mini style="background-color:blue;" (click)="go_chat()">
+        <ion-icon name="send" style="color: white;"></ion-icon>
+    </button>
+  </ion-fab>
+  
   <ion-menu class="menu" side="right"  [content]="content">  
-    <ion-content class="c">      
+    <ion-content class="c">
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         dddd
         <p class="logo" *ngIf="p.title=='고객센터(1:1문의)'"></p>

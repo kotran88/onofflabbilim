@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { MypagePage} from './../../pages/mypage/mypage';
 import { LoginpagePage} from './../../pages/loginpage/loginpage';
+import { ChatPage } from '../chat/chat';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -144,6 +145,10 @@ export class HomePage {
     this.oneSignal.endInit();
   }
 
+  go_chat(){
+    this.navCtrl.push(ChatPage,{"id":this.id})
+  }
+
   mypage(){
     console.log("mypage come")
     this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
@@ -170,7 +175,7 @@ export class HomePage {
   }
 
   confirmAlert(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
         buttons: [  
           {
