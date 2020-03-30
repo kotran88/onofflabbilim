@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,AlertController,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage,Platform,AlertController,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
 import firebase from 'firebase';
 import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
@@ -42,8 +42,13 @@ export class OrderpagePage {
   Delivery=[];
   Delivery_check=false;
 
-  constructor(public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
+  constructor(public platform:Platform,public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
 
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
     this.user=this.navParams.get("user");
@@ -87,12 +92,19 @@ export class OrderpagePage {
   goback(){
     this.v.dismiss();
   }
-  clickedcoin(){
-    console.log("clicked")
+  godown(){
+    console.log("ccccclicked")
     console.log(this.coins);
     if(this.coins==0){
-window.alert("모든 코인을 사용하였습니다.")
-    }else{
+      window.alert("모든 코인을 사용하였습니다.")
+          }else{
+
+          }
+  }
+  goup(){
+    console.log("clicked")
+    console.log(this.coins);
+  
     this.coins=this.coins-1;
     this.discount+=1000
     this.pricetopay=this.totalprice-this.discount;
@@ -108,7 +120,6 @@ window.alert("모든 코인을 사용하였습니다.")
           })
         })
       },10);
-    }
     
   }
   number_format(num) {

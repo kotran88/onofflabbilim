@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage,Platform, NavController, NavParams } from 'ionic-angular';
 import { LoginpagePage} from './../loginpage/loginpage'
 /**
  * Generated class for the SettingPage page.
@@ -14,7 +14,13 @@ import { LoginpagePage} from './../loginpage/loginpage'
 })
 export class SettingPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platform:Platform,public navCtrl: NavController, public navParams: NavParams) {
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
+
   }
 
   ionViewDidLoad() {

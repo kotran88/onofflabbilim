@@ -52,7 +52,9 @@ margin-bottom: 10px;" class="up">
                       <div style="float: left; width:30%; 
                       margin-top: 20px;" class="left">
                         <img style="" *ngIf="a.hardware!=undefined&&a.hardware.flag =='switch'" src="assets/img/switchlogo.png"/>
+                        <img style="" *ngIf="a.hardware==undefined&&a.game[0].flag =='switch'" src="assets/img/switchlogo.png"/>
                         <img style="" *ngIf="a.hardware!=undefined&&a.hardware.flag=='ps'" src="assets/img/pslogo.png"/>
+                        <img style="" *ngIf="a.hardware==undefined&&a.game[0].flag=='ps'" src="assets/img/pslogo.png"/>
                       </div>
                            
                             <div  *ngIf="a.hardware!=undefined "style="width: 65%;

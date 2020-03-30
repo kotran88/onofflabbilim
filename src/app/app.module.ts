@@ -34,6 +34,8 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { CoinsPage } from '../pages/coins/coins';
 import { SettingPage } from '../pages/setting/setting';
 
+import { ReviewPage } from '../pages/review/review';
+
 import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
@@ -62,6 +64,7 @@ firebase.initializeApp(firebaseConfig);
     Modalbottom,
     DeliveryAreaPage,
     GameDetailPage,
+    ReviewPage,
     FirstlandingPage,
     CameraselectPage,
     CoinsPage,
@@ -85,6 +88,7 @@ firebase.initializeApp(firebaseConfig);
     HomePage,
     MypagePage,
     ChatPage,
+    ReviewPage,
     SignupPage,
     ModalpagePage,
     FirstlandingPage,

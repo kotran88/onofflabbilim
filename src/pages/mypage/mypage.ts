@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage,AlertController, NavController, NavParams } from 'ionic-angular';
+import { IonicPage,Platform,ModalController,AlertController, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 import { ChatPage } from '../chat/chat';
-
+import {ReviewPage} from './../review/review'
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CoinsPage } from '../coins/coins';
 import { SettingPage } from '../setting/setting';
@@ -27,7 +27,7 @@ image_url:any;
 key:any;
 mypicref:any;
 firemain = firebase.database().ref();
-  constructor(public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams) {
     this.id=navParams.get("id")
     this.user=navParams.get("user");
     console.log(this.id,this.user)
@@ -41,6 +41,12 @@ firemain = firebase.database().ref();
     console.log(this.user);
   this.refreshorder();
     console.log(this.id,this.userid);
+
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
   }
 
 refreshorder(){
@@ -149,7 +155,21 @@ refreshorder(){
       })
     })
   }
-  
+  review(a){
+    console.log(a);
+    let modal = this.modal.create(ReviewPage,{},{ cssClass: 'test-modal' });
+    modal.onDidDismiss(data => {
+      if(data!=undefined){
+        console.log(data);
+
+        // this.uploadImageToFirebase(data);
+      }
+     
+    });
+    modal.present();
+
+
+  }
   encodeImageUri(imageUri, callback) {
     var c = document.createElement('canvas');
     var ctx = c.getContext("2d");
