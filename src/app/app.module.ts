@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, ViewController,IonicErrorHandler, IonicModule } from 'ionic-angular';
 // import { SplashScreen } from '@ionic-native/splash-screen';
-// import { StatusBar } from '@ionic-native/status-bar';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LoginpagePage} from './../pages/loginpage/loginpage'
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -30,7 +30,11 @@ import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { HttpModule } from '@angular/http'
 import { ChatroomlistPage } from '../pages/chatroomlist/chatroomlist';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { CoinsPage } from '../pages/coins/coins';
+import { SettingPage } from '../pages/setting/setting';
 
+import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -54,10 +58,13 @@ firebase.initializeApp(firebaseConfig);
     ModalpagePage,
     ChatPage,
     SignupPage,
+    SettingPage,
     Modalbottom,
     DeliveryAreaPage,
     GameDetailPage,
+    FirstlandingPage,
     CameraselectPage,
+    CoinsPage,
     ChatroomlistPage,
   ],
   imports: [
@@ -73,11 +80,14 @@ firebase.initializeApp(firebaseConfig);
     MyApp,
     DetailPage,
     LoginpagePage,
+    CoinsPage,
+    SettingPage,
     HomePage,
     MypagePage,
     ChatPage,
     SignupPage,
     ModalpagePage,
+    FirstlandingPage,
     Modalbottom,
     OrderpagePage,
     DeliveryAreaPage,
@@ -86,8 +96,9 @@ firebase.initializeApp(firebaseConfig);
     ChatroomlistPage,
   ],
   providers: [
-    // StatusBar,
+    StatusBar,
     // SplashScreen,
+    AppVersion,
     Camera,
     InAppBrowser,
     OneSignal,

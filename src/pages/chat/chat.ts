@@ -32,6 +32,7 @@ export class ChatPage {
   chatDate=[];
   chatUser=[];
   chatImage=[];
+  chatck=[];
   image='';
   imageUrl='';
   text='';
@@ -42,14 +43,14 @@ export class ChatPage {
   deviceId='';
   lloading:any;
 
-  room_list_flag=true;
-
   pre_diffHeight = 0;
 
   constructor(public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
     // localStorage.setItem('id','01023393927');
-    this.id=localStorage.getItem("id");
-    
+    // this.id=localStorage.getItem("id");
+
+    this.id=navParams.get("id")
+
     console.log(this.id)
     this.chatMsg=[];
     this.chatDate=[];
@@ -57,12 +58,6 @@ export class ChatPage {
     this.chatImage=[];
     this.log_cnt=0;
 
-    if(this.id===this.admin_id){
-      this.room_user=navParams.get("user").phone;
-    }
-    else{
-      this.room_user=this.id;
-    }
     console.log(this.room_user);
 
     var firetemp:any;
@@ -77,38 +72,54 @@ export class ChatPage {
 
     this.firedata.child(this.room_user).once('value',(snapshots) =>{
       this.read_log(snapshots)
+    }).then(()=>{
+      this.firedata.child(this.room_user).on('value',(snapshots) =>{
+        this.read_log(snapshots)
+      })
     })
+  }
 
-    this.firedata.child(this.room_user).on('value',(snapshots) =>{
-      this.read_log(snapshots)
-    })
+  read_check(n,i){
+    this.chatck[n]=' ';
+    this.firedata.child(this.room_user).child(i).update({readck:' '})
   }
 
   read_log(snapshots){
     console.log(snapshots.val())
     var cnt=0;
-    snapshots.forEach(element => {
+    // snapshots.forEach(element => {
+    for(var i in snapshots.val()){
       if(this.log_cnt>cnt){}
       else{
-        // document.getElementById("input").focus();
-        this.chatUser.push(element.val().user);
-        this.chatMsg.push(element.val().text);
-        this.chatDate.push(element.val().date);
-        this.chatImage.push(element.val().image);
-        console.log(element.val())
+        
+        if(snapshots.val()[i].user!=this.id){
+          this.read_check(cnt,i)
+        }
+
+        this.chatUser.push(snapshots.val()[i].user);
+        this.chatMsg.push(snapshots.val()[i].text);
+        this.chatDate.push(snapshots.val()[i].date);
+        this.chatImage.push(snapshots.val()[i].image);
+        this.chatck.push(snapshots.val()[i].readck);
+
+        if(snapshots.val()[i].user!=this.id){this.chatck[this.chatck.length-1]=' ';}
+
+        console.log(snapshots.val()[i])
         console.log('update')
         // this.chatlist.scrollTop=this.chatlist.scrollHeight;
       }
       cnt++;
-    })
+    }
     console.log(this.chatUser);
     console.log(this.chatMsg);
     console.log(this.chatDate);
     console.log(this.chatImage);
+    console.log(this.chatck)
+    console.log()
     this.log_cnt=cnt;
     setTimeout(() => {
       this.chatlist.scrollToBottom();          
-    }, 1000);
+    }, 100);
   }
 
   pad(n, width):String{
@@ -168,6 +179,7 @@ export class ChatPage {
             text:this.text,
             date: this.now,
             image:this.imageUrl,
+            readck:'1',
           }
         ).then(()=>{
           this.text='';

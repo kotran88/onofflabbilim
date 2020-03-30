@@ -1,19 +1,32 @@
-import { Component,NgZone } from '@angular/core';
+import { Component,NgZone,ViewChild } from '@angular/core';
 import { IamportCordova } from '@ionic-native/iamport-cordova';
 import {DetailPage} from './../detail/detail'
-import { IonicPage, AlertController,NavController, NavParams } from 'ionic-angular';
+import { IonicPage, Slides,ModalController,ViewController,Events,Platform,App,AlertController,NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 
+// import { Geolocation } from '@ionic-native/geolocation/';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { MypagePage} from './../../pages/mypage/mypage';
 import { LoginpagePage} from './../../pages/loginpage/loginpage';
+import { ChatPage } from '../chat/chat';
+import { CoinsPage } from '../coins/coins';
+
+import { SettingPage } from '../setting/setting';
+import { FirstlandingPage } from '../firstlanding/firstlanding';
+
+
+declare var naver: any;
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
-  selectedbutton:any='vr'
 
+export class HomePage {
+
+  @ViewChild(Slides) slidess: Slides;
+  selectedbutton:any='vr'
   name:any;
   logined:any="false"
   firemain = firebase.database().ref();
@@ -24,20 +37,67 @@ export class HomePage {
   dsgamearray=[];
   switchgamearray=[];
   psgamearray=[];
+  lat:any;
+  lng:any;
   setting:any;
   id:any;
+  version:any;
   realswitcharray:any;
   loginflag:any;
   userid:any;
   realpsarray:any;
   user:any;
-  constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
+  ionViewWillEnter(){
+    
+  }
+
+  constructor(public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
     localStorage.setItem('id','01079998598')
+  
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
+    if(this.loginflag=='false'){
+      let modal = this.modal.create(FirstlandingPage,{},{ cssClass: 'test-modal' });
+      modal.onDidDismiss(data => {
+        if(data!=undefined){
+          console.log(data);
+  
+          // this.uploadImageToFirebase(data);
+        }
+       
+      });
+      modal.present();
+    }
     // this.id="kotran88@gmail.com";
-   
+    // setTimeout(()=>{
+      // this.platform.registerBackButtonAction(() => {
+      //   window.alert("back pressed");
+
+      //   let nav = this.app.getActiveNav();
+      //   let activeView = nav.getActive();
+      
+      // console.log("back presseddddd");
+      // console.log(nav)
+      // console.log(activeView)
+      // this.platform.exitApp();
+      //     });
+
+      // },1000);
+      setTimeout(()=>{
+        this.platform.registerBackButtonAction(() => {
+  
+          let nav = this.app.getActiveNav();
+          let activeView = nav.getActive();
+        console.log("back presseddd");
+        window.alert("homepage"+this.view.name)
+        this.platform.exitApp();
+            });
+  
+        },500);
+  
+    this.event.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
+ 
     console.log(this.id);
     console.log(this.loginflag);
     console.log(this.userid);
@@ -57,14 +117,36 @@ export class HomePage {
           if(a=="expressmessage"){
             this.setting=snapshot.val()[a];
           }
+          if(a=="version"){
+            this.version=snapshot.val()[a];
+          }
           console.log(snapshot.val()[a]);
         }
+
+
+      var versionnumber="";
+      this.appVersion.getVersionNumber().then(version => {
+        versionnumber = version;
+
+
+      if(Number(this.version)>Number(versionnumber)){
+        window.alert("버전이다름!")
+      }
+
+        });
+
+       
+
       })
       this.firemain.child("category").once("value",(snapshot)=>{
+      //  this.slides.push({"url":"https://firebasestorage.googleapis.com/v0/b/bilim-fd9b0.appspot.com/o/promotion%2Fbgimage2.jpeg?alt=media&token=5cd0eef0-0d47-4b8d-9a1b-2fd099c0f2a6"})
+      //   this.slides.push({"url":"https://firebasestorage.googleapis.com/v0/b/bilim-fd9b0.appspot.com/o/promotion%2Fbgimage3.jpeg?alt=media&token=fed88c4d-53f2-4c38-a81f-ac1f88511746"})
+       
         for(var a in snapshot.val()){
           console.log(a)
           if(a=="promotion"){
             for(var b in snapshot.val()[a]){
+
               this.slides.push(snapshot.val()[a][b])
             }
           }
@@ -114,6 +196,40 @@ export class HomePage {
    this.OneSignalInstall();
   }
 
+// getGeo(){
+//   console.log("get geo come");
+//   var options = {
+//     timeout: 20000,
+//     enableHighAccuracy: false
+//     }
+
+//   this.geo.getCurrentPosition(options).then((success)=>{
+
+//     console.log(success);
+//     this.lat=success.coords.latitude;
+//     this.lng=success.coords.longitude; 
+//     // this.lat=37.565924;
+//     // this.lng=126.976895;
+//     console.log("currentlocatipn"+this.lat+"///"+this.lng);
+
+  
+//     naver.maps.Service.reverseGeocode({
+//       location: new naver.maps.LatLng(this.lat, this.lng),
+//   }, (status,response)=> {
+//       if (status !== naver.maps.Service.Status.OK) {
+//         console.log("status not ok");
+//           console.log(status);
+//       }else{
+//         console.log("status  ok");
+//         console.log(status);
+//       }
+//     })
+//   });
+// }
+  
+  logRatingChange(v){
+    console.log(v)
+  }
 
   OneSignalInstall()
   {
@@ -143,10 +259,41 @@ export class HomePage {
     })
     this.oneSignal.endInit();
   }
+  coinpoint(){
+    if(this.loginflag=='false'){
+
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.navCtrl.push(CoinsPage,{"id":this.id,"user":this.user});
+    }
+   
+      }
+      settings(){
+        if('false'==this.loginflag){
+          this.confirmAlert("회원가입/로그인을 해주세요")
+        }else{
+          this.navCtrl.push(SettingPage,{"id":this.id,"user":this.user})
+        }
+      
+      }
+  go_chat(){
+
+    if('false'==this.loginflag){
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.navCtrl.push(ChatPage,{"id":this.id})
+    }
+  
+  }
 
   mypage(){
+    if('false'==this.loginflag){
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
+    }
     console.log("mypage come")
-    this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
+    
   }
   logout(){
     localStorage.setItem("key",null);
@@ -170,7 +317,7 @@ export class HomePage {
   }
 
   confirmAlert(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
         buttons: [  
           {
@@ -182,8 +329,9 @@ export class HomePage {
           },
         {
           role:'Ok',
-          text: '확인2',
+          text: '이동',
           handler: () => {
+            this.navCtrl.push(LoginpagePage)
             console.log('Buy clicked');
           }
         }]

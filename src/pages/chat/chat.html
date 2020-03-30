@@ -15,10 +15,15 @@
 
 <ion-content class="chat-area" id="scrfcs">
   <div *ngFor="let a of chatUser; let i = index;">
+
+    <div [ngClass]="chatUser[i]===id ? 'my-userbox':'other-userbox'">
       <div [ngClass]="chatUser[i]==id ? 'my-user':'other-user'">
           <img *ngIf="chatImage[i]!=''" src="{{chatImage[i]}}" class="img" (click)="clicked()"/>
           {{chatMsg[i]}}
       </div>
+      <div *ngIf="chatUser[i]!=id" class="other_readck">{{chatck[i]}}</div>
+      <div *ngIf="chatUser[i]===id" class="my_readck">{{chatck[i]}}</div>
+    </div>
       <!-- <br> -->
   </div>
   <div id="scrfcs" style="height: 10px; width: 100%; float: left;"></div>

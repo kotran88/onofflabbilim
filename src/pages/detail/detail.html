@@ -35,7 +35,7 @@
   color:white;
       background: #70c5ed;" class="express">
     <p style="float:left; margin-left:20px; width:60%">배송비 </p> <p style="float:right;  width:30%">배송비 무료 </p>
-    <p style="float:left; margin-left:20px; width:45%;">배송안내 </p> <p style="float:right;  width:45%; margin-right:-45px;">{{expressmessage}} </p>
+    <p style="float:left; margin-left:20px; width:45%;">배송안내 </p> <p style="float:right;  width:45%; ">{{expressmessage}} </p>
   </div>
 
   <div  class="startrent">
@@ -54,6 +54,13 @@
     </ion-list>
   </div>
 
+  <style>
+    .m10 { font-size: 14px; }
+    .m15 { font-size: 13px; }
+    .m20 { font-size: 12px; }
+    .mov { font-size: 11px; }
+  </style>
+
   <div style="height: auto; display: table;" class="gameselect">
     <div  style="width: 33%; height: 220px; text-align: center; padding: 10px;
         float: left;"  *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'" >
@@ -62,7 +69,11 @@
         <!-- <img style="position:" -->
         <br>
         <span style="text-align: center;">
-          <p style="margin:0px; font-weight: bold; font-size: 16px; height: auto;"> {{game.name}}</p>
+            <!-- <p style="margin:0px; font-weight: bold; height: auto;" [ngStyle]="{'font-size': game.font_size+'px'}">{{game.name}}</p> -->
+          <div style="height: 35px; margin-bottom: 5px;">
+            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
+            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[1]}}</p>
+          </div>
        
           <!-- <p style="float:left; margin:0px;">정가 :</p>
           <p style="text-decoration: line-through; margin:0px;">{{game.fullprice}} 원</p> -->
@@ -72,7 +83,7 @@
       </div>
 
       <button style="background: transparent;  
-      margin-top: 15px; border: solid 1px; height: 40px;" (click)="gotogamedetail(game)">
+      margin-top: 0px; border: solid 1px; height: 40px;" (click)="gotogamedetail(game)">
         상세설명보기
       </button>
      
@@ -85,7 +96,7 @@
   <!-- <div class="banner">
     배너 영역
   </div> -->
-  <div style="
+  <!-- <div style="
   width: 100%;
   height: 50px;
   line-height: 50px;
@@ -124,13 +135,13 @@
   </div>
   <div *ngIf="fourthshow==true" class="description">
     교환/반품
-  </div>
+  </div> -->
 
 
 
 </ion-content>
 
-<div (click)="orderpage()" style="position: absolute;
+<div *ngIf="loginflag=='true'" (click)="orderpage()" style="position: absolute;
   bottom: 0%;
   width: 100%;
   z-index: 99999;
@@ -141,4 +152,17 @@
   font-size: 18px;
   line-height: 10px;
   color: white;">빌리기 (1/3)</p>
+</div>
+
+<div *ngIf="loginflag=='false'" (click)="gotologin()" style="position: absolute;
+  bottom: 0%;
+  width: 100%;
+  z-index: 99999;
+  height: 50px;
+  text-align: center;
+  background: #E5333F;" class="order">
+  <p style="
+  font-size: 18px;
+  line-height: 10px;
+  color: white;">회원가입/로그인하고 빌리기</p>
 </div>
