@@ -9,7 +9,6 @@ import { OrderpagePage } from '../pages/orderpage/orderpage';
 
 import { SignupPage } from '../pages/signup/signup';
 import { ChatPage } from '../pages/chat/chat';
-import {ChatroomlistPage} from '../pages/chatroomlist/chatroomlist'
 @Component({
   templateUrl: 'app.html'
 })

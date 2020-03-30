@@ -29,7 +29,7 @@ import { CameraselectPage } from './../pages/cameraselect/cameraselect'
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { HttpModule } from '@angular/http'
-import { ChatroomlistPage } from '../pages/chatroomlist/chatroomlist';
+// import { ChatroomlistPage } from '../pages/chatroomlist/chatroomlist';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { CoinsPage } from '../pages/coins/coins';
 import { SettingPage } from '../pages/setting/setting';
@@ -65,7 +65,7 @@ firebase.initializeApp(firebaseConfig);
     FirstlandingPage,
     CameraselectPage,
     CoinsPage,
-    ChatroomlistPage,
+    // ChatroomlistPage,
   ],
   imports: [
     BrowserModule,
@@ -93,7 +93,7 @@ firebase.initializeApp(firebaseConfig);
     DeliveryAreaPage,
     GameDetailPage,
     CameraselectPage,
-    ChatroomlistPage,
+    // ChatroomlistPage,
   ],
   providers: [
     StatusBar,

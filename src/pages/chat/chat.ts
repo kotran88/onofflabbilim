@@ -39,13 +39,13 @@ export class ChatPage {
   now='';
   log_cnt:any;
   admin_id="01079998598";
-  room_user="01023393927";
   deviceId='';
   lloading:any;
 
   pre_diffHeight = 0;
 
   constructor(public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
+
 
     this.id=navParams.get("id")
 
@@ -56,55 +56,55 @@ export class ChatPage {
     this.chatImage=[];
     this.log_cnt=0;
 
-    console.log(this.room_user);
-
     var firetemp:any;
-    if(this.id===this.admin_id) firetemp=firebase.database().ref('users').child(this.room_user);
-    else firetemp=firebase.database().ref('users').child(this.admin_id)
+    firetemp=firebase.database().ref('users').child(this.admin_id)
 
     firetemp.once('value').then((snap)=>{
       console.log(snap.val());
       this.deviceId=snap.val().deviceId;
     })
 
-    this.firedata.child(this.room_user).once('value',(snapshots) =>{
+    this.firedata.child(this.id).once('value',(snapshots) =>{
       this.read_log(snapshots)
     }).then(()=>{
-      this.firedata.child(this.room_user).on('value',(snapshots) =>{
+      this.firedata.child(this.id).on('value',(snapshots) =>{
         this.read_log(snapshots)
       })
     })
+
+    // setInterval(function(){
+    //   this.firedata.child(this.id).once('value',(snapshots) =>{
+    //     this.read_log(snapshots)
+    //   })
+    // },1000)
   }
 
   read_check(n,i){
-    this.chatck[n]=' ';
-    this.firedata.child(this.room_user).child(i).update({readck:' '})
+    this.firedata.child(this.id).child(i).update({readck:' '})
   }
 
   read_log(snapshots){
     console.log(snapshots.val())
     var cnt=0;
-    // snapshots.forEach(element => {
     for(var i in snapshots.val()){
-      if(this.log_cnt>cnt){}
-      else{
-        
-        if(snapshots.val()[i].user!=this.id){
-          this.read_check(cnt,i)
-        }
-
-        this.chatUser.push(snapshots.val()[i].user);
-        this.chatMsg.push(snapshots.val()[i].text);
-        this.chatDate.push(snapshots.val()[i].date);
-        this.chatImage.push(snapshots.val()[i].image);
-        this.chatck.push(snapshots.val()[i].readck);
-
-        if(snapshots.val()[i].user!=this.id){this.chatck[this.chatck.length-1]=' ';}
-
-        console.log(snapshots.val()[i])
-        console.log('update')
-        // this.chatlist.scrollTop=this.chatlist.scrollHeight;
+      
+      if(snapshots.val()[i].user!=this.id){
+        console.log(cnt);
+        this.read_check(cnt,i)
+        this.chatck[cnt]=' ';
       }
+      else this.chatck[cnt]=snapshots.val()[i].readck;
+
+      this.chatUser[cnt]=snapshots.val()[i].user;
+      this.chatMsg[cnt]=snapshots.val()[i].text;
+      this.chatDate[cnt]=snapshots.val()[i].date;
+      this.chatImage[cnt]=snapshots.val()[i].image;
+
+      if(snapshots.val()[i].user!=this.id){
+        this.chatck[cnt]=' ';
+      }
+
+      console.log(snapshots.val()[i])
       cnt++;
     }
     console.log(this.chatUser);
@@ -116,7 +116,7 @@ export class ChatPage {
     this.log_cnt=cnt;
     setTimeout(() => {
       this.chatlist.scrollToBottom();          
-    }, 100);
+    }, 1000);
   }
 
   pad(n, width):String{
@@ -166,11 +166,11 @@ export class ChatPage {
       }
     }
     else if(mode===2){
-      console.log('room : '+this.room_user)
+      console.log('room : '+this.id)
       console.log('now : '+this.now)
       if(this.text===''&&this.image===''){}
       else{
-        this.firedata.child(this.room_user).child(this.now).update(
+        this.firedata.child(this.id).child(this.now).update(
           {
             user:this.id,
             text:this.text,

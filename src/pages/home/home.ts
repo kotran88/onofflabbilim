@@ -52,7 +52,7 @@ export class HomePage {
   }
 
   constructor(public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
-    localStorage.setItem('id','01079998598')
+    // localStorage.setItem('id','01079998598')
   
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
@@ -281,7 +281,11 @@ export class HomePage {
     if('false'==this.loginflag){
       this.confirmAlert("회원가입/로그인을 해주세요")
     }else{
-      this.navCtrl.push(ChatPage,{"id":this.id})
+      this.navCtrl.push(ChatPage,{"id":this.id}).then(() => {
+        this.navCtrl.getActive().onDidDismiss(data => {
+          firebase.database().ref('message').child(this.id).off();
+        })
+      })
     }
   
   }
