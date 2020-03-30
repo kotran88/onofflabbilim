@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
+import { IonicPage,App, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
 
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 
@@ -52,6 +52,7 @@ export class DetailPage {
   startDate_text:any;
   endDate_text:any;
   gamearray=[];
+  loginflag:any="false";
   diff:any;
   maker:any;
   startDate:any= new Date().toISOString();
@@ -127,14 +128,37 @@ export class DetailPage {
       );
     });
   }
-
-  constructor(public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
+  gotologin(){
+    this.navCtrl.push(LoginpagePage)
+  }
+  constructor(public app:App,public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
     this.detail=navParams.get("a")
     this.user=navParams.get("user");
+
+    this.loginflag=localStorage.getItem("loginflag");
     console.log("user is : "+this.user);
    console.log(this.detail);
     var date = new Date();
 
+
+    setTimeout(()=>{
+      this.platform.registerBackButtonAction(() => {
+
+        let nav = this.app.getActiveNav();
+        let activeView = nav.getActive();
+      console.log("back pressed");
+      console.log(nav)
+      console.log(activeView)
+      window.alert(this.view.name);
+      if(this.view.name=="HomePage"){
+        this.platform.exitApp();
+      }else{
+        this.view.dismiss();
+      }
+      
+          });
+
+      },500);
     this.startDate=date.toISOString();
     this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 

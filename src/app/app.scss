@@ -17,6 +17,9 @@ ion-header{
 .header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after, .footer-md::before, .tabs-md[tabsPlacement="bottom"] > .tabbar::before{
     background-image: unset !important;
 }
+.header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after{
+    border-bottom: 0px !important;
+}
 .toolbar-md{
     min-height: 50px !important;
 }

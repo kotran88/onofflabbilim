@@ -16,7 +16,7 @@
 
 <ion-content fullscreen>
 
-  <div *ngIf="login_check===false&&phone_check===false">
+  <div >
     <div *ngIf="certified_check===false">
       <img class="srimg" src="../../assets/img/security-image.png"/>
 
@@ -35,11 +35,11 @@
       <a>개인정보 취급방침</a>
     </div>
 
-    <div *ngIf="certified_check===true">
+    <!-- <div >
       <ion-input class="input-box" placeholder="인증번호를 입력해주세요." [(ngModel)]="code" type="number"></ion-input>
       <button ion-button class="btn" (click)="login()"
         style="background-color: rgb(255,127,64); color: rgb(250, 250, 250);">동의하고 시작하기</button>
-    </div>
+    </div> -->
   </div>
 
   <div *ngIf="phone_check===true" style="text-align: center;">

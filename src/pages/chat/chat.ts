@@ -116,7 +116,7 @@ export class ChatPage {
     this.log_cnt=cnt;
     setTimeout(() => {
       this.chatlist.scrollToBottom();          
-    }, 1000);
+    }, 100);
   }
 
   pad(n, width):String{

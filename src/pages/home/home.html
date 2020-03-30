@@ -7,45 +7,98 @@
       background-image: none !important;
       border-bottom: none !important;">
     <div style="  font-size:17px;  text-align: center;" class="title">
-      그그그?
-    </div>
-    <img src="assets/img/magnify.png" (click)="mypage();" style="font-size: 1.8em;
-      right: 15%;
-      width:22px;
-      position: absolute;
-      color:gray;
-      bottom: 10px;" name="search"
+    <span style="
+    width: 100%;
+    margin-left: 100px;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;">
+      Ming
+    </span>  
+
+    <div style="
+    float: right;" class="righticonarea">
+      <img (click)="coinpoint();" src="assets/img/coinimage.png"style="font-size: 1.8em;
+      right: 15%; 
+    margin-top: 15px;
+      width:22px;" name="search"
     />
+    <ion-icon style="
+    font-size: 30px;
+    margin-left: 10px;" name="settings" (click)="settings();"></ion-icon>
+    <ion-icon style="
+    font-size: 30px;
+    margin-left: 10px;" name="contact"  (click)="mypage();" ></ion-icon>
+     </div>
+    </div>
+
+   
   </ion-navbar>
 </ion-header>
 
 <ion-content class="home">
 
-  <ion-slides class="firstslide" style="width:100% !important;" pager style="height:auto; margin-top: 20px;">
+  <ion-slides *ngIf="slides && slides.length" pager="true" autoplay="5000" loop=true speed=1000 class="firstslide" style=" width:100% !important;"  style="height:auto; margin-top: 20px; margin-top:40px !important;">
     <ion-slide style="width:100% !important;" *ngFor="let slide of slides">
-        <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" [src]="slide.url">
+
+        <!-- <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" src="sli"> -->
+
+        <img style="width:100% !important; height:100% !important;"  [src]="slide.url">
     </ion-slide>
   </ion-slides>
 
-  <p  style="font-size: 1.5rem; margin-left: 1em;">Nintentdo Switch</p>
+  <p  style="font-size:20px; 
+  margin-bottom: 0px; text-align: center;">Nintentdo Switch</p>
   <!-- <div class="test"> -->
-    <div (click)="gotoshop(switcharray[2])" style="width: 200px; text-align: center;">
+    <div (click)="gotoshop(switcharray[2])" style="
+    width: 70%;
+    text-align: center;
+    margin: auto;">
       <img  class= 'imagereservation' src="{{realswitcharray}}" style="height:150px;"/>
-      <span   class="s">
-        <p style="margin-top: 15px;  font-size: 12px !important;">Nintendo Switch</p>
-      </span>
+    </div>
+  <!-- </div> -->
+<hr>
+  <p id="ps"  style="font-size:20px; 
+  margin-bottom: 0px; text-align: center;">Playstation</p>
+  <!-- <div  class="test"> -->
+    <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" style=" width: 70%;
+    text-align: center;
+    margin: auto;">
+      <img  style="height: 150px;"   class= 'imagereservation' src="{{realpsarray}}"/>
     </div>
   <!-- </div> -->
 
-  <p id="ps"  style="font-size: 1.5rem; margin-left: 1em;">Playstation</p>
-  <!-- <div  class="test"> -->
-    <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" style="width: 200px; text-align: center;">
-      <img  style="height: 150px;"   class= 'imagereservation' src="{{realpsarray}}"/>
-      <span class="s">
-        <p  style="margin-top: 15px;  font-size: 12px !important;">PayStation</p>
-      </span>
-    </div>
-  <!-- </div> -->
+  <div  class="description">
+    
+    <p style="font-size:15px; font-weight: bold; text-align: center;">
+
+     이용 후기
+    </p>
+
+    <ionic3-star-rating style="
+    text-align: center;" #rating
+        activeIcon = "ios-star"
+        defaultIcon = "ios-star-outline"
+        activeColor = "#46B033" 
+        defaultColor = "#f4f4f4"
+        readonly="false"
+        rating="3"
+        fontSize = "32px"
+        (ratingChanged)="logRatingChange($event)">
+    </ionic3-star-rating>
+
+    <ion-list>
+      <ion-item>
+        <ion-label>1 Yellow</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>2 Yellow</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>3 Yellow</ion-label>
+      </ion-item>
+      </ion-list>
+  </div>
 
   <footer class="putter_base">
     <div class="putter_text">대표이사:</div><div class="putter_text2">정평두</div>
@@ -73,64 +126,6 @@
     </button>
   </ion-fab>
   
-  <ion-menu class="menu" side="right"  [content]="content">  
-    <ion-content class="c">
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        dddd
-        <p class="logo" *ngIf="p.title=='고객센터(1:1문의)'"></p>
-      </button>
-            
-      <div *ngIf="loginflag=='true'" class="profile">
-        <div class="left" >
-          <p style="line-height: 6rem;">{{id}}</p>
-
-          <button (click)="logout();">로그아웃</button>
-        </div>
-        <div class="right"></div>
-      </div>
-      
-      <div  *ngIf="loginflag=='false'" class="profile">
-        <button style="    background: transparent;
-            color: black;
-            border: solid 1px;
-            width: 70%; border-radius: 10px;
-            font-size: 13px;" ion-button (click)="kakaoLogin()">
-          로그인
-        </button>
-      </div>
-      
-      <ion-list>
-        <ion-item (click)="openrulepage()">
-        </ion-item>
-        <ion-item  (click)="openrule2page()">
-          개인정보 처리 방침
-        </ion-item>
-      </ion-list>
-      
-      <button style="background: aliceblue;
-          color: black;
-          top: 2rem;
-          height: 5%;
-          width: 70%;
-          left: 15%;
-
-          border-radius:10px;
-          font-size: 13px;" ion-button (click)="share()">
-        친구에게 알리기
-      </button>
-
-      <button *ngIf="logined=='true'" style="background: aliceblue;
-          color: black;
-          top: 2rem;
-          height: 5%;
-          width: 70%;
-          left: 15%;
-          border-radius:10px;
-          font-size: 13px;" ion-button  (click)="logout()">
-        로그아웃
-      </button>
-    </ion-content>
-  </ion-menu>
 </ion-content>
 
 <ion-nav id="nav" #content [root]="rootPage"></ion-nav>

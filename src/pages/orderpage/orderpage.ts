@@ -76,9 +76,8 @@ export class OrderpagePage {
     console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
     
     console.log(this.user);
-    // this.coins=this.user.points;
+    this.coins=this.user.points;
 
-    this.coins=10;
     console.log(this.hardware);
     console.log(this.gamearray)
     console.log("total price is : "+(Number(a)+Number(b)));
@@ -198,11 +197,11 @@ window.alert("모든 코인을 사용하였습니다.")
     // }
   }
   orderpage(){
-
+    
     var data = {
       pay_method : 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
-      name : '이응이응빌림',
+      name : 'Ming 코인충전',
       amount : this.pricetopay+"",
       app_scheme : 'ionickcp',
       buyer_email : 'iamport@siot.do',
@@ -232,16 +231,21 @@ window.alert("모든 코인을 사용하였습니다.")
           var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
           console.log(nnow);
           if(this.hardware!=undefined){
-            this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
+            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
               this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);
             })
   
           }else{
-            this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
+
+            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
               this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);
