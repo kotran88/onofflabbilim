@@ -46,8 +46,6 @@ export class ChatPage {
   pre_diffHeight = 0;
 
   constructor(public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
-    // localStorage.setItem('id','01023393927');
-    // this.id=localStorage.getItem("id");
 
     this.id=navParams.get("id")
 
@@ -63,7 +61,6 @@ export class ChatPage {
     var firetemp:any;
     if(this.id===this.admin_id) firetemp=firebase.database().ref('users').child(this.room_user);
     else firetemp=firebase.database().ref('users').child(this.admin_id)
-    //080 262 0100
 
     firetemp.once('value').then((snap)=>{
       console.log(snap.val());
