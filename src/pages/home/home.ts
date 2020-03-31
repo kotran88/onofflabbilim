@@ -1,7 +1,7 @@
 import { Component,NgZone,ViewChild } from '@angular/core';
 import { IamportCordova } from '@ionic-native/iamport-cordova';
 import {DetailPage} from './../detail/detail'
-import { IonicPage, Slides,ModalController,ViewController,Events,Platform,App,AlertController,NavController, NavParams } from 'ionic-angular';
+import { IonicPage, ToastController,Slides,ModalController,ViewController,Events,Platform,App,AlertController,NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 
 // import { Geolocation } from '@ionic-native/geolocation/';
@@ -47,17 +47,30 @@ export class HomePage {
   userid:any;
   realpsarray:any;
   user:any;
+  counter:any=0;
   ionViewWillEnter(){
     
   }
 
-  constructor(public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
-    // localStorage.setItem('id','01079998598')
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: '한번 더 뒤로가기를 누르면 앱이 종료됩니다.',
+      duration: 2000,
+      position: 'bottom'
+    });
   
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
+  }
+  constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
+    localStorage.setItem('id','01079998598')
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
-    if(this.loginflag=='false'){
+    if(this.loginflag=='false'||this.loginflag==null){
       let modal = this.modal.create(FirstlandingPage,{},{ cssClass: 'test-modal' });
       modal.onDidDismiss(data => {
         if(data!=undefined){
@@ -69,32 +82,22 @@ export class HomePage {
       });
       modal.present();
     }
-    // this.id="kotran88@gmail.com";
-    // setTimeout(()=>{
-      // this.platform.registerBackButtonAction(() => {
-      //   window.alert("back pressed");
+    platform.registerBackButtonAction(() => {
 
-      //   let nav = this.app.getActiveNav();
-      //   let activeView = nav.getActive();
-      
-      // console.log("back presseddddd");
-      // console.log(nav)
-      // console.log(activeView)
-      // this.platform.exitApp();
-      //     });
+      let nav = this.app.getActiveNav();
+      let activeView = nav.getActive();
+      console.log("back presseddd");
 
-      // },1000);
-      setTimeout(()=>{
-        this.platform.registerBackButtonAction(() => {
-  
-          let nav = this.app.getActiveNav();
-          let activeView = nav.getActive();
-        console.log("back presseddd");
-        window.alert("homepage"+this.view.name)
+      if (this.counter == 0) {
+        this.counter++;
+        this.presentToast();
+        setTimeout(() => { this.counter = 0 }, 2000)
+      } else {
+        // console.log("exitapp");
         this.platform.exitApp();
-            });
+      }
+    });
   
-        },500);
   
     this.event.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
  
@@ -245,7 +248,6 @@ export class HomePage {
     this.oneSignal.iOSSettings(iosSettings);
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     console.log("onesignal 22");
-
     console.log("onesiganl get id startedddddd")
     this.oneSignal.getIds().then(data => {
       console.log(data);
@@ -260,7 +262,7 @@ export class HomePage {
     this.oneSignal.endInit();
   }
   coinpoint(){
-    if(this.loginflag=='false'){
+    if(this.loginflag=='false'||this.loginflag==null){
 
       this.confirmAlert("회원가입/로그인을 해주세요")
     }else{
@@ -269,7 +271,7 @@ export class HomePage {
    
       }
       settings(){
-        if('false'==this.loginflag){
+        if('false'==this.loginflag||this.loginflag==null){
           this.confirmAlert("회원가입/로그인을 해주세요")
         }else{
           this.navCtrl.push(SettingPage,{"id":this.id,"user":this.user})
@@ -278,7 +280,7 @@ export class HomePage {
       }
   go_chat(){
 
-    if('false'==this.loginflag){
+    if('false'==this.loginflag||this.loginflag==null){
       this.confirmAlert("회원가입/로그인을 해주세요")
     }else{
       this.navCtrl.push(ChatPage,{"id":this.id}).then(() => {
@@ -291,7 +293,7 @@ export class HomePage {
   }
 
   mypage(){
-    if('false'==this.loginflag){
+    if('false'==this.loginflag||this.loginflag==null){
       this.confirmAlert("회원가입/로그인을 해주세요")
     }else{
       this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
@@ -360,20 +362,20 @@ export class HomePage {
   kakaoLogin(){
     this.navCtrl.push(LoginpagePage)
   }
-  onClickCertification() {
-    var userCode = 'imp10391932';
-    var data = {
-      merchant_uid: 'mid_' + new Date().getTime(),
-    };
-    var params = {
-      userCode: userCode,                           // 가맹점 식별코드
-      data: data, 
-      name:"홍길동",
-      phone:"010-7999-8598",                              // 결제 데이터
-      callback: function(response) {console.log(response); alert(JSON.stringify(response)); },                           // 콜백 함수
-    };
-    IamportCordova.certification(params);
-  }
+  // onClickCertification() {
+  //   var userCode = 'imp10391932';
+  //   var data = {
+  //     merchant_uid: 'mid_' + new Date().getTime(),
+  //   };
+  //   var params = {
+  //     userCode: userCode,                           // 가맹점 식별코드
+  //     data: data, 
+  //     name:"홍길동",
+  //     phone:"010-7999-8598",                              // 결제 데이터
+  //     callback: function(response) {console.log(response); alert(JSON.stringify(response)); },                           // 콜백 함수
+  //   };
+  //   IamportCordova.certification(params);
+  // }
   category2(v){
     console.log("category!")
     this.selectedbutton=v;

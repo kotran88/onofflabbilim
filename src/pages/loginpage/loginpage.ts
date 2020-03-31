@@ -96,7 +96,7 @@ export class LoginpagePage {
   }
 
   login(){
-    this.firemain.child('user').child(this.phone).update(
+    this.firemain.child('users').child(this.phone).update(
       {
         'name':this.name,
         'phone':this.phone,

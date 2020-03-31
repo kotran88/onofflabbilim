@@ -71,12 +71,6 @@ export class ChatPage {
         this.read_log(snapshots)
       })
     })
-
-    // setInterval(function(){
-    //   this.firedata.child(this.id).once('value',(snapshots) =>{
-    //     this.read_log(snapshots)
-    //   })
-    // },1000)
   }
 
   read_check(n,i){
@@ -115,7 +109,7 @@ export class ChatPage {
     console.log()
     this.log_cnt=cnt;
     setTimeout(() => {
-      this.chatlist.scrollToBottom();          
+      this.chatlist.scrollToBottom();   
     }, 1000);
   }
 
@@ -143,8 +137,6 @@ export class ChatPage {
       if(data!=undefined){
         console.log(data);
         this.image=data;
-
-        // this.uploadImageToFirebase(data);
       }
       else this.image='';
     });
@@ -182,8 +174,13 @@ export class ChatPage {
           this.text='';
           this.image='';
           console.log('upload ok')
+
+          setInterval(function(){
+            if(this.chatck[this.chatck.length-1]==='1'){
+              this.send_push(this.text,this.imageUrl);
+            }
+          },1000)
         });
-        this.send_push(this.text,this.imageUrl);
       }
     }
   }

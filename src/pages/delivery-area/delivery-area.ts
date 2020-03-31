@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, Platform,NavController, NavParams, ViewController } from 'ionic-angular';
 import * as $ from 'jquery'
 import firebase from 'firebase';
 
@@ -24,7 +24,13 @@ export class DeliveryAreaPage {
   adress2='';
   adress3='';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
+  constructor(public platform:Platform,public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
+
   }
 
   adress_check(){

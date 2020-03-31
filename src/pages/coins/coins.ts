@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,AlertController, NavController, NavParams } from 'ionic-angular';
+import { IonicPage,Platform,AlertController, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
 /**
@@ -19,12 +19,18 @@ export class CoinsPage {
   id:any;
   
   firemain = firebase.database().ref();
-  constructor(public alertCtrl:AlertController,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platform:Platform,public alertCtrl:AlertController,public navCtrl: NavController, public navParams: NavParams) {
     this.id=this.navParams.get("id");
     this.user=this.navParams.get("user");
     console.log(this.id);
     console.log(this.user);
     this.mycoins=this.user.points;
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
+
   }
 
   ionViewDidLoad() {

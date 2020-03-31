@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone } from '@angular/core';
 import { IonicPage,App, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
 
 import { DatePicker } from '@ionic-native/date-picker/ngx';
@@ -131,7 +131,7 @@ export class DetailPage {
   gotologin(){
     this.navCtrl.push(LoginpagePage)
   }
-  constructor(public app:App,public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
+  constructor(public zone: NgZone,public app:App,public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
     this.detail=navParams.get("a")
     this.user=navParams.get("user");
 
@@ -140,25 +140,29 @@ export class DetailPage {
    console.log(this.detail);
     var date = new Date();
 
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
+    // setTimeout(()=>{
+    //   this.platform.registerBackButtonAction(() => {
 
-    setTimeout(()=>{
-      this.platform.registerBackButtonAction(() => {
-
-        let nav = this.app.getActiveNav();
-        let activeView = nav.getActive();
-      console.log("back pressed");
-      console.log(nav)
-      console.log(activeView)
-      window.alert(this.view.name);
-      if(this.view.name=="HomePage"){
-        this.platform.exitApp();
-      }else{
-        this.view.dismiss();
-      }
+    //     let nav = this.app.getActiveNav();
+    //     let activeView = nav.getActive();
+    //   console.log("back pressed");
+    //   console.log(nav)
+    //   console.log(activeView)
+    //   window.alert(this.view.name);
+    //   if(this.view.name=="HomePage"){
+    //     this.platform.exitApp();
+    //   }else{
+    //     this.view.dismiss();
+    //   }
       
-          });
+    //       });
 
-      },500);
+    //   },500);
     this.startDate=date.toISOString();
     this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 
@@ -317,20 +321,23 @@ export class DetailPage {
     location.href="#detail"
   }
   gameselected(v,i){
-     this.count=0;
-    this.gamearray[i].check=!this.gamearray[i].check;
-    console.log(this.gamearray);
-    if(this.gamearray[i].fflag==true){
-      this.gamearray[i].fflag=false;
-    }else{
-      this.gamearray[i].fflag=true;
-    }
-    for(var j=0; j<this.gamearray.length; j++){
-      if(this.gamearray[j].fflag==true){
-        this.count++;
+    this.zone.run(()=>{
+      this.count=0;
+      this.gamearray[i].check=!this.gamearray[i].check;
+      console.log(this.gamearray);
+      if(this.gamearray[i].fflag==true){
+        this.gamearray[i].fflag=false;
+      }else{
+        this.gamearray[i].fflag=true;
       }
-    }
-    console.log("count is : "+this.count);
+      for(var j=0; j<this.gamearray.length; j++){
+        if(this.gamearray[j].fflag==true){
+          this.count++;
+        }
+      }
+      console.log("count is : "+this.count);
+    })
+  
   }
   goback(){
     this.view.dismiss();
