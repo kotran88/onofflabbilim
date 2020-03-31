@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage,Platform,AlertController, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
+import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
 /**
  * Generated class for the CoinsPage page.
@@ -30,7 +31,6 @@ export class CoinsPage {
       this.navCtrl.pop();
       backAction();
     },2)
-
   }
 
   ionViewDidLoad() {
@@ -104,5 +104,38 @@ window.alert(totalcoin);
         cssClass: 'alertDanger'
     });
     alert.present({animate:false});
+  }
+
+  godown(){
+    console.log("ccccclicked")
+    console.log(this.mycoins);
+    if(this.mycoins==0){
+      window.alert("모든 코인을 사용하였습니다.")
+    }
+    else{
+    }
+  }
+  
+  goup(){
+    console.log("clicked")
+    console.log(this.mycoins);
+  
+    this.mycoins=this.mycoins-1;
+    // this.discount+=1000
+    // this.pricetopay=this.totalprice-this.discount;
+    setTimeout(() => {
+      $('#abc').animate({
+        bottom: '+=10'
+      }, 100,
+        function(){
+          console.log('done')
+          $('#abc').animate({
+            bottom: '-=10'
+          }, 100,function(){
+            console.log('done')
+          })
+        }
+      )
+    },10);
   }
 }
