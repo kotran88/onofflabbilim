@@ -66,7 +66,7 @@ export class HomePage {
     toast.present();
   }
   constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
-    localStorage.setItem('id','01079998598')
+    // localStorage.setItem('id','01079998598')
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
@@ -126,24 +126,15 @@ export class HomePage {
           console.log(snapshot.val()[a]);
         }
 
-
-      var versionnumber="";
-      this.appVersion.getVersionNumber().then(version => {
-        versionnumber = version;
-
-
-      if(Number(this.version)>Number(versionnumber)){
-        window.alert("버전이다름!")
-      }
-
+        var versionnumber="";
+        this.appVersion.getVersionNumber().then(version => {
+          versionnumber = version;
+          if(Number(this.version)>Number(versionnumber)){
+            window.alert("버전이다름!")
+          }
         });
-
-       
-
       })
       this.firemain.child("category").once("value",(snapshot)=>{
-      //  this.slides.push({"url":"https://firebasestorage.googleapis.com/v0/b/bilim-fd9b0.appspot.com/o/promotion%2Fbgimage2.jpeg?alt=media&token=5cd0eef0-0d47-4b8d-9a1b-2fd099c0f2a6"})
-      //   this.slides.push({"url":"https://firebasestorage.googleapis.com/v0/b/bilim-fd9b0.appspot.com/o/promotion%2Fbgimage3.jpeg?alt=media&token=fed88c4d-53f2-4c38-a81f-ac1f88511746"})
        
         for(var a in snapshot.val()){
           console.log(a)
@@ -199,37 +190,6 @@ export class HomePage {
    this.OneSignalInstall();
   }
 
-// getGeo(){
-//   console.log("get geo come");
-//   var options = {
-//     timeout: 20000,
-//     enableHighAccuracy: false
-//     }
-
-//   this.geo.getCurrentPosition(options).then((success)=>{
-
-//     console.log(success);
-//     this.lat=success.coords.latitude;
-//     this.lng=success.coords.longitude; 
-//     // this.lat=37.565924;
-//     // this.lng=126.976895;
-//     console.log("currentlocatipn"+this.lat+"///"+this.lng);
-
-  
-//     naver.maps.Service.reverseGeocode({
-//       location: new naver.maps.LatLng(this.lat, this.lng),
-//   }, (status,response)=> {
-//       if (status !== naver.maps.Service.Status.OK) {
-//         console.log("status not ok");
-//           console.log(status);
-//       }else{
-//         console.log("status  ok");
-//         console.log(status);
-//       }
-//     })
-//   });
-// }
-  
   logRatingChange(v){
     console.log(v)
   }
@@ -362,20 +322,6 @@ export class HomePage {
   kakaoLogin(){
     this.navCtrl.push(LoginpagePage)
   }
-  // onClickCertification() {
-  //   var userCode = 'imp10391932';
-  //   var data = {
-  //     merchant_uid: 'mid_' + new Date().getTime(),
-  //   };
-  //   var params = {
-  //     userCode: userCode,                           // 가맹점 식별코드
-  //     data: data, 
-  //     name:"홍길동",
-  //     phone:"010-7999-8598",                              // 결제 데이터
-  //     callback: function(response) {console.log(response); alert(JSON.stringify(response)); },                           // 콜백 함수
-  //   };
-  //   IamportCordova.certification(params);
-  // }
   category2(v){
     console.log("category!")
     this.selectedbutton=v;

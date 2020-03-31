@@ -31,7 +31,7 @@ export class DetailPage {
   secondshow:any=false;
   fourthshow:any=false;
   today=new Date();
-  count:any;
+  count=0;
   date: any;
   expressmessage:any;
   selectedarray=[];
@@ -72,13 +72,13 @@ export class DetailPage {
     console.log(a);
     console.log(b);
     var diff=a.getTime()-b.getTime();
-    var Difference_In_Days = diff / (1000 * 3600 * 24); 
+    var Difference_In_Days = diff / (1000 * 3600 * 24);
     diff=Difference_In_Days
     console.log(diff)
     diff=Math.floor(diff);
     diff=Math.abs(diff);
-    console.log(diff)
-    this.diff=diff;
+    this.diff=diff+1;
+    console.log(this.diff)
 
     // this.diff=this.diff+1;
     if(Difference_In_Days>0){
@@ -91,7 +91,7 @@ export class DetailPage {
       else {
         window.alert("반납일이 대여 시작일보다 빠를 수는 없습니다.")
         var a=new Date(this.startDate);
-        a.setDate(a.getDate()+3);
+        a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
@@ -145,44 +145,31 @@ export class DetailPage {
       this.navCtrl.pop();
       backAction();
     },2)
-    // setTimeout(()=>{
-    //   this.platform.registerBackButtonAction(() => {
 
-    //     let nav = this.app.getActiveNav();
-    //     let activeView = nav.getActive();
-    //   console.log("back pressed");
-    //   console.log(nav)
-    //   console.log(activeView)
-    //   window.alert(this.view.name);
-    //   if(this.view.name=="HomePage"){
-    //     this.platform.exitApp();
-    //   }else{
-    //     this.view.dismiss();
-    //   }
-      
-    //       });
-
-    //   },500);
     this.startDate=date.toISOString();
     this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 
-    date.setDate(date.getDate() + 3);
+    date.setDate(date.getDate() + 2);
 
     this.endDate=date.toISOString();
     this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 
+    this.datechange(1);
+    this.datechange(2);
+
     this.endDate=date.toISOString();
-    var startDate2=new Date();
     console.log(this.startDate);
     console.log(this.endDate);
 
-    console.log(date);
-    console.log(startDate2)
-    var diff=date.getTime()-startDate2.getTime();
+    // var startDate2=new Date();
+    // console.log(date);
+    // console.log(startDate2)
+    // var diff=date.getTime()-startDate2.getTime();
 
-    var Difference_In_Days = diff / (1000 * 3600 * 24); 
-    var diff=Difference_In_Days;
-    this.diff=Math.ceil(diff)
+    // var Difference_In_Days = diff / (1000 * 3600 * 24); 
+    // var diff=Difference_In_Days;
+    // this.diff=Math.ceil(diff)
+    // console.log(this.diff);
     this.gamearray=navParams.get("game");
     this.expressmessage=navParams.get("setting");
     this.maker=this.detail.maker;
@@ -394,9 +381,6 @@ export class DetailPage {
   }
   orderpage(){
     console.log(this.detail);
-   
-
-
     console.log(this.gamearray);
     for(var j=0; j<this.gamearray.length; j++){
       if(this.gamearray[j].fflag==true){
@@ -405,11 +389,16 @@ export class DetailPage {
     }
     console.log(this.count);
     console.log(this.gamearray);
+    console.log(this.diff);
     var a = localStorage.getItem("loginflag");
     console.log(a);
     if(a=="false"||a==null){
       this.confirmAlert("로그인이 필요한 서비스입니다.\n 로그인 페이지로 이동하시겠습니까?");
-    }else{
+    }
+    else if(this.count===0){
+      alert('1가지 이상의 게임을 선택해주세요.')
+    }
+    else{
       // this.navCtrl.push(OrderpagePage)
 
       var modaloption : ModalOptions={

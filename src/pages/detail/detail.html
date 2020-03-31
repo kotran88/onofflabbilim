@@ -10,7 +10,7 @@
     padding: 5px;" (click)="goback();" name="close">
     </ion-icon>
 
-    <div style="margin-top: 2%;">상세페이지</div>
+    <div style="position: absolute; top: 25%; width: 100%;">상세페이지</div>
 
     <div style="    font-size: 16px;
     text-align: center;
@@ -23,7 +23,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-slides class="firstslide" style="    margin-top: 15px; width:100% !important;" pager style="height:auto; margin-top: 20px;  ">
+  <ion-slides class="firstslide" style="margin-top: 15px; width:100% !important;" pager style="height:auto; margin-top: 20px;  ">
     <ion-slide style="width:100% !important;" *ngFor="let slide of arraying">
         <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" [src]="slide">
     </ion-slide>
@@ -34,8 +34,8 @@
   height: 80px;
   color:white;
       background: #70c5ed;" class="express">
-    <p style="float:left; margin-left:20px; width:60%">배송비 </p> <p style="float:right;  width:30%">배송비 무료 </p>
-    <p style="float:left; margin-left:20px; width:45%;">배송안내 </p> <p style="float:right;  width:45%; ">{{expressmessage}} </p>
+    <p style="float:left; width:20%; margin: 3% 3% 3% 5%;">배송비 </p> <p style="margin:3% 3% 3% 35%; float:right;  width:30%; text-align: end;">배송비 무료 </p>
+    <p style="float:left; width:20%; margin: 3% 3% 3% 5%;">배송안내 </p> <p style="margin:3% 3% 3% 20%; float:right;  width:45%; text-align: end;">{{expressmessage}} </p>
   </div>
 
   <div  class="startrent">

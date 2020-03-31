@@ -108,9 +108,9 @@ export class ChatPage {
     console.log(this.chatck)
     console.log()
     this.log_cnt=cnt;
-    setTimeout(() => {
+    // setTimeout(() => {
       this.chatlist.scrollToBottom();   
-    }, 1000);
+    // }, 1000);
   }
 
   pad(n, width):String{

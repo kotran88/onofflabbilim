@@ -100,11 +100,8 @@ firemain = firebase.database().ref();
               for(var c in snapshot.val()[a][b]){
                 this.hardwarearray.push(snapshot.val()[a][b][c]);
               }
-              
             }
-        }
-    
-      
+        }  
       }
     }
     console.log(this.hardwarearray)
