@@ -95,34 +95,35 @@ export class OrderpagePage {
   godown(){
     console.log("ccccclicked")
     console.log(this.coins);
+   
+  }
+  
+  clickcoin(){
+    console.log("clicked")
+    console.log(this.coins);
     if(this.coins==0){
       window.alert("모든 코인을 사용하였습니다.")
     }
     else{
-    }
-  }
-  
-  goup(){
-    console.log("clicked")
-    console.log(this.coins);
-  
-    this.coins=this.coins-1;
-    this.discount+=1000
-    this.pricetopay=this.totalprice-this.discount;
-    setTimeout(() => {
-      $('#abc').animate({
-        bottom: '+=10'
-      }, 100,
-        function(){
-          console.log('done')
-          $('#abc').animate({
-            bottom: '-=10'
-          }, 100,function(){
+      this.coins=this.coins-1;
+      this.discount+=1000
+      this.pricetopay=this.totalprice-this.discount;
+      setTimeout(() => {
+        $('#abc').animate({
+          bottom: '+=10'
+        }, 100,
+          function(){
             console.log('done')
-          })
-        }
-      )
-    },10);
+            $('#abc').animate({
+              bottom: '-=10'
+            }, 100,function(){
+              console.log('done')
+            })
+          }
+        )
+      },10);
+    }
+   
   }
 
   number_format(num) {

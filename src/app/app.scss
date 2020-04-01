@@ -1,4 +1,5 @@
 
+@import '../theme/fonts/_fonts.scss';
 // global
 * { 
     // font-family:'noto-sans';
@@ -401,10 +402,19 @@ ion-label.label-md {
     font-size: 12px;
 }
 
+// @font-face {
+//     font-family: 'nanum';
+//     src: url('../assets/fonts/NanumGothic.ttf') format("ttf");
+//     }
+
 @font-face {
-    font-family: 'nanum';
-    src: url('../assets/fonts/NanumGothic.ttf') format("ttf");
+    font-family: 'nanumm';
+    src: url('./../assets/fonts/NanumBarunpenRegular.ttf') format("ttf");
     }
-body{
-font-family: 'nanum' !important;
+    p{
+
+font-family: 'ggg' !important;
+    }
+*{
+font-family: 'ggg' !important;
 }

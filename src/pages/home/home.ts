@@ -107,13 +107,17 @@ export class HomePage {
 
     this.zone.run(()=>{
       console.log("id is : "+this.id);
-      
-      this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
-        console.log(snapshot.val());
-        this.user=snapshot.val();
-        console.log("user");
-        console.log(this.user);
-      })
+      if(this.id==null||this.id==undefined){
+        
+      }else{
+        this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
+          console.log(snapshot.val());
+          this.user=snapshot.val();
+          console.log("user");
+          console.log(this.user);
+        })
+      }
+  
      
       this.firemain.child("setting").once("value",(snapshot)=>{
         for(var a in snapshot.val()){
@@ -212,8 +216,11 @@ export class HomePage {
     this.oneSignal.getIds().then(data => {
       console.log(data);
       console.log("get id success"+data.userId)
-      this.firemain.child("users").child(this.id).update({"deviceId":data.userId})
-      localStorage.setItem("tokenvalue",data.userId);
+      if(this.id!=null&&this.id!=undefined){
+        this.firemain.child("users").child(this.id).update({"deviceId":data.userId})
+        localStorage.setItem("tokenvalue",data.userId);
+      }
+    
 
     }).catch((e)=>{
       // window.alert("onesignal error"+e);

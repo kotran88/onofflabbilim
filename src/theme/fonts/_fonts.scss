@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'latoregular';
+    src: url(../assets/fonts/Lato-Regular.ttf) format("ttf");
+    font-weight: normal;
+  font-style: normal;
+    }
+    @font-face {
+        font-family: 'notobold';
+        src: url("../../assets/fonts/NotoSans-Bold.ttf") format("truetype");
+        font-weight: normal;
+      font-style: normal;
+        }
+        @font-face {
+          font-family: 'ggg';
+          src: url("../../assets/fonts/NanumBarunpenRegular.ttf") format("truetype");
+          font-weight: normal;
+        font-style: normal;
+          }
+@font-face {
+    font-family: 'notosan';
+    src: url("../../assets/fonts/Lato-Regular.ttf") format("truetype");
+    font-weight: normal;
+  font-style: normal;
+    }
+    /* lato-regular - latin */
+@font-face {
+    font-family: 'Lato';
+    font-style: normal;  
+    font-weight: 400;
+    src: url('../assets/fonts/Lato-Bold.ttf') format("ttf"); /* IE9 Compat Modes */
+    src: local('Lato Regular'), local('Lato-Regular'),
+    url('../assets/fonts/Lato-Bold.ttf') format("ttf");
+  }
+
+  @font-face {
+    font-family: 'lll';
+    src: url('../../assets/fonts/Lato-Bold.ttf') format('truetype');
+    
+    }
+
+    @font-face {
+        font-family: 'latoo';
+        src: url('../assets/fonts/Lato-Bold.ttf') format("ttf");
+        }
+        @font-face {
+            font-family: 'lator';
+            src: url("../../assets/fonts/Lato-Regular.ttf") format("truetype");
+            }
+            @font-face {
+              font-family: 'latoregular';
+              src: url("../../assets/fonts/Lato-Regular.ttf") format("truetype");
+              }
+        @font-face {
+            font-family: 'notomedium';
+            src: url("../../assets/fonts/NotoSans-Medium.ttf") format("truetype");
+            font-weight: normal;
+          font-style: normal;
+            }
