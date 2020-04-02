@@ -1,138 +1,140 @@
 <ion-header>
-  <ion-navbar>
-    <ion-icon  style="color: black;
+    <!-- <ion-navbar> -->
+    <!-- <ion-icon  style="color: black;
     margin-left:5px;
     float: left;
     font-size: 1.5em; 
     width: 24px;
 font-size: 1.5em;
 height: 24px;
-padding: 5px;" (click)="goback();" name="close"></ion-icon>
+padding: 5px;" (click)="goback();" name="close"></ion-icon> -->
+    <button (click)="goback()" style="background-color: #fff; float:left; margin-top:10px;">
+  <img src="assets/img/back.png" style="width:25px;background-color: #fff;float:left;" alt="">
+</button>
+    <div style="margin-top: 2%;">주문페이지</div>
 
-<div style="margin-top: 2%;">주문페이지</div>
-
-<div style="    font-size: 16px;
+    <div style="    font-size: 16px;
 text-align: center;
 width: 85%;
 display: flow-root;
 float: left;" class="title">
- 
-</div>
-  </ion-navbar>
+
+    </div>
+    <!-- </ion-navbar> -->
 </ion-header>
 <ion-content padding>
 
-<ion-list style="
+    <ion-list style="
 ">
-  <ion-item (click)="view(0)"  [ngClass]="selected==0?'noselect':'select'">
- <div style="position:relative" class="main">
-  <p style="
+        <ion-item (click)="view(0)" [ngClass]="selected==0?'noselect':'select'">
+            <div style="position:relative" class="main">
+                <p style="
   line-height: 44px;" class="item-title">주문자 정보</p>
 
- </div>
-  <div class="clicked" class="display" style="background:rgb(246,246,246);
+            </div>
+            <div class="clicked" class="display" style="background:rgb(246,246,246);
    height:90px;
 white-space: initial !important; font-size:13px;
   border:0.5px solid rgb(234,234,234);
 ">
-<div style="
+                <div style="
 margin-left: 20px;" class="gameshowing">
-  <div  style="
+                    <div style="
   width: 90%;
   height: 110px; padding:10px;
-  "  >
-  <p> {{user.email}}</p>
-  <p>{{user.name}}</p>
-  <p>{{user.phone}}</p>
-        </div>
-</div>
-</div>
-  </ion-item>
+  ">
+                        <p> {{user.email}}</p>
+                        <p>{{user.name}}</p>
+                        <p>{{user.phone}}</p>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
 
-  <ion-item >
-    <div style="position:relative" class="main">
-     <p style="
-     line-height: 40px;"  class="item-title">주문상품</p>
-    </div>
-    
-    <div class="clicked" class="display" style="background:rgb(246,246,246); height:auto;
+        <ion-item>
+            <div style="position:relative" class="main">
+                <p style="
+     line-height: 40px;" class="item-title">주문상품</p>
+            </div>
+
+            <div class="clicked" class="display" style="background:rgb(246,246,246); height:auto;
         white-space: initial !important; font-size:13px;border:0.5px solid rgb(234,234,234);">
-        <p style="
+                <p style="
         font-size: 15px;
         font-weight: bold;
         margin-left: 20px;
         margin-top: 5px;">선택한 게임</p>
-    <div style="min-height: 150px; 
+                <div style="min-height: 150px; 
     padding: 10px; padding-top:0px;" class="gameshowing">
-      <div  style="
+                    <div style="
       width: 33%; 
     display: grid;
       height: 110px; padding:10px;
-      float: left;"  *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'" >
-        <img style="
+      float: left;" *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'">
+                        <img style="
         height: 80px;
-        width: 100%;" src="{{game.url}}"/>
-        <span style="font-weight: bold; font-size: 14px;">{{game.name}}
+        width: 100%;" src="{{game.url}}" />
+                        <span style="font-weight: bold; font-size: 14px;">{{game.name}}
         </span>
-        <span style="font-size:13px;">{{number_format(game.price)}}</span>
-            </div>
-    </div>
-    <p style="
+                        <span style="font-size:13px;">{{number_format(game.price)}}</span>
+                    </div>
+                </div>
+                <p style="
     font-size: 15px;
     font-weight: bold;
     margin-left: 20px;
     margin-top: 5px;">선택한 하드웨어</p>
-    
-    <div style="min-height: 150px;
+
+                <div style="min-height: 150px;
     padding: 10px; padding-top:0px;" *ngIf="hardware!=undefined" class="gameshowing">
-      <div  style="
+                    <div style="
       width: 33%;
     display: grid;
       height: 110px; padding:10px;
-      float: left;"  *ngIf="hardware.length!=0" >
-         <img style="
+      float: left;" *ngIf="hardware.length!=0">
+                        <img style="
          height: 80px;
-         width: 100%;" src="{{hardware.url}}"/>
+         width: 100%;" src="{{hardware.url}}" />
 
-<span style="font-weight: bold; font-size: 16px;">{{hardware.name}}
+                        <span style="font-weight: bold; font-size: 16px;">{{hardware.name}}
 </span>
-<span style="font-size:14px;">{{number_format(hardware.pricedaily)}}</span>
+                        <span style="font-size:14px;">{{number_format(hardware.pricedaily)}}</span>
+                    </div>
+                </div>
             </div>
-    </div>
-   </div>
-     </ion-item>
+        </ion-item>
 
 
-     <ion-item (click)="view(2)"  [ngClass]="selected==2?'noselect':'select'">
-      <div style="position:relative" class="main">
-       <p style="
+        <ion-item (click)="view(2)" [ngClass]="selected==2?'noselect':'select'">
+            <div style="position:relative" class="main">
+                <p style="
        line-height: 40px;   width: 70%;
        float: left;" class="item-title">배송지 정보</p>
-      <button (click)="Delivery_area()" style="background: transparent;
+                <button (click)="Delivery_area()" style="background: transparent;
           border: solid 1px; border-radius: 5px; margin-left:10px; margin-top: 10px;">
         입력/변경
       </button>
-      <!-- <button onclick="sample3_execDaumPostcode()" >입력/변경</button> -->
-      </div>
-       <div class="clicked display2" *ngIf="user.address==undefined||user.address==null" style="background:rgb(246,246,246);
+                <!-- <button onclick="sample3_execDaumPostcode()" >입력/변경</button> -->
+            </div>
+            <div class="clicked display2" *ngIf="user.address==undefined||user.address==null" style="background:rgb(246,246,246);
        padding:16px; height:auto;
      white-space: initial !important; font-size:13px;
        border:0.5px solid rgb(234,234,234);
      ">
-    <div *ngIf="Delivery_check===false">
-      <p >기본 배송지가 입력되지 않았습니다.</p>
-      <p >입력/변경 버튼을 통해 배송지 정보를 입력해주세요.</p>
-    </div>
+                <div *ngIf="Delivery_check===false">
+                    <p>기본 배송지가 입력되지 않았습니다.</p>
+                    <p>입력/변경 버튼을 통해 배송지 정보를 입력해주세요.</p>
+                </div>
 
-    <div *ngIf="Delivery_check===true">
-      <p>수령인 : {{Delivery.name}}</p>
-      <p>연락처 : {{Delivery.phone}}</p>
-      <p>우편번호 : {{Delivery.code}}</p>
-      <p>주소 : {{Delivery.adress}}</p>
-      <p>상세주소 : {{Delivery.detail_adress}}</p>
-    </div>
+                <div *ngIf="Delivery_check===true">
+                    <p>수령인 : {{Delivery.name}}</p>
+                    <p>연락처 : {{Delivery.phone}}</p>
+                    <p>우편번호 : {{Delivery.code}}</p>
+                    <p>주소 : {{Delivery.adress}}</p>
+                    <p>상세주소 : {{Delivery.detail_adress}}</p>
+                </div>
 
-   <!-- <input type="hidden" id="a" value=""/>
+                <!-- <input type="hidden" id="a" value=""/>
    <input type="hidden" id="b" value=""/>
 
    <input type="hidden" id="c" value=""/>
@@ -143,104 +145,104 @@ margin-left: 20px;" class="gameshowing">
       </div>
 
        -->
-     </div>
-     <div class="clicked" *ngIf="user.address!=undefined||user.address!=null" [ngClass]="selected==2?'display2':'nodisplay2'" style="background:rgb(246,246,246);
+            </div>
+            <div class="clicked" *ngIf="user.address!=undefined||user.address!=null" [ngClass]="selected==2?'display2':'nodisplay2'" style="background:rgb(246,246,246);
      padding:16px; height:auto;
    white-space: initial !important; font-size:13px;
      border:0.5px solid rgb(234,234,234);
    ">
-   
- 
-   </div>
+
+
+            </div>
 
 
 
-       </ion-item>
-       <ion-item  >
-        <div style="position:relative" class="main">
-          <p style="
+        </ion-item>
+        <ion-item>
+            <div style="position:relative" class="main">
+                <p style="
           line-height: 40px;" class="item-title">할인적용 <span style="font-size:9px; color:red;"> * 코인을 누르면 할인이 적용됩니다(코인 1개 = 1,000원)</span> </p>
-          </div>
+            </div>
 
-          <div class="clicked"  style="background:rgb(246,246,246);
+            <div class="clicked" style="background:rgb(246,246,246);
           height:auto;
        white-space: initial !important; font-size:13px;
          border:0.5px solid rgb(234,234,234);
        ">
-       <!-- <p style="margin-top:20px; margin-left:20px;">  가용포인트 &nbsp;&nbsp;  {{point}}
+                <!-- <p style="margin-top:20px; margin-left:20px;">  가용포인트 &nbsp;&nbsp;  {{point}}
         <input style="border-radius:10px; width:120px; border: solid 1px;" type="text"/><button style="background: transparent;
         border: solid 1px;
         border-radius: 5px; margin-left:10px;" >적용</button>
       </p> -->
 
 
-      <div style="     
+                <div style="     
       height: 100%;
       background: #70c5ed;
       color: white;
       " class="up">
-  
-  <div  (click)="clickcoin();" style="padding: 10px;
+
+                    <div (click)="clickcoin();" style="padding: 10px;
   height: 100%;
   text-align: center; 
     line-height: 50px;
   display: block;" class="upper2">
 
-  <div style=" 
+                        <div style=" 
   width: 50%;
   margin: auto;" class="inner">
-    <span style="display:inline-block;"> 코인 수 : </span> <img    id="abc" style="    vertical-align: middle;
+                            <span style="display:inline-block;"> 코인 수 : </span> <img id="abc" style="    vertical-align: middle;
     height: 25px;
     position: absolute; margin-top:10px;
     /* bottom: 30px; */
     width: 25px;
     text-align: center;
-    font-size: 80px;" src="/assets/img/coinimage.png"/><span style="
+    font-size: 80px;" src="/assets/img/coinimage.png" /><span style="
     margin-left: 30px;" class="coin">  x {{coins}}</span>
 
 
-  </div>
-   
-  </div>
-</div>
+                        </div>
 
-       
-       </div>
-       </ion-item>
-       <ion-item>
-        <div style="position:relative" class="main">
-          <p style="line-height: 44px;" class="item-title">주문시 결제금액 </p>
-         
-          </div>
-          <div class="clicked"  style="background:rgb(246,246,246);
+                    </div>
+                </div>
+
+
+            </div>
+        </ion-item>
+        <ion-item>
+            <div style="position:relative" class="main">
+                <p style="line-height: 44px;" class="item-title">주문시 결제금액 </p>
+
+            </div>
+            <div class="clicked" style="background:rgb(246,246,246);
             height:250px; margin-bottom: 50px;
             white-space: initial !important; font-size:13px;
             border:0.5px solid rgb(234,234,234);
           ">
-         
-<div style="margin-right:30px; text-align: right;" class="right">
-  <p style="
-  font-size: 16px;
-  font-weight: bold; margin-left:15px; margin-top:20px;">  총 금액</p>
-  <p style="margin-left:5px; margin-top:20px;">  {{number_format(totalprice)}}</p>
 
-  <p style="
+                <div style="margin-right:30px; text-align: right;" class="right">
+                    <p style="
   font-size: 16px;
-  font-weight: bold; margin-left:15px; margin-top:20px;">  할인 금액</p>
-  <p style="margin-left:5px; margin-top:20px;"> - {{number_format(discount)}}</p>
-  
-  <p style="
-  font-size: 16px;
-  font-weight: bold; margin-left:15px; margin-top:20px;">  지불 금액</p>
-  <p style="margin-left:5px; margin-top:20px;">  {{number_format(pricetopay)}}</p>
-</div>
-      
-      
-       </div>
-       </ion-item>
- 
+  font-weight: bold; margin-left:15px; margin-top:20px;"> 총 금액</p>
+                    <p style="margin-left:5px; margin-top:20px;"> {{number_format(totalprice)}}</p>
 
-</ion-list>
+                    <p style="
+  font-size: 16px;
+  font-weight: bold; margin-left:15px; margin-top:20px;"> 할인 금액</p>
+                    <p style="margin-left:5px; margin-top:20px;"> - {{number_format(discount)}}</p>
+
+                    <p style="
+  font-size: 16px;
+  font-weight: bold; margin-left:15px; margin-top:20px;"> 지불 금액</p>
+                    <p style="margin-left:5px; margin-top:20px;"> {{number_format(pricetopay)}}</p>
+                </div>
+
+
+            </div>
+        </ion-item>
+
+
+    </ion-list>
 
 </ion-content>
 
@@ -251,7 +253,7 @@ z-index: 99999;
 height: 50px;
 text-align: center;
 background: #E5333F;" class="order">
-<p style="
+    <p style="
 font-size: 18px;
 line-height: 10px;
 color: white;">빌리기 (3/3)</p>

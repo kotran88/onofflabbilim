@@ -37,7 +37,9 @@ export class CoinsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CoinsPage');
   }
-
+  goback(){
+    this.navCtrl.pop();
+  }
   charge(coin,value){
 console.log(coin+","+value);
 var totalcoin=0;
