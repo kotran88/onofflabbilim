@@ -61,6 +61,9 @@ refreshorder(){
   })
 }
 
+goback(){
+  this.navCtrl.pop();
+}
   go_chat(){
     this.navCtrl.push(ChatPage,{"id":this.id})
   }

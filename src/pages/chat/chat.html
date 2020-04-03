@@ -7,33 +7,35 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<ion-header>
-  <ion-navbar>
-    <ion-title style="width:100%">관리자와 대화</ion-title>
-  </ion-navbar>
+<ion-header style="background-color: rgb(240, 239, 239);">
+    <!-- <ion-navbar> -->
+    <button (click)="goback()" style="background-color: rgb(240, 239, 239); float:left; margin-top:10px;">
+        <img src="assets/img/back.png" style="width:25px;background-color: rgb(240, 239, 239);float:left;" alt="">
+      </button>
+    <ion-title>관리자와 대화</ion-title>
+    <!-- </ion-navbar> -->
 </ion-header>
 
 <ion-content class="chat-area" id="scrfcs">
-  <div *ngFor="let a of chatUser; let i = index;">
+    <div *ngFor="let a of chatUser; let i = index;">
 
-    <div [ngClass]="chatUser[i]===id ? 'my-userbox':'other-userbox'">
-      <div [ngClass]="chatUser[i]==id ? 'my-user':'other-user'">
-          <img *ngIf="chatImage[i]!=''" src="{{chatImage[i]}}" class="img" (click)="clicked()"/>
-          {{chatMsg[i]}}
-      </div>
-      <div *ngIf="chatUser[i]!=id" class="other_readck">{{chatck[i]}}</div>
-      <div *ngIf="chatUser[i]===id" class="my_readck">{{chatck[i]}}</div>
+        <div [ngClass]="chatUser[i]===id ? 'my-userbox':'other-userbox'">
+            <div [ngClass]="chatUser[i]==id ? 'my-user':'other-user'">
+                <img *ngIf="chatImage[i]!=''" src="{{chatImage[i]}}" class="img" (click)="clicked()" /> {{chatMsg[i]}}
+            </div>
+            <div *ngIf="chatUser[i]!=id" class="other_readck">{{chatck[i]}}</div>
+            <div *ngIf="chatUser[i]===id" class="my_readck">{{chatck[i]}}</div>
+        </div>
+        <!-- <br> -->
     </div>
-      <!-- <br> -->
-  </div>
-  <div id="scrfcs" style="height: 10px; width: 100%; float: left;"></div>
+    <div id="scrfcs" style="height: 10px; width: 100%; float: left;"></div>
 </ion-content>
 
 
 <div class="input-area">
-  <button class="img-upload" (click)="takeFoto()">사진</button>
-  <ion-input id="input" class="text-area" placeholder="입력하세요" [(ngModel)]="text" type="text"></ion-input>
-  <button class="enter-button" (click)="upload(1)">
+    <button class="img-upload" (click)="takeFoto()">사진</button>
+    <ion-input id="input" class="text-area" placeholder="입력하세요" [(ngModel)]="text" type="text"></ion-input>
+    <button class="enter-button" (click)="upload(1)">
     전송
   </button>
 </div>

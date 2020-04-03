@@ -15,7 +15,8 @@ import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
   templateUrl: 'coins.html',
 })
 export class CoinsPage {
-  mycoins:any;
+  mycoin:any;
+  mycoins:any=0;
   user:any;
   id:any;
   
@@ -25,7 +26,7 @@ export class CoinsPage {
     this.user=this.navParams.get("user");
     console.log(this.id);
     console.log(this.user);
-    this.mycoins=this.user.points;
+    this.mycoin=this.user.points;
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
       this.navCtrl.pop();
@@ -36,10 +37,13 @@ export class CoinsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CoinsPage');
   }
+  goback(){
+    this.navCtrl.pop();
+  }
   charge(coin,value){
 console.log(coin+","+value);
 var totalcoin=0;
-totalcoin=this.mycoins+coin;
+totalcoin=this.mycoin+coin;
 window.alert(totalcoin);
     var data = {
       pay_method : 'card',
@@ -109,18 +113,39 @@ window.alert(totalcoin);
   godown(){
     console.log("ccccclicked")
     console.log(this.mycoins);
-    if(this.mycoins==0){
-      window.alert("모든 코인을 사용하였습니다.")
+
+    this.mycoins=this.mycoins-1;
+    if(this.mycoins<0){
+      this.mycoins=0;
+      return;
     }
     else{
+      setTimeout(() => {
+        $('#abc').animate({
+          bottom: '+=10'
+        }, 100,
+          function(){
+            console.log('done')
+            $('#abc').animate({
+              bottom: '-=10'
+            }, 100,function(){
+              console.log('done')
+            })
+          }
+        )
+      },10);
+
     }
+
+
+  
   }
   
   goup(){
     console.log("clicked")
     console.log(this.mycoins);
   
-    this.mycoins=this.mycoins-1;
+    this.mycoins=this.mycoins+1;
     // this.discount+=1000
     // this.pricetopay=this.totalprice-this.discount;
     setTimeout(() => {

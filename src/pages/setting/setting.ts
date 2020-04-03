@@ -23,8 +23,8 @@ export class SettingPage {
 
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingPage');
+  goback(){
+    this.navCtrl.pop();
   }
   logout(){
     localStorage.setItem("loginflag","false");

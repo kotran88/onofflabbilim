@@ -72,6 +72,9 @@ export class ChatPage {
       })
     })
   }
+  goback(){
+    this.navCtrl.pop();
+  }
 
   read_check(n,i){
     this.firedata.child(this.id).child(i).update({readck:' '})
