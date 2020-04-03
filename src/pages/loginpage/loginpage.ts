@@ -62,6 +62,7 @@ export class LoginpagePage {
     this.phone_check=false;
     this.login_check=false;
 
+      this.navCtrl.pop();
   }
 
   certified(){

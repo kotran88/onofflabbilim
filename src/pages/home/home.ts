@@ -103,7 +103,6 @@ export class HomePage {
  
     console.log(this.id);
     console.log(this.loginflag);
-    console.log(this.userid);
 
     this.zone.run(()=>{
       console.log("id is : "+this.id);
