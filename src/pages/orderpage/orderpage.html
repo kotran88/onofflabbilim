@@ -72,9 +72,9 @@ margin-left: 20px;" class="gameshowing">
         <img style="
         height: 80px;
         width: 100%;" src="{{game.url}}"/>
-        <span style="font-weight: bold; font-size: 14px;">{{game.name}}
+        <span style="font-weight: bold; font-size: 14px; text-align: center;">{{game.name}}
         </span>
-        <span style="font-size:13px;">{{number_format(game.price)}}</span>
+        <span style="font-size:13px; text-align: center;">{{number_format(game.price)}}</span>
             </div>
     </div>
     <p style="
@@ -196,7 +196,7 @@ float: left;
   <div style=" 
   width: 50%;
   margin: auto;" class="inner">
-    <span style="display:inline-block;"> 코인 수 : </span> <img    id="abc" style="    vertical-align: middle;
+    <span style="display:inline-block; z-index: 10000;"> 코인 수 : </span> <img    id="abc" style="    vertical-align: middle;
     height: 25px;
     position: absolute; margin-top:10px;
     /* bottom: 30px; */

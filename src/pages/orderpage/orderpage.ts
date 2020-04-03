@@ -92,49 +92,61 @@ export class OrderpagePage {
   goback(){
     this.v.dismiss();
   }
-  godown(){
-    console.log("ccccclicked")
-    console.log(this.coins);
-    if(this.coins==0){
-      window.alert("모든 코인을 사용하였습니다.")
-    }
-    else{
-    }
-  }
-  
-  goup(){
-    console.log("clicked")
-    console.log(this.coins);
-  
-    this.coins=this.coins-1;
-    this.discount+=1000
-    this.pricetopay=this.totalprice-this.discount;
+
+  coin_animate(){
     setTimeout(() => {
       $('#abc').animate({
         bottom: '+=10'
-      }, 100,
+      }, 50,
         function(){
           console.log('done')
           $('#abc').animate({
             bottom: '-=10'
-          }, 100,function(){
+          }, 50,function(){
             console.log('done')
           })
         }
       )
     },10);
   }
+  godown(){
+    console.log("ccccclicked")
+    console.log(this.coins);
+
+    this.coin_animate();
+
+    if(this.discount>0){
+      this.coins=this.coins+1;
+      this.discount-=1000
+      this.pricetopay=this.totalprice-this.discount;
+    }
+    else{
+      
+    }
+  }
+  
+  goup(){
+    console.log("clicked")
+    console.log(this.coins);
+
+    this.coin_animate();
+
+    if(this.coins>0){
+      this.coins=this.coins-1;
+      this.discount+=1000
+      this.pricetopay=this.totalprice-this.discount;
+    }
+    else{
+      // window.alert("모든 코인을 사용하였습니다.")
+    }
+  }
 
   number_format(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
     return num.toString().replace(regexp, ',');
-}
+  }
+
   Delivery_area(){
-    // let modal = this.modal.create(DeliveryAreaPage, {cssClass: 'select-modal' });
-    //   modal.onDidDismiss(data => {
-    //     console.log(data)
-    // });
-    // modal.present();
     this.navCtrl.push(DeliveryAreaPage).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
         if(data){
@@ -146,12 +158,12 @@ export class OrderpagePage {
   }
 
   btnclicked(){
-   var a =  $("#a").val();
-   var b =  $("#b").val();
-   var c =  $("#c").val();
+    var a =  $("#a").val();
+    var b =  $("#b").val();
+    var c =  $("#c").val();
 
-   this.postcode=a;
-   this.address=b;
+    this.postcode=a;
+    this.address=b;
   }
   gotoback(){
     this.v.dismiss();
@@ -200,15 +212,6 @@ export class OrderpagePage {
 
     this.lastchecked=i;
     console.log(this.selected+"is selected")
-    // if(this.open_tab==0){
-    //   console.log("open title");
-    //   this.open_tab=1;
-
-    // }
-    // else {
-    //   console.log("close title");
-    //   this.open_tab=0;
-    // }
   }
   orderpage(){
     
