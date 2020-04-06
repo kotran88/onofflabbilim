@@ -33,6 +33,7 @@ flag:any;
 hardware:any;
 user:any;
 points:any;
+count:any=0;
 firemain = firebase.database().ref();
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -55,8 +56,10 @@ firemain = firebase.database().ref();
      console.log(flag)
      if(flag==true){
       this.gamearraytrue.push(this.gamearray[i])
+      this.count++;
      }
    }
+   window.alert(this.count)
    console.log(this.gamearraytrue)
    var a = 0;
    for(var i=0; i<this.gamearraytrue.length; i++){

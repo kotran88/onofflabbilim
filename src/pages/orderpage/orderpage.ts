@@ -105,7 +105,7 @@ export class OrderpagePage {
       window.alert("모든 코인을 사용하였습니다.")
     }
     else{
-      this.coins=this.coins-1;
+      this.coins=this.coins+1;
       this.discount+=1000
       this.pricetopay=this.totalprice-this.discount;
       setTimeout(() => {

@@ -380,6 +380,7 @@ export class DetailPage {
     alert.present({animate:false});
   }
   orderpage(){
+    this.count=0;
     console.log(this.detail);
     console.log(this.gamearray);
     for(var j=0; j<this.gamearray.length; j++){
@@ -399,16 +400,30 @@ export class DetailPage {
       alert('1가지 이상의 게임을 선택해주세요.')
     }
     else{
-      // this.navCtrl.push(OrderpagePage)
-
-      var modaloption : ModalOptions={
-        enableBackdropDismiss:true
+      if(this.count>3){
+        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal2' });
+        modal.onDidDismiss(data => {
+          if(data!=undefined){
+            console.log(data);
+    
+            // this.uploadImageToFirebase(data);
+          }
+         
+        });
+        modal.present();
+      }else{
+window.alert("less than 3")
+        var modaloption : ModalOptions={
+          enableBackdropDismiss:true
+        }
+        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},modaloption);
+        modal.onDidDismiss(imagedata => {
+          console.log(imagedata)
+      });
+      modal.present();
+  
       }
-      let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},modaloption);
-      modal.onDidDismiss(imagedata => {
-        console.log(imagedata)
-    });
-    modal.present();
+      // this.navCtrl.push(OrderpagePage)
 
 
 
