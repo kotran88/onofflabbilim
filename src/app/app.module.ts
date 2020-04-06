@@ -26,6 +26,7 @@ import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { HttpModule } from '@angular/http';
 
 =======
@@ -41,6 +42,10 @@ import { SettingPage } from '../pages/setting/setting';
 
 import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+import { HttpModule } from '@angular/http';
+
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -79,12 +84,17 @@ firebase.initializeApp(firebaseConfig);
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
 <<<<<<< HEAD
+<<<<<<< HEAD
     AngularFireModule.initializeApp(firebaseConfig),
     HttpModule,
 =======
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig)
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+    AngularFireModule.initializeApp(firebaseConfig),
+    HttpModule,
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -116,10 +126,14 @@ firebase.initializeApp(firebaseConfig);
     AngularFireAuth,
     DatePicker,
 <<<<<<< HEAD
+<<<<<<< HEAD
     Camera,
 =======
     PhotoViewer,
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+    Camera,
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

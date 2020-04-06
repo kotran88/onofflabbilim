@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { MypagePage} from '../pages/mypage/mypage'
 
 =======
@@ -12,12 +13,19 @@ import { OrderpagePage } from '../pages/orderpage/orderpage';
 import { SignupPage } from '../pages/signup/signup';
 import { ChatPage } from '../pages/chat/chat';
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+import { MypagePage} from '../pages/mypage/mypage'
+
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   // rootPage:any = HomePage;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
   rootPage:any=MypagePage;
 
   constructor(platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {

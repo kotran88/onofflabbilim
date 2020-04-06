@@ -21,9 +21,12 @@
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "@ionic-native/app-version": "^5.23.0",
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
     "@ionic-native/camera": "^5.23.0",
     "@ionic-native/core": "^5.22.0",
     "@ionic-native/date-picker": "^5.22.0",
@@ -43,9 +46,12 @@
     "cordova": "^9.0.0",
     "cordova-android": "^7.0.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "cordova-plugin-app-version": "^0.1.9",
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.3",
@@ -86,6 +92,7 @@
       "iamport-cordova": {},
       "cordova-plugin-datepicker": {},
 <<<<<<< HEAD
+<<<<<<< HEAD
       "cordova-plugin-camera": {}
 =======
       "cordova-plugin-camera": {
@@ -96,6 +103,9 @@
       "cordova-plugin-geolocation": {},
       "onesignal-cordova-plugin": {}
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+      "cordova-plugin-camera": {}
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
     },
     "platforms": [
       "android"

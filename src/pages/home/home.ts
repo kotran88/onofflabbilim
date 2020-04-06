@@ -51,6 +51,7 @@ export class HomePage {
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
     
     // localStorage.setItem('id','kotraner88@gmailcom')
 >>>>>>> 13acb4bb2316590fecb741bb37b54680a0f991ca
@@ -76,6 +77,11 @@ export class HomePage {
   constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
     // localStorage.setItem('id','01079998598')
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+    
+    // localStorage.setItem('id','kotraner88@gmailcom')
+>>>>>>> 13acb4bb2316590fecb741bb37b54680a0f991ca
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");

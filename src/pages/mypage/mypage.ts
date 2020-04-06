@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import firebase from 'firebase';
 import { Http, RequestOptions, Headers} from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { updateDate } from 'ionic-angular/umd/util/datetime-util';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 
 
 =======
@@ -28,6 +35,9 @@ import { SettingPage } from '../setting/setting';
 })
 export class MypagePage {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
   id:any;
   userid:any;
   orderlist=[];
@@ -59,6 +69,7 @@ export class MypagePage {
             }
           }
         }
+<<<<<<< HEAD
       }
     }).then(()=>{
       console.log(this.orderlist)
@@ -298,6 +309,13 @@ goback(){
     }
   }
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+      }
+    }).then(()=>{
+      console.log(this.orderlist)
+    })
+  }
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MypagePage');
@@ -308,6 +326,9 @@ goback(){
     return num.toString().replace(regexp, ',');
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 
   picker_image(a){
     this.deviceId=a.deviceId;
@@ -447,7 +468,11 @@ goback(){
   }
 
 
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+}
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07

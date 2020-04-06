@@ -1,10 +1,13 @@
 <<<<<<< HEAD
 import { Component } from '@angular/core';
 import { IonicPage, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams } from 'ionic-angular';
+<<<<<<< HEAD
 =======
 import { Component,NgZone } from '@angular/core';
 import { IonicPage,App, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 
@@ -116,12 +119,15 @@ export class DetailPage {
 <<<<<<< HEAD
 
   constructor(public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams) {
+<<<<<<< HEAD
 =======
   gotologin(){
     this.navCtrl.push(LoginpagePage)
   }
   constructor(public zone: NgZone,public app:App,public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
     this.detail=navParams.get("a")
     this.user=navParams.get("user");
 
@@ -129,6 +135,7 @@ export class DetailPage {
     console.log("user is : "+this.user);
    console.log(this.detail);
     var date = new Date();
+<<<<<<< HEAD
 <<<<<<< HEAD
     date.setDate(date.getDate() + 3);
 =======
@@ -144,6 +151,9 @@ export class DetailPage {
 
     date.setDate(date.getDate() + 2);
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+    date.setDate(date.getDate() + 3);
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 
 
     this.datechange(1);
@@ -403,6 +413,7 @@ export class DetailPage {
     });
     modal.present();
 
+<<<<<<< HEAD
 =======
     }
     else if(this.count===0){
@@ -435,6 +446,8 @@ window.alert("less than 3")
       // this.navCtrl.push(OrderpagePage)
 
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 
 
 
@@ -483,8 +496,13 @@ window.alert("less than 3")
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
 
 =======
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
+=======
+  }
+
+>>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
 }
