@@ -7,10 +7,22 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
 
+  <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
-
+  <script type='text/javascript'>
+    //<![CDATA[
+      // 사용할 앱의 JavaScript 키를 설정해 주세요.
+      Kakao.init('071395273b15cb72ba08ea1838428829');
+      // 카카오톡 채널 추가 버튼을 생성합니다.
+      function chatChannel() {
+      Kakao.Channel.chat({
+channelPublicId: '_Cxaxgzxb' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+      });
+    }
+    //]]>
+  </script>
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">

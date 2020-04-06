@@ -1,19 +1,32 @@
-import { Component,NgZone } from '@angular/core';
+import { Component,NgZone,ViewChild } from '@angular/core';
 import { IamportCordova } from '@ionic-native/iamport-cordova';
 import {DetailPage} from './../detail/detail'
-import { IonicPage, AlertController,NavController, NavParams } from 'ionic-angular';
+import { IonicPage, ToastController,Slides,ModalController,ViewController,Events,Platform,App,AlertController,NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 
+// import { Geolocation } from '@ionic-native/geolocation/';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { MypagePage} from './../../pages/mypage/mypage';
 import { LoginpagePage} from './../../pages/loginpage/loginpage';
+import { ChatPage } from '../chat/chat';
+import { CoinsPage } from '../coins/coins';
+
+import { SettingPage } from '../setting/setting';
+import { FirstlandingPage } from '../firstlanding/firstlanding';
+
+
+declare var naver: any;
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
-  selectedbutton:any='vr'
 
+export class HomePage {
+
+  @ViewChild(Slides) slidess: Slides;
+  selectedbutton:any='vr'
   name:any;
   logined:any="false"
   firemain = firebase.database().ref();
@@ -24,58 +37,125 @@ export class HomePage {
   dsgamearray=[];
   switchgamearray=[];
   psgamearray=[];
+  lat:any;
+  lng:any;
   setting:any;
   id:any;
+  version:any;
   realswitcharray:any;
   loginflag:any;
   userid:any;
   realpsarray:any;
   user:any;
+<<<<<<< HEAD
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
 <<<<<<< HEAD
 =======
     
     // localStorage.setItem('id','kotraner88@gmailcom')
 >>>>>>> 13acb4bb2316590fecb741bb37b54680a0f991ca
+=======
+  counter:any=0;
+  ionViewWillEnter(){
+    
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: '한번 더 뒤로가기를 누르면 앱이 종료됩니다.',
+      duration: 2000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
+  }
+  constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
+    // localStorage.setItem('id','01079998598')
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
-    // this.id="kotran88@gmail.com";
-   
+    if(this.loginflag=='false'||this.loginflag==null){
+      let modal = this.modal.create(FirstlandingPage,{},{ cssClass: 'test-modal' });
+      modal.onDidDismiss(data => {
+        if(data!=undefined){
+          console.log(data);
+  
+          // this.uploadImageToFirebase(data);
+        }
+       
+      });
+      modal.present();
+    }
+    platform.registerBackButtonAction(() => {
+
+      let nav = this.app.getActiveNav();
+      let activeView = nav.getActive();
+      console.log("back presseddd");
+
+      if (this.counter == 0) {
+        this.counter++;
+        this.presentToast();
+        setTimeout(() => { this.counter = 0 }, 2000)
+      } else {
+        // console.log("exitapp");
+        this.platform.exitApp();
+      }
+    });
+  
+  
+    this.event.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
+ 
     console.log(this.id);
     console.log(this.loginflag);
-    console.log(this.userid);
 
     this.zone.run(()=>{
       console.log("id is : "+this.id);
+      if(this.id==null||this.id==undefined){
+        
+      }else{
         this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
           console.log(snapshot.val());
           this.user=snapshot.val();
           console.log("user");
           console.log(this.user);
         })
+      }
+  
      
       this.firemain.child("setting").once("value",(snapshot)=>{
         for(var a in snapshot.val()){
           if(a=="expressmessage"){
             this.setting=snapshot.val()[a];
           }
+          if(a=="version"){
+            this.version=snapshot.val()[a];
+          }
           console.log(snapshot.val()[a]);
         }
+
+        var versionnumber="";
+        this.appVersion.getVersionNumber().then(version => {
+          versionnumber = version;
+          if(Number(this.version)>Number(versionnumber)){
+            window.alert("버전이다름!")
+          }
+        });
       })
       this.firemain.child("category").once("value",(snapshot)=>{
+       
         for(var a in snapshot.val()){
           console.log(a)
           if(a=="promotion"){
             for(var b in snapshot.val()[a]){
+
               this.slides.push(snapshot.val()[a][b])
             }
           }
-          // if(a=="switch"){
-          //   for(var b in snapshot.val()[a]){
-          //     this.switcharray.push(snapshot.val()[a][b])
-          //   }
-          // }
           if(a=="ps"){
             for(var b in snapshot.val()[a]){
               console.log(b);
@@ -104,10 +184,7 @@ export class HomePage {
                 for(var c in snapshot.val()[a][b]){
                   this.switcharray.push(snapshot.val()[a][b][c]);
                 }
-                
               }
-             
-              
             }
           }
         
@@ -125,6 +202,9 @@ export class HomePage {
    this.OneSignalInstall();
   }
 
+  logRatingChange(v){
+    console.log(v)
+  }
 
   OneSignalInstall()
   {
@@ -140,13 +220,15 @@ export class HomePage {
     this.oneSignal.iOSSettings(iosSettings);
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     console.log("onesignal 22");
-
     console.log("onesiganl get id startedddddd")
     this.oneSignal.getIds().then(data => {
       console.log(data);
       console.log("get id success"+data.userId)
-      this.firemain.child("users").child(this.id).update({"deviceId":data.userId})
-      localStorage.setItem("tokenvalue",data.userId);
+      if(this.id!=null&&this.id!=undefined){
+        this.firemain.child("users").child(this.id).update({"deviceId":data.userId})
+        localStorage.setItem("tokenvalue",data.userId);
+      }
+    
 
     }).catch((e)=>{
       // window.alert("onesignal error"+e);
@@ -154,10 +236,45 @@ export class HomePage {
     })
     this.oneSignal.endInit();
   }
+  coinpoint(){
+    if(this.loginflag=='false'||this.loginflag==null){
+
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.navCtrl.push(CoinsPage,{"id":this.id,"user":this.user});
+    }
+   
+      }
+      settings(){
+        if('false'==this.loginflag||this.loginflag==null){
+          this.confirmAlert("회원가입/로그인을 해주세요")
+        }else{
+          this.navCtrl.push(SettingPage,{"id":this.id,"user":this.user})
+        }
+      
+      }
+  go_chat(){
+
+    if('false'==this.loginflag||this.loginflag==null){
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.navCtrl.push(ChatPage,{"id":this.id}).then(() => {
+        this.navCtrl.getActive().onDidDismiss(data => {
+          firebase.database().ref('message').child(this.id).off();
+        })
+      })
+    }
+  
+  }
 
   mypage(){
+    if('false'==this.loginflag||this.loginflag==null){
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
+    }
     console.log("mypage come")
-    this.navCtrl.push(MypagePage,{"id":this.id,"user":this.user})
+    
   }
   logout(){
     localStorage.setItem("key",null);
@@ -181,7 +298,7 @@ export class HomePage {
   }
 
   confirmAlert(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
         buttons: [  
           {
@@ -193,8 +310,9 @@ export class HomePage {
           },
         {
           role:'Ok',
-          text: '확인2',
+          text: '이동',
           handler: () => {
+            this.navCtrl.push(LoginpagePage)
             console.log('Buy clicked');
           }
         }]
@@ -218,20 +336,6 @@ export class HomePage {
   }
   kakaoLogin(){
     this.navCtrl.push(LoginpagePage)
-  }
-  onClickCertification() {
-    var userCode = 'imp10391932';
-    var data = {
-      merchant_uid: 'mid_' + new Date().getTime(),
-    };
-    var params = {
-      userCode: userCode,                           // 가맹점 식별코드
-      data: data, 
-      name:"홍길동",
-      phone:"010-7999-8598",                              // 결제 데이터
-      callback: function(response) {console.log(response); alert(JSON.stringify(response)); },                           // 콜백 함수
-    };
-    IamportCordova.certification(params);
   }
   category2(v){
     console.log("category!")

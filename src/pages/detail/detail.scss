@@ -866,9 +866,10 @@ ion-fab{
       .description{
         min-height: 650px;
       }
-      .gameshowwithborder{
-          border-radius:8px;
-    border: solid 1px #70c5ed;
+    .gameshowwithborder{
+        border-radius:8px;
+        // border: solid 1px #70c5ed;
+        background-color: #70c5ed;
     }
    div{
 

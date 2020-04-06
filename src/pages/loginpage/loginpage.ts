@@ -51,8 +51,8 @@ export class LoginpagePage {
       // this.number=localStorage.getItem('number');
     }
     else{
-      this.main_title='회원가입/로그인';
-      this.login_check=false;
+      // this.main_title='회원가입/로그인';
+      // this.login_check=false;
     }
 
     console.log(this.login_check)
@@ -62,6 +62,7 @@ export class LoginpagePage {
     this.phone_check=false;
     this.login_check=false;
 
+      this.navCtrl.pop();
   }
 
   certified(){
@@ -96,7 +97,7 @@ export class LoginpagePage {
   }
 
   login(){
-    this.firemain.child('user').child(this.phone).update(
+    this.firemain.child('users').child(this.phone).update(
       {
         'name':this.name,
         'phone':this.phone,

@@ -38,6 +38,8 @@ page-game-detail {
         font-weight: 700;
         border-radius: 10px;
         border: solid 1px lightblue;
+        position: relative;
+        top: -50px;
     }
 
     .game-body{
@@ -50,6 +52,8 @@ page-game-detail {
         padding: 3%;
         margin: 2%;
         border-radius: 5%;
+        position: relative;
+        top: -50px;
     }
 
     .option-title{

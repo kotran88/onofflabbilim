@@ -1,26 +1,21 @@
 <ion-content >
   <div (click)="Dismiss()" style="position: sticky;
-      top: 90%;
+      top: 92%;
       width: 100%;
-      z-index: 99999;
-      height: 10%;
-      padding-top: 1%;
+      z-index: 10000;
+      height: 8%;
       text-align: center;
-      background: #46B033;" class="order">
-    <p>닫기</p>    
+      background: #46B033;">
+    <p style="padding: 4.5%;">닫기</p>  
   </div>
 
   <p class="game-title">
     {{game.description.main_title}}
   </p>
-<!-- 
-  <p class="game-body">
-    {{game.description.sub_title}}
-  </p> -->
 
-  <img style="width: 90%; margin-left: 5%;" src="{{game.url}}"/>
+  <img style="width: 90%; margin-left: 5%; position: relative; top: -50px;" src="{{game.url}}"/>
   
-  <div class="option-box" style="margin-bottom: 100px;">
+  <div class="option-box" style="margin-bottom: 60px;">
     <div style="width: 100%;" *ngIf="game.description.model!=''">
       <p class="option-title">대응 기종: </p>
       <p class="option-text">{{game.description.model}}</p>
@@ -77,25 +72,4 @@
     </div>
 
   </div>
-  <!-- 107 618 -->
-
-  <!-- <div style="position: absolute;">
-    <img style="height: auto; width: 100%;" src="{{game.description.image1}}"/>
-    <img style="height: auto; width: 100%;" src="{{game.description.image2}}"/>
-    <img style="height: auto; width: 100%;" src="{{game.description.image3}}"/>
-    <div style="height: 100px; width: 100%;"></div>
-  </div>
-
-  <p class="player-box" style="margin: 59% 0 0 9%">{{game.description.player.split(',')[0]}}</p>
-  <p class="player-box" style="margin: 59% 0 0 40%">{{game.description.player.split(',')[1]}}</p>
-  <p class="player-box" style="margin: 59% 0 0 70%">{{game.description.player.split(',')[2]}}</p>
-
-
-  <p class="ST-box" style="margin: 96% 0 0 54%">{{game.description.local}}</p>
-  <p class="ST-box" style="margin: 137% 0 0 54%">{{game.description.net}}</p>
-
-  <img class="image-box" style="margin: 196% 0 0 6%" src="{{img[0]}}"/>
-  <img class="image-box" style="margin: 196% 0 0 51.2%" src="{{img[1]}}"/>
-  <img class="image-box" style="margin: 232.3% 0 0 6%" src="{{img[2]}}"/>
-  <img class="image-box" style="margin: 232.3% 0 0 51.2%" src="{{img[3]}}"/> -->
 </ion-content>

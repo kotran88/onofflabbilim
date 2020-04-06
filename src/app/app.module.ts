@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, ViewController,IonicErrorHandler, IonicModule } from 'ionic-angular';
 // import { SplashScreen } from '@ionic-native/splash-screen';
-// import { StatusBar } from '@ionic-native/status-bar';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LoginpagePage} from './../pages/loginpage/loginpage'
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
@@ -25,8 +25,22 @@ import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
+<<<<<<< HEAD
 import { HttpModule } from '@angular/http';
 
+=======
+import { ChatPage } from '../pages/chat/chat';
+import { CameraselectPage } from './../pages/cameraselect/cameraselect'
+import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { HttpModule } from '@angular/http'
+// import { ChatroomlistPage } from '../pages/chatroomlist/chatroomlist';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { CoinsPage } from '../pages/coins/coins';
+import { SettingPage } from '../pages/setting/setting';
+
+import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -48,43 +62,64 @@ firebase.initializeApp(firebaseConfig);
     LoginpagePage,
     OrderpagePage,
     ModalpagePage,
-    
+    ChatPage,
     SignupPage,
+    SettingPage,
     Modalbottom,
     DeliveryAreaPage,
     GameDetailPage,
+    FirstlandingPage,
+    CameraselectPage,
+    CoinsPage,
+    // ChatroomlistPage,
   ],
   imports: [
     BrowserModule,
     StarRatingModule,
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
+<<<<<<< HEAD
     AngularFireModule.initializeApp(firebaseConfig),
     HttpModule,
+=======
+    HttpModule,
+    AngularFireModule.initializeApp(firebaseConfig)
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     DetailPage,
     LoginpagePage,
+    CoinsPage,
+    SettingPage,
     HomePage,
     MypagePage,
-
+    ChatPage,
     SignupPage,
     ModalpagePage,
+    FirstlandingPage,
     Modalbottom,
     OrderpagePage,
     DeliveryAreaPage,
     GameDetailPage,
+    CameraselectPage,
+    // ChatroomlistPage,
   ],
   providers: [
-    // StatusBar,
+    StatusBar,
     // SplashScreen,
+    AppVersion,
+    Camera,
     InAppBrowser,
     OneSignal,
     AngularFireAuth,
     DatePicker,
+<<<<<<< HEAD
     Camera,
+=======
+    PhotoViewer,
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

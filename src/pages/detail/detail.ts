@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { IonicPage, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams } from 'ionic-angular';
+=======
+import { Component,NgZone } from '@angular/core';
+import { IonicPage,App, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
 
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 
@@ -31,7 +36,7 @@ export class DetailPage {
   secondshow:any=false;
   fourthshow:any=false;
   today=new Date();
-  count:any;
+  count=0;
   date: any;
   expressmessage:any;
   selectedarray=[];
@@ -52,15 +57,16 @@ export class DetailPage {
   startDate_text:any;
   endDate_text:any;
   gamearray=[];
+  loginflag:any="false";
   diff:any;
   maker:any;
   startDate:any= new Date().toISOString();
   user:any;
+
+  font_size=[];
   logRatingChange(v){
     console.log(v)
   }
-
-
 
   datechange(mode){
     console.log(this.startDate);
@@ -71,13 +77,13 @@ export class DetailPage {
     console.log(a);
     console.log(b);
     var diff=a.getTime()-b.getTime();
-    var Difference_In_Days = diff / (1000 * 3600 * 24); 
+    var Difference_In_Days = diff / (1000 * 3600 * 24);
     diff=Difference_In_Days
     console.log(diff)
     diff=Math.floor(diff);
     diff=Math.abs(diff);
-    console.log(diff)
-    this.diff=diff;
+    this.diff=diff+1;
+    console.log(this.diff)
 
     // this.diff=this.diff+1;
     if(Difference_In_Days>0){
@@ -90,7 +96,7 @@ export class DetailPage {
       else {
         window.alert("반납일이 대여 시작일보다 빠를 수는 없습니다.")
         var a=new Date(this.startDate);
-        a.setDate(a.getDate()+3);
+        a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
@@ -107,33 +113,55 @@ export class DetailPage {
       err => console.log('Error occurred while getting date: ', err)
     );
   }
+<<<<<<< HEAD
 
   constructor(public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams) {
+=======
+  gotologin(){
+    this.navCtrl.push(LoginpagePage)
+  }
+  constructor(public zone: NgZone,public app:App,public inapp:InAppBrowser,public modal:ModalController,public alertCtrl:AlertController,public view:ViewController, public events: Events,public datePicker:DatePicker,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
     this.detail=navParams.get("a")
     this.user=navParams.get("user");
+
+    this.loginflag=localStorage.getItem("loginflag");
     console.log("user is : "+this.user);
    console.log(this.detail);
     var date = new Date();
+<<<<<<< HEAD
     date.setDate(date.getDate() + 3);
+=======
+
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
+
+    this.startDate=date.toISOString();
+    this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
+
+    date.setDate(date.getDate() + 2);
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
 
 
-    // if(date.getMonth()+1<10){
-    //   this.endDate=date.getFullYear()+"-0"+(date.getMonth()+1)+"-"+date.getDate();
-    // }else{
-    //   this.endDate=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-    // }
+    this.datechange(1);
+    this.datechange(2);
+
     this.endDate=date.toISOString();
-    var startDate2=new Date();
     console.log(this.startDate);
     console.log(this.endDate);
 
-    console.log(date);
-    console.log(startDate2)
-    var diff=date.getTime()-startDate2.getTime();
+    // var startDate2=new Date();
+    // console.log(date);
+    // console.log(startDate2)
+    // var diff=date.getTime()-startDate2.getTime();
 
-    var Difference_In_Days = diff / (1000 * 3600 * 24); 
-    var diff=Difference_In_Days;
-    this.diff=Math.ceil(diff)
+    // var Difference_In_Days = diff / (1000 * 3600 * 24); 
+    // var diff=Difference_In_Days;
+    // this.diff=Math.ceil(diff)
+    // console.log(this.diff);
     this.gamearray=navParams.get("game");
     this.expressmessage=navParams.get("setting");
     this.maker=this.detail.maker;
@@ -170,9 +198,33 @@ export class DetailPage {
 
     this.thismonth=this.date.getMonth()+1;
     this.thisdate=this.date.getDate();
-
-
+    this.length_check();
   }
+
+  length_check(){
+    for(var q in this.gamearray){
+      var n=0;
+      console.log(this.gamearray[q].name)
+      for(var w=0;w<this.gamearray[q].name.length;w++){
+        if(this.gamearray[q].name[w]>='A'&&this.gamearray[q].name[w]<='Z'){
+          n+=1;
+        }
+        else if(this.gamearray[q].name[w]>='a'&&this.gamearray[q].name[w]<='z'){
+          n+=1;
+        }
+        else if(this.gamearray[q].name[w]>='0'&&this.gamearray[q].name[w]<='9'){
+          n+=1;
+        }
+        else if(this.gamearray[q].name[w]===' '){
+          n+=1;
+        }
+        else n+=2;
+      }
+      this.gamearray[q].font_size=15-(n/5);
+      console.log(this.gamearray[q].font_size)
+    }
+  }
+
   selectDate(v){
     console.log(v);
     this.selectedvalue=v+"";
@@ -248,20 +300,23 @@ export class DetailPage {
     location.href="#detail"
   }
   gameselected(v,i){
-     this.count=0;
-    this.gamearray[i].check=!this.gamearray[i].check;
-    console.log(this.gamearray);
-    if(this.gamearray[i].fflag==true){
-      this.gamearray[i].fflag=false;
-    }else{
-      this.gamearray[i].fflag=true;
-    }
-    for(var j=0; j<this.gamearray.length; j++){
-      if(this.gamearray[j].fflag==true){
-        this.count++;
+    this.zone.run(()=>{
+      this.count=0;
+      this.gamearray[i].check=!this.gamearray[i].check;
+      console.log(this.gamearray);
+      if(this.gamearray[i].fflag==true){
+        this.gamearray[i].fflag=false;
+      }else{
+        this.gamearray[i].fflag=true;
       }
-    }
-    console.log("count is : "+this.count);
+      for(var j=0; j<this.gamearray.length; j++){
+        if(this.gamearray[j].fflag==true){
+          this.count++;
+        }
+      }
+      console.log("count is : "+this.count);
+    })
+  
   }
   goback(){
     this.view.dismiss();
@@ -317,10 +372,8 @@ export class DetailPage {
     alert.present({animate:false});
   }
   orderpage(){
+    this.count=0;
     console.log(this.detail);
-   
-
-
     console.log(this.gamearray);
     for(var j=0; j<this.gamearray.length; j++){
       if(this.gamearray[j].fflag==true){
@@ -329,12 +382,14 @@ export class DetailPage {
     }
     console.log(this.count);
     console.log(this.gamearray);
+    console.log(this.diff);
     var a = localStorage.getItem("loginflag");
     console.log(a);
 <<<<<<< HEAD
 =======
     if(a=="false"||a==null){
       this.confirmAlert("로그인이 필요한 서비스입니다.\n 로그인 페이지로 이동하시겠습니까?");
+<<<<<<< HEAD
     }else{
 >>>>>>> 0955554de17def06e68ce161f9ffbdd40a4abd96
       // this.navCtrl.push(OrderpagePage)
@@ -348,6 +403,38 @@ export class DetailPage {
     });
     modal.present();
 
+=======
+    }
+    else if(this.count===0){
+      alert('1가지 이상의 게임을 선택해주세요.')
+    }
+    else{
+      if(this.count>3){
+        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal2' });
+        modal.onDidDismiss(data => {
+          if(data!=undefined){
+            console.log(data);
+    
+            // this.uploadImageToFirebase(data);
+          }
+         
+        });
+        modal.present();
+      }else{
+window.alert("less than 3")
+        var modaloption : ModalOptions={
+          enableBackdropDismiss:true
+        }
+        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},modaloption);
+        modal.onDidDismiss(imagedata => {
+          console.log(imagedata)
+      });
+      modal.present();
+  
+      }
+      // this.navCtrl.push(OrderpagePage)
+
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
 
 
 
@@ -392,7 +479,12 @@ export class DetailPage {
 //         alert(err)
 //       })
 //     ;
-
+  }
   }
 
+<<<<<<< HEAD
+  }
+
+=======
+>>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,AlertController,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage,Platform,AlertController,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
 import firebase from 'firebase';
 import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
@@ -42,8 +42,13 @@ export class OrderpagePage {
   Delivery=[];
   Delivery_check=false;
 
-  constructor(public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
+  constructor(public platform:Platform,public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
 
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
     this.user=this.navParams.get("user");
@@ -65,7 +70,7 @@ export class OrderpagePage {
     }
     var b = 0;
     if(this.hardware!=undefined){
-      b=this.hardware.pricedaily
+      b=this.hardware.pricedaily*this.diff;
 
       console.log(b+"game price total is : "+a);
     }
@@ -76,9 +81,8 @@ export class OrderpagePage {
     console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
     
     console.log(this.user);
-    // this.coins=this.user.points;
+    this.coins=this.user.points;
 
-    this.coins=10;
     console.log(this.hardware);
     console.log(this.gamearray)
     console.log("total price is : "+(Number(a)+Number(b)));
@@ -88,30 +92,40 @@ export class OrderpagePage {
   goback(){
     this.v.dismiss();
   }
-  clickedcoin(){
+  godown(){
+    console.log("ccccclicked")
+    console.log(this.coins);
+   
+  }
+  
+  clickcoin(){
     console.log("clicked")
     console.log(this.coins);
     if(this.coins==0){
-window.alert("모든 코인을 사용하였습니다.")
-    }else{
-    this.coins=this.coins-1;
-    this.discount+=1000
-    this.pricetopay=this.totalprice-this.discount;
+      window.alert("모든 코인을 사용하였습니다.")
+    }
+    else{
+      this.coins=this.coins+1;
+      this.discount+=1000
+      this.pricetopay=this.totalprice-this.discount;
       setTimeout(() => {
         $('#abc').animate({
           bottom: '+=10'
-        }, 100,function(){
-          console.log('done')
-          $('#abc').animate({
-            bottom: '-=10'
-          }, 100,function(){
+        }, 100,
+          function(){
             console.log('done')
-          })
-        })
+            $('#abc').animate({
+              bottom: '-=10'
+            }, 100,function(){
+              console.log('done')
+            })
+          }
+        )
       },10);
     }
-    
+   
   }
+
   number_format(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
     return num.toString().replace(regexp, ',');
@@ -198,11 +212,11 @@ window.alert("모든 코인을 사용하였습니다.")
     // }
   }
   orderpage(){
-
+    
     var data = {
       pay_method : 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
-      name : '이응이응빌림',
+      name : 'Ming 코인충전',
       amount : this.pricetopay+"",
       app_scheme : 'ionickcp',
       buyer_email : 'iamport@siot.do',
@@ -232,16 +246,21 @@ window.alert("모든 코인을 사용하였습니다.")
           var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
           console.log(nnow);
           if(this.hardware!=undefined){
-            this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"payment":this.totalprice}).then(()=>{
+            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
               this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);
             })
   
           }else{
-            this.firemain.child("users").child(this.user.phone).child("orderlist").push({"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"payment":this.totalprice}).then(()=>{
+
+            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
               this.navCtrl.setRoot(HomePage);
             }).catch((e)=>{
               console.log(e);

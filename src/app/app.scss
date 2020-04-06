@@ -1,4 +1,5 @@
 
+@import '../theme/fonts/_fonts.scss';
 // global
 * { 
     // font-family:'noto-sans';
@@ -16,6 +17,9 @@ ion-header{
 }
 .header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after, .footer-md::before, .tabs-md[tabsPlacement="bottom"] > .tabbar::before{
     background-image: unset !important;
+}
+.header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after{
+    border-bottom: 0px !important;
 }
 .toolbar-md{
     min-height: 50px !important;
@@ -64,6 +68,14 @@ ion-navbar.toolbar{
         left: calc(20%/2);
         height: 80%;
         top: calc(20%/2);
+    }
+ }
+ .test-modal2 {
+    .modal-wrapper {
+        width: 100%;
+    height:60% ;
+    position: absolute !important;
+    bottom: 0% !important;
     }
  }
 ion-header.header {
@@ -398,10 +410,19 @@ ion-label.label-md {
     font-size: 12px;
 }
 
+// @font-face {
+//     font-family: 'nanum';
+//     src: url('../assets/fonts/NanumGothic.ttf') format("ttf");
+//     }
+
 @font-face {
-    font-family: 'nanum';
-    src: url('../assets/fonts/NanumGothic.ttf') format("ttf");
+    font-family: 'nanumm';
+    src: url('./../assets/fonts/NanumBarunpenRegular.ttf') format("ttf");
     }
-body{
-font-family: 'nanum' !important;
+    p{
+
+font-family: 'ggg' !important;
+    }
+*{
+font-family: 'ggg' !important;
 }
