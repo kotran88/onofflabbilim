@@ -32,8 +32,11 @@ export class HomePage {
   realpsarray:any;
   user:any;
   constructor(public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
+<<<<<<< HEAD
+=======
     
-    localStorage.setItem('id','kotraner88@gmailcom')
+    // localStorage.setItem('id','kotraner88@gmailcom')
+>>>>>>> 13acb4bb2316590fecb741bb37b54680a0f991ca
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");

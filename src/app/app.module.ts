@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 // import { StatusBar } from '@ionic-native/status-bar';
 import { LoginpagePage} from './../pages/loginpage/loginpage'
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MyApp } from './app.component';
@@ -24,6 +25,8 @@ import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
+import { HttpModule } from '@angular/http';
+
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -56,7 +59,8 @@ firebase.initializeApp(firebaseConfig);
     StarRatingModule,
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    HttpModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -80,6 +84,7 @@ firebase.initializeApp(firebaseConfig);
     OneSignal,
     AngularFireAuth,
     DatePicker,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
