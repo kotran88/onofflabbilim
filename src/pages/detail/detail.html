@@ -161,17 +161,8 @@
 
 </ion-content>
 
-<div *ngIf="loginflag!=null" (click)="orderpage()" style="position: absolute;
-  bottom: 0%;
-  width: 100%;
-  z-index: 99999;
-  height: 50px;
-  text-align: center;
-  background: #E5333F;" class="order">
-    <p style="
-  font-size: 18px;
-  line-height: 10px;
-  color: white;">빌리기 (1/3)</p>
+<div *ngIf="loginflag!=null" (click)="orderpage()" style="position: absolute; bottom: 0%; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F;" class="order">
+    <p style="font-size: 18px;line-height: 10px;color: white;">빌리기 (1/3)</p>
 </div>
 
 <div *ngIf="loginflag==null" (click)="gotologin()" style="position: absolute;

@@ -41,11 +41,15 @@ import { CoinsPage } from '../pages/coins/coins';
 import { SettingPage } from '../pages/setting/setting';
 
 import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
+<<<<<<< HEAD
 >>>>>>> 322365da8d0c3401aadb04173566d3fe9e67ad26
 =======
 import { HttpModule } from '@angular/http';
 
 >>>>>>> 34858be320f26e84b6b0cf2471c4b03387c69d07
+=======
+import { PaymentPage } from '../pages/payment/payment';
+>>>>>>> d2cc2816856fc227fab15a391c5f6333b492cdfe
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -76,6 +80,7 @@ firebase.initializeApp(firebaseConfig);
     FirstlandingPage,
     CameraselectPage,
     CoinsPage,
+    PaymentPage
     // ChatroomlistPage,
   ],
   imports: [
@@ -114,6 +119,7 @@ firebase.initializeApp(firebaseConfig);
     DeliveryAreaPage,
     GameDetailPage,
     CameraselectPage,
+    PaymentPage
     // ChatroomlistPage,
   ],
   providers: [

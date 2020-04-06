@@ -44,7 +44,15 @@ firemain = firebase.database().ref();
    this.endDate=this.navParams.get("endDate");
    this.diff=this.navParams.get("diff");
    this.user=this.navParams.get("user");
-   console.log(this.user)
+   console.log("flag : ");
+   console.log(this.flag);
+   console.log("user : ");
+   console.log(this.user);
+   console.log("hardware :"+ this.hardware);
+   console.log("startDate :" + this.startDate);
+   console.log("endDate : "+this.endDate);
+   console.log("diff : "+this.diff);
+
    if(this.user.point==undefined){
      this.points=0;
    }else{
