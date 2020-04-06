@@ -5,6 +5,7 @@ import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
 import { DeliveryAreaPage } from '../delivery-area/delivery-area';
 import {HomePage } from '../home/home'
+import { PaymentPage } from '../payment/payment';
 /**
  * Generated class for the OrderpagePage page.
  *
@@ -56,7 +57,11 @@ export class OrderpagePage {
     this.diff=this.navParams.get("diff");
     this.hardware=this.navParams.get("hardware");
     this.gamearray=this.navParams.get("gamearray")
-
+    console.log(this.user); //대여인
+    console.log(this.point);
+    console.log(this.diff); //대여일
+    console.log(this.hardware); //기계
+    console.log(this.gamearray); //게임에 대해
     this.firemain.child("users").child(this.user.phone).child('adress').once("value",(snap)=>{
       if(snap.val()){
         this.Delivery=snap.val();
@@ -298,5 +303,15 @@ export class OrderpagePage {
         cssClass: 'alertDanger'
     });
     alert.present({animate:false});
+  }
+
+  payment(){
+    this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate});
+
+    /*  console.log(this.user); //대여인
+    console.log(this.point);
+    console.log(this.diff); //대여일
+    console.log(this.hardware); //기계
+    console.log(this.gamearray); //게임에 대해 */
   }
 }

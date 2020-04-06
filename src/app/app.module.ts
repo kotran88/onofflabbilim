@@ -35,6 +35,7 @@ import { CoinsPage } from '../pages/coins/coins';
 import { SettingPage } from '../pages/setting/setting';
 
 import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
+import { PaymentPage } from '../pages/payment/payment';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -65,6 +66,7 @@ firebase.initializeApp(firebaseConfig);
     FirstlandingPage,
     CameraselectPage,
     CoinsPage,
+    PaymentPage
     // ChatroomlistPage,
   ],
   imports: [
@@ -93,6 +95,7 @@ firebase.initializeApp(firebaseConfig);
     DeliveryAreaPage,
     GameDetailPage,
     CameraselectPage,
+    PaymentPage
     // ChatroomlistPage,
   ],
   providers: [
