@@ -92,23 +92,10 @@ export class OrderpagePage {
   goback(){
     this.v.dismiss();
   }
-<<<<<<< HEAD
 
-  coin_animate(){
-    setTimeout(() => {
-      $('#abc').animate({
-        bottom: '+=10'
-      }, 50,
-        function(){
-          console.log('done')
-          $('#abc').animate({
-            bottom: '-=10'
-          }, 50,function(){
-=======
   godown(){
     console.log("ccccclicked")
     console.log(this.coins);
-   
   }
   
   clickcoin(){
@@ -126,7 +113,6 @@ export class OrderpagePage {
           bottom: '+=10'
         }, 100,
           function(){
->>>>>>> 771f6470b435c84bc9efcfc8f662d004e17cba05
             console.log('done')
             $('#abc').animate({
               bottom: '-=10'
@@ -137,29 +123,11 @@ export class OrderpagePage {
         )
       },10);
     }
-   
-  }
-  godown(){
-    console.log("ccccclicked")
-    console.log(this.coins);
-
-    this.coin_animate();
-
-    if(this.discount>0){
-      this.coins=this.coins+1;
-      this.discount-=1000
-      this.pricetopay=this.totalprice-this.discount;
-    }
-    else{
-      
-    }
   }
   
   goup(){
     console.log("clicked")
     console.log(this.coins);
-
-    this.coin_animate();
 
     if(this.coins>0){
       this.coins=this.coins-1;
@@ -243,78 +211,106 @@ export class OrderpagePage {
     this.lastchecked=i;
     console.log(this.selected+"is selected")
   }
+
+  stock(ch1,ch2,n){
+    ch1.child(ch2).update({stock:String(n-1)})
+  }
+
   orderpage(){
     
-    var data = {
-      pay_method : 'card',
-      merchant_uid: 'mid_' + new Date().getTime(),
-      name : 'Ming 코인충전',
-      amount : this.pricetopay+"",
-      app_scheme : 'ionickcp',
-      buyer_email : 'iamport@siot.do',
-      buyer_name : '구매자이름',
-      buyer_tel : '010-1234-5678',
-      buyer_addr : '서울특별시 강남구 삼성동',
-      buyer_postcode : '123-456'
-    };
+    // stock
 
-
-    var PaymentObject={
-      userCode: "imp58611631",
-      data: data,
-      callback:(response)=> {
-        console.log(response);
-        if(response.imp_success=="true"){
-          console.log("success")
-          console.log(this.gamearray);
-          console.log(this.hardware);
-          console.log(this.totalprice);
-          var now=new Date();
-          var year=now.getFullYear();
-          var month=now.getMonth()+1;
-          var date=now.getDate();
-          var hour=now.getHours();
-          var min=now.getMinutes();
-          var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
-          console.log(nnow);
-          if(this.hardware!=undefined){
-            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
-              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
-              this.navCtrl.setRoot(HomePage);
-            }).catch((e)=>{
-              console.log(e);
-            })
-  
-          }else{
-
-            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
-              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
-              this.navCtrl.setRoot(HomePage);
-            }).catch((e)=>{
-              console.log(e);
-            })
-  
+    // this.firemain.child('category').once('value').
+    var a = this.firemain.child("category").child(this.gamearray[0].flag)
+    
+    a.child('software').once("value",(snap)=>{
+      for(var q in this.gamearray){
+        for(var w in snap.val()){
+          if(this.gamearray[q].name===snap.val()[w].name){
+            this.stock(a.child('software'),w,Number(snap.val()[w].stock))
           }
-          
         }
-      },   
-    }
+      }
+    })
+
+    a.child('hardware').once("value",(snap)=>{
+      for(var w in snap.val()){
+        if(this.hardware.name===snap.val()[w].name){
+          this.stock(a.child('hardware'),w,Number(snap.val()[w].stock))
+        }
+      }
+    })
+    
+    alert('결재완료')
+
+    // var data = {
+    //   pay_method : 'card',
+    //   merchant_uid: 'mid_' + new Date().getTime(),
+    //   name : 'Ming 코인충전',
+    //   amount : this.pricetopay+"",
+    //   app_scheme : 'ionickcp',
+    //   buyer_email : 'iamport@siot.do',
+    //   buyer_name : '구매자이름',
+    //   buyer_tel : '010-1234-5678',
+    //   buyer_addr : '서울특별시 강남구 삼성동',
+    //   buyer_postcode : '123-456'
+    // };
+
+
+    // var PaymentObject={
+    //   userCode: "imp58611631",
+    //   data: data,
+    //   callback:(response)=> {
+    //     console.log(response);
+    //     if(response.imp_success=="true"){
+    //       console.log("success")
+    //       console.log(this.gamearray);
+    //       console.log(this.hardware);
+    //       console.log(this.totalprice);
+    //       var now=new Date();
+    //       var year=now.getFullYear();
+    //       var month=now.getMonth()+1;
+    //       var date=now.getDate();
+    //       var hour=now.getHours();
+    //       var min=now.getMinutes();
+    //       var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
+    //       console.log(nnow);
+    //       if(this.hardware!=undefined){
+    //         var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+    //         this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"hardware":this.hardware,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
+    //           this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+    //           this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
+    //           this.navCtrl.setRoot(HomePage);
+    //         }).catch((e)=>{
+    //           console.log(e);
+    //         })
+  
+    //       }else{
+
+    //         var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+    //         this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.gamearray,"totalprice":this.totalprice,"discount":this.discount,"payment":this.pricetopay}).then(()=>{
+    //           this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+    //           this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
+    //           this.navCtrl.setRoot(HomePage);
+    //         }).catch((e)=>{
+    //           console.log(e);
+    //         })
+    //       }
+    //     }
+    //   },
+    // }
         
     
-    // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
-    IamportCordova.payment(PaymentObject )
-      .then((response)=> {
-        alert("success")
-        alert(JSON.stringify(response))
-      })
-      .catch((err)=> {
-        alert(err)
-      })
-    ;
+    // // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
+    // IamportCordova.payment(PaymentObject )
+    //   .then((response)=> {
+    //     alert("success")
+    //     alert(JSON.stringify(response))
+    //   })
+    //   .catch((err)=> {
+    //     alert(err)
+    //   })
+    // ;
   }
 
   confirmAlert2(str) {

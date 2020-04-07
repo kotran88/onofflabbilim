@@ -70,7 +70,6 @@ firemain = firebase.database().ref();
   orderpage(){
     console.log("come to orderpage")
     this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user});
-
   }
   teest(){
   //   var all_select=document.getElementsByTagName('select')[0];
@@ -86,8 +85,6 @@ firemain = firebase.database().ref();
   }
 
   generatehardware(){
-
-
     this.firemain.child("category").once("value",(snapshot)=>{
       for(var a in snapshot.val()){
         console.log(a)
@@ -106,29 +103,36 @@ firemain = firebase.database().ref();
     }
     console.log(this.hardwarearray)
     })
-
   }
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad ModalpagePage');
 
     $( document ).ready(()=>{
       // code goes here
+      var ck=false;
       $('#mySelect').change((e)=>{
         for(var i=0; i<this.hardwarearray.length; i++){
           if(this.hardwarearray[i].name==e.target.value.split("/")[0]){
-            this.hardwarename=this.hardwarearray[i];
+            if(Number(this.hardwarearray[i].stock)<=0){
+              alert('재고가 없는 게임기 입니다.');
+            }
+            else{
+              this.hardwarename=this.hardwarearray[i];
+              ck=true;
+            }
           }
         }
-        console.log(e.target.value);
-       this.totalprice2=this.totalprice;
-       this.totalprice2+=Number(e.target.value.split("/")[1]);
-       this.total=this.totalprice2;
-       if(isNaN(this.total)){
-         this.total=0;
-       }
-   });
-  });
-
+        if(ck===true){
+          console.log(e.target.value);
+          this.totalprice2=this.totalprice;
+          this.totalprice2+=Number(e.target.value.split("/")[1]);
+          this.total=this.totalprice2;
+          if(isNaN(this.total)){
+            this.total=0;
+          }
+        }
+      });
+    });
   }
-
 }

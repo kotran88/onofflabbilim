@@ -11,7 +11,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Http, RequestOptions, Headers} from '@angular/http';
 
 // import undefined from 'firebase/empty-import';
-/**
+/*
  * Generated class for the ChatPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
@@ -178,8 +178,8 @@ export class ChatPage {
           this.image='';
           console.log('upload ok')
 
-          setInterval(function(){
-            if(this.chatck[this.chatck.length-1]==='1'){
+          setTimeout(() => {
+            if(this.chatck[this.chatck.length-1]==='1'&&this.id===this.chatUser[this.chatck.length-1]){
               this.send_push(this.text,this.imageUrl);
             }
           },1000)
@@ -269,16 +269,18 @@ export class ChatPage {
     let data={
       "app_id": "6505b348-1705-4d73-abe4-55ab40758266",
       "include_player_ids": [this.deviceId],
-      "headings":{"en":this.id},
+      "headings":{"ko":this.id,"en":"en_headers"},
       "ios_badgeType":"Increase",
       "ios_badgeCount":1,
       "data": {"welcome": "pdJung", "store":'this.store'},
-      "contents": {"en": text},
+      "contents": {"ko": text,"en":"en_content"},
       "big_picture":url,
     }
     console.log(data);
-    let headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });
+    let headers = new Headers({ 'Content-Type':'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });
+    console.log(headers);
     let options = new RequestOptions({headers:headers});
+    console.log(options);
     this.http.post('https://onesignal.com/api/v1/notifications', JSON.stringify(data), options).toPromise().then((e)=>{
       console.log("then come")
       console.log(e);

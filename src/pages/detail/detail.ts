@@ -309,20 +309,27 @@ export class DetailPage {
   }
   gameselected(v,i){
     this.zone.run(()=>{
-      this.count=0;
-      this.gamearray[i].check=!this.gamearray[i].check;
-      console.log(this.gamearray);
-      if(this.gamearray[i].fflag==true){
-        this.gamearray[i].fflag=false;
-      }else{
-        this.gamearray[i].fflag=true;
+
+      if(Number(this.gamearray[i].stock)<=0){
+        alert('재고가 없는 게임입니다.')
       }
-      for(var j=0; j<this.gamearray.length; j++){
-        if(this.gamearray[j].fflag==true){
-          this.count++;
+      else{
+        this.count=0;
+      
+        this.gamearray[i].check=!this.gamearray[i].check;
+        console.log(this.gamearray);
+        if(this.gamearray[i].fflag==true){
+          this.gamearray[i].fflag=false;
+        }else{
+          this.gamearray[i].fflag=true;
         }
+        for(var j=0; j<this.gamearray.length; j++){
+          if(this.gamearray[j].fflag==true){
+            this.count++;
+          }
+        }
+        console.log("count is : "+this.count);
       }
-      console.log("count is : "+this.count);
     })
   
   }
