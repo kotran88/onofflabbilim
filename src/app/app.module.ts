@@ -4,6 +4,7 @@ import { IonicApp, ViewController,IonicErrorHandler, IonicModule } from 'ionic-a
 // import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LoginpagePage} from './../pages/loginpage/loginpage'
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MyApp } from './app.component';
@@ -24,17 +25,17 @@ import { SignupPage } from '../pages/signup/signup';
 import { DeliveryAreaPage } from '../pages/delivery-area/delivery-area';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { GameDetailPage } from '../pages/game-detail/game-detail';
+import { HttpModule } from '@angular/http';
 import { ChatPage } from '../pages/chat/chat';
 import { CameraselectPage } from './../pages/cameraselect/cameraselect'
-import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { HttpModule } from '@angular/http'
 // import { ChatroomlistPage } from '../pages/chatroomlist/chatroomlist';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { CoinsPage } from '../pages/coins/coins';
 import { SettingPage } from '../pages/setting/setting';
 
 import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
+import { PaymentPage } from '../pages/payment/payment';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -65,6 +66,7 @@ firebase.initializeApp(firebaseConfig);
     FirstlandingPage,
     CameraselectPage,
     CoinsPage,
+    PaymentPage
     // ChatroomlistPage,
   ],
   imports: [
@@ -72,8 +74,8 @@ firebase.initializeApp(firebaseConfig);
     StarRatingModule,
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(firebaseConfig),
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -93,6 +95,7 @@ firebase.initializeApp(firebaseConfig);
     DeliveryAreaPage,
     GameDetailPage,
     CameraselectPage,
+    PaymentPage
     // ChatroomlistPage,
   ],
   providers: [

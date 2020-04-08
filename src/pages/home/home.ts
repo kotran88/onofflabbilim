@@ -47,7 +47,8 @@ export class HomePage {
   userid:any;
   realpsarray:any;
   user:any;
-  counter:any=0;
+  counter:any;
+
   ionViewWillEnter(){
     
   }
@@ -67,6 +68,8 @@ export class HomePage {
   }
   constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
     // localStorage.setItem('id','01079998598')
+    
+    // localStorage.setItem('id','kotraner88@gmailcom')
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
@@ -103,7 +106,6 @@ export class HomePage {
  
     console.log(this.id);
     console.log(this.loginflag);
-    console.log(this.userid);
 
     this.zone.run(()=>{
       console.log("id is : "+this.id);
@@ -117,7 +119,6 @@ export class HomePage {
           console.log(this.user);
         })
       }
-  
      
       this.firemain.child("setting").once("value",(snapshot)=>{
         for(var a in snapshot.val()){

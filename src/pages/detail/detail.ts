@@ -1,3 +1,4 @@
+
 import { Component,NgZone } from '@angular/core';
 import { IonicPage,App, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
 
@@ -15,6 +16,10 @@ import { GameDetailPage } from '../game-detail/game-detail';
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
+ * 
+ * 14일 30%
+ * 30일 50%
+ * 관리자 상태 추가 (검수완료)
  */
 
 @Component({
@@ -98,35 +103,15 @@ export class DetailPage {
     }
   }
 
-  pick_date(mode){
-    this.platform.ready().then(() => {
-      let options = {
-        date: new Date(),
-        mode: 'date',
-        androidTheme: 5,
-      }
-      if(mode===1) options.date=new Date(this.startDate)
-      else options.date=new Date(this.endDate)
-
-      this.datePicker.show(options).then(
-        date => {
-          // alert('Selected date: ' + date);
-          if(mode===1||mode==='1'){
-            this.startDate=date.toISOString();
-            this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
-            this.datechange(1);
-          }
-          else{
-            this.endDate=date.toISOString();
-            this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
-            this.datechange(2);
-          }
-        },
-        error => {
-          // alert('Error: ' + error);
-        }
-      );
-    });
+  pick_date(){
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'date',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+    }).then(
+      date => console.log('Got date: ', date),
+      err => console.log('Error occurred while getting date: ', err)
+    );
   }
   gotologin(){
     this.navCtrl.push(LoginpagePage)
@@ -157,7 +142,6 @@ export class DetailPage {
     this.datechange(1);
     this.datechange(2);
 
-    this.endDate=date.toISOString();
     console.log(this.startDate);
     console.log(this.endDate);
 
@@ -313,6 +297,9 @@ export class DetailPage {
       if(Number(this.gamearray[i].stock)<=0){
         alert('재고가 없는 게임입니다.')
       }
+      else if(this.gamearray[i].check===false&&this.count>=9){
+        this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
+      }
       else{
         this.count=0;
       
@@ -365,6 +352,22 @@ export class DetailPage {
   ab(){
     console.log("callback")
   }
+
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
+
   confirmAlert(str) {
     let alert = this.alertCtrl.create({      
         subTitle: str,
@@ -387,6 +390,7 @@ export class DetailPage {
     alert.present({animate:false});
   }
   orderpage(){
+    this.count=0;
     console.log(this.detail);
     console.log(this.gamearray);
     for(var j=0; j<this.gamearray.length; j++){
@@ -406,17 +410,44 @@ export class DetailPage {
       alert('1가지 이상의 게임을 선택해주세요.')
     }
     else{
-      // this.navCtrl.push(OrderpagePage)
-
-      var modaloption : ModalOptions={
-        enableBackdropDismiss:true
+      if(this.count>6){
+        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal3' });
+        modal.onDidDismiss(data => {
+          if(data!=undefined){
+            console.log(data);
+    
+            // this.uploadImageToFirebase(data);
+          }
+         
+        });
+        modal.present();
+      }else if(this.count>3){
+        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal2' });
+        modal.onDidDismiss(data => {
+          if(data!=undefined){
+            console.log(data);
+    
+            // this.uploadImageToFirebase(data);
+          }
+         
+        });
+        modal.present();
+      }else{
+        window.alert("less than 3")
+        var modaloption : ModalOptions={
+          enableBackdropDismiss:true
+        }
+        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},modaloption);
+        modal.onDidDismiss(imagedata => {
+          console.log(imagedata)
+      });
+      modal.present();
+  
       }
-      let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},modaloption);
-      modal.onDidDismiss(imagedata => {
-        console.log(imagedata)
-    });
-    modal.present();
-
+    }
+  }
+}
+      // this.navCtrl.push(OrderpagePage)
 
 
 
@@ -461,7 +492,3 @@ export class DetailPage {
 //         alert(err)
 //       })
 //     ;
-  }
-  }
-
-}

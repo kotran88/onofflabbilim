@@ -1,0 +1,33 @@
+<ion-content>
+    <div style="background-color:rgb(240, 239, 239);">
+        <button (click)="goback()" style="background-color: rgb(240, 239, 239); float:left; margin-top:8px;">
+            <img src="assets/img/back.png" style="width:20px;background-color: rgb(240, 239, 239);;float:left;" alt="">
+        </button>
+        <ion-title style="margin-left:auto; margin-right:auto; padding:0 112px;">주문페이지</ion-title>
+    </div>
+
+    <div style="margin-left:auto; margin-right:auto; margin-top:10px; text-align: center;">
+        <span>대여기간 : </span>
+        <span style="font-size:25px; background-color:rgb(240, 239, 239)">{{diff}}일</span>
+        <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월{{endDate.split("T")[0].split("-")[2]}}일)</span>
+    </div>
+    <div style="width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black " *ngIf="hardware != undefined">
+        <span style="font-size:17px; margin-bottom:10px;">{{hardware.name}}</span>
+        <span style="font-size:13px;"><br>* 보증금 선택</span>
+        <ion-item>
+            <ion-range min="0" max="{{hardware.pricenormal}}" pin="true" step="50000" [(ngModel)]="contrast">
+                <ion-label range-left name="contrast"></ion-label>
+                <ion-label range-right name="contrast"></ion-label>
+            </ion-range>
+        </ion-item>
+        <div style="text-align: center;">
+            <span *ngIf="contrast == undefined" style="font-size:13px;">보증금을 선택하세요.</span>
+            <span *ngIf="contrast != undefined" style="font-size:13px;">보증금 : {{contrast}}</span>
+        </div>
+    </div>
+
+    <div style="width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black " *ngIf="hardware === undefined">
+    </div>
+
+    <div></div>
+</ion-content>

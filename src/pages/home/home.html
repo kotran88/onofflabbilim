@@ -18,12 +18,12 @@
 
             <div style="
     float: right;" class="righticonarea">
-                <img (click)="coinpoint();" src="assets/img/coinimage.png" style="font-size: 1.8em;
+                <!-- <img (click)="coinpoint();" src="assets/img/coinimage.png" style="font-size: 1.8em;
       right: 15%; 
     margin-top: 10px;
       width:25px;
       margin-left:3px;
-      margin-right:3px;" name="search" />
+      margin-right:3px;" name="search" /> -->
                 <img (click)="settings();" src="assets/img/set7.png" style="font-size: 1.8em;
       right: 15%; 
     margin-top: 15px;
@@ -122,14 +122,12 @@
         <div class="putter_text2">제2010-경기안양-402호</div>
         <div class="putter_text">사업장 소재지:</div>
         <div class="putter_text2">전주대학교본관</div>
-        <div class="putter_text">전주 본사:</div>
+        <!-- <div class="putter_text">전주 본사:</div> -->
         <div class="putter_text2">전주대학교본관</div>
         <div class="putter_text">개인정보관리책임자:</div>
         <div class="putter_text2">정평두</div>
-        <div style="color: rgb(54,54,54);">
-            <div class="putter_text">고객샌터:</div>
-            <div class="putter_text2">070-4155-8598 / kotran@naver.com</div>
-        </div>
+        <div class="putter_text">고객샌터:</div>
+        <div class="putter_text2">070-4155-8598 / kotran@naver.com</div>
 
         <div class="anchor_base">
             <a class="anchor_text">채무지급보증보험</a>
@@ -137,14 +135,13 @@
             <a class="anchor_text">전자금융거래약관</a>
             <a class="anchor_text">개인정보처리방침</a>
         </div>
-        <div class="putter_text" style="width: 100%;">Copyright.........................................................</div>
+        <!-- <div class="putter_text" style="width: 100%;">Copyright.........................................................</div> -->
     </footer>
 
-    <ion-fab right bottom>
-        <button ion-fab mini style="background-color:rgb(75, 170, 199);" (click)="go_chat()">
-          <img src="assets/img/chat2.png" style="width:30px;" alt="">
-        <!-- <ion-icon name="send" style="color: white;"></ion-icon> -->
-    </button>
+    <ion-fab right style="bottom: 25%;">
+      <button ion-fab mini style="background-color:rgb(75, 170, 199);" (click)="go_chat()">
+        <img src="assets/img/chat2.png" style="width:30px;" alt="">
+      </button>
     </ion-fab>
 
 </ion-content>

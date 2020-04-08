@@ -20,55 +20,64 @@ import { OrderpagePage } from './../../pages/orderpage/orderpage';
   templateUrl: 'modalpage.html',
 })
 export class ModalpagePage {
-gamearray=[];
-hardwarearray=[];
-hardwarename:any;
-gamearraytrue=[];
-diff:any;
-startDate:any;
-totalprice2=0;
-endDate:any;
-total=0;
-totalprice=0;
-flag:any;
-hardware:any;
-user:any;
-points:any;
-select_temp='';
-
-firemain = firebase.database().ref();
+  gamearray=[];
+  hardwarearray=[];
+  hardwarename:any;
+  gamearraytrue=[];
+  diff:any;
+  startDate:any;
+  totalprice2=0;
+  endDate:any;
+  total=0;
+  totalprice=0;
+  flag:any;
+  hardware:any;
+  user:any;
+  points:any;
+  count:any=0;
+  firemain = firebase.database().ref();
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.flag= this.navParams.get("flag");
     this.hardware=this.flag.flag
-   this.gamearray= this.navParams.get("list");
-   this.startDate=this.navParams.get("startDate");
-   this.endDate=this.navParams.get("endDate");
-   this.diff=this.navParams.get("diff");
-   this.user=this.navParams.get("user");
-   console.log(this.user)
-   if(this.user.point==undefined){
-     this.points=0;
-   }else{
-    this.points=this.user.point;
-   }
+    this.gamearray= this.navParams.get("list");
+    this.startDate=this.navParams.get("startDate");
+    this.endDate=this.navParams.get("endDate");
+    this.diff=this.navParams.get("diff");
+    this.user=this.navParams.get("user");
+    console.log("flag : ");
+    console.log(this.flag);
+    console.log( "user : ");
+    console.log(this.user);
+    console.log("hardware :"+ this.hardware);
+    console.log("startDate :" + this.startDate);
+    console.log("endDate : "+this.endDate);
+    console.log("diff : "+this.diff);
 
-   for(var i=0; i<this.gamearray.length; i++){
-     var flag=this.gamearray[i].fflag;
-     console.log(flag)
-     if(flag==true){
+    if(this.user.point==undefined){
+      this.points=0;
+    }else{
+    this.points=this.user.point;
+    }
+
+    for(var i=0; i<this.gamearray.length; i++){
+      var flag=this.gamearray[i].fflag;
+      console.log(flag)
+      if(flag==true){
       this.gamearraytrue.push(this.gamearray[i])
-     }
-   }
-   console.log(this.gamearraytrue)
-   var a = 0;
-   for(var i=0; i<this.gamearraytrue.length; i++){
-     a+=this.gamearraytrue[i].price*this.diff;
-   }
-   this.total=a;
-   this.totalprice=a;
-   this.totalprice2=a;
-   this.generatehardware();
+      this.count++;
+      }
+    }
+    window.alert(this.count)
+    console.log(this.gamearraytrue)
+    var a = 0;
+    for(var i=0; i<this.gamearraytrue.length; i++){
+      a+=this.gamearraytrue[i].price*this.diff;
+    }
+    this.total=a;
+    this.totalprice=a;
+    this.totalprice2=a;
+    this.generatehardware();
   }
   orderpage(){
     console.log("come to orderpage")

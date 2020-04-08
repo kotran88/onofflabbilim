@@ -224,17 +224,17 @@ margin-left: 20px;" class="gameshowing">
                     <p style="
   font-size: 16px;
   font-weight: bold; margin-left:15px; margin-top:20px;"> 총 금액</p>
-                    <p style="margin-left:5px; margin-top:20px;"> {{number_format(totalprice)}}</p>
+                    <p style="margin-left:5px; font-size:18px; margin-top:20px;"> {{number_format(totalprice)}}</p>
 
                     <p style="
   font-size: 16px;
   font-weight: bold; margin-left:15px; margin-top:20px;"> 할인 금액</p>
-                    <p style="margin-left:5px; margin-top:20px;"> - {{number_format(discount)}}</p>
+                    <p style="margin-left:5px; font-size:20px; font-weight: bold margin-top:20px;"> - {{number_format(discount)}}</p>
 
                     <p style="
   font-size: 16px;
   font-weight: bold; margin-left:15px; margin-top:20px;"> 지불 금액</p>
-                    <p style="margin-left:5px; margin-top:20px;"> {{number_format(pricetopay)}}</p>
+                    <p style="margin-left:5px; font-size:22px; font-weight: bolder; margin-top:20px;"> {{number_format(pricetopay)}}</p>
                 </div>
 
 
@@ -246,22 +246,11 @@ margin-left: 20px;" class="gameshowing">
 
 </ion-content>
 
-<div (click)="orderpage()" style="position: absolute;
-bottom: 0%;
-width: 100%;
-z-index: 99999;
-height: 50px;
-text-align: center;
-background: #E5333F;" class="order">
-    <p style="
-font-size: 18px;
-line-height: 10px;
-color: white;">빌리기 (3/3)</p>
+<!-- <div (click)="orderpage()" style="position: absolute; -->
+<div (click)="payment()" style="position:absolute; bottom: 0%; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
+    <p style=" font-size: 18px; line-height: 10px; color: white; ">빌리기 (3/3)</p>
 </div>
 
-<!-- <ion-content *ngIf="" class="main-view" style="background: transparent;
-background-color: transparent;
-height: 60%;
-top: 20%;" padding>
+<!-- <ion-content *ngIf=" " class="main-view " style="background: transparent; background-color: transparent; height: 60%; top: 20%; " padding>
     
 </ion-content> -->

@@ -2,20 +2,22 @@ import { Component } from '@angular/core';
 import { Platform ,ViewController,App,AlertController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
-import  { LoginpagePage } from './../pages/loginpage/loginpage'
-import { HomePage } from '../pages/home/home';
+
+import { MypagePage} from '../pages/mypage/mypage'
 
 import { OrderpagePage } from '../pages/orderpage/orderpage';
 
 import { SignupPage } from '../pages/signup/signup';
 import { ChatPage } from '../pages/chat/chat';
+import { HomePage} from '../pages/home/home'
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   // rootPage:any = HomePage;
+  // rootPage:any=MypagePage;
   rootPage:any=HomePage;
-app:any;
+  app:any;
   constructor( app : App,public alertCtrl:AlertController,statusBar: StatusBar,platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
     this.app=app;
     platform.ready().then(() => {
@@ -53,10 +55,6 @@ app:any;
       //       });
   
       //   },200);
-
-
-
-
     });
   }
 }
