@@ -226,9 +226,9 @@ export class DetailPage {
         else if(this.gamearray[q].name[w]===' '){
           n+=1;
         }
-        else n+=2;
+        else n+=1.5;
       }
-      this.gamearray[q].font_size=15-(n/5);
+      this.gamearray[q].font_size=n;
       console.log(this.gamearray[q].font_size)
     }
   }

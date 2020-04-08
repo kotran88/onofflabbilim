@@ -6,6 +6,7 @@ import firebase from 'firebase';
 
 import { OrderpagePage } from './../../pages/orderpage/orderpage';
 // import undefined from 'firebase/empty-import';
+// import undefined from 'firebase/empty-import';
 
 /**
  * Generated class for the ModalpagePage page.
@@ -33,6 +34,8 @@ flag:any;
 hardware:any;
 user:any;
 points:any;
+select_temp='';
+
 firemain = firebase.database().ref();
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -95,12 +98,20 @@ firemain = firebase.database().ref();
           
              if(b=="hardware"){
               for(var c in snapshot.val()[a][b]){
+                console.log(snapshot.val()[a][b][c].stock);
+                // if(Number(snapshot.val()[a][b][c].stock)<=0){
+                //   snapshot.val()[a][b][c].name="(일시품절)";
+                // }
                 this.hardwarearray.push(snapshot.val()[a][b][c]);
+                if(Number(this.hardwarearray[this.hardwarearray.length-1].stock)<=0){
+                  this.hardwarearray[this.hardwarearray.length-1].name+="[일시품절]"
+                  console.log(this.hardwarearray[this.hardwarearray.length-1].name);
+                }
               }
             }
-        }  
+          }
+        }
       }
-    }
     console.log(this.hardwarearray)
     })
   }
@@ -116,6 +127,8 @@ firemain = firebase.database().ref();
           if(this.hardwarearray[i].name==e.target.value.split("/")[0]){
             if(Number(this.hardwarearray[i].stock)<=0){
               alert('재고가 없는 게임기 입니다.');
+              e.target.value="no"
+              break;
             }
             else{
               this.hardwarename=this.hardwarearray[i];
