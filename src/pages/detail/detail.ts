@@ -318,8 +318,8 @@ export class DetailPage {
         console.log("count is : "+this.count);
       }
     })
-  
   }
+
   goback(){
     this.view.dismiss();
   }
@@ -359,13 +359,10 @@ export class DetailPage {
         buttons: [  
         {
           text: '확인',
-          handler: () => {
-            console.log('Buy clicked');
-          }
         }],
         cssClass: 'alertDanger'
     });
-    alert.present({animate:false});
+    alert.present({animate:true});
   }
 
   confirmAlert(str) {
@@ -409,41 +406,40 @@ export class DetailPage {
     else if(this.count===0){
       alert('1가지 이상의 게임을 선택해주세요.')
     }
-    else{
-      if(this.count>6){
-        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal3' });
-        modal.onDidDismiss(data => {
-          if(data!=undefined){
-            console.log(data);
-    
-            // this.uploadImageToFirebase(data);
-          }
-         
-        });
-        modal.present();
-      }else if(this.count>3){
-        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal2' });
-        modal.onDidDismiss(data => {
-          if(data!=undefined){
-            console.log(data);
-    
-            // this.uploadImageToFirebase(data);
-          }
-         
-        });
-        modal.present();
-      }else{
-        window.alert("less than 3")
-        var modaloption : ModalOptions={
-          enableBackdropDismiss:true
+    else if(this.count>6){
+      let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal3' });
+      modal.onDidDismiss(data => {
+        if(data!=undefined){
+          console.log(data);
+  
+          // this.uploadImageToFirebase(data);
         }
-        let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},modaloption);
-        modal.onDidDismiss(imagedata => {
-          console.log(imagedata)
+        
       });
       modal.present();
+    }
+    else if(this.count>3){
+      let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal2' });
+      modal.onDidDismiss(data => {
+        if(data!=undefined){
+          console.log(data);
   
+          // this.uploadImageToFirebase(data);
+        }
+        
+      });
+      modal.present();
+    }
+    else{
+      window.alert("less than 3")
+      var modaloption : ModalOptions={
+        enableBackdropDismiss:true
       }
+      let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal1' });
+      modal.onDidDismiss(imagedata => {
+        console.log(imagedata)
+      });
+      modal.present();
     }
   }
 }
