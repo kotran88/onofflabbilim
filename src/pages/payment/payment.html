@@ -11,11 +11,12 @@
         <span style="font-size:25px; background-color:rgb(240, 239, 239)">{{diff}}일</span>
         <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월{{endDate.split("T")[0].split("-")[2]}}일)</span>
     </div>
-    <div style="width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black " *ngIf="hardware != undefined">
+    <div *ngIf="hardware != undefined" style="position: relative; width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black ">
         <span style="font-size:17px; margin-bottom:10px;">{{hardware.name}}</span>
         <span style="font-size:13px;"><br>* 보증금 선택</span>
         <ion-item>
-            <ion-range min="0" max="{{hardware.pricenormal}}" pin="true" step="50000" [(ngModel)]="contrast">
+            {{tick}}
+            <ion-range min="0" max="{{hardware.pricenormal}}" pin="true" step="{{tick}}" snaps="true" (ionChange)="choice()" [(ngModel)]="contrast" class="range">
                 <ion-label range-left name="contrast"></ion-label>
                 <ion-label range-right name="contrast"></ion-label>
             </ion-range>
@@ -23,11 +24,61 @@
         <div style="text-align: center;">
             <span *ngIf="contrast == undefined" style="font-size:13px;">보증금을 선택하세요.</span>
             <span *ngIf="contrast != undefined" style="font-size:13px;">보증금 : {{contrast}}</span>
+            <div style="text-align: right;">
+                <span *ngIf="contrast==undefined" style="font-size:15px;">원</span>
+                <span *ngIf="contrast!=undefined" style="font-size:15px;">{{hwprice*diff}}원</span>
+            </div>
         </div>
     </div>
-
-    <div style="width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black " *ngIf="hardware === undefined">
+    <div *ngFor="let game of game" style="position: relative; width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:cornflowerblue">
+        <span style="font-size:17px;">{{game.name}}</span>
+        <div>
+            <span style="font-size: 13px;">{{game.description.main_title}}</span><br>
+            <span style="font-size: 13px;"> - 1일 대여료 : {{game.price}}원</span>
+        </div>
+        <div style="text-align: right;">
+            <span *ngIf="hardware==undefined" style="font-size:15px;">{{game.price * diff}}원</span>
+            <span *ngIf=" hardware!=undefined " style="text-decoration:line-through; font-size:15px; color:#9e9e9e ">{{game.price * diff}}원</span>
+            <span *ngIf="hardware!=undefined " style="font-size:15px; ">{{gamediscount*diff}}원</span>
+        </div>
     </div>
+    <div style="width:90%; position:relative " class="main ">
+        <span style="margin-left:25px; font-size:17px; line-height: 40px; ">할인적용 <span style="font-size:9px; color:red; "> * 코인을 누르면 할인이 적용됩니다(코인 1개 = 1,000원)</span> </span>
+    </div>
+    <div class="clicked " style="background:rgb(246,246,246); height:auto;white-space: initial !important; font-size:13px; border:0.5px solid rgb(234,234,234); ">
+        <div style="height: 100%; background: #70c5ed; color: white; " class="up ">
+            <div (click)="clickcoin(); " style="padding: 10px; height: 100%; text-align: center; line-height: 50px; display: block; " class="upper2 ">
+                <div style="width: 50%; margin: auto; " class="inner ">
+                    <span style="display:inline-block; "> 코인 수 : </span>
+                    <img id="abc " style="vertical-align: middle; height: 25px; position: absolute; margin-top:10px;width: 25px;text-align: center;font-size: 80px; " src="/assets/img/coinimage.png " />
+                    <span style="margin-left: 30px; " class="coin ">  x {{coins}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width:90%; position:relative " class="main ">
+        <div style="width:30%">
+            <span style="margin-left:25px; font-size:17px; line-height: 40px; ">총 결제금액</span>
+        </div>
+        <div style="text-align: right; margin-left:150px; margin-top:-30px;">
+            <span *ngIf="diff<15" style="font-size:17px;">{{totalpaymoney}}원</span>
+            <span *ngIf="diff>=15&&diff<30" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
+            <span *ngIf="diff>=15&&diff<30" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
+            <span *ngIf="diff>=30" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
+            <span *ngIf="diff>=30" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
+        </div>
 
-    <div></div>
+        <div style="width:30%; margin-top:15px;">
+            <span style="margin-left: 25px; font-size:15px;">할인적용</span>
+        </div>
+
+        <div style="text-align: right; margin-top:-20px;">
+            <span style="font-size:13px;">장기대여할인 : -{{discount}}원</span><br>
+            <span style="font-size:13px;">기기대여할인 : -{{gamediscount*diff}}원</span><br>
+            <span style="font-size:13px">코인할인 : 원</span>
+        </div>
+    </div>
+    <div style="position:sticky; bottom: 0%; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
+        <button style="margin-top:14px; background-color:#E5333F; font-size: 18px; color: white; ">결제하기</button>
+    </div>
 </ion-content>

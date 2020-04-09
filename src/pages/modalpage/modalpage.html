@@ -1,26 +1,25 @@
 <ion-content>
-  <div (click)="orderpage()" style="position: absolute;
+    <div (click)="orderpage()" style="position: absolute;
       bottom: 0%; width: 100%; z-index: 99999; height: 50px;
       text-align: center; background: #E5333F;" class="order">
-    <p style="font-size: 18px; line-height: 10px; color: white;">빌리기 (2/3)</p>
-  </div>
+        <p style="font-size: 18px; line-height: 10px; color: white;">빌리기 (2/3)</p>
+    </div>
 </ion-content>
 
 <ion-footer style="padding: 10px !important">
-  <div class="ab">
-    <div class="upper" *ngIf="gamearraytrue.length!=0">
-      <p style="font-size:15px; text-align: center;"> {{startDate.split("T")[0].split("-")[1]}}월{{startDate.split("T")[0].split("-")[2]}}일 부터 {{endDate.split("T")[0].split("-")[1]}}월{{endDate.split("T")[0].split("-")[2]}}일 까지,  {{diff}} 일을 빌리실건가요?</p>
-    </div>
+    <div class="ab">
+        <div class="upper" *ngIf="gamearraytrue.length!=0">
+            <p style="font-size:15px; text-align: center;"> {{startDate.split("T")[0].split("-")[1]}}월{{startDate.split("T")[0].split("-")[2]}}일 부터 {{endDate.split("T")[0].split("-")[1]}}월{{endDate.split("T")[0].split("-")[2]}}일 까지, {{diff}} 일을 빌리실건가요?</p>
+        </div>
 
-  <div *ngIf="gamearraytrue.length!=0" style="height: auto; text-align: center;
+        <div *ngIf="gamearraytrue.length!=0" style="height: auto; text-align: center;
         display: table;" class="gameselect">
-      <p style="font-size:15px; text-align: center;">선택한 게임은...</p>
-      
-      <div style="width: 33%; height: 140px; text-align: center; padding: 10px; float: left;" 
-          *ngFor="let game of gamearraytrue; let i = index">
-          <img style="height: 60%; width: 100%;" src="{{game.url}}" />
-          <br>
-          <span style="text-align: center;">
+            <p style="font-size:15px; text-align: center;">선택한 게임은...</p>
+
+            <div style="width: 33%; height: 140px; text-align: center; padding: 10px; float: left;" *ngFor="let game of gamearraytrue; let i = index">
+                <img style="height: 60%; width: 100%;" src="{{game.url}}" />
+                <br>
+                <span style="text-align: center;">
             <div style="height: auto; margin-bottom: 5px; max-height: 30%;">
               <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
               <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;" *ngIf="game.name.split('\n')[1]!=undefined">{{game.name.split('\n')[1]}}</p>
@@ -31,32 +30,32 @@
               <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{game.price}}원</p> <br>
             </div>
           </span>
-      </div>
-  </div>
-      <div *ngIf="gamearraytrue.length==0" style="
+            </div>
+        </div>
+        <div *ngIf="gamearraytrue.length==0" style="
       height: auto;
       display: table;" class="gameselect">
-        <div  style="
+            <div style="
         width: 100%; font-size:16px;
         height: 50px; padding:10px;
-        text-align: center;"  >
-         게임을 선택하지 않았습니다. 
-              </div>
-      </div>
-      
-      <br>
-      <br>
+        text-align: center;">
+                게임을 선택하지 않았습니다.
+            </div>
+        </div>
 
-      <p *ngIf="count>=3" style="margin-top: 25px; font-size:15px; text-align: center;">게임기가 없으시다면? 게임기 추가해보세요</p>
+        <br>
+        <br>
 
-      <p *ngIf="count<3" style="font-size:15px; text-align: center;">게임기가 없으시다면? 게임기 추가해보세요</p>
+        <p *ngIf="count>=3" style="margin-top: 25px; font-size:15px; text-align: center;">게임기가 없으시다면? 게임기를 추가해보세요</p>
 
-      <select  id="mySelect" class="box" name="location" style="border: solid 1px black;">
+        <p *ngIf="count<3" style="font-size:15px; text-align: center;">게임기가 없으시다면? 게임기를 추가해보세요</p>
+
+        <select id="mySelect" class="box" name="location" style="border: solid 1px black;">
         <option id="a"  value="no">추가안함 (+ 0 원)</option>
         <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}} (+{{a.pricedaily}} 원)</option>
       </select>
-  </div>
-     
-      
+    </div>
+
+
 
 </ion-footer>

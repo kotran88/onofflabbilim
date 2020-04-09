@@ -19,6 +19,7 @@ import { SettingPage } from '../setting/setting';
   templateUrl: 'mypage.html',
 })
 export class MypagePage {
+  [x: string]: any;
   id:any;
   userid:any;
   orderlist=[];
