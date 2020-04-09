@@ -70,20 +70,29 @@ ion-navbar.toolbar{
         top: calc(20%/2);
     }
  }
+
+ .test-modal1 {
+    .modal-wrapper {
+        width: 100%;
+        height:360px ;//240
+        position: absolute !important;
+        bottom: 0% !important;
+    }
+ }
  .test-modal2 {
     .modal-wrapper {
         width: 100%;
-    height:60% ;
-    position: absolute !important;
-    bottom: 0% !important;
+        height:500px ;//380
+        position: absolute !important;
+        bottom: 0% !important;
     }
  }
  .test-modal3 {
     .modal-wrapper {
         width: 100%;
-    height:80% ;
-    position: absolute !important;
-    bottom: 0% !important;
+        height:640px ;//520
+        position: absolute !important;
+        bottom: 0% !important;
     }
  }
 ion-header.header {

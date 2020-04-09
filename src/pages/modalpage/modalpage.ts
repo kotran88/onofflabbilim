@@ -130,8 +130,10 @@ export class ModalpagePage {
 
     $( document ).ready(()=>{
       // code goes here
-      var ck=false;
+
       $('#mySelect').change((e)=>{
+        var ck=false;
+        this.hardwarename=undefined;
         for(var i=0; i<this.hardwarearray.length; i++){
           if(this.hardwarearray[i].name==e.target.value.split("/")[0]){
             if(Number(this.hardwarearray[i].stock)<=0){

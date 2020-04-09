@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, RequestOptions, Headers} from '@angular/http';
 import { updateDate } from 'ionic-angular/umd/util/datetime-util';
-import { IonicPage,Platform,ModalController,AlertController, NavController, NavParams } from 'ionic-angular';
+import { IonicPage,Platform,ModalController,AlertController, NavController, NavParams, LoadingController } from 'ionic-angular';
 import firebase from 'firebase';
 import { ChatPage } from '../chat/chat';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -27,8 +27,11 @@ export class MypagePage {
   image_url:any;
   key:any;
   mypicref:any;
+  lloading:any;
+  deviceId='ac18e96c-c5ee-4d94-8eb7-f7d934c3e41a';
+
   firemain = firebase.database().ref();
-  constructor(public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams, public http:Http) {
+  constructor(public loading:LoadingController,public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams, public http:Http) {
     this.id=navParams.get("id")
     this.user=navParams.get("user");
     console.log(this.id,this.user)
@@ -228,11 +231,11 @@ export class MypagePage {
   send_push(){
     console.log('ready');
 
-    this.firemain.child("users").child(this.temp_data.phone).child('orderlist').update(
-      {
-        'status':'delivered'
-      }
-    );
+    // this.firemain.child("users").child(this.temp_data.phone).child('orderlist').update(
+    //   {
+    //     'status':'delivered'
+    //   }
+    // );
     // this.picker_image();
     this.image_url="https://firebasestorage.googleapis.com/v0/b/bilim-fd9b0.appspot.com/o/vr%2Fgamename%2F%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%A1%E1%84%8B%E1%85%B4%20%E1%84%8B%E1%85%A1%E1%84%90%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6.jpg?alt=media&token=bacd3478-1641-4582-a445-e8b26d306ab6"
 
