@@ -130,10 +130,7 @@ export class ModalpagePage {
 
     $( document ).ready(()=>{
       // code goes here
-<<<<<<< HEAD
-=======
 
->>>>>>> dfff9687b786beae7018d04139ffe25449677f78
       $('#mySelect').change((e)=>{
         var ck=false;
         this.hardwarename=undefined;

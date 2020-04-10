@@ -21,8 +21,7 @@ export class PaymentPage {
   game = [];
   startDate: any;
   endDate: any;
-  hardwareprice: any;
-  contrast : any;
+  contrast: any;
   coins: any;
 
   totalpaymoney: any;
@@ -32,6 +31,9 @@ export class PaymentPage {
   longdiscount: any;
 
   hwprice: any;
+  hwdiscount: any;
+  gameprice : any;
+  hardwareprice : any;
 
   tick: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
@@ -43,9 +45,9 @@ export class PaymentPage {
     this.endDate = this.navParams.get("end");
 
     // this.diff = 19;
-    if (this.hardware != undefined) {
-      this.hardwareprice = this.hardware.pricedaily * this.diff
-    }
+    // this.diff = 31;
+
+    
     this.coins = this.user.points;
     console.log(this.user);
     console.log(this.diff);
@@ -53,97 +55,93 @@ export class PaymentPage {
     console.log(this.game);
     console.log(this.startDate);
     console.log(this.endDate);
-    console.log(this.hardwareprice);
-    console.log(this.hardware.pricenormal);
+    // console.log(this.hardware.pricenormal);
+    if (this.hardware != undefined) {
+      var ticknumber = 0;
+      ticknumber = Math.ceil(this.hardware.pricenormal * 0.33);
+      console.log(ticknumber);
+      if (ticknumber == 118800) { this.tick = 120000 }
+      if (ticknumber == 79200) { this.tick = 80000 }
+      if (ticknumber == 141900) { this.tick = 160000 }
+    }
 
-    var ticknumber = 0;
-
-    ticknumber = Math.ceil(this.hardware.pricenormal * 0.33);
-    console.log(ticknumber);
-    if (ticknumber == 118800) { this.tick = 120000 }
-    if (ticknumber == 79200) { this.tick = 80000 }
-    if (ticknumber == 141900) { this.tick = 160000 }
-
-    console.log(this.tick)
     this.rangeSlider();
     var a = 0;
     var gamedct = 0;
     for (var i = 0; i < this.game.length; i++) {
       a += this.game[i].price * this.diff;
-      this.originpay = a + b;
+      // this.originpay = a + b;
       if (this.hardware != undefined) {
         gamedct += this.game[i].price * 0.5;
       }
-      console.log("gamedct :" + gamedct);
+      else if (this.hardware == undefined) {
+        gamedct = this.game[i].price
+      }
     }
     this.gamediscount = gamedct;
-    var b = 0;
-    if (this.hardware != undefined) {
-      b = this.hardware.pricedaily * this.diff;
-      // this.totalpaymoney = (gamedct*this.diff)+b;
-      this.originpay = a + b;
-      if (this.diff >= 30) {
-        this.totalpaymoney = ((gamedct * this.diff) + b) * 0.5;
-        this.discount = this.originpay - this.totalpaymoney - (this.gamediscount * this.diff);
-      }
-      if (this.diff >= 15 && this.diff < 30) {
-        this.totalpaymoney = ((gamedct * this.diff) + b) * 0.8
-        this.discount = this.originpay - this.totalpaymoney - this.gamediscount;
-      }
-      if (this.diff < 15) {
-        this.totalpaymoney = (gamedct * this.diff) + b;
-        this.discount = 0;
-      }
-    }
-    if (this.hardware == undefined) {
-      // this.totalpaymoney = a+b;
-      this.originpay = a + b;
-      if (this.diff >= 30) {
-        this.totalpaymoney = (a + b) * 0.5
-        this.discount = this.originpay - this.totalpaymoney - this.gamediscount;
-      }
-      if (this.diff >= 15 && this.diff < 30) {
-        this.totalpaymoney = (a + b) * 0.8
-        this.discount = this.originpay - this.totalpaymoney - this.gamediscount;
-      }
-      if (this.diff < 15) {
-        this.totalpaymoney = a + b;
-        this.discount = 0;
-      }
-    }
-    console.log("game total : " + a);
-    console.log("game total : " + gamedct);
-
-    console.log("hardware total :" + b);
-
+    this.gameprice = this.gamediscount*this.diff;
   }
-
-  clickcoin() {
-    console.log(this.coins);
-  }
+  coin:any;
+ 
 
   choice() {
+    var a = 0;
+    for (var i in this.game) { this.game[i].price; a += this.game[i].price * this.diff }
+
     if (this.hardware.name == "닌텐도 스위치") {
       console.log(this.contrast);
-      if (this.contrast == undefined) { this.hwprice = 14000; }
-      if (this.contrast == 0) { this.hwprice = 14000; }
-      if (this.contrast == 120000) { this.hwprice = 9000; }
-      if (this.contrast == 240000) { this.hwprice = 7000; }
-      if (this.contrast == 360000) { this.hwprice = 5000; }
+      this.originpay = (14000 * this.diff + a);
+      if (this.contrast == 0) { this.hwprice = 14000; this.coins = this.user.points; }
+      if (this.contrast == 120000) { this.hwprice = 9000;  this.coins = this.user.points; }
+      if (this.contrast == 240000) { this.hwprice = 7000;  this.coins = this.user.points; }
+      if (this.contrast == 360000) { this.hwprice = 5000;  this.coins = this.user.points; }
+      
     }
     if (this.hardware.name == "스위치 라이트") {
-      if (this.contrast == undefined) { this.hwprice = 10000; }
-      if (this.contrast == 0) { this.hwprice = 10000 }
-      if (this.contrast == 80000) { this.hwprice = 6000 }
-      if (this.contrast == 160000) { this.hwprice = 4000 }
-      if (this.contrast == 240000) { this.hwprice = 3000 }
+      this.originpay = (10000 * this.diff + a);
+      if (this.contrast == 0) { this.hwprice = 10000; this.coins = this.user.points; }
+      if (this.contrast == 80000) { this.hwprice = 6000; this.coins = this.user.points; }
+      if (this.contrast == 160000) { this.hwprice = 4000; this.coins = this.user.points; }
+      if (this.contrast == 240000) { this.hwprice = 3000; this.coins = this.user.points; }
     }
     if (this.hardware.name == "Playstation Pro") {
-      if (this.contrast == undefined) { this.hwprice = 19000; }
-      if (this.contrast == 0) { this.hwprice = 19000 }
-      if (this.contrast == 160000) { this.hwprice = 12000 }
-      if (this.contrast == 320000) { this.hwprice = 9000 }
-      if (this.contrast == 430000) { this.hwprice = 7000 }
+      this.originpay = (19000 * this.diff + a);
+      if (this.contrast == 0) { this.hwprice = 19000; this.coins = this.user.points; }
+      if (this.contrast == 160000) { this.hwprice = 12000; this.coins = this.user.points; }
+      if (this.contrast == 320000) { this.hwprice = 9000; this.coins = this.user.points; }
+      if (this.contrast == 430000) { this.hwprice = 7000; this.coins = this.user.points; }
+    }
+    this.hardwareprice = this.hwprice*this.diff;
+    console.log(this.totalpaymoney);
+    console.log(this.hardwareprice);
+    if (this.diff >= 30) {
+      this.longdiscount = ((this.hardwareprice) + this.gameprice) * 0.5;
+      this.totalpaymoney =this.longdiscount-this.gameprice;
+    }
+    if (this.diff >= 15 && this.diff < 30) {
+      this.longdiscount = ((this.hardwareprice) + this.gameprice) * 0.8;
+      this.totalpaymoney =this.longdiscount-this.gameprice;
+    }
+    if (this.diff < 15) {
+      this.totalpaymoney = this.hardwareprice + this.gameprice;
+    }
+  }
+  clickcoin() {
+    console.log(this.coins);
+    console.log(this.hardwareprice);
+    console.log(this.totalpaymoney);
+    if (this.coins > 0) {
+      this.totalpaymoney = this.totalpaymoney - 100;
+      this.coins--;
+      console.log(this.totalpaymoney);
+      console.log(this.coins);
+      // if(this.totalpaymoney-this.gameprice!= this.hardwareprice){
+      //   this.coins = this.user.points
+      //   console.log(this.coins);
+      // }
+    }
+    else if(this.coins == 0){
+      this.totalpaymoney = this.totalpaymoney;
     }
   }
 
