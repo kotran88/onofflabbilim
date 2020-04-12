@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, AlertController,NavParams, ViewController } from 'ionic-angular';
 import * as $ from 'jquery'
-
+import firebase from 'firebase';
+import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
+import { HomePage } from '../home/home';
 /**
  * Generated class for the PaymentPage page.
  *
@@ -15,6 +17,7 @@ import * as $ from 'jquery'
 })
 export class PaymentPage {
 
+  firemain = firebase.database().ref();
   user: any;
   diff: any;
   hardware: any;
@@ -36,7 +39,7 @@ export class PaymentPage {
   hardwareprice : any;
 
   tick: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
+  constructor(public alertCtrl:AlertController,public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
     this.hardware = this.navParams.get("hardware");
@@ -83,7 +86,91 @@ export class PaymentPage {
   }
   coin:any;
  
+  ordering(){
 
+    var data = {
+      pay_method : 'card',
+      merchant_uid: 'mid_' + new Date().getTime(),
+      name : 'Ming 코인충전',
+      amount : this.totalpaymoney+"",
+      app_scheme : 'ionickcp',
+      buyer_email : 'iamport@siot.do',
+      buyer_name : '구매자이름',
+      buyer_tel : '010-1234-5678',
+      buyer_addr : '서울특별시 강남구 삼성동',
+      buyer_postcode : '123-456'
+    };
+
+
+    var PaymentObject={
+      userCode: "imp58611631",
+      data: data,
+      callback:(response)=> {
+        console.log(response);
+        if(response.imp_success=="true"){
+          console.log("success")
+          console.log(this.hardware);
+          console.log(this.coins);
+          console.log("coin is")
+          var now=new Date();
+          var year=now.getFullYear();
+          var month=now.getMonth()+1;
+          var date=now.getDate();
+          var hour=now.getHours();
+          var min=now.getMinutes();
+          var nnow=year+"-"+month+"-"+date+" "+hour+":"+min;
+          console.log(nnow);
+          if(this.hardware!=undefined){
+            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.game,"hardware":this.hardware,"totalprice":this.totalpaymoney,"payment":this.totalpaymoney}).then(()=>{
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
+              this.navCtrl.setRoot(HomePage);
+            }).catch((e)=>{
+              console.log(e);
+            })
+  
+          }else{
+
+            var k=this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"phone":this.user.phone,"key":k,"status":"paid","startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"orderdate":nnow,"game":this.game,"totalprice":this.totalpaymoney,"payment":this.totalpaymoney}).then(()=>{
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.firemain.child("users").child(this.user.phone).update({"points":this.coins})
+              this.navCtrl.setRoot(HomePage);
+            }).catch((e)=>{
+              console.log(e);
+            })
+          }
+        }
+      },
+    }
+        
+    
+    // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
+    IamportCordova.payment(PaymentObject )
+      .then((response)=> {
+        alert("success")
+        alert(JSON.stringify(response))
+      })
+      .catch((err)=> {
+        alert(err)
+      })
+    ;
+  }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
   choice() {
     var a = 0;
     for (var i in this.game) { this.game[i].price; a += this.game[i].price * this.diff }
