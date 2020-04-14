@@ -9,7 +9,7 @@
     <div style="margin-left:auto; margin-right:auto; margin-top:10px; text-align: center;">
         <span>대여기간 : </span>
         <span style="font-size:25px; background-color:rgb(240, 239, 239)">{{diff}}일</span>
-        <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월{{endDate.split("T")[0].split("-")[2]}}일)</span>
+        <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월 {{endDate.split("T")[0].split("-")[2]}}일)</span>
     </div>
     <div *ngIf="hardware != undefined" style="position: relative; width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black ">
         <span style="font-size:17px; margin-bottom:10px;">{{hardware.name}}</span>
@@ -25,7 +25,7 @@
             <span *ngIf="contrast == undefined" style="font-size:13px;">보증금을 선택하세요.</span>
             <span *ngIf="contrast != undefined" style="font-size:13px;">보증금 : {{contrast}}</span>
             <div style="text-align: right;">
-                <span *ngIf="contrast==undefined" style="font-size:15px;">원</span>
+                <!-- <span *ngIf="contrast==0" style="font-size:15px;">원</span> -->
                 <span *ngIf="contrast!=undefined" style="font-size:15px;">{{hwprice*diff}}원</span>
             </div>
         </div>
@@ -61,12 +61,20 @@
             <span style="margin-left:25px; font-size:17px; line-height: 40px; ">총 결제금액</span>
         </div>
         <div style="text-align: right; margin-left:150px; margin-top:-30px;">
-            <span *ngIf="hardware==undefined" style="font-size:17px;">{{longdiscount}}원</span>
-            <span *ngIf="diff<15 && contrast!=undefined" style="font-size:17px;">{{totalpaymoney}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && contrast!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && contrast!=undefined" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
-            <span *ngIf="diff>=30 && contrast!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
-            <span *ngIf="diff>=30 && contrast!=undefined" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
+            <span *ngIf="diff<15 && hardware==undefined" style="font-size:17px;">{{totalpaymoney}}원</span>
+            <span *ngIf="diff<15 && hardware!=undefined" style="font-size:17px;">{{totalpaymoney}}원</span>
+
+            <span *ngIf="diff>=15 && diff<30 && hardware==undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
+            <span *ngIf="diff>=15 && diff<30 && hardware==undefined" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
+
+            <span *ngIf="diff>=15 && diff<30 && hardware!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
+            <span *ngIf="diff>=15 && diff<30 && hardware!=undefined" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
+
+            <span *ngIf="diff>=30 && hardware==undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
+            <span *ngIf="diff>=30 && hardware==undefined" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
+            <span *ngIf="diff>=30 && hardware!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{originpay}}원</span>
+            <span *ngIf="diff>=30 && hardware!=undefined" style="font-size:17px; margin-left:0px;">{{totalpaymoney}}원</span>
+
         </div>
 
         <div style="width:30%; margin-top:15px;">
@@ -84,10 +92,10 @@
                 <span *ngIf="hardware==undefined" style="font-size:13px;">기기대여할인 : 0원</span><br>
             </div>
 
-            <span style="font-size:13px">코인할인 : 원</span>
+            <span style="font-size:13px">코인할인 : -{{coindiscount}}원</span>
         </div>
     </div>
-    <div style="position:sticky; bottom: 0%; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
+    <div (click)="ordering();" style="position:sticky; bottom: 0%; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
         <button style="margin-top:14px; background-color:#E5333F; font-size: 18px; color: white; ">결제하기</button>
     </div>
 </ion-content>
