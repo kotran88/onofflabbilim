@@ -18,13 +18,11 @@
   <div style="padding: 10px;
   line-height: 25px;
   height: 40px;
-  vertical-align: middle;
   text-align: center;
-  display: inline-flex;
-  text-align: center;" class="upper2">
-    <span>코인 수 : </span> <img style="width:25px; height: 25px;" src="/assets/img/coinimage.png" /><span class="coin"> x {{user.points}}</span>
+  width: 100%;" class="upper2">
+    <span style="font-size: 140%;">코인 수 : </span> <img style="width:25px; height: 25px;" src="/assets/img/coinimage.png" /><span class="coin" style="font-size: 140%;"> x {{user.points}}</span>
   </div>
-  
+
   <ion-list>
     <ion-item *ngFor="let a of orderlist" style="padding-left:0; min-height: 180px;">
       <ion-card style="width:98%; min-height: 150px;">
@@ -36,9 +34,10 @@
             <img style="" *ngIf="a.hardware==undefined&&a.game[0].flag=='ps'" src="assets/img/pslogo.png" />
           </div>
 
-          <div *ngIf="a.hardware!=undefined " style="width: 65%; float: right; line-height: 18px; margin-left:10px; height: 100%;" class="right">
+          <div style="width: 65%; float: right; line-height: 18px; margin-left:10px; height: 100%;" class="right">
                   대여 기간 : {{a.startDate.split("T")[0].split("-")[1]}}월 {{a.startDate.split("T")[0].split("-")[2]}}일 ~ {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}}일
-            <br>  대여 기기 : {{a.hardware.name}}
+            <br>  
+            <span *ngIf="a.hardware!=undefined">대여 기기 : {{a.hardware.name}}</span>
             <br>  결제 금액 : {{number_format(a.payment)}}
             <br>
             
@@ -52,20 +51,16 @@
               
             </div>
             
-            <br> 주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시 {{a.orderdate.split(" ")[1].split(":")[1]}}분
             <br>
-              <span *ngIf="a.status=='paid'">현재 상태 : 결제완료</span>
-              <span *ngIf="a.status=='finished'">
-                현재 상태 : 수거완료 <button style="" (click)="review(a)">후기남기기</button>
-              </span>
-              <span *ngIf="a.status=='delivered'">
-                현재 상태 : 배송완료 <button style="" (click)="returned(a)">반납완료처리</button>
-              </span>
-              <span *ngIf="a.status=='returned'">
-                현재 상태 : 수거대기중
-              </span>
+             주문 날짜 : {{a.orderdate.split(" ")[0].split("-")[1]}}월 {{a.orderdate.split(" ")[0].split("-")[2]}}일 {{a.orderdate.split(" ")[1].split(":")[0]}}시 {{a.orderdate.split(" ")[1].split(":")[1]}}분
+            <br>
+            <span *ngIf="a.status=='paid'">현재 상태 : 결제완료</span>
+            <span *ngIf="a.status=='delivered'">현재 상태 : 배송완료</span>
+            <button *ngIf="a.status==='delivered'" ion-button calss="returnBTN" (click)="returned(a)">수거요청</button>
+            <span *ngIf="a.status=='return'">현재 상태 : 수거대기중</span>
+            <span *ngIf="a.status=='finished'">현재 상태 : 수거완료</span>
           </div>
-
+<!-- 
           <div *ngIf="a.hardware==undefined " style="width: 65%; float: right; 
               line-height: 18px; margin-left:10px; height: 100%;" class="right">
             대여 기간 : {{a.startDate.split("T")[0].split("-")[1]}}월 {{a.startDate.split("T")[0].split("-")[2]}}일 ~ {{a.endDate.split("T")[0].split("-")[1]}}월 {{a.endDate.split("T")[0].split("-")[2]}}일
@@ -98,7 +93,7 @@
             <span *ngIf="a.status=='returned'">
               현재 상태 : 수거대기중
             </span>
-          </div>
+          </div> -->
         </ion-card-content>
       </ion-card>
     </ion-item>

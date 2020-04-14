@@ -81,7 +81,21 @@ export class ModalpagePage {
   }
   orderpage(){
     console.log("come to orderpage")
-    this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user});
+    this.firemain.child('category').child(this.gamearraytrue[0].flag).child('hardware').once('value').then((snap)=>{
+      console.log(snap.val())
+      for(var i in snap.val()){
+        if(this.hardwarename.itemcode.substring(0,2)===snap.val()[i].itemcode.substring(0,2)
+        &&this.hardwarename.itemcode.substring(8,9)===snap.val()[i].itemcode.substring(8,9)
+        &&Number(snap.val()[i].stock)>0){
+          console.log('checked')
+          this.hardwarename.itemcode=snap.val()[i].itemcode;
+          console.log(snap.val()[i].itemcode)
+          break;
+        }
+      }
+      console.log(this.hardwarename.itemcode);
+      this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user});
+    })
   }
   teest(){
   //   var all_select=document.getElementsByTagName('select')[0];
@@ -108,14 +122,32 @@ export class ModalpagePage {
              if(b=="hardware"){
               for(var c in snapshot.val()[a][b]){
                 console.log(snapshot.val()[a][b][c].stock);
-                // if(Number(snapshot.val()[a][b][c].stock)<=0){
-                //   snapshot.val()[a][b][c].name="(일시품절)";
-                // }
-                this.hardwarearray.push(snapshot.val()[a][b][c]);
-                if(Number(this.hardwarearray[this.hardwarearray.length-1].stock)<=0){
-                  this.hardwarearray[this.hardwarearray.length-1].name+="[일시품절]"
-                  console.log(this.hardwarearray[this.hardwarearray.length-1].name);
+
+                if(this.hardwarearray.length===0){
+                  console.log(snapshot.val()[a][b][c])
+                  this.hardwarearray.push(snapshot.val()[a][b][c]);
                 }
+
+                for(var i=0;i< this.hardwarearray.length;i++){
+                  if(this.hardwarearray[i].itemcode.substring(0,2)
+                    ===snapshot.val()[a][b][c].itemcode.substring(0,2)&&
+                    this.hardwarearray[i].itemcode.substring(8,9)
+                    ===snapshot.val()[a][b][c].itemcode.substring(8,9)){
+                      this.hardwarearray[i].stock+=Number(snapshot.val()[a][b][c].stock);
+                      break;
+                  }
+                  else if(i===this.hardwarearray.length-1){
+                    console.log(snapshot.val()[a][b][c])
+                    this.hardwarearray.push(snapshot.val()[a][b][c]);
+                  }
+                }
+              }
+
+              for(var j in this.hardwarearray){
+                if(Number(this.hardwarearray[j].stock)<=0){
+                  this.hardwarearray[j].name+="[일시품절]"
+                  console.log(this.hardwarearray[j].name);
+                } 
               }
             }
           }

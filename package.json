@@ -17,6 +17,7 @@
     "@angular/compiler": "5.2.11",
     "@angular/compiler-cli": "5.2.11",
     "@angular/core": "5.2.11",
+    "@angular/fire": "^6.0.0",
     "@angular/forms": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
@@ -57,14 +58,14 @@
     "jquery": "^3.4.1",
     "natives": "^1.1.6",
     "onesignal-cordova-plugin": "^2.8.3",
-    "rxjs": "5.5.11",
+    "rxjs": "^5.5.2",
     "setimmediate": "^1.0.5",
     "sw-toolbox": "3.6.0",
     "whatwg-fetch": "^3.0.0",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "^3.2.4",
+    "@ionic/app-scripts": "3.2.4",
     "typescript": "^3.8.3"
   },
   "description": "An Ionic project",

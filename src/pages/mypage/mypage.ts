@@ -29,10 +29,16 @@ export class MypagePage {
   key:any;
   mypicref:any;
   lloading:any;
-  deviceId='ac18e96c-c5ee-4d94-8eb7-f7d934c3e41a';
+  check_order:any;
+  deviceId:any;
+  // deviceId="61acf6b0-73f3-40a2-8b19-fc85697494c0";
 
   firemain = firebase.database().ref();
   constructor(public loading:LoadingController,public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams, public http:Http) {
+    this.firemain.child('admin').once('value').then((snap)=>{
+      this.deviceId=snap.val().deviceId;
+    })
+
     this.id=navParams.get("id")
     this.user=navParams.get("user");
     console.log(this.id,this.user)
@@ -44,7 +50,7 @@ export class MypagePage {
     console.log(this.id,this.userid);
     console.log("user is : ");
     console.log(this.user);
-  this.refreshorder();
+    this.refreshorder();
     console.log(this.id,this.userid);
 
     let backAction =  platform.registerBackButtonAction(() => {
@@ -75,38 +81,6 @@ export class MypagePage {
     this.navCtrl.push(ChatPage,{"id":this.id})
   }
 
-  returned(value){
-    console.log(value)
-
-    console.log("Take photo!!!!");
-
-    try{
-      const options : CameraOptions={
-        quality:50,
-        targetHeight:600,
-        targetWidth:600,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        destinationType:this.camera.DestinationType.DATA_URL,
-        encodingType:this.camera.EncodingType.JPEG,
-        mediaType:this.camera.MediaType.PICTURE,
-        saveToPhotoAlbum:true
-      }
-      this.camera.getPicture(options).then(imagedata=>{
-
-        console.log("retrieved image is : ");
-        console.log(imagedata)
-
-        console.log(imagedata.data);
-        if(imagedata!=undefined){
-          console.log("uploading........");
-          this.uploadImageToFirebase(imagedata,0);
-        }
-      })
-    }catch(e){
-      console.log("error "+e);
-    }
-  }
- 
   confirmAlert2(str) {
     let alert = this.alertCtrl.create({      
         subTitle: str,
@@ -122,34 +96,6 @@ export class MypagePage {
     alert.present({animate:false});
   }
 
-  dateck(n){
-    this.orderlist[n].orderdate=
-    this.orderlist[n].orderdate.split(' ')[0]+'T'+
-    this.orderlist[n].orderdate.split(' ')[1];
-
-    if(Number(this.orderlist[n].orderdate.split('T')[0].split('-')[1])<10){
-      this.orderlist[n].orderdate=
-      this.orderlist[n].orderdate.split('T')[0].split('-')[0]+'-+'+
-      this.orderlist[n].orderdate.split('T')[0].split('-')[1]+'-'+
-      this.orderlist[n].orderdate.split('T')[0].split('-')[2]+
-      this.orderlist[n].orderdate.split('T')[1];
-    }
-
-    if(Number(this.orderlist[n].orderdate.split('T')[0].split('-')[2])<10){
-      this.orderlist[n].orderdate=
-      this.orderlist[n].orderdate.split('T')[0].split('-')[0]+'-'+
-      this.orderlist[n].orderdate.split('T')[0].split('-')[1]+'-+'+
-      this.orderlist[n].orderdate.split('T')[0].split('-')[2]+
-      this.orderlist[n].orderdate.split('T')[1];
-    }
-
-    for(var i=0;i<this.orderlist[n].orderdate.length;i++){
-      if(this.orderlist[n].orderdate[i]==='+'){
-        this.orderlist[n].orderdate[i]=' ';
-      }
-    }
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad MypagePage');
   }
@@ -157,6 +103,45 @@ export class MypagePage {
   number_format(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
     return num.toString().replace(regexp, ',');
+  }
+
+  status_change(status){
+    
+    console.log('status : ',status)
+    this.firemain.child('users').child(this.id).child('orderlist').child(this.check_order.key).update({status:status}).then(()=>{
+      this.refreshorder();
+    })
+  }
+
+  returned(a){
+    this.check_order=a;
+    console.log("Take photo!!!!");
+    try{
+      const options : CameraOptions={
+        quality:50,
+        targetHeight:600,
+        targetWidth:600,
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        destinationType:this.camera.DestinationType.DATA_URL,
+        encodingType:this.camera.EncodingType.JPEG,
+        mediaType:this.camera.MediaType.PICTURE,
+        saveToPhotoAlbum:true
+      }
+      this.camera.getPicture(options).then(imagedata=>{
+
+        this.loading_on();
+        console.log("retrieved image is : ");
+        console.log(imagedata)
+
+        console.log(imagedata.data);
+        if(imagedata!=undefined){
+          console.log("uploading........");
+          this.uploadImageToFirebase(imagedata,0);
+        }
+      })
+    }catch(e){
+      console.log("error "+e);
+    }
   }
 
   loading_on(){
@@ -177,9 +162,31 @@ export class MypagePage {
     this.uploadImage(image,index)
   }
 
+  stfm(num,len):string{
+    var str=String(num);
+
+    for(var i=str.length;i<len;i++){
+      str='0'+str;
+    }
+
+    return str;
+  }
+
+  nowtime():string{
+    var time:any;
+    var now=new Date();
+
+    time='R ';
+
+    time+=this.stfm(now.getFullYear(),4)+'-'+this.stfm((now.getMonth()+1),2)+'-'+this.stfm(now.getDate(),2)+'|'+
+    this.stfm(now.getHours(),2)+':'+this.stfm(now.getMinutes(),2)+':'+this.stfm(now.getSeconds(),2);
+
+    return time;
+  }
+
   uploadImage(imageURI,index){
     let storageRef = firebase.storage().ref();
-    var result="design"+(index+1);
+    var result=this.nowtime();
     console.log(imageURI);
     imageURI=  "data:image/png;base64," + imageURI;
     console.log("sssssssssss : "+result);
@@ -187,19 +194,19 @@ export class MypagePage {
     console.log("donE!!!!!!!!!!")
 
     this.mypicref=firebase.storage().ref('imagelist/');
-    this.key=this.firemain.child("list").push().key;
-    var a = this.mypicref.child(this.key).child(result)
+    // this.key=this.nowtime();
+    var a = this.mypicref.child(this.id).child(result);
     this.encodeImageUri(imageURI, (image64)=>{
       a.putString(image64, 'data_url')
       .then(snapshot => {
-        this.mypicref.child(this.key).child(result).getDownloadURL().then((url)=>{
+        this.mypicref.child(this.id).child(result).getDownloadURL().then((url)=>{
           console.log("download url is : "+url);
-          this.image_url=url;
           this.loading_off();
 
+          this.send_push('수거요청','수거를 요청합니다',url);
+          this.status_change('pinished');
+
           window.alert("사진업로드 완료!")
-          this.send_push();
-          // this.view.dismiss({'data':url})
 
         }).catch((e)=>{
           console.log('eeeee');
@@ -229,28 +236,21 @@ export class MypagePage {
     img.src = imageUri;
   };
 
-  send_push(){
+  send_push(header,content,url){
     console.log('ready');
 
-    // this.firemain.child("users").child(this.temp_data.phone).child('orderlist').update(
-    //   {
-    //     'status':'delivered'
-    //   }
-    // );
-    // this.picker_image();
-    this.image_url="https://firebasestorage.googleapis.com/v0/b/bilim-fd9b0.appspot.com/o/vr%2Fgamename%2F%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%A1%E1%84%8B%E1%85%B4%20%E1%84%8B%E1%85%A1%E1%84%90%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6.jpg?alt=media&token=bacd3478-1641-4582-a445-e8b26d306ab6"
+    // this.status_change(this.check_order,'delivered');
 
     console.log("sendpushnotification")
-    console.log(this.deviceId)
     let data={
       "app_id": "6505b348-1705-4d73-abe4-55ab40758266",
       "include_player_ids": [this.deviceId],
-      "headings":{"en":"주문하신 게임이 도착하였습니다."},
+      "headings":{"en":header},
       "ios_badgeType":"Increase",
       "ios_badgeCount":1,
       "data": {"welcome": "pdJung", "store":'this.store'},
-      "contents": {"en": "배송완료"},
-      "big_picture":this.image_url,
+      "contents": {"en": content},
+      "big_picture":url,
     }
     console.log(data);
     let headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });
