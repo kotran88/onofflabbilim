@@ -101,18 +101,31 @@ export class DetailPage {
         this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
     }
+    else{
+      if(mode===1){
+        this.startDate=a.toISOString();
+        this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      }
+      else {
+        this.endDate=b.toISOString();
+        this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+      }
+    }
   }
 
   pick_date(mode){
+    var temp:any;
+    if(mode===1) temp=new Date(this.startDate);
+    else if(mode===2) temp=new Date(this.endDate);
     this.datePicker.show({
-      date: new Date(),
+      date: temp,
       mode: 'date',
-      androidTheme: 5,
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
     }).then(
       date =>{
         console.log('Got date: ', date);
-        if(mode===1){this.startDate=date;}
-        else {this.endDate=date}
+        if(mode===1) this.startDate=date;
+        else if(mode===2) this.endDate=date;
         this.datechange(mode);
       },
       err => console.log('Error occurred while getting date: ', err)
