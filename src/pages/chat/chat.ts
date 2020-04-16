@@ -275,6 +275,7 @@ export class ChatPage {
       "data": {"welcome": "pdJung", "store":'this.store'},
       "contents": {"ko": text,"en":"en_content"},
       "big_picture":url,
+      "large_icon":String(url),
     }
     console.log(data);
     let headers = new Headers({ 'Content-Type':'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });

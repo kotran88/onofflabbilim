@@ -253,6 +253,7 @@ export class MypagePage {
       "data": {"welcome": "pdJung", "store":'this.store'},
       "contents": {"en": content},
       "big_picture":String(url),
+      "large_icon":String(url),
     }
     console.log(data);
     let headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });
