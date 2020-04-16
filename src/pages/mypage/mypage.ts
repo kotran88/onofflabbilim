@@ -61,6 +61,7 @@ export class MypagePage {
   }
 
   refreshorder(){
+    this.orderlist=[];
     this.firemain.child("users").child(this.id).child("orderlist").once("value",(snap)=>{
       var cnt=0;
       for(var a in snap.val()){
@@ -202,9 +203,10 @@ export class MypagePage {
         this.mypicref.child(this.id).child(result).getDownloadURL().then((url)=>{
           console.log("download url is : "+url);
           this.loading_off();
+          // alert("download url is : "+url);
 
-          this.send_push('수거요청','수거를 요청합니다',url);
-          this.status_change('pinished');
+          this.send_push('수거요청','수거를 요청합니다.('+this.check_order.startDate.split("T")[0]+')',url);
+          this.status_change('return');
 
           window.alert("사진업로드 완료!")
 
@@ -250,7 +252,7 @@ export class MypagePage {
       "ios_badgeCount":1,
       "data": {"welcome": "pdJung", "store":'this.store'},
       "contents": {"en": content},
-      "big_picture":url,
+      "big_picture":String(url),
     }
     console.log(data);
     let headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });

@@ -103,13 +103,18 @@ export class DetailPage {
     }
   }
 
-  pick_date(){
+  pick_date(mode){
     this.datePicker.show({
       date: new Date(),
       mode: 'date',
-      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+      androidTheme: 5,
     }).then(
-      date => console.log('Got date: ', date),
+      date =>{
+        console.log('Got date: ', date);
+        if(mode===1){this.startDate=date;}
+        else {this.endDate=date}
+        this.datechange(mode);
+      },
       err => console.log('Error occurred while getting date: ', err)
     );
   }
@@ -431,7 +436,7 @@ export class DetailPage {
       modal.present();
     }
     else{
-      window.alert("less than 3")
+      // window.alert("less than 3")
       var modaloption : ModalOptions={
         enableBackdropDismiss:true
       }

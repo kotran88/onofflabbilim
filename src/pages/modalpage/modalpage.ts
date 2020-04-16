@@ -68,7 +68,7 @@ export class ModalpagePage {
       this.count++;
       }
     }
-    window.alert(this.count)
+    // window.alert(this.count)
     console.log(this.gamearraytrue)
     var a = 0;
     for(var i=0; i<this.gamearraytrue.length; i++){
@@ -83,17 +83,21 @@ export class ModalpagePage {
     console.log("come to orderpage")
     this.firemain.child('category').child(this.gamearraytrue[0].flag).child('hardware').once('value').then((snap)=>{
       console.log(snap.val())
+      console.log(this.hardwarename)
       for(var i in snap.val()){
-        if(this.hardwarename.itemcode.substring(0,2)===snap.val()[i].itemcode.substring(0,2)
+        if(Number(snap.val()[i].stock)>0&&this.hardwarename!=undefined
+        &&this.hardwarename.itemcode.substring(0,2)===snap.val()[i].itemcode.substring(0,2)
         &&this.hardwarename.itemcode.substring(8,9)===snap.val()[i].itemcode.substring(8,9)
-        &&Number(snap.val()[i].stock)>0){
+        ){
+          console.log(this.hardwarename);
+          console.log(i,snap.val()[i])
           console.log('checked')
           this.hardwarename.itemcode=snap.val()[i].itemcode;
           console.log(snap.val()[i].itemcode)
+          console.log(this.hardwarename.itemcode);
           break;
         }
       }
-      console.log(this.hardwarename.itemcode);
       this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user});
     })
   }
