@@ -137,9 +137,8 @@ export class ChatPage {
       this.afDatabase.list("message/"+this.item.orderNo+"/").push(this.chat);
 
     }).catch(error=>{
-      alert(error);
-      alert(error.message);
-      alert(error.code);
+      // alert(error);
+      alert(error.message+'\n'+error.code);
     })
   }
 

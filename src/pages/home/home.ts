@@ -67,129 +67,135 @@ export class HomePage {
     toast.present();
   }
   constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
-    // localStorage.setItem('id','01079998598')
-    
-    // localStorage.setItem('id','kotraner88@gmailcom')
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
-    if(this.loginflag=='false'||this.loginflag==null){
-      let modal = this.modal.create(FirstlandingPage,{},{ cssClass: 'test-modal' });
-      modal.onDidDismiss(data => {
-        if(data!=undefined){
-          console.log(data);
-  
-          // this.uploadImageToFirebase(data);
-        }
-       
-      });
-      modal.present();
-    }
-    platform.registerBackButtonAction(() => {
-
-      let nav = this.app.getActiveNav();
-      let activeView = nav.getActive();
-      console.log("back presseddd");
-
-      if (this.counter == 0) {
-        this.counter++;
-        this.presentToast();
-        setTimeout(() => { this.counter = 0 }, 2000)
-      } else {
-        // console.log("exitapp");
-        this.platform.exitApp();
-      }
-    });
-  
-  
-    this.event.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
- 
-    console.log(this.id);
     console.log(this.loginflag);
 
-    this.zone.run(()=>{
-      console.log("id is : "+this.id);
-      if(this.id==null||this.id==undefined){
-        
-      }else{
-        this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
-          console.log(snapshot.val());
-          this.user=snapshot.val();
-          console.log("user");
-          console.log(this.user);
-        })
+    this.firemain.child('setting').once('value').then((snap)=>{
+      if(snap.val().login_freepass===true&&this.loginflag===null){
+        localStorage.setItem("loginflag",'true');
+        localStorage.setItem("id",snap.val().testid);
+        this.id=snap.val().testid;
+        this.loginflag="true";
       }
-     
-      this.firemain.child("setting").once("value",(snapshot)=>{
-        for(var a in snapshot.val()){
-          if(a=="expressmessage"){
-            this.setting=snapshot.val()[a];
-          }
-          if(a=="version"){
-            this.version=snapshot.val()[a];
-          }
-          console.log(snapshot.val()[a]);
-        }
-
-        var versionnumber="";
-        this.appVersion.getVersionNumber().then(version => {
-          versionnumber = version;
-          if(Number(this.version)>Number(versionnumber)){
-            window.alert("버전이다름!")
+      else if(this.loginflag=='false'||this.loginflag==null){
+        let modal = this.modal.create(FirstlandingPage,{},{ cssClass: 'test-modal' });
+        modal.onDidDismiss(data => {
+          if(data!=undefined){
+            console.log(data);
+    
+            // this.uploadImageToFirebase(data);
           }
         });
-      })
-      this.firemain.child("category").once("value",(snapshot)=>{
-       
-        for(var a in snapshot.val()){
-          console.log(a)
-          if(a=="promotion"){
-            for(var b in snapshot.val()[a]){
+        modal.present();
+      }
+      platform.registerBackButtonAction(() => {
 
-              this.slides.push(snapshot.val()[a][b])
-            }
-          }
-          if(a=="ps"){
-            for(var b in snapshot.val()[a]){
-              console.log(b);
-              console.log(snapshot.val()[a][b])
-              if(b=="software"){
-                for(var c in snapshot.val()[a][b]){
-                  this.psgamearray.push(snapshot.val()[a][b][c]);
-                }
-              }
-              else if(b=="hardware"){
-                for(var c in snapshot.val()[a][b]){
-                  this.psarray.push(snapshot.val()[a][b][c]);
-                }
-              }
-            }
-          }
-          if(a=="switch"){
-            for(var b in snapshot.val()[a]){
-              console.log(b);
-              console.log(snapshot.val()[a][b])
-              if(b=="software"){
-                for(var c in snapshot.val()[a][b]){
-                  this.switchgamearray.push(snapshot.val()[a][b][c]);
-                }
-              }else if(b=="hardware"){
-                for(var c in snapshot.val()[a][b]){
-                  this.switcharray.push(snapshot.val()[a][b][c]);
-                }
-              }
-            }
-          }
-        
+        let nav = this.app.getActiveNav();
+        let activeView = nav.getActive();
+        console.log("back presseddd");
+  
+        if (this.counter == 0) {
+          this.counter++;
+          this.presentToast();
+          setTimeout(() => { this.counter = 0 }, 2000)
+        } else {
+          // console.log("exitapp");
+          this.platform.exitApp();
         }
-        this.realswitcharray=this.switcharray[0].url;
-
-        this.realpsarray=this.psarray[0].url;
-        console.log(this.slides);
-        console.log(this.switcharray)
-        console.log(this.psarray);
-        console.log(this.dsarray);
-        console.log("ddddd")
+      });
+    
+    
+      this.event.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
+   
+      console.log(this.id);
+      console.log(this.loginflag);
+  
+      this.zone.run(()=>{
+        console.log("id is : "+this.id);
+        if(this.id==null||this.id==undefined){
+          
+        }else{
+          this.firemain.child("users").child(this.id).once("value",(snapshot)=>{
+            console.log(snapshot.val());
+            this.user=snapshot.val();
+            console.log("user");
+            console.log(this.user);
+          })
+        }
+       
+        this.firemain.child("setting").once("value",(snapshot)=>{
+          for(var a in snapshot.val()){
+            if(a=="expressmessage"){
+              this.setting=snapshot.val()[a];
+            }
+            if(a=="version"){
+              this.version=snapshot.val()[a];
+            }
+            console.log(snapshot.val()[a]);
+          }
+  
+          var versionnumber="";
+          this.appVersion.getVersionNumber().then(version => {
+            versionnumber = version;
+            if(Number(this.version)>Number(versionnumber)){
+              window.alert("버전이다름!")
+            }
+          });
+        })
+        this.firemain.child("category").once("value",(snapshot)=>{
+         
+          for(var a in snapshot.val()){
+            console.log(a)
+            if(a=="promotion"){
+              for(var b in snapshot.val()[a]){
+  
+                this.slides.push(snapshot.val()[a][b])
+              }
+            }
+            if(a=="ps"){
+              for(var b in snapshot.val()[a]){
+                console.log(b);
+                console.log(snapshot.val()[a][b])
+                if(b=="software"){
+                  for(var c in snapshot.val()[a][b]){
+                    this.psgamearray.push(snapshot.val()[a][b][c]);
+                  }
+                }
+                else if(b=="hardware"){
+                  for(var c in snapshot.val()[a][b]){
+                    this.psarray.push(snapshot.val()[a][b][c]);
+                  }
+                }
+              }
+            }
+            if(a=="switch"){
+              for(var b in snapshot.val()[a]){
+                console.log(b);
+                console.log(snapshot.val()[a][b])
+                if(b=="software"){
+                  for(var c in snapshot.val()[a][b]){
+                    this.switchgamearray.push(snapshot.val()[a][b][c]);
+                  }
+                }else if(b=="hardware"){
+                  for(var c in snapshot.val()[a][b]){
+                    this.switcharray.push(snapshot.val()[a][b][c]);
+                  }
+                }
+              }
+            }
+          
+          }
+          this.realswitcharray=this.switcharray[0].url;
+  
+          this.realpsarray=this.psarray[0].url;
+          console.log(this.slides);
+          console.log(this.switcharray)
+          console.log(this.psarray);
+          console.log(this.dsarray);
+          console.log("ddddd")
+        })
       })
     })
    this.OneSignalInstall();

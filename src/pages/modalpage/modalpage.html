@@ -45,8 +45,13 @@
         <p style="margin-top: 15px; font-size:15px; text-align: center;">게임기가 없으시다면? 게임기를 추가해보세요</p>
 
         <select id="mySelect" class="box" name="location" style="border: solid 1px black;">
-        <option id="a"  value="no">추가안함 (+ 0 원)</option>
-        <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}} (+{{a.pricedaily}} 원)</option>
-      </select>
+          <option id="a"  value="no">추가안함 (+ 0 원)</option>
+          <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}} (+{{a.pricedaily}} 원)</option>
+        </select>
+
+        <!-- <select id="mySelect" class="box" style="border: solid 1px black;">
+          <option id="a"  value="no">추가안함 (+ 0 원)</option>
+          <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}} (+{{a.pricedaily}} 원)</option>
+        </select> -->
     </div>
 </ion-footer>

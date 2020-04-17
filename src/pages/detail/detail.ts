@@ -100,6 +100,7 @@ export class DetailPage {
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
+      this.datechange(mode)
     }
     else{
       if(mode===1){

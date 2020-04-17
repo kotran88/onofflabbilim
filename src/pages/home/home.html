@@ -48,10 +48,10 @@
 
     </ion-navbar>
 </ion-header>
-
+ 
 <ion-content class="home">
 
-    <ion-slides *ngIf="slides && slides.length" pager="true" autoplay="5000" loop=true speed=1000 class="firstslide" style=" width:100% !important;" style="height:auto; margin-top: 20px; margin-top:40px !important;">
+    <ion-slides *ngIf="slides && slides.length" pager="true" autoplay="5000" loop=true speed=1000 class="firstslide" style="width: 100% !important; height:30%; margin-top:40px !important;">
         <ion-slide style="width:100% !important;" *ngFor="let slide of slides">
 
             <!-- <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" src="sli"> -->
@@ -63,7 +63,7 @@
     <p style="font-size:20px; 
   margin-bottom: 0px; text-align: center;">Nintentdo Switch</p>
     <!-- <div class="test"> -->
-    <div (click)="gotoshop(switcharray[2])" style="
+    <div (click)="gotoshop(switcharray[0])" style="
     width: 70%;
     text-align: center;
     margin: auto;">
@@ -74,7 +74,7 @@
     <p id="ps" style="font-size:20px; 
   margin-bottom: 0px; text-align: center;">Playstation</p>
     <!-- <div  class="test"> -->
-    <div (click)="gotoshop(a)" *ngFor="let a of psarray; let i = index" style=" width: 70%;
+    <div (click)="gotoshop(psarray[0])" style=" width: 70%;
     text-align: center;
     margin: auto;">
         <img style="height: 150px;" class='imagereservation' src="{{realpsarray}}" />
@@ -122,20 +122,12 @@
         <div class="putter_text2">제2010-경기안양-402호</div>
         <div class="putter_text">사업장 소재지:</div>
         <div class="putter_text2">전주대학교본관</div>
-        <!-- <div class="putter_text">전주 본사:</div> -->
-        <div class="putter_text2">전주대학교본관</div>
+        <!-- <div class="putter_text">전주 본사:</div>
+        <div class="putter_text2">전주대학교본관</div> -->
         <div class="putter_text">개인정보관리책임자:</div>
         <div class="putter_text2">정평두</div>
         <div class="putter_text">고객샌터:</div>
         <div class="putter_text2">070-4155-8598 / kotran@naver.com</div>
-
-        <div class="anchor_base">
-            <a class="anchor_text">채무지급보증보험</a>
-            <a class="anchor_text">이용약관</a>
-            <a class="anchor_text">전자금융거래약관</a>
-            <a class="anchor_text">개인정보처리방침</a>
-        </div>
-        <!-- <div class="putter_text" style="width: 100%;">Copyright.........................................................</div> -->
     </footer>
 
     <ion-fab right style="bottom: 25%;">

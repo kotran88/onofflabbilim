@@ -34,7 +34,7 @@ export class LoginpagePage {
   constructor(public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     
    
-    if(localStorage.getItem('loginflag')==='true'){
+    if(localStorage.getItem('loginflag')!='false'&&localStorage.getItem('loginflag')!=null){
       // this.main_title='회원가입/로그인';
       this.login_check=true;
       this.name=localStorage.getItem('name');
