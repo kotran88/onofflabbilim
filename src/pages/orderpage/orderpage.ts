@@ -334,7 +334,12 @@ export class OrderpagePage {
   }
 
   payment(){
-    this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate});
+    if(this.Delivery_check===false){
+      alert('어디로 밍을 해야할지 몰라요....');
+    }
+    else{
+      this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate});
+    }
 
     /*  console.log(this.user); //대여인
     console.log(this.point);

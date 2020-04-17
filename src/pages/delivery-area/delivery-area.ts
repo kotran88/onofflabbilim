@@ -39,6 +39,9 @@ export class DeliveryAreaPage {
     this.adress3 =  $("#adress_C").val();
   }
   
+  dismiss(){
+    this.viewCtrl.dismiss();
+  }
 
   check(){
     if(this.name==='') alert('수령인을 입력해주세요.');
