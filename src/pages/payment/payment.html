@@ -39,11 +39,11 @@
         <div style="text-align: right;">
             <span *ngIf="hardware==undefined" style="font-size:15px;">{{game.price * diff}}원</span>
             <span *ngIf=" hardware!=undefined " style="text-decoration:line-through; font-size:15px; color:#9e9e9e ">{{game.price * diff}}원</span>
-            <span *ngIf="hardware!=undefined " style="font-size:15px; ">{{gameprice}}원</span>
+            <span *ngIf="hardware!=undefined " style="font-size:15px; ">{{gameprice_piece}}원</span>
         </div>
     </div>
     <div style="width:90%; position:relative " class="main ">
-        <span style="margin-left:25px; font-size:17px; line-height: 40px; ">할인적용 <span style="font-size:9px; color:red; "> * 코인을 누르면 할인이 적용됩니다(코인 1개 = 1,000원)</span> </span>
+        <span style="margin-left:25px; font-size:17px; line-height: 40px; ">할인적용 <span style="font-size:9px; color:red; "> * 코인을 누르면 할인이 적용됩니다(코인 1개 = 100원)</span> </span>
     </div>
     <div class="clicked " style="background:rgb(246,246,246); height:auto;white-space: initial !important; font-size:13px; border:0.5px solid rgb(234,234,234); ">
         <div style="height: 100%; background: #70c5ed; color: white; " class="up ">

@@ -97,14 +97,24 @@ export class LoginpagePage {
   }
 
   login(){
-    this.firemain.child('users').child(this.phone).update(
-      {
-        'name':this.name,
-        'phone':this.phone,
-        'first_login':new Date(),
-        'points':1
+    this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
+      this.firemain.child('users').child(this.phone).update(
+        {
+          'name':this.name,
+          'phone':this.phone,
+          'last_login':new Date(),
+        }
+      )
+      if(snap.val()===undefined||snap.val()===null){
+        alert('가입을 축하합니다. 밍을 부담없이 하기 위해 코인을 1개 드립니다.');
+        this.firemain.child('users').child(this.phone).update(
+          {
+            first_login:new Date(),
+            point:"1",
+          }
+        )
       }
-    )
+    })
     localStorage.setItem("loginflag","true");
     localStorage.setItem("id",this.phone);
     localStorage.setItem("name",this.name);

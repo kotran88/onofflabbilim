@@ -36,6 +36,7 @@ export class PaymentPage {
   hwprice: any;
   hwdiscount: any;
   gameprice: any;
+  gameprice_piece:any;
   hardwareprice: any;
   coindiscount: any;
 
@@ -230,6 +231,7 @@ export class PaymentPage {
         this.totalpaymoney = this.gameprice;
       }
     }
+    this.gameprice_piece=this.gameprice/this.game.length
   }
   count = 0;
   clickcoin() {

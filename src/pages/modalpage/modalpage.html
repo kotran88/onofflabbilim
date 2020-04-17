@@ -7,40 +7,29 @@
 </ion-content>
 
 <ion-footer style="padding: 10px !important">
-    <div class="ab">
-        <div class="upper" *ngIf="gamearraytrue.length!=0">
+    <div class="ab" style="width: 100%;">
+        <div class="upper">
             <p style="font-size:15px; text-align: center;"> {{startDate.split("T")[0].split("-")[1]}}월{{startDate.split("T")[0].split("-")[2]}}일 부터 {{endDate.split("T")[0].split("-")[1]}}월{{endDate.split("T")[0].split("-")[2]}}일 까지, {{diff}} 일을 빌리실건가요?</p>
         </div>
 
-        <div *ngIf="gamearraytrue.length!=0" style="height: auto; text-align: center;
-        display: table;" class="gameselect">
-            <!-- <p style="font-size:15px; text-align: center;">선택한 게임은...</p> -->
+        <div style="height: auto; text-align: center; margin: 0;
+        display: inline-block; width: 100%; position: relative;" class="gameselect">
 
-            <div style="width: 33%; height: 140px; text-align: center; padding: 10px; float: left;" *ngFor="let game of gamearraytrue; let i = index">
-                <img style="height: 60%; width: 100%;" src="{{game.url}}" />
-                <br>
-                <span style="text-align: center;">
-            <div style="height: auto; margin-bottom: 5px; max-height: 30%;">
-              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
-              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;" *ngIf="game.name.split('\n')[1]!=undefined">{{game.name.split('\n')[1]}}</p>
-            </div>
+          <div style="width: 33%; height: 140px; text-align: center; padding: 10px; float: left;" *ngFor="let game of gamearraytrue; let i = index">
+            <img style="height: 60%; width: 100%;" src="{{game.url}}" />
+            <br>
+            <span style="text-align: center;">
+              <div style="width: 100%; height: auto; margin-bottom: 5px; max-height: 30%;">
+                <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
+                <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;" *ngIf="game.name.split('\n')[1]!=undefined">{{game.name.split('\n')[1]}}</p>
+              </div>
 
-            <div style="text-align: center;">
-              <p style="display: inline-block; margin:0px;"> 대여(일):</p>
-              <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{game.price}}원</p> <br>
-            </div>
-          </span>
-            </div>
-        </div>
-        <div *ngIf="gamearraytrue.length==0" style="
-      height: auto;
-      display: table;" class="gameselect">
-            <div style="
-        width: 100%; font-size:16px;
-        height: 50px; padding:10px;
-        text-align: center;">
-                게임을 선택하지 않았습니다.
-            </div>
+              <div style="width: 100%; text-align: center;">
+                <p style="display: inline-block; margin:0px;"> 대여(일):</p>
+                <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{game.price}}원</p> <br>
+              </div>
+            </span>
+          </div>
         </div>
         <p style="margin-top: 15px; font-size:15px; text-align: center;">게임기가 없으시다면? 게임기를 추가해보세요</p>
 
