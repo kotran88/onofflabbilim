@@ -36,6 +36,7 @@ import { SettingPage } from '../pages/setting/setting';
 
 import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
 import { PaymentPage } from '../pages/payment/payment';
+// import {Geolocation} from '@ionic-native/geolocation';
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -108,6 +109,7 @@ firebase.initializeApp(firebaseConfig);
     AngularFireAuth,
     DatePicker,
     PhotoViewer,
+    // Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
