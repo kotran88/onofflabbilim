@@ -13,76 +13,37 @@
 
 <ion-content padding>
 
-    <div style="
-  width: 80%;
-  border: solid 1px;
-  padding:10px;
-  height: 45px;
-  margin: auto; margin-top:20px;
-  display: flex;
-   align-items:center;
-" class="mycoin">
-        <img style="width:15px;" src="assets/img/coinimage.png" /> <span style="
-    margin-left: 70px;">My coins</span> <span style="
-    right: 20%;
-    position: absolute;">X {{mycoin}}</span>
-    </div>
+  <div style="width: 80%; border: solid 1px;
+      padding:10px; height: 45px; margin: auto; margin-top:20px;
+      display: flex; align-items:center;" class="mycoin">
+    <img style="width:15px;" src="assets/img/coinimage.png" />
+    <span style="margin-left: 70px;">My coins</span>
+    <span style="right: 20%; position: absolute;">X {{mycoin}}</span>
+  </div>
 
+  <div style="width: 90%; border: solid 1px red; padding:10px; height: 60px; margin: auto;
+      margin-top:10px; display: block; align-items:center;" class="mycoin">
+    <p style="text-align: center !important; color:red;">* 유의사항</p>
+    <p>10개 이상 구매시 5%, 50개 이상 구매시 10% 할인 .</p>
+    <p>코인은 현금성 자산으로 환불되지 않습니다. </p>
+  </div>
+  
+  <br>
+  
+  <div class="separator">코인 구매</div>
 
-    <div style="
-  width: 90%;
-  border: solid 1px red;
-  padding:10px;
-  height: 60px;
-  margin: auto; margin-top:10px;
-  display: block;
-   align-items:center;
-" class="mycoin">
-        <p style="text-align: center !important; color:red;">* 유의사항</p>
-        <p>10개 이상 구매시 5%, 50개 이상 구매시 10% 할인 .</p>
-        <p>코인은 현금성 자산으로 환불되지 않습니다. </p>
-    </div>
-
-
-    <br>
-    <div class="separator">코인 구매</div>
-
-    <div class="clicked" style="background:rgb(246,246,246);
-  height:auto;
-white-space: initial !important; font-size:13px;
- border:0.5px solid rgb(234,234,234);
-">
-
-        <div style="     
-height: 100%;
-background: #70c5ed;
-color: white;
-" class="up">
-
-            <div style="padding: 10px;
-height: 100%;
-text-align: center; 
-line-height: 50px;
-display: block;" class="upper2">
-
-                <img (click)="godown();" style="
-width: 100px;
-float: left;
-position: absolute;
-
-left: 10%;
-top: 21%;" src="assets/img/arrow_down.png" />
-
-                <div style=" 
-width: 50%;
-margin: auto;" class="inner">
-                    <span style="display:inline-block;"> 충전 코인 수 : </span> <img id="abc" style="    vertical-align: middle;
-height: 25px;
-position: absolute; margin-top:10px;
-/* bottom: 30px; */
-width: 25px;
-text-align: center;
-font-size: 80px;" src="/assets/img/coinimage.png" /><span style="
+  <div class="clicked" style="background:rgb(246,246,246); height:auto;
+      white-space: initial !important; font-size:13px; border:0.5px solid rgb(234,234,234);">
+    <div style="height: 100%; background: #70c5ed; color: white;" class="up">
+      <div style="padding: 10px; height: 100%; text-align: center; 
+          line-height: 50px; display: block;" class="upper2">
+        <img (click)="godown();" style="width: 100px; float: left; position: absolute; left: 10%;
+            top: 21%;" src="assets/img/arrow_down.png" />
+          <div style="width: 50%; margin: auto;" class="inner">
+            <span style="display:inline-block;"> 충전 코인 수 : </span> 
+            <img id="abc" style="vertical-align: middle; height: 25px; position: absolute;
+                margin-top:10px; width: 25px; text-align: center; font-size: 80px;"
+                src="/assets/img/coinimage.png" /><span style="
 margin-left: 30px;" class="coin">  x {{mycoins}}</span>
 
 
@@ -94,6 +55,9 @@ float: right;
 position: absolute;
     top: 21%;
 right: 10%;" src="assets/img/arrow_up.png" />
+<!-- ionic cordova platform rm android
+ionic cordova platform add android@9
+ionic cordova build android -->
             </div>
         </div>
 

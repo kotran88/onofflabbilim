@@ -73,7 +73,7 @@ export class HomePage {
     console.log(this.loginflag);
 
     this.firemain.child('setting').once('value').then((snap)=>{
-      if(snap.val().login_freepass===true&&this.loginflag===null){
+      if(snap.val().login_freepass===true){
         localStorage.setItem("loginflag",'true');
         localStorage.setItem("id",snap.val().testid);
         this.id=snap.val().testid;

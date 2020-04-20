@@ -26,6 +26,8 @@ export class PaymentPage {
   endDate: any;
   contrast: number = 0;
   coins: any;
+  totalcoins;
+  count = 0;
 
   totalpaymoney: any;
   discount: any;
@@ -53,6 +55,7 @@ export class PaymentPage {
     // this.diff = 31;
 
     this.coins = this.user.points;
+    this.totalcoins=this.coins;
     console.log(this.user);
     console.log(this.diff);
     console.log(this.hardware);
@@ -233,22 +236,28 @@ export class PaymentPage {
     }
     this.gameprice_piece=this.gameprice/this.game.length
   }
-  count = 0;
-  clickcoin() {
+  
+  clickcoin(n) {
     console.log(this.coins);
     console.log(this.totalpaymoney);
-    this.count++;
+    // this.count+=n;
     console.log(this.count);
-    if (this.coins > 0) {
-      this.totalpaymoney = this.totalpaymoney - 100;
-      this.coins--;
-      console.log(this.totalpaymoney);
-      console.log(this.coins);
-      this.coindiscount = this.count * 100;
-    }
-    else if (this.coins == 0) {
-      this.totalpaymoney = this.totalpaymoney;
-    }
+
+    this.count+=n;
+    this.coins-=n;
+
+    this.coindiscount=this.count * 100;
+
+    // if (this.coins > 0) {
+    //   // this.totalpaymoney = this.totalpaymoney - 100;
+    //   this.coins--;
+    //   console.log(this.totalpaymoney);
+    //   console.log(this.coins);
+    //   this.coindiscount = this.count * 100;
+    // }
+    // else if (this.coins == 0) {
+    //   this.totalpaymoney = this.totalpaymoney;
+    // }
   }
 
   rangeSlider = function () {
@@ -278,5 +287,55 @@ export class PaymentPage {
     this.view.dismiss();
   }
 
+  godown(){
+    console.log("godown")
+    console.log(this.coins);
 
+    if(this.coins<=0){
+      alert('코인이 부족합니다.');
+    }
+    else{
+      this.coins-=1;
+      setTimeout(() => {
+        $('#abc').animate({
+          bottom: '+=10'
+        }, 100,
+          function(){
+            console.log('done')
+            $('#abc').animate({
+              bottom: '-=10'
+            }, 100,function(){
+              console.log('done')
+            })
+          }
+        )
+      },10);
+    }
+  }
+  
+  goup(){
+    console.log("goup")
+    console.log(this.coins);
+  
+    if(this.coins>=this.totalcoins){
+      alert('보유코인을 초과하는 코인을 얻을수 없습니다.')
+    }
+    else{
+      this.coins=this.coins+1;
+      setTimeout(() => {
+        $('#abc').animate({
+          bottom: '+=10'
+        }, 100,
+          function(){
+            console.log('done')
+            $('#abc').animate({
+              bottom: '-=10'
+            }, 100,function(){
+              console.log('done')
+            })
+          }
+        )
+      },10);
+    }
+  }
 }
