@@ -247,6 +247,7 @@ export class PaymentPage {
     this.coins-=n;
 
     this.coindiscount=this.count * 100;
+    this.totalpaymoney+=n*100;
 
     // if (this.coins > 0) {
     //   // this.totalpaymoney = this.totalpaymoney - 100;
@@ -295,7 +296,8 @@ export class PaymentPage {
       alert('코인이 부족합니다.');
     }
     else{
-      this.coins-=1;
+      // this.coins-=1;
+      this.clickcoin(1);
       setTimeout(() => {
         $('#abc').animate({
           bottom: '+=10'
@@ -321,7 +323,8 @@ export class PaymentPage {
       alert('보유코인을 초과하는 코인을 얻을수 없습니다.')
     }
     else{
-      this.coins=this.coins+1;
+      this.clickcoin(-1);
+      // this.coins=this.coins+1;
       setTimeout(() => {
         $('#abc').animate({
           bottom: '+=10'
