@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, Content,NavController, Platform,ModalController,NavParams,LoadingController} from 'ionic-angular';
+import { IonicPage, AlertController,Content,NavController, Platform,ModalController,NavParams,LoadingController} from 'ionic-angular';
 import { Chatting } from '../../components/models/chatting';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { storage } from 'firebase';
@@ -25,95 +25,80 @@ export class ChatPage {
 
   @ViewChild(Content) chatlist:Content
 
+  firemain=firebase.database().ref();
   firedata = firebase.database().ref('message');
   mypicref=firebase.storage().ref('message');
-  id:any;
-  chatMsg=[];
-  chatDate=[];
-  chatUser=[];
-  chatImage=[];
-  chatck=[];
-  image='';
-  imageUrl='';
-  text='';
-  now='';
-  log_cnt:any;
-  admin_id="01079998598";
-  deviceId='';
+  userid:any;
+  admin:any;
+  nowtime:any;
+  take_image_data:any;
   lloading:any;
 
-  pre_diffHeight = 0;
+  chat=[{user:'',text:'',image:'',date:'',ck:''}];
 
-  constructor(public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
+  input={user:'',text:'',image:'',date:''};
+
+  constructor(public alertCtrl:AlertController,public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
 
 
-    this.id=navParams.get("id")
+    this.userid=navParams.get("id")
+    this.admin=navParams.get("admin");
 
-    console.log(this.id)
-    this.chatMsg=[];
-    this.chatDate=[];
-    this.chatUser=[];
-    this.chatImage=[];
-    this.log_cnt=0;
 
-    var firetemp:any;
-    firetemp=firebase.database().ref('users').child(this.admin_id)
+    console.log(this.userid)
 
-    firetemp.once('value').then((snap)=>{
-      console.log(snap.val());
-      this.deviceId=snap.val().deviceId;
-    })
-
-    this.firedata.child(this.id).once('value',(snapshots) =>{
-      this.read_log(snapshots)
+    this.firedata.child(this.userid).once('value',(snapshots) =>{
+      this.read_log(snapshots.val())
     }).then(()=>{
-      this.firedata.child(this.id).on('value',(snapshots) =>{
-        this.read_log(snapshots)
+      this.firedata.child(this.userid).on('value',(snapshots) =>{
+        this.read_log(snapshots.val())
       })
     })
   }
+
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
+
   goback(){
     this.navCtrl.pop();
   }
 
-  read_check(n,i){
-    this.firedata.child(this.id).child(i).update({readck:' '})
+  read_check(i){
+    this.firedata.child(this.userid).child(i).update({readck:' '})
   }
 
   read_log(snapshots){
-    console.log(snapshots.val())
+    console.log(snapshots)
     var cnt=0;
-    for(var i in snapshots.val()){
-      
-      if(snapshots.val()[i].user!=this.id){
-        console.log(cnt);
-        this.read_check(cnt,i)
-        this.chatck[cnt]=' ';
+    for(var i in snapshots){
+
+      this.chat[i].user=snapshots[i].user;
+      this.chat[i].text=snapshots[i].text;
+      this.chat[i].date=snapshots[i].date;
+      this.chat[i].image=snapshots[i].image;
+
+      if(snapshots[i].user!=this.userid){
+        this.chat[i].ck=' ';
       }
-      else this.chatck[cnt]=snapshots.val()[i].readck;
+      else this.chat[i].ck=snapshots[i].readck;
 
-      this.chatUser[cnt]=snapshots.val()[i].user;
-      this.chatMsg[cnt]=snapshots.val()[i].text;
-      this.chatDate[cnt]=snapshots.val()[i].date;
-      this.chatImage[cnt]=snapshots.val()[i].image;
-
-      if(snapshots.val()[i].user!=this.id){
-        this.chatck[cnt]=' ';
-      }
-
-      console.log(snapshots.val()[i])
-      cnt++;
+      console.log(this.chat[i])
     }
-    console.log(this.chatUser);
-    console.log(this.chatMsg);
-    console.log(this.chatDate);
-    console.log(this.chatImage);
-    console.log(this.chatck)
-    console.log()
-    this.log_cnt=cnt;
-    // setTimeout(() => {
-      this.chatlist.scrollToBottom();   
-    // }, 1000);
+
+    console.log(this.chat+'\n');
+    this.chatlist.scrollToBottom();
   }
 
   pad(n, width):String{
@@ -121,70 +106,70 @@ export class ChatPage {
     return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
   }
 
-  now_time(){
+  now_time():String{
     var time=new Date();
-    this.now=
+    this.nowtime=
     this.pad(time.getFullYear(),4)+'-'+this.pad((time.getMonth()+1),2)+'-'+this.pad(time.getDate(),2)
     +'|'+
     this.pad(time.getHours(),2)+':'+this.pad(time.getMinutes(),2)+':'+this.pad(time.getSeconds(),2)+':'+this.pad(time.getMilliseconds(),3);
-    console.log(this.now)
+    console.log(this.nowtime)
+
+    return this.nowtime;
   }
 
   clicked(image){
     this.photoViewer.show(image);
   }
   
-  async takeFoto(){
+  takeFoto(){
     let modal = this.modal.create(CameraselectPage);
     modal.onDidDismiss(data => {
       if(data!=undefined){
         console.log(data);
-        this.image=data;
+        this.take_image_data=data;
       }
-      else this.image='';
+      else this.take_image_data='';
     });
     modal.present();
   }
   
   upload(mode){
 
-    console.log(mode);
-
-    if(mode===1){
-      this.now_time();
-      this.imageUrl='';
-      if(this.image!=''){
-        this.uploadImageToFirebase(this.image)
-      }
-      else{
-        this.upload(2);
-      }
+    if(this.take_image_data!=''){
+      this.uploadImageToFirebase(this.take_image_data,0)
     }
-    else if(mode===2){
-      console.log('room : '+this.id)
-      console.log('now : '+this.now)
-      if(this.text===''&&this.image===''){}
-      else{
-        this.firedata.child(this.id).child(this.now).update(
-          {
-            user:this.id,
-            text:this.text,
-            date: this.now,
-            image:this.imageUrl,
-            readck:'1',
-          }
-        ).then(()=>{
-          this.text='';
-          this.image='';
-          console.log('upload ok')
+    this.now_time();
+    console.log('user : '+this.userid)
+    console.log('nowtime : '+this.nowtime)
+    if(this.input.text===''&&this.input.image===''){
+      
+    }
+    else{
+      this.chat[this.nowtime]={user:this.userid,text:this.input.text,image:this.input.image,date:this.input.date,ck:"1"};
+      this.firedata.child(this.userid).update(this.chat)
+      .then(()=>{
+        this.input.text='';
+        this.input.image='';
+      });
+      // this.firedata.child(this.userid).child(this.nowtime).update(
+      //   {
+      //     user:this.id,
+      //     text:this.text,
+      //     date: this.now,
+      //     image:this.imageUrl,
+      //     readck:'1',
+      //   }
+      // ).then(()=>{
+      //   this.text='';
+      //   this.image='';
+      //   console.log('upload ok')
 
-          setTimeout(() => {
-            if(this.chatck[this.chatck.length-1]==='1'&&this.id===this.chatUser[this.chatck.length-1]){
-              this.send_push(this.text,this.imageUrl);
-            }
-          },1000)
-        });
-      }
+      //   setTimeout(() => {
+      //     if(this.chatck[this.chatck.length-1]==='1'&&this.id===this.chatUser[this.chatck.length-1]){
+      //       this.send_push("123",this.text,this.imageUrl);
+      //     }
+      //   },1000)
+      // });
     }
   }
 
@@ -200,38 +185,36 @@ export class ChatPage {
     this.lloading.dismiss()
   }
 
-  uploadImageToFirebase(image){
+  uploadImageToFirebase(image,index){
     console.log("upload iamge to firebase");
     console.log(image);
-    this.uploadImage(image);
+    this.uploadImage(image,index)
   }
 
-  uploadImage(imageURI){
-    // let storageRef = firebase.storage().ref('message');
-    // var result="design"+'1';
-    // this.now_time();
+  uploadImage(imageURI,index){
+    let storageRef = firebase.storage().ref();
+    var result=this.now_time();
     console.log(imageURI);
-    imageURI=  "data:image/png;base64," + imageURI.data;
-    console.log("sssssssssss : "+this.now);
+    imageURI=  "data:image/png;base64," + imageURI;
+    console.log("sssssssssss : "+result);
     console.log(imageURI);
     console.log("donE!!!!!!!!!!")
 
-    this.mypicref=firebase.storage().ref('message');
-    // this.key=this.firemain.child("list").push().key;
-    var a = this.mypicref.child(this.id).child(this.now);
-
-    this.loading_on();
+    this.mypicref=firebase.storage().ref('imagelist/');
+    // this.key=this.nowtime();
+    var a = this.mypicref.child(this.userid).child(result.toString());
     this.encodeImageUri(imageURI, (image64)=>{
       a.putString(image64, 'data_url')
       .then(snapshot => {
-        this.mypicref.child(this.id).child(this.now).getDownloadURL().then((url)=>{
+        this.mypicref.child(this.userid).child(result.toString()).getDownloadURL().then((url)=>{
           console.log("download url is : "+url);
-          this.imageUrl=url;
-          // this.image
+          this.input.image=url;
           this.loading_off();
-          this.upload(2);
+          // alert("download url is : "+url);
 
-          // window.alert("사진업로드 완료!")
+          this.send_push('문의 올립니다',this.input.text,this.input.image);
+
+          // window.alert("완료!")
 
         }).catch((e)=>{
           console.log('eeeee');
@@ -240,7 +223,7 @@ export class ChatPage {
        
       }).catch((e)=>{
         console.log("error is....")
-        window.alert(e);
+        this.confirmAlert2('error : '+e+'관리자에게 문의하세요.');
         console.log(e);
       })
     })
@@ -261,27 +244,26 @@ export class ChatPage {
     img.src = imageUri;
   };
 
-  send_push(text,url){
+  send_push(header,content,url){
     console.log('ready');
 
+    // this.status_change(this.check_order,'delivered');
+
     console.log("sendpushnotification")
-    console.log(this.deviceId)
     let data={
       "app_id": "6505b348-1705-4d73-abe4-55ab40758266",
-      "include_player_ids": [this.deviceId],
-      "headings":{"ko":this.id,"en":"en_headers"},
+      "include_player_ids": [this.admin.deviceIds],
+      "headings":{"en":header},
       "ios_badgeType":"Increase",
       "ios_badgeCount":1,
       "data": {"welcome": "pdJung", "store":'this.store'},
-      "contents": {"ko": text,"en":"en_content"},
-      "big_picture":url,
+      "contents": {"en": content},
+      "big_picture":String(url),
       "large_icon":String(url),
     }
     console.log(data);
-    let headers = new Headers({ 'Content-Type':'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });
-    console.log(headers);
+    let headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });
     let options = new RequestOptions({headers:headers});
-    console.log(options);
     this.http.post('https://onesignal.com/api/v1/notifications', JSON.stringify(data), options).toPromise().then((e)=>{
       console.log("then come")
       console.log(e);

@@ -68,6 +68,22 @@ export class DetailPage {
     console.log(v)
   }
 
+  datecheck(mode,date):boolean{
+    
+    var a=new Date().getTime()-new Date(date).getTime();
+    console.log(a);
+
+    if(a/(1000*3600*24)>0){
+      console.log(a/(1000*3600*24))
+      
+      if(mode===1) this.confirmAlert2('대여일이 오늘보다 빠를수는 없습니다.')
+      else this.confirmAlert2('반납일이 오늘보다 빠를수는 없습니다.')
+
+      return false
+    }
+    else return true;
+  }
+
   datechange(mode){
     console.log(this.startDate);
 
@@ -88,13 +104,13 @@ export class DetailPage {
     // this.diff=this.diff+1;
     if(Difference_In_Days>0){
       if(mode===1){
-        window.alert("대여 시작일이 반납일보다 늦을 수는 없습니다.")
+        this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
         var a=new Date();
         this.startDate=a.toISOString();
         this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
       else {
-        window.alert("반납일이 대여 시작일보다 빠를 수는 없습니다.")
+        this.confirmAlert2("반납일이 대여 시작일보다 빠를 수는 없습니다.")
         var a=new Date(this.startDate);
         a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
@@ -108,14 +124,31 @@ export class DetailPage {
         this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
       else {
-        this.endDate=b.toISOString();
-        this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+
+        if(Difference_In_Days>-2){
+          this.confirmAlert2("최소 대여기간은 3일 입니다.")
+          var a=new Date(this.startDate);
+          a.setDate(a.getDate()+2);
+          this.endDate=a.toISOString();
+          this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        }
+        else{
+          this.endDate=b.toISOString();
+          this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+        }
       }
     }
   }
 
   pick_date(mode){
     var temp:any;
+    // var date=new Date();
+    // date.setDate(new Date().getDate()-1)
+    // this.startDate=date;
+    // console.log(this.startDate);
+    // if(this.datecheck()===true){
+    //   this.datechange(mode);
+    // }
     if(mode===1) temp=new Date(this.startDate);
     else if(mode===2) temp=new Date(this.endDate);
     this.datePicker.show({
@@ -125,9 +158,11 @@ export class DetailPage {
     }).then(
       date =>{
         console.log('Got date: ', date);
-        if(mode===1) this.startDate=date;
-        else if(mode===2) this.endDate=date;
-        this.datechange(mode);
+        if(this.datecheck(mode,date)===true){
+          if(mode===1) this.startDate=date;
+          else if(mode===2) this.endDate=date;
+          this.datechange(mode);
+        }
       },
       err => console.log('Error occurred while getting date: ', err)
     );
@@ -158,8 +193,8 @@ export class DetailPage {
     this.endDate=date.toISOString();
     this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 
-    this.datechange(1);
-    this.datechange(2);
+      this.datechange(1);
+      this.datechange(2);
 
     console.log(this.startDate);
     console.log(this.endDate);
@@ -314,7 +349,7 @@ export class DetailPage {
     this.zone.run(()=>{
 
       if(Number(this.gamearray[i].stock)<=0){
-        alert('재고가 없는 게임입니다.')
+        this.confirmAlert2('재고가 없는 게임입니다.')
       }
       else if(this.gamearray[i].check===false&&this.count>=3){
         this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
@@ -423,7 +458,7 @@ export class DetailPage {
       this.confirmAlert("로그인이 필요한 서비스입니다.\n 로그인 페이지로 이동하시겠습니까?");
     }
     else if(this.count===0){
-      alert('1가지 이상의 게임을 선택해주세요.')
+      this.confirmAlert2('1가지 이상의 게임을 선택해주세요.')
     }
     else if(this.count>6){
       let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal3' });

@@ -107,7 +107,7 @@ export class OrderpagePage {
     console.log("clicked")
     console.log(this.coins);
     if(this.coins==0){
-      window.alert("모든 코인을 사용하였습니다.")
+      this.confirmAlert2("모든 코인을 사용하였습니다.")
     }
     else{
       this.coins=this.coins+1;
@@ -246,7 +246,7 @@ export class OrderpagePage {
       }
     })
     
-    alert('결재완료')
+    this.confirmAlert2('결재완료')
 
     // var data = {
     //   pay_method : 'card',
@@ -335,7 +335,7 @@ export class OrderpagePage {
 
   payment(){
     if(this.Delivery_check===false){
-      alert('어디로 밍을 해야할지 몰라요....');
+      this.confirmAlert2('어디로 밍을 해야할지 몰라요....');
     }
     else{
       this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate});

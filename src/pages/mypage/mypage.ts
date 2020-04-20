@@ -208,7 +208,7 @@ export class MypagePage {
           this.send_push('수거요청','수거를 요청합니다.('+this.check_order.startDate.split("T")[0]+')',url);
           this.status_change('return');
 
-          window.alert("완료!")
+          this.confirmAlert2("완료!")
 
         }).catch((e)=>{
           console.log('eeeee');
@@ -217,7 +217,7 @@ export class MypagePage {
        
       }).catch((e)=>{
         console.log("error is....")
-        window.alert(e);
+        this.confirmAlert2('error : '+e);
         console.log(e);
       })
     })

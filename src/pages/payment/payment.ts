@@ -88,7 +88,6 @@ export class PaymentPage {
     this.gamediscount = gamedct;
     this.gameprice = this.gamediscount * this.diff;
     this.choice();
-
   }
   coin: any;
 
@@ -155,11 +154,10 @@ export class PaymentPage {
     // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
     IamportCordova.payment(PaymentObject)
       .then((response) => {
-        alert("success")
-        alert(JSON.stringify(response))
+        this.confirmAlert2("success"+'\n'+JSON.stringify(response))
       })
       .catch((err) => {
-        alert(err)
+        this.confirmAlert2('error : '+err)
       })
       ;
   }
@@ -206,7 +204,7 @@ export class PaymentPage {
       this.hardwareprice = this.hwprice * this.diff;
       console.log(this.hardwareprice);
       if (this.diff >= 30) {
-        this.longdiscount = ((this.hardwareprice) + this.gameprice) * 0.5;
+        this.longdiscount = ((this.hardwareprice) + this.gameprice) * 0.6;
         this.totalpaymoney = this.longdiscount - this.gameprice;
       }
       if (this.diff >= 15 && this.diff < 30) {
@@ -221,7 +219,7 @@ export class PaymentPage {
       this.originpay = this.gameprice;
 
       if (this.diff >= 30) {
-        this.totalpaymoney = this.gameprice * 0.5;
+        this.totalpaymoney = this.gameprice * 0.6;
         this.longdiscount = this.totalpaymoney;
       }
       if (this.diff >= 15 && this.diff < 30) {
@@ -293,7 +291,7 @@ export class PaymentPage {
     console.log(this.coins);
 
     if(this.coins<=0){
-      alert('코인이 부족합니다.');
+      this.confirmAlert2('코인이 부족합니다.');
     }
     else{
       // this.coins-=1;
@@ -320,7 +318,7 @@ export class PaymentPage {
     console.log(this.coins);
   
     if(this.coins>=this.totalcoins){
-      alert('보유코인을 초과하는 코인을 얻을수 없습니다.')
+      this.confirmAlert2('보유코인을 초과 할 수 없습니다..')
     }
     else{
       this.clickcoin(-1);

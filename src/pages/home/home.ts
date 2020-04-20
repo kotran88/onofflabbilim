@@ -14,7 +14,6 @@ import { CoinsPage } from '../coins/coins';
 
 import { SettingPage } from '../setting/setting';
 import { FirstlandingPage } from '../firstlanding/firstlanding';
-import {Geolocation} from '@ionic-native/geolocation'
 
 
 declare var naver: any;
@@ -67,7 +66,7 @@ export class HomePage {
   
     toast.present();
   }
-  constructor(private geolocation:Geolocation,private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
+  constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
@@ -141,7 +140,7 @@ export class HomePage {
           this.appVersion.getVersionNumber().then(version => {
             versionnumber = version;
             if(Number(this.version)>Number(versionnumber)){
-              window.alert("버전이다름!")
+              this.confirmAlert2("버전이다름!")
             }
           });
         })
@@ -254,28 +253,18 @@ export class HomePage {
       
       }
   go_chat(){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      // resp.coords.latitude
-      // resp.coords.longitude
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
-     
-     let watch = this.geolocation.watchPosition();
-     watch.subscribe((data) => {
-      // data can be a set of coordinates, or an error (if an error occurred).
-      // data.coords.latitude
-      // data.coords.longitude
-     });
-    // if('false'==this.loginflag||this.loginflag==null){
-    //   this.confirmAlert("회원가입/로그인을 해주세요")
-    // }else{
-    //   this.navCtrl.push(ChatPage,{"id":this.id}).then(() => {
-    //     this.navCtrl.getActive().onDidDismiss(data => {
-    //       firebase.database().ref('message').child(this.id).off();
-    //     })
-    //   })
-    // }
+    if('false'==this.loginflag||this.loginflag==null){
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.firemain.child("admin").once('value').then((snap)=>{
+        this.navCtrl.push(ChatPage,{"id":this.id,"admin":snap.val()}).then(() => {
+          this.navCtrl.getActive().onDidDismiss(data => {
+            firebase.database().ref('message').child(this.id).off();
+          })
+        })
+      })
+      
+    }
   }
 
   mypage(){

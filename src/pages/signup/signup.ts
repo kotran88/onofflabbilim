@@ -43,6 +43,20 @@ export class SignupPage {
       this.years.push(i);
     }
   }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
   }
@@ -102,14 +116,14 @@ cert(){
         setTimeout(()=>{
             var a = this.firemain.child("users").push().key;
             this.firemain.child("users").child(a).update({"key":a,"point":0,"email":this.email,"first_login":new Date()})
-            window.alert("success first login")
+            this.confirmAlert2("success first login")
         },500)
 
 
         return "true";
       }
 
-      alert(JSON.stringify(response)); },                           // 콜백 함수
+      this.confirmAlert2(JSON.stringify(response)); },                           // 콜백 함수
   };
   IamportCordova.certification(params);
 }
@@ -152,14 +166,14 @@ cert(){
           var a = this.firemain.child("users").push().key;
           this.firebaseAuth.auth.createUserWithEmailAndPassword(this.id, this.password).then( (data)=> {
             this.firemain.child("users").child(a).update({"key":a,"point":0,"email":this.id,"phone":this.phone,"name":this.name,"first_login":new Date()})
-            window.alert("회원가입완료");
+            this.confirmAlert2("회원가입완료");
             this.navCtrl.setRoot(LoginpagePage)
           });
         }
       })
     }
     else{
-      window.alert('비어있는 공간이 있습니다.');
+      this.confirmAlert2('비어있는 공간이 있습니다.');
     }
   }
 
@@ -175,10 +189,10 @@ cert(){
 
 
     if(this.check[1]===false){
-      window.alert('이용약관 동의가 필요합니다.');
+      this.confirmAlert2('이용약관 동의가 필요합니다.');
     }
     else if(this.check[2]===false){
-      window.alert('개인정보 수집 및 이용 동의가 필요합니다.');
+      this.confirmAlert2('개인정보 수집 및 이용 동의가 필요합니다.');
     }
     else{
       this.firebaseAuth.auth.createUserWithEmailAndPassword(this.id, this.password).then( (data)=> {
@@ -194,13 +208,13 @@ cert(){
             phone:this.phone,
           }
         ).then(()=>{
-          window.alert('signup successed')
+          this.confirmAlert2('회원가입 성공')
           this.viewCtrl.dismiss();
         })
 
       }).catch(function (error) {
           console.log(error);
-          alert("signup failed : " + error);
+          this.confirmAlert2("signup failed : " + error);
       });
     }
   }

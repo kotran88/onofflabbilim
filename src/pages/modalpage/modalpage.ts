@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController,IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as $ from 'jquery';
 import firebase from 'firebase';
 
@@ -37,7 +37,7 @@ export class ModalpagePage {
   count:any=0;
   firemain = firebase.database().ref();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController) {
     this.flag= this.navParams.get("flag");
     this.hardware=this.flag.flag
     this.gamearray= this.navParams.get("list");
@@ -78,6 +78,20 @@ export class ModalpagePage {
     this.totalprice=a;
     this.totalprice2=a;
     this.generatehardware();
+  }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
   }
   orderpage(){
     console.log("come to orderpage")
@@ -173,7 +187,7 @@ export class ModalpagePage {
         for(var i=0; i<this.hardwarearray.length; i++){
           if(this.hardwarearray[i].name==e.target.value.split("/")[0]){
             if(Number(this.hardwarearray[i].stock)<=0){
-              alert('재고가 없는 게임기 입니다.');
+              this.confirmAlert2('재고가 없는 게임기 입니다.');
               e.target.value="no"
               break;
             }

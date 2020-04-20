@@ -57,6 +57,20 @@ export class LoginpagePage {
 
     console.log(this.login_check)
   }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
 
   goback(){
     this.phone_check=false;
@@ -66,8 +80,8 @@ export class LoginpagePage {
   }
 
   certified(){
-    if(this.name==='') alert('이름을 입력해주세요.');
-    else if(this.phone==='') alert('휴대폰 번호를 입력해주세요.');
+    if(this.name==='') this.confirmAlert2('이름을 입력해주세요.');
+    else if(this.phone==='') this.confirmAlert2('휴대폰 번호를 입력해주세요.');
     else{
       this.certified_check=true;
     }
@@ -84,7 +98,7 @@ export class LoginpagePage {
         callback: (response) =>{
           
           if(response.imp_success){
-            window.alert("휴대전화 인증이 완료되었습니다");
+            this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
             return;
            

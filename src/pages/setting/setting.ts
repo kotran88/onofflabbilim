@@ -31,6 +31,20 @@ export class SettingPage {
     console.log(this.id);
     console.log(this.user);
   }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
+  }
 
   goback() {
     this.navCtrl.pop();
@@ -52,7 +66,7 @@ export class SettingPage {
           handler: data => {
             localStorage.setItem("loginflag", "false");
             this.navCtrl.setRoot(HomePage)
-            window.alert("로그아웃 되었습니다.");
+            this.confirmAlert2("로그아웃 되었습니다.");
           }
         }
       ]
@@ -76,7 +90,7 @@ export class SettingPage {
           handler: data => {
             localStorage.setItem("loginflag", "false");
             this.firemain.child("users").child(this.id).remove();
-            window.alert("그동안 MING을 이용해주셔서 감사합니다.");
+            this.confirmAlert2("그동안 MING을 이용해주셔서 감사합니다.");
             this.navCtrl.pop();
           }
         }
@@ -94,14 +108,14 @@ export class SettingPage {
           // role: 'cancel',
           handler: data => {
             this.firemain.child("users").child(this.id).push({"alert":true});
-            window.alert("알람 ON")
+            this.confirmAlert2("알람 ON")
           }
         },
         {
           text: '거부',
           handler: data => {
             this.firemain.child("users").child(this.id).push({"alert":false});
-            window.alert("알람 OFF")
+            this.confirmAlert2("알람 OFF")
           }
         }
       ]

@@ -44,7 +44,7 @@ export class CoinsPage {
 console.log(coin+","+value);
 var totalcoin=0;
 totalcoin=this.mycoin+coin;
-window.alert(totalcoin);
+    this.confirmAlert2(totalcoin);
     var data = {
       pay_method : 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
@@ -85,11 +85,12 @@ window.alert(totalcoin);
     // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
     IamportCordova.payment(PaymentObject )
       .then((response)=> {
-        alert("success")
-        alert(JSON.stringify(response))
+        // alert("success")
+        this.confirmAlert2("success"+'\n'+JSON.stringify(response));
+        // this.confirmAlert2(JSON.stringify(response))
       })
       .catch((err)=> {
-        alert(err)
+        this.confirmAlert2('error : '+err+'관리자에게 문의하세요.');
       })
     ;
   }

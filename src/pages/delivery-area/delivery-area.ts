@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, Platform,NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage,AlertController, Platform,NavController, NavParams, ViewController } from 'ionic-angular';
 import * as $ from 'jquery'
 import firebase from 'firebase';
 
@@ -24,13 +24,27 @@ export class DeliveryAreaPage {
   adress2='';
   adress3='';
 
-  constructor(public platform:Platform,public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
+  constructor(public alertCtrl:AlertController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
       this.navCtrl.pop();
       backAction();
     },2)
 
+  }
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
   }
 
   adress_check(){
@@ -44,11 +58,11 @@ export class DeliveryAreaPage {
   }
 
   check(){
-    if(this.name==='') alert('수령인을 입력해주세요.');
-    else if(this.phone==='') alert('연락처를 입력해주세요.');
-    else if(this.adress==='') alert('우편번호를 입력해주세요.');
-    else if(this.adress2==='') alert('주소를 입력해주세요.');
-    else if(this.adress3==='') alert('상세주소를 입력해주세요.');
+    if(this.name==='') this.confirmAlert2('수령인을 입력해주세요.');
+    else if(this.phone==='') this.confirmAlert2('연락처를 입력해주세요.');
+    else if(this.adress==='') this.confirmAlert2('우편번호를 입력해주세요.');
+    else if(this.adress2==='') this.confirmAlert2('주소를 입력해주세요.');
+    else if(this.adress3==='') this.confirmAlert2('상세주소를 입력해주세요.');
     else{
       var key=localStorage.getItem('id');
       this.firemain.child("users").child(key).child('adress').update({
