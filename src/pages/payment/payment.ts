@@ -247,7 +247,7 @@ export class PaymentPage {
     this.coins-=n;
 
     this.coindiscount=this.count * 100;
-    this.totalpaymoney+=n*100;
+    this.totalpaymoney-=n*100;
 
     // if (this.coins > 0) {
     //   // this.totalpaymoney = this.totalpaymoney - 100;

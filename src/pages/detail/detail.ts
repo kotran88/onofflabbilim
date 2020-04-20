@@ -316,7 +316,7 @@ export class DetailPage {
       if(Number(this.gamearray[i].stock)<=0){
         alert('재고가 없는 게임입니다.')
       }
-      else if(this.gamearray[i].check===false&&this.count>=9){
+      else if(this.gamearray[i].check===false&&this.count>=3){
         this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
       }
       else{

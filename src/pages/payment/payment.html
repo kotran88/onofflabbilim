@@ -34,11 +34,14 @@
         <span style="font-size:17px;">{{game.name}}</span>
         <div>
             <span style="font-size: 13px;">{{game.description.main_title}}</span><br>
-            <span style="font-size: 13px;"> - 1일 대여료 : {{game.price}}원</span>
+            <span style="font-size: 13px;"> - 1일 대여료 : </span>
+            <span *ngIf="hardware===undefined" style="font-size: 13px;">{{game.price}}원</span>
+            <span *ngIf="hardware!=undefined" style="text-decoration:line-through; font-size:13px; color:#9e9e9e">{{game.price}}원</span>
+            <span *ngIf="hardware!=undefined" style="font-size:13px;">{{game.price*0.5}}원</span>
         </div>
         <div style="text-align: right;">
             <span *ngIf="hardware==undefined" style="font-size:15px;">{{game.price * diff}}원</span>
-            <span *ngIf=" hardware!=undefined " style="text-decoration:line-through; font-size:15px; color:#9e9e9e ">{{game.price * diff}}원</span>
+            <span *ngIf="hardware!=undefined " style="text-decoration:line-through; font-size:15px; color:#9e9e9e ">{{game.price * diff}}원</span>
             <span *ngIf="hardware!=undefined " style="font-size:15px; ">{{gameprice_piece}}원</span>
         </div>
     </div>
@@ -92,7 +95,9 @@
                 <span *ngIf="hardware==undefined" style="font-size:13px;">기기대여할인 : 0원</span><br>
             </div>
 
-            <span style="font-size:13px">코인할인 : -{{coindiscount}}원</span>
+            <span style="font-size: 13px;">코인할인 : </span>
+            <span *ngIf="coindiscount===0||coindiscount===undefined" style="font-size:13px">0원</span>
+            <span *ngIf="coindiscount>0" style="font-size:13px">-{{coindiscount}}원</span>
         </div>
     </div>
     <div (click)="ordering();" style="position:sticky; bottom: 0%; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
