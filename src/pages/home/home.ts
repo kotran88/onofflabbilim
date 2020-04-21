@@ -47,7 +47,7 @@ export class HomePage {
   userid:any;
   realpsarray:any;
   user:any;
-  counter:any;
+  counter:any=0;
 
   ionViewWillEnter(){
     
@@ -147,8 +147,9 @@ export class HomePage {
           var versionnumber="";
           this.appVersion.getVersionNumber().then(version => {
             versionnumber = version;
+            //0.2 3
             if(Number(this.version)>Number(versionnumber)){
-              this.confirmAlert2("버전이다름!")
+              this.confirmAlert2("앱을 업데이트 해주세요!")
             }
           });
         })

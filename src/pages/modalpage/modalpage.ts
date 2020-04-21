@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController,IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController,ViewController,IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as $ from 'jquery';
 import firebase from 'firebase';
 
@@ -38,7 +38,7 @@ export class ModalpagePage {
   count:any=0;
   firemain = firebase.database().ref();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController) {
+  constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController) {
     console.log('modalpage come')
     this.sale_data=this.navParams.get("sale");
     this.flag= this.navParams.get("flag");
@@ -116,7 +116,11 @@ export class ModalpagePage {
           break;
         }
       }
-      this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user,"sale":this.sale_data});
+      this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user,"sale":this.sale_data}).then(() => {
+        this.navCtrl.getActive().onDidDismiss(data => {
+          this.view.dismiss();
+        });
+      });
     })
   }
   teest(){
