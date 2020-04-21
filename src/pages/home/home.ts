@@ -15,7 +15,6 @@ import { CoinsPage } from '../coins/coins';
 import { SettingPage } from '../setting/setting';
 import { FirstlandingPage } from '../firstlanding/firstlanding';
 
-
 declare var naver: any;
 
 @Component({
@@ -66,7 +65,10 @@ export class HomePage {
   
     toast.present();
   }
+  
   constructor(private toastCtrl: ToastController,public modal:ModalController,public view:ViewController,public platform:Platform,public app:App,public appVersion : AppVersion,public event:Events,public oneSignal:OneSignal,public zone:NgZone,public alertCtrl:AlertController,public navParam:NavParams,public navCtrl:NavController) {
+    
+
     this.id=localStorage.getItem("id")
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
@@ -257,7 +259,7 @@ export class HomePage {
       this.confirmAlert("회원가입/로그인을 해주세요")
     }else{
       this.firemain.child("admin").once('value').then((snap)=>{
-        this.navCtrl.push(ChatPage,{"id":this.id,"admin":snap.val()}).then(() => {
+        this.navCtrl.push(ChatPage,{"user":this.user,"name":this.name,"admin":snap.val()}).then(() => {
           this.navCtrl.getActive().onDidDismiss(data => {
             firebase.database().ref('message').child(this.id).off();
           })

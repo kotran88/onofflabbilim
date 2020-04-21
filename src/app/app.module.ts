@@ -33,9 +33,13 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { CoinsPage } from '../pages/coins/coins';
 import { SettingPage } from '../pages/setting/setting';
-
 import { FirstlandingPage } from '../pages/firstlanding/firstlanding';
 import { PaymentPage } from '../pages/payment/payment';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
+
 var firebaseConfig = {
   apiKey: "AIzaSyAn_AiRNImCttmallAmGspg1tOMDwDgFuo",
   authDomain: "bilim-fd9b0.firebaseapp.com",
@@ -108,6 +112,9 @@ firebase.initializeApp(firebaseConfig);
     AngularFireAuth,
     DatePicker,
     PhotoViewer,
+    Keyboard,
+    UniqueDeviceID,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

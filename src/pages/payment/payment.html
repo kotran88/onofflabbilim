@@ -87,12 +87,12 @@
         <div style="text-align: right; margin-top:-20px;">
             <div *ngIf="hardware!=undefined">
                 <span *ngIf="diff>15 && contrast!=undefined" style="font-size:13px;">장기대여할인 : -{{originpay-longdiscount}}원</span><br>
-                <span style="font-size:13px;">기기대여에 따른 게임할인(-50%) : -{{gameprice}}원</span><br>
+                <span style="font-size:13px;">기기대여에 따른 게임할인(-40%) : -{{gameprice}}원</span><br>
             </div>
             <div *ngIf="hardware==undefined">
                 <span *ngIf="diff<15" style="font-size:13px;">장기대여할인 : 0원</span><br>
                 <span *ngIf="diff>15" style="font-size:13px;">장기대여할인 : -{{originpay-longdiscount}}원</span><br>
-                <span *ngIf="hardware==undefined" style="font-size:13px;">기기대여에 따른 게임할인(-50%) : 0원</span><br>
+                <span *ngIf="hardware==undefined" style="font-size:13px;">기기대여에 따른 게임할인(-40%) : 0원</span><br>
             </div>
 
             <span style="font-size: 13px;">코인할인 : </span>

@@ -4,9 +4,10 @@ import { IonicPage, AlertController,NavController, NavParams } from 'ionic-angul
 import { AngularFireAuth } from 'angularfire2/auth';
 import  firebase from 'firebase';
 import { HomePage } from '../home/home';
-import {IamportCordova} from '@ionic-native/iamport-cordova/'
-
 import { SignupPage } from '../signup/signup';
+import {IamportCordova} from '@ionic-native/iamport-cordova/'
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -31,9 +32,8 @@ export class LoginpagePage {
   phone_check=false;
 
   firemain = firebase.database().ref();
-  constructor(public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     
-   
     if(localStorage.getItem('loginflag')!='false'&&localStorage.getItem('loginflag')!=null){
       // this.main_title='회원가입/로그인';
       this.login_check=true;
@@ -111,7 +111,41 @@ export class LoginpagePage {
   }
 
   login(){
-    this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
+    this.uniqueDeviceID.get()
+    .then((uuid: any) =>{
+      console.log('a');
+      console.log(uuid)
+      this.confirmAlert2('a'+uuid);
+      // this.unique_ID=uuid; 
+      this.firemain.child('users').child('01023393927').update({'uuid':uuid}).then(()=>{
+        console.log('uuid then')
+      })
+    })
+    .catch((error: any) => console.log(error));
+
+    this.geolocation.getCurrentPosition().then((resp) => {
+      console.log('b');
+      console.log(resp);
+      console.log(resp.coords)
+      this.confirmAlert2('b'+resp);
+      // resp.coords.latitude
+      // resp.coords.longitude
+      this.firemain.child('users').child('01023393927').child('geolocation').update({
+        ratitude:resp.coords.latitude,
+        longitude:resp.coords.longitude,
+        accuracy:resp.coords.accuracy,
+        altitude:resp.coords.altitude,
+        altitudeAccuracy:resp.coords.altitudeAccuracy,
+        heading:resp.coords.heading,
+        speed:resp.coords.speed,
+      }).then(()=>{
+        console.log('resp then')
+      })
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+
+     this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
       this.firemain.child('users').child(this.phone).update(
         {
           'name':this.name,
@@ -120,7 +154,7 @@ export class LoginpagePage {
         }
       )
       if(snap.val()===undefined||snap.val()===null){
-        alert('가입을 축하합니다. 밍을 부담없이 하기 위해 코인을 1개 드립니다.');
+        this.confirmAlert2('가입을 축하합니다. 밍을 부담없이 하기 위해 코인을 1개 드립니다.');
         this.firemain.child('users').child(this.phone).update(
           {
             first_login:new Date(),

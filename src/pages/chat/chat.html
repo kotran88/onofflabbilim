@@ -17,14 +17,14 @@
 </ion-header>
 
 <ion-content class="chat-area" id="scrfcs">
-    <div *ngFor="let a of chatUser; let i = index;">
+    <div *ngFor="let a of chat; let i = index;">
 
-        <div [ngClass]="chatUser[i]===id ? 'my-userbox':'other-userbox'">
-            <div [ngClass]="chatUser[i]==id ? 'my-user':'other-user'">
-                <img *ngIf="chatImage[i]!=''" src="{{chatImage[i]}}" class="img" (click)="clicked()" /> {{chatMsg[i]}}
+        <div [ngClass]="a.user===userid ? 'my-userbox':'other-userbox'">
+            <div [ngClass]="a.user===userid ? 'my-user':'other-user'">
+                <img *ngIf="a.image!=''" src="{{a.image}}" class="img" (click)="clicked()" /> {{a.text}}
             </div>
-            <div *ngIf="chatUser[i]!=id" class="other_readck">{{chatck[i]}}</div>
-            <div *ngIf="chatUser[i]===id" class="my_readck">{{chatck[i]}}</div>
+            <div *ngIf="a.user!=userid" class="other_readck">{{a.ck}}</div>
+            <div *ngIf="a.user===userid" class="my_readck">{{a.ck}}</div>
         </div>
         <!-- <br> -->
     </div>
@@ -34,7 +34,7 @@
 
 <div class="input-area">
     <button class="img-upload" (click)="takeFoto()">사진</button>
-    <ion-input id="input" class="text-area" placeholder="입력하세요" [(ngModel)]="text" type="text"></ion-input>
+    <ion-input id="input" class="text-area" placeholder="입력하세요" [(ngModel)]="input.text" type="text"></ion-input>
     <button class="enter-button" (click)="upload(1)">
     전송
   </button>
