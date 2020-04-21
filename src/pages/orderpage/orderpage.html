@@ -1,31 +1,15 @@
 <ion-header>
-    <!-- <ion-navbar> -->
-    <!-- <ion-icon  style="color: black;
-    margin-left:5px;
-    float: left;
-    font-size: 1.5em; 
-    width: 24px;
-font-size: 1.5em;
-height: 24px;
-padding: 5px;" (click)="goback();" name="close"></ion-icon> -->
-    <button (click)="goback()" style="background-color: #fff; float:left; margin-top:10px;">
+    <button (click)="goback()" style="background-color: #fff; float:left; margin-top:15px;">
   <img src="assets/img/back.png" style="width:25px;background-color: #fff;float:left;" alt="">
 </button>
-    <div style="margin-top: 2%;">주문페이지</div>
-
-    <div style="    font-size: 16px;
-text-align: center;
-width: 85%;
-display: flow-root;
-float: left;" class="title">
-
+    <div style="margin-top: 4%;">
+        <span style="font-size:16px; margin-left:-20px">주문페이지</span>
     </div>
     <!-- </ion-navbar> -->
 </ion-header>
 <ion-content padding>
 
-    <ion-list style="
-">
+    <ion-list>
         <ion-item (click)="view(0)" [ngClass]="selected==0?'noselect':'select'">
             <div style="position:relative" class="main">
                 <p style="
@@ -50,61 +34,6 @@ margin-left: 20px;" class="gameshowing">
                 </div>
             </div>
         </ion-item>
-
-        <ion-item>
-            <div style="position:relative" class="main">
-                <p style="
-     line-height: 40px;" class="item-title">주문상품</p>
-            </div>
-
-            <div class="clicked" class="display" style="background:rgb(246,246,246); height:auto;
-        white-space: initial !important; font-size:13px;border:0.5px solid rgb(234,234,234);">
-                <p style="
-        font-size: 15px;
-        font-weight: bold;
-        margin-left: 20px;
-        margin-top: 5px;">선택한 게임</p>
-                <div style="min-height: 150px; 
-    padding: 10px; padding-top:0px;" class="gameshowing">
-                    <div style="
-      width: 33%; 
-    display: grid;
-      height: 110px; padding:10px;
-      float: left;" *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'">
-                        <img style="
-        height: 80px;
-        width: 100%;" src="{{game.url}}" />
-                        <span style="font-weight: bold; font-size: 14px;">{{game.name}}
-        </span>
-                        <span style="font-size:13px;">{{number_format(game.price)}}</span>
-                    </div>
-                </div>
-                <p style="
-    font-size: 15px;
-    font-weight: bold;
-    margin-left: 20px;
-    margin-top: 5px;">선택한 하드웨어</p>
-
-                <div style="min-height: 150px;
-    padding: 10px; padding-top:0px;" *ngIf="hardware!=undefined" class="gameshowing">
-                    <div style="
-      width: 33%;
-    display: grid;
-      height: 110px; padding:10px;
-      float: left;" *ngIf="hardware.length!=0">
-                        <img style="
-         height: 80px;
-         width: 100%;" src="{{hardware.url}}" />
-
-                        <span style="font-weight: bold; font-size: 16px;">{{hardware.name}}
-</span>
-                        <span style="font-size:14px;">{{number_format(hardware.pricedaily)}}</span>
-                    </div>
-                </div>
-            </div>
-        </ion-item>
-
-
         <ion-item (click)="view(2)" [ngClass]="selected==2?'noselect':'select'">
             <div style="position:relative" class="main">
                 <p style="
@@ -158,6 +87,61 @@ margin-left: 20px;" class="gameshowing">
 
 
         </ion-item>
+        <ion-item>
+            <div style="position:relative" class="main">
+                <p style="
+     line-height: 40px;" class="item-title">주문상품</p>
+            </div>
+
+            <div class="clicked" class="display" style="background:rgb(246,246,246); height:380px;
+        white-space: initial !important; font-size:13px;border:0.5px solid rgb(234,234,234);">
+                <p style="
+        font-size: 15px;
+        font-weight: bold;
+        margin-left: 20px;
+        margin-top: 5px;">선택한 게임</p>
+                <div style="min-height: 150px; 
+    padding: 10px; padding-top:0px;" class="gameshowing">
+                    <div style="
+      width: 33%; 
+    display: grid;
+      height: 110px; padding:10px;
+      float: left;" *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'">
+                        <img style="
+        height: 80px;
+        width: 100%;" src="{{game.url}}" />
+                        <span style="font-weight: bold; font-size: 14px;">{{game.name}}
+        </span>
+                        <span style="font-size:13px;">{{number_format(game.price)}}</span>
+                    </div>
+                </div>
+                <p style="
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-top: 5px;">선택한 하드웨어</p>
+
+                <div style="min-height: 150px;
+    padding: 10px; padding-top:0px;" *ngIf="hardware!=undefined" class="gameshowing">
+                    <div style="
+      width: 33%;
+    display: grid;
+      height: 110px; padding:10px;
+      float: left;" *ngIf="hardware.length!=0">
+                        <img style="
+         height: 80px;
+         width: 100%;" src="{{hardware.url}}" />
+
+                        <span style="font-weight: bold; font-size: 16px;">{{hardware.name}}
+</span>
+                        <span style="font-size:14px;">{{number_format(hardware.pricedaily)}}</span>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+
+
+
         <!-- <ion-item>
             <div style="position:relative" class="main">
                 <p style="

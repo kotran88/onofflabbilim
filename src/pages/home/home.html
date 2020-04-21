@@ -1,24 +1,23 @@
 <ion-header no-border style="border: 0px !important;
     border-bottom-color: transparent !important;
     background-image: none !important;
-    border-bottom: none !important; z-index: 11 !important">
+    border-bottom: none !important; z-index: 11 !important; position:absolute;">
     <ion-navbar style="border: 0px !important;
       border-bottom-color: transparent !important;
       background-image: none !important;
       border-bottom: none !important;">
-        <div style="  font-size:17px;  text-align: center; height: 20px;" class="title">
+        <div style="font-size:17px; text-align: center;" class="title">
             <span style="
     line-height: 20px;
     width: 100%;
-    margin-left: 100px;
+    margin-left:43%;
+    margin-right:20%;
     font-size: 18px;
     font-weight: bold;
     color: black;">
       Ming
     </span>
-
-            <div style="
-    float: right;" class="righticonarea">
+            <div style="float: right; width:75px;" class="righticonarea">
                 <!-- <img (click)="coinpoint();" src="assets/img/coinimage.png" style="font-size: 1.8em;
       right: 15%; 
     margin-top: 10px;
@@ -27,14 +26,16 @@
       margin-right:3px;" name="search" /> -->
                 <img (click)="settings();" src="assets/img/set7.png" style="font-size: 1.8em;
       right: 15%; 
-    margin-top: 15px;
       width:32px;
+      float: right;
+      margin-top:10px;
       margin-left:3px;
       margin-right:3px;" name="search" />
                 <img (click)="mypage();" src="assets/img/mypage3.png" style="font-size: 1.8em;
     right: 15%; 
-  margin-top: 10px;
     width:30px;
+    float: right;
+    margin-top:10px;
     margin-left:3px;
       margin-right:3px;" name="search" />
                 <!-- <ion-icon style="
@@ -49,7 +50,7 @@
 
     </ion-navbar>
 </ion-header>
- 
+
 <ion-content class="home">
 
     <ion-slides *ngIf="slides && slides.length" pager="true" autoplay="2000" loop=true speed=1000 class="firstslide" style="width: 100% !important; height:30%; margin-top:40px !important;">
@@ -130,8 +131,8 @@
         <div class="putter_text2">xxx-xxxx-xxxx / xxxxx@email.com</div>
     </footer>
 
-    <ion-fab right style="bottom: 25%;">
-      <button ion-fab mini style="background-color:rgb(75, 170, 199);" (click)="go_chat()">
+    <ion-fab right style="bottom: 5%;">
+        <button ion-fab mini style="background-color:rgb(75, 170, 199);" (click)="go_chat()">
         <img src="assets/img/chat2.png" style="width:30px;" alt="">
       </button>
     </ion-fab>

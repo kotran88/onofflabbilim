@@ -82,15 +82,22 @@ export class PaymentPage {
         gamedct += this.game[i].price * 0.5;
       }
       else if (this.hardware == undefined) {
-        gamedct = this.game[i].price
+        gamedct += this.game[i].price * 1;
       }
     }
     this.gamediscount = gamedct;
     this.gameprice = this.gamediscount * this.diff;
+    console.log(this.gamediscount);
+    console.log(this.gameprice);
     this.choice();
   }
   coin: any;
 
+  number_format(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ',');
+  }
+  
   ordering() {
 
     var data = {
@@ -243,20 +250,9 @@ export class PaymentPage {
 
     this.count+=n;
     this.coins-=n;
-
     this.coindiscount=this.count * 100;
     this.totalpaymoney-=n*100;
-
-    // if (this.coins > 0) {
-    //   // this.totalpaymoney = this.totalpaymoney - 100;
-    //   this.coins--;
-    //   console.log(this.totalpaymoney);
-    //   console.log(this.coins);
-    //   this.coindiscount = this.count * 100;
-    // }
-    // else if (this.coins == 0) {
-    //   this.totalpaymoney = this.totalpaymoney;
-    // }
+    console.log(this.totalpaymoney);
   }
 
   rangeSlider = function () {

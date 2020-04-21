@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Ionic App</title>
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
+    <meta charset="UTF-8">
+    <title>Ionic App</title>
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
 
-  <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#4e8ef7">
-  <script type='text/javascript'>
-    //<![CDATA[
-      // 사용할 앱의 JavaScript 키를 설정해 주세요.
-      Kakao.init('071395273b15cb72ba08ea1838428829');
-      // 카카오톡 채널 추가 버튼을 생성합니다.
-      function chatChannel() {
-      Kakao.Channel.chat({
-channelPublicId: '_Cxaxgzxb' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
-      });
-    }
-    //]]>
-  </script>
-  <!-- add to homescreen for ios -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4e8ef7">
+    <script type='text/javascript'>
+        //<![CDATA[
+        // 사용할 앱의 JavaScript 키를 설정해 주세요.
+        Kakao.init('071395273b15cb72ba08ea1838428829');
+        // 카카오톡 채널 추가 버튼을 생성합니다.
+        function chatChannel() {
+            Kakao.Channel.chat({
+                channelPublicId: '_Cxaxgzxb' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+            });
+        }
+        //]]>
+    </script>
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <!-- cordova.js required for cordova apps (remove if not needed) -->
-  <script src="cordova.js"></script>
+    <!-- cordova.js required for cordova apps (remove if not needed) -->
+    <script src="cordova.js"></script>
 
-  <!-- un-comment this code to enable service worker
+    <!-- un-comment this code to enable service worker
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
@@ -39,103 +40,275 @@ channelPublicId: '_Cxaxgzxb' // 카카오톡 채널 홈 URL에 명시된 id로 �
     }
   </script>-->
 
-  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script>
-      // 우편번호 찾기 찾기 화면을 넣을 element
-      var element_wrap ="";
-  
-      function foldDaumPostcode() {
-          // iframe을 넣은 element를 안보이게 한다.
-          element_wrap.style.display = 'none';
-      }
-  
-      function sample3_execDaumPostcode() {
-        element_wrap = document.getElementById('postal-code');
-          // 현재 scroll 위치를 저장해놓는다.
-          var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
-          new daum.Postcode({
-              oncomplete: function(data) {
-                  // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-  
-                  // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                  var addr = ''; // 주소 변수
-                  var extraAddr = ''; // 참고항목 변수
-  
-                  //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                  if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                      addr = data.roadAddress;
-                  } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                      addr = data.jibunAddress;
-                  }
-  
-                  // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                  if(data.userSelectedType === 'R'){
-                      // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                      // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                      if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                          extraAddr += data.bname;
-                      }
-                      // 건물명이 있고, 공동주택일 경우 추가한다.
-                      if(data.buildingName !== '' && data.apartment === 'Y'){
-                          extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                      }
-                      // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                      if(extraAddr !== ''){
-                          extraAddr = ' (' + extraAddr + ')';
-                      }
-                      // 조합된 참고항목을 해당 필드에 넣는다.
-                      document.getElementById("adress_C").value = extraAddr;
-                      console.log(extraAddr);
-                  
-                  } else {
-                      document.getElementById("adress_C").value = '';
-                  }
-  
-                  // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                  document.getElementById('adress_A').value = data.zonecode;
-                  document.getElementById("adress_B").value = addr;
-                  console.log(data.zonecode);
-                  console.log(addr);
-                  // 커서를 상세주소 필드로 이동한다.
-                  document.getElementById("postal-code").focus();
-                  document.getElementById("postal-code-btn").click();
-                  // iframe을 넣은 element를 안보이게 한다.
-                  // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-                  element_wrap.style.display = 'none';
-  
-                  // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
-                  document.body.scrollTop = currentScroll;
-              },
-              // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
-              onresize : function(size) {
-                  element_wrap.style.height = size.height+2+'px';
-              },
-              width : '100%',
-              height : '100%'
-          }).embed(element_wrap);
-  
-          // iframe을 넣은 element를 보이게 한다.
-          element_wrap.style.display = 'block';
-      }
-  </script>
-  <link href="build/main.css" rel="stylesheet">
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        #modalContainer {
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            z-index: 10000;
+            background-image: url(tp.png);
+            /* required by MSIE to prevent actions on lower z-index elements */
+        }
+        
+        #alertBox {
+            position: relative;
+            width: 60%;
+            min-height: 100px;
+            max-height: 400px;
+            margin-top: 50px;
+            border: 1px solid #fff;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            top: 30%;
+        }
+        
+        #modalContainer>#alertBox {
+            position: fixed;
+        }
+        
+        #alertBox h1 {
+            margin: 0;
+            font: bold 1em Raleway, arial;
+            background-color: #68cfff;
+            color: #FFF;
+            border-bottom: 1px solid #68cfff;
+            padding: 10px 0 10px 5px;
+        }
+        
+        #alertBox p {
+            height: 50px;
+            padding-left: 5px;
+            padding-top: 30px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        #alertBox #closeBtn {
+            display: block;
+            position: relative;
+            margin: 10px auto 10px auto;
+            padding: 7px;
+            border: 0 none;
+            width: 70px;
+            text-transform: uppercase;
+            text-align: center;
+            color: #FFF;
+            background-color: #68cfff;
+            border-radius: 0px;
+            text-decoration: none;
+            outline: 0!important;
+        }
+        /* unrelated styles */
+        
+        #mContainer {
+            position: relative;
+            width: 600px;
+            margin: auto;
+            padding: 5px;
+            border-top: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }
+        
+        h1,
+        h2 {
+            margin: 0;
+            padding: 4px;
+        }
+        
+        code {
+            font-size: 1.2em;
+            color: #069;
+        }
+        
+        #credits {
+            position: relative;
+            margin: 25px auto 0px auto;
+            width: 350px;
+            font: 0.7em verdana;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            height: 90px;
+            padding-top: 4px;
+        }
+        
+        #credits img {
+            float: left;
+            margin: 5px 10px 5px 0px;
+            border: 1px solid #000000;
+            width: 80px;
+            height: 79px;
+        }
+        
+        .important {
+            background-color: #F5FCC8;
+            padding: 2px;
+        }
+    </style>
+    <script>
+        // 우편번호 찾기 찾기 화면을 넣을 element
+        var element_wrap = "";
+
+        var ALERT_TITLE = "주소지를 확인해주세요.";
+        var ALERT_BUTTON_TEXT = "확인";
+
+        if (document.getElementById) {
+            window.alert = function(txt) {
+                createCustomAlert(txt);
+            }
+        }
+
+        function createCustomAlert(txt) {
+            d = document;
+
+            if (document.getElementById("modalContainer")) return;
+
+            mObj = document.getElementsByTagName("body")[0].appendChild(document.createElement("div"));
+            mObj.id = "modalContainer";
+            mObj.style.height = document.documentElement.scrollHeight + "px";
+
+            alertObj = mObj.appendChild(document.createElement("div"));
+            alertObj.id = "alertBox";
+            if (document.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
+            alertObj.style.left = (document.documentElement.scrollWidth - alertObj.offsetWidth) / 2 + "px";
+            alertObj.style.visiblity = "visible";
+
+            h1 = alertObj.appendChild(document.createElement("h1"));
+            h1.appendChild(document.createTextNode(ALERT_TITLE));
+
+            msg = alertObj.appendChild(document.createElement("p"));
+            msg.innerHTML = txt;
+
+            btn = alertObj.appendChild(document.createElement("a"));
+            btn.id = "closeBtn";
+            btn.appendChild(document.createTextNode(ALERT_BUTTON_TEXT));
+            btn.href = "#";
+            btn.focus();
+            btn.onclick = function() {
+                removeCustomAlert();
+                return false;
+            }
+
+            alertObj.style.display = "block";
+
+        }
+
+        function removeCustomAlert() {
+            document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
+        }
+
+        function ful() {
+            alert("현재 전주 지역만 배송이 가능합니다.");
+        }
+
+
+
+        function foldDaumPostcode() {
+            // iframe을 넣은 element를 안보이게 한다.
+            element_wrap.style.display = 'none';
+        }
+
+        function sample3_execDaumPostcode() {
+            element_wrap = document.getElementById('postal-code');
+            // 현재 scroll 위치를 저장해놓는다.
+            var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if (data.userSelectedType === 'R') {
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if (extraAddr !== '') {
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        if (addr.indexOf("전주") != -1) {
+                            document.getElementById("adress_C").value = extraAddr;
+                        }
+                        console.log(extraAddr);
+
+                    } else {
+                        if (addr.indexOf("전주") != -1) {
+                            document.getElementById("adress_C").value = '';
+                        }
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    if (addr.indexOf("전주") != -1) {
+                        document.getElementById('adress_A').value = data.zonecode;
+                        document.getElementById("adress_B").value = addr;
+                    } else {
+                        ful()
+
+                    }
+                    console.log(data.zonecode);
+                    console.log(addr);
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("postal-code").focus();
+                    document.getElementById("postal-code-btn").click();
+                    // iframe을 넣은 element를 안보이게 한다.
+                    // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                    element_wrap.style.display = 'none';
+
+                    // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+                    document.body.scrollTop = currentScroll;
+                },
+                // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+                onresize: function(size) {
+                    element_wrap.style.height = size.height + 2 + 'px';
+                },
+                width: '100%',
+                height: '100%'
+            }).embed(element_wrap);
+
+            // iframe을 넣은 element를 보이게 한다.
+            element_wrap.style.display = 'block';
+        }
+    </script>
+    <link href="build/main.css" rel="stylesheet">
 
 </head>
+
 <body>
+    <!-- Ionic's root component and where the app will load -->
+    <ion-app></ion-app>
 
-  <!-- Ionic's root component and where the app will load -->
-  <ion-app></ion-app>
+    <!-- The polyfills js is generated during the build process -->
+    <script src="build/polyfills.js"></script>
 
-  <!-- The polyfills js is generated during the build process -->
-  <script src="build/polyfills.js"></script>
-
-  <!-- The vendor js is generated during the build process
+    <!-- The vendor js is generated during the build process
        It contains all of the dependencies in node_modules -->
-  <script src="build/vendor.js"></script>
+    <script src="build/vendor.js"></script>
 
-  <!-- The main bundle js is generated during the build process -->
-  <script src="build/main.js"></script>
+    <!-- The main bundle js is generated during the build process -->
+    <script src="build/main.js"></script>
 
 </body>
+
 </html>
