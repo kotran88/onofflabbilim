@@ -36,6 +36,7 @@ export class ChatPage {
   nowtime:any;
   // take_image_data:any;
   lloading:any;
+  keyboard_check=false;
 
   // chat=[{user:'',text:'',image:'',date:'',ck:''}];
   chat=[];
@@ -58,6 +59,27 @@ export class ChatPage {
     })
   }
 
+  keyboardchecker_reset(n){
+    this.keyboard_check=n;
+  }
+
+  keyboardchecker(){
+    
+    console.log(this.keyboard.isVisible);
+    console.log(this.keyboard_check);
+    if(this.keyboard.isVisible!=this.keyboard_check){
+      console.log('?!?!?!?!?')
+      if(this.keyboard_check===true){
+        this.keyboard.show();
+        console.log('keyboard show!!')
+      }
+      else{
+        this.keyboard.hide();
+        console.log('keyboard hide!!')
+      } 
+    }
+  }
+
   confirmAlert2(str) {
     let alert = this.alertCtrl.create({      
         subTitle: str,
@@ -75,10 +97,6 @@ export class ChatPage {
 
   goback(){
     this.navCtrl.pop();
-  }
-
-  read_check(i){
-    this.firedata.child(this.userid).child(i).update({readck:' '})
   }
 
   read_log(data){
@@ -143,8 +161,6 @@ export class ChatPage {
   }
   
   upload(mode){
-
-    this.keyboard.show();
     if(mode===0){
       this.input.user=this.userid;
       this.input.date=this.nowtime;

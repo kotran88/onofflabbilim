@@ -23,8 +23,9 @@ export class DeliveryAreaPage {
   adress='';
   adress2='';
   adress3='';
-
   constructor(public alertCtrl:AlertController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
+    this.name=this.navParams.get("name");
+    this.phone=this.navParams.get("phone");
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
       this.navCtrl.pop();
@@ -51,6 +52,12 @@ export class DeliveryAreaPage {
     this.adress =  $("#adress_A").val();
     this.adress2 =  $("#adress_B").val();
     this.adress3 =  $("#adress_C").val();
+
+    if(this.adress2.indexOf("전주")!=-1){
+      this.adress =  $("#adress_A").val();
+      this.adress2 =  $("#adress_B").val();
+      this.adress3 =  $("#adress_C").val();
+    }
   }
   
   dismiss(){

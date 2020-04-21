@@ -20,6 +20,7 @@ import { OrderpagePage } from './../../pages/orderpage/orderpage';
   templateUrl: 'modalpage.html',
 })
 export class ModalpagePage {
+  sale_data:any;
   gamearray=[];
   hardwarearray=[];
   hardwarename:any;
@@ -38,6 +39,8 @@ export class ModalpagePage {
   firemain = firebase.database().ref();
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController) {
+    console.log('modalpage come')
+    this.sale_data=this.navParams.get("sale");
     this.flag= this.navParams.get("flag");
     this.hardware=this.flag.flag
     this.gamearray= this.navParams.get("list");
@@ -45,6 +48,7 @@ export class ModalpagePage {
     this.endDate=this.navParams.get("endDate");
     this.diff=this.navParams.get("diff");
     this.user=this.navParams.get("user");
+    console.log(this.sale_data);
     console.log("flag : ");
     console.log(this.flag);
     console.log( "user : ");
@@ -112,7 +116,7 @@ export class ModalpagePage {
           break;
         }
       }
-      this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user});
+      this.navCtrl.push(OrderpagePage,{"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"gamearray":this.gamearraytrue,"hardware":this.hardwarename,"user":this.user,"sale":this.sale_data});
     })
   }
   teest(){

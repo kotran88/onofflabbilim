@@ -18,6 +18,8 @@ import { HomePage } from '../home/home';
 export class PaymentPage {
 
   firemain = firebase.database().ref();
+
+  sale_data:any;
   user: any;
   diff: any;
   hardware: any;
@@ -42,6 +44,8 @@ export class PaymentPage {
   hardwareprice: any;
   coindiscount: any;
 
+  console_sale_gameprice:any;
+
   tick: any;
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
@@ -50,6 +54,7 @@ export class PaymentPage {
     this.game = this.navParams.get("game");
     this.startDate = this.navParams.get("start");
     this.endDate = this.navParams.get("end");
+    this.sale_data=this.navParams.get("sale");
     console.log(this.contrast);
     // this.diff = 19;
     // this.diff = 31;
@@ -67,30 +72,43 @@ export class PaymentPage {
       var ticknumber = 0;
       ticknumber = Math.ceil(this.hardware.pricenormal * 0.33);
       console.log(ticknumber);
-      if (ticknumber == 118800) { this.tick = 120000 }
-      if (ticknumber == 79200) { this.tick = 80000 }
-      if (ticknumber == 141900) { this.tick = 160000 }
+      for(var sd in this.sale_data.ticknumber){
+        if(ticknumber===Number(sd)){
+          this.tick=this.sale_data.ticknumber[sd];
+        }
+      }
     }
 
     this.rangeSlider();
     var a = 0;
     var gamedct = 0;
+    this.console_sale_gameprice=0;
     for (var i = 0; i < this.game.length; i++) {
       a += this.game[i].price * this.diff;
       // this.originpay = a + b;
       if (this.hardware != undefined) {
-        gamedct += this.game[i].price * 0.5;
+        gamedct += this.game[i].price * ((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
+        this.console_sale_gameprice+=Number(this.game[i].price * Number(this.sale_data.percentage.console.split('%')[0])/100);
       }
       else if (this.hardware == undefined) {
-        gamedct = this.game[i].price
+        gamedct += this.game[i].price * 1;
       }
     }
+    console.log(this.console_sale_gameprice)
     this.gamediscount = gamedct;
     this.gameprice = this.gamediscount * this.diff;
+    console.log(this.gamediscount);
+    console.log(this.gameprice);
+    console.log(this.sale_data)
     this.choice();
   }
   coin: any;
 
+  number_format(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return String(num).replace(regexp, ',');
+  }
+  
   ordering() {
 
     var data = {
@@ -105,7 +123,6 @@ export class PaymentPage {
       buyer_addr: '서울특별시 강남구 삼성동',
       buyer_postcode: '123-456'
     };
-
 
     var PaymentObject = {
       userCode: "imp58611631",
@@ -178,58 +195,61 @@ export class PaymentPage {
   choice() {
     var a = 0;
     for (var i in this.game) { this.game[i].price; a += this.game[i].price * this.diff }
+
     if (this.hardware != undefined) {
-      if (this.hardware.name == "닌텐도 스위치") {
-        console.log(this.contrast);
-        this.originpay = (14000 * this.diff + a);
-        if (this.contrast == 0) { this.hwprice = 14000; this.coins = this.user.points; }
-        if (this.contrast == 120000) { this.hwprice = 9000; this.coins = this.user.points; }
-        if (this.contrast == 240000) { this.hwprice = 7000; this.coins = this.user.points; }
-        if (this.contrast == 360000) { this.hwprice = 5000; this.coins = this.user.points; }
-      }
-      if (this.hardware.name == "스위치 라이트") {
-        this.originpay = (10000 * this.diff + a);
-        if (this.contrast == 0) { this.hwprice = 10000; this.coins = this.user.points; }
-        if (this.contrast == 80000) { this.hwprice = 6000; this.coins = this.user.points; }
-        if (this.contrast == 160000) { this.hwprice = 4000; this.coins = this.user.points; }
-        if (this.contrast == 240000) { this.hwprice = 3000; this.coins = this.user.points; }
-      }
-      if (this.hardware.name == "Playstation Pro") {
-        this.originpay = (19000 * this.diff + a);
-        if (this.contrast == 0) { this.hwprice = 19000; this.coins = this.user.points; }
-        if (this.contrast == 160000) { this.hwprice = 12000; this.coins = this.user.points; }
-        if (this.contrast == 320000) { this.hwprice = 9000; this.coins = this.user.points; }
-        if (this.contrast == 430000) { this.hwprice = 7000; this.coins = this.user.points; }
+      for(var sd in this.sale_data.deposit){
+        if(this.hardware.name===sd){
+          this.originpay=Number(this.sale_data.deposit[sd]['0']) * this.diff + a;
+          for(var sd2 in this.sale_data.deposit[sd]){
+            if(this.contrast==Number(sd2)){
+              this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
+              this.coins = this.user.points;
+            }
+          }
+        }
       }
       this.hardwareprice = this.hwprice * this.diff;
       console.log(this.hardwareprice);
-      if (this.diff >= 30) {
-        this.longdiscount = ((this.hardwareprice) + this.gameprice) * 0.6;
-        this.totalpaymoney = this.longdiscount - this.gameprice;
+      console.log(this.sale_data)
+      console.log(this.longdiscount)
+      
+      this.totalpaymoney = this.hardwareprice + this.gameprice;
+      for(var sd in this.sale_data.percentage.date){
+        if(Number(sd.split('~')[0])>0&&this.diff>=Number(sd.split('~')[0])){
+          if(sd.split('~')[1]!=''&&sd.split('~')[1]!=undefined&&sd.split('~')[1]!=null&&this.diff<Number(sd.split('~')[1])){
+            this.longdiscount = 
+            this.totalpaymoney-(this.totalpaymoney * 
+            ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
+            
+            break;
+          }
+        }
+        else{
+          this.longdiscount=0;
+          break;
+        }
       }
-      if (this.diff >= 15 && this.diff < 30) {
-        this.longdiscount = ((this.hardwareprice) + this.gameprice) * 0.8;
-        this.totalpaymoney = this.longdiscount - this.gameprice;
-      }
-      if (this.diff < 15) {
-        this.totalpaymoney = this.hardwareprice + this.gameprice;
-      }
+      console.log(this.longdiscount)
     }
     if (this.hardware == undefined) {
       this.originpay = this.gameprice;
+      this.totalpaymoney=this.gameprice;
 
-      if (this.diff >= 30) {
-        this.totalpaymoney = this.gameprice * 0.6;
-        this.longdiscount = this.totalpaymoney;
-      }
-      if (this.diff >= 15 && this.diff < 30) {
-        this.totalpaymoney = this.gameprice * 0.8;
-        console.log(this.totalpaymoney);
-        this.longdiscount = this.totalpaymoney;
-
-      }
-      if (this.diff < 15) {
-        this.totalpaymoney = this.gameprice;
+      for(var sd in this.sale_data.percentage.date){
+        if(Number(sd.split('~')[0])>0&&this.diff>=Number(sd.split('~')[0])){
+          if(sd.split('~')[1]!=''&&sd.split('~')[1]!=undefined&&sd.split('~')[1]!=null&&this.diff<Number(sd.split('~')[1])){
+            this.longdiscount = this.totalpaymoney-(this.gameprice * 
+            ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
+            console.log("123")
+            console.log((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100)
+            // this.longdiscount = this.totalpaymoney;
+            break;
+          }
+        }
+        else{
+          this.longdiscount=0;
+          break;
+        }
       }
     }
     this.gameprice_piece=this.gameprice/this.game.length
@@ -243,20 +263,9 @@ export class PaymentPage {
 
     this.count+=n;
     this.coins-=n;
-
     this.coindiscount=this.count * 100;
     this.totalpaymoney-=n*100;
-
-    // if (this.coins > 0) {
-    //   // this.totalpaymoney = this.totalpaymoney - 100;
-    //   this.coins--;
-    //   console.log(this.totalpaymoney);
-    //   console.log(this.coins);
-    //   this.coindiscount = this.count * 100;
-    // }
-    // else if (this.coins == 0) {
-    //   this.totalpaymoney = this.totalpaymoney;
-    // }
+    console.log(this.totalpaymoney);
   }
 
   rangeSlider = function () {

@@ -25,6 +25,7 @@ declare var naver: any;
 export class HomePage {
 
   @ViewChild(Slides) slidess: Slides;
+  sale_data:any;
   selectedbutton:any='vr'
   name:any;
   logined:any="false"
@@ -73,6 +74,11 @@ export class HomePage {
     this.name=localStorage.getItem("name")
     this.loginflag=localStorage.getItem("loginflag");
     console.log(this.loginflag);
+
+    this.firemain.child("sale_data").once('value').then((snap)=>{
+      console.log(snap.val())
+      this.sale_data=snap.val();
+    })
 
     this.firemain.child('setting').once('value').then((snap)=>{
       if(snap.val().login_freepass===true){
@@ -327,13 +333,13 @@ export class HomePage {
     console.log(a.flag);
     console.log(this.user)
     if(a.flag=="ds"){
-      this.navCtrl.push(DetailPage,{"a":a,"game":this.dsgamearray,"setting":this.setting,"user":this.user});
+      this.navCtrl.push(DetailPage,{"a":a,"game":this.dsgamearray,"setting":this.setting,"user":this.user,"sale":this.sale_data});
     }
     if(a.flag=="switch"){
-      this.navCtrl.push(DetailPage,{"a":a,"game":this.switchgamearray,"setting":this.setting,"user":this.user});
+      this.navCtrl.push(DetailPage,{"a":a,"game":this.switchgamearray,"setting":this.setting,"user":this.user,"sale":this.sale_data});
     }
     if(a.flag=="ps"){
-      this.navCtrl.push(DetailPage,{"a":a,"game":this.psgamearray,"setting":this.setting,"user":this.user});
+      this.navCtrl.push(DetailPage,{"a":a,"game":this.psgamearray,"setting":this.setting,"user":this.user,"sale":this.sale_data});
     }
   }
   kakaoLogin(){

@@ -21,6 +21,8 @@ export class OrderpagePage {
   arraylist=[]
   src:any;
 
+  sale_data:any;
+
   newcount:any=0;
   selected:any;
   count:any=0;
@@ -50,6 +52,7 @@ export class OrderpagePage {
       this.navCtrl.pop();
       backAction();
     },2)
+    this.sale_data=this.navParams.get("sale");
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
     this.user=this.navParams.get("user");
@@ -57,6 +60,7 @@ export class OrderpagePage {
     this.diff=this.navParams.get("diff");
     this.hardware=this.navParams.get("hardware");
     this.gamearray=this.navParams.get("gamearray")
+    console.log(this.sale_data)
     console.log(this.user); //대여인
     console.log(this.point);
     console.log(this.diff); //대여일
@@ -150,7 +154,7 @@ export class OrderpagePage {
   }
 
   Delivery_area(){
-    this.navCtrl.push(DeliveryAreaPage).then(() => {
+    this.navCtrl.push(DeliveryAreaPage,{"name":this.user.name, "phone":this.user.phone}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
         if(data){
           this.Delivery=data;
@@ -338,7 +342,7 @@ export class OrderpagePage {
       this.confirmAlert2('어디로 밍을 해야할지 몰라요....');
     }
     else{
-      this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate});
+      this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate,"sale":this.sale_data});
     }
 
     /*  console.log(this.user); //대여인
