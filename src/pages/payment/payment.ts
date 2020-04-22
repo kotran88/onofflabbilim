@@ -200,7 +200,12 @@ export class PaymentPage {
     if (this.hardware != undefined) {
       for(var sd in this.sale_data.deposit){
         if(this.hardware.name===sd){
+          a*=0.5;
           this.originpay=Number(this.sale_data.deposit[sd]['0']) * this.diff + a;
+          console.log(this.originpay);
+          console.log(Number(this.sale_data.deposit[sd]['0']))
+          console.log(this.diff);
+          console.log(a);
           for(var sd2 in this.sale_data.deposit[sd]){
             if(this.contrast==Number(sd2)){
               this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
