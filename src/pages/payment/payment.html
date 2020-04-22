@@ -22,13 +22,13 @@
         </ion-item>
         <div style="text-align: center;">
             <span *ngIf="contrast == undefined" style="font-size:13px;">보증금을 선택하세요.</span>
-            <span *ngIf="contrast != undefined" style="font-size:13px;">보증금 : {{contrast}}</span>
+            <span *ngIf="contrast != undefined" style="font-size:13px;">보증금 : {{number_format(contrast)}}</span>
             <div style="text-align: left;">
-                <span *ngIf="contrast != undefined" style="font-size:13px;">- 1일 대여료 : {{hwprice}}원</span><br>
+                <span *ngIf="contrast != undefined" style="font-size:13px;">- 1일 대여료 : {{number_format(hwprice)}}원</span><br>
             </div>
             <div style="text-align: right;">
                 <!-- <span *ngIf="contrast==0" style="font-size:15px;">원</span> -->
-                <span *ngIf="contrast!=undefined" style="font-size:15px;">{{hwprice*diff}}원</span>
+                <span *ngIf="contrast!=undefined" style="font-size:15px;">{{number_format(hwprice*diff)}}원</span>
             </div>
         </div>
     </div>
@@ -69,17 +69,15 @@
         <div style="text-align: right; margin-left:150px; margin-top:-30px;">
 
             <span *ngIf="totalpaymoney!=originpay" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <!-- <span *ngIf="diff<15 && hardware==undefined" style="font-size:17px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff<15 && hardware!=undefined" style="font-size:17px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware==undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware==undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware!=undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=30 && hardware==undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=30 && hardware==undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=30 && hardware!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=30 && hardware!=undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span> -->
+            <span style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span><br><br>
+
+        </div>
+        <div style="width:70%">
+            <span style="margin-left: 25px; font-size:15px;">보증금</span>
+            <!-- <span style="font-size:11px">(보증금은 기계 정상 반납 시 반납됩니다.)</span> -->
+        </div>
+        <div style="text-align: right; margin-left:150px; margin-top:-20px; margin-bottom:20px;">
+            <span style="font-size:13px;">{{number_format(contrast)}}원</span>
         </div>
 
         <div style="width:30%; margin-top:15px;">
@@ -89,7 +87,6 @@
         <div style="text-align: right; margin-top:-20px;">
             <span *ngIf="contrast!=undefined" style="font-size:13px;">장기대여할인 : -{{longdiscount}}원</span><br>
             <span style="font-size:13px;">기기대여에 따른 게임할인(-{{sale_data.percentage.console}}) : -{{console_sale_gameprice}}원</span><br>
-
             <span style="font-size: 13px;">코인할인 : </span>
             <span *ngIf="coindiscount===0||coindiscount===undefined" style="font-size:13px">0원</span>
             <span *ngIf="coindiscount>0" style="font-size:13px">-{{number_format(coindiscount)}}원</span>
