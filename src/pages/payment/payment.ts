@@ -256,7 +256,7 @@ export class PaymentPage {
           }
         }
       }
-      this.hardwareprice = this.hwprice * this.diff;
+      this.hardwareprice = this.contrast + this.hwprice * this.diff;
       console.log(this.hardwareprice);
       console.log(this.sale_data)
       console.log(this.longdiscount)
