@@ -45,6 +45,8 @@ export class OrderpagePage {
   Delivery=[];
   Delivery_check=false;
 
+  resultAddress : any;
+
   constructor(public platform:Platform,public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
 
     let backAction =  platform.registerBackButtonAction(() => {
@@ -72,7 +74,14 @@ export class OrderpagePage {
         this.Delivery_check=true;
       }
     })
-
+    for(var k in this.user){
+      console.log(k);
+      if(k=='adress'){
+        console.log(this.user[k].adress);
+        this.resultAddress = this.user[k].adress;
+      }
+    }
+    console.log(this.resultAddress);
     var a = 0;
     for(var i=0; i<this.gamearray.length; i++){
       a+=this.gamearray[i].price*this.diff;
@@ -338,10 +347,16 @@ export class OrderpagePage {
   }
 
   payment(){
+    console.log(this.resultAddress);
+   
     if(this.Delivery_check===false){
       this.confirmAlert2('어디로 밍을 해야할지 몰라요....');
     }
-    else{
+    if(this.resultAddress.indexOf("전북 전주")==-1){
+      console.log("전주");
+      this.confirmAlert2("현재 전주 지역만 배송이 가능합니다.<br>주소를 확인해주세요.");
+    }
+    else {
       this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate,"sale":this.sale_data});
     }
 

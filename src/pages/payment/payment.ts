@@ -49,7 +49,7 @@ export class PaymentPage {
   tick: any;
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
-    this.diff = this.navParams.get("diff");
+    // this.diff = this.navParams.get("diff");
     this.hardware = this.navParams.get("hardware");
     this.game = this.navParams.get("game");
     this.startDate = this.navParams.get("start");
@@ -57,7 +57,7 @@ export class PaymentPage {
     this.sale_data=this.navParams.get("sale");
     console.log(this.contrast);
     // this.diff = 19;
-    // this.diff = 31;
+    this.diff = 31;
 
     this.coins = this.user.points;
     this.totalcoins=this.coins;
