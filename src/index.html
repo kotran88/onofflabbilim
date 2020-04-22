@@ -61,7 +61,6 @@
             min-height: 100px;
             max-height: 400px;
             margin-top: 50px;
-            border: 1px solid #fff;
             background-color: #fff;
             background-repeat: no-repeat;
             top: 30%;
@@ -83,7 +82,7 @@
         #alertBox p {
             height: 50px;
             padding-left: 5px;
-            padding-top: 30px;
+            padding-top: 20px;
             text-align: center;
             vertical-align: middle;
         }
@@ -248,19 +247,19 @@
                             extraAddr = ' (' + extraAddr + ')';
                         }
                         // 조합된 참고항목을 해당 필드에 넣는다.
-                        if (addr.indexOf("전주") != -1) {
+                        if (addr.indexOf("전북 전주") != -1) {
                             document.getElementById("adress_C").value = extraAddr;
                         }
                         console.log(extraAddr);
 
                     } else {
-                        if (addr.indexOf("전주") != -1) {
+                        if (addr.indexOf("전북 전주") != -1) {
                             document.getElementById("adress_C").value = '';
                         }
                     }
 
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    if (addr.indexOf("전주") != -1) {
+                    if (addr.indexOf("전북 전주") != -1) {
                         document.getElementById('adress_A').value = data.zonecode;
                         document.getElementById("adress_B").value = addr;
                     } else {
