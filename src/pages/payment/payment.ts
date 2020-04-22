@@ -247,26 +247,27 @@ export class PaymentPage {
     if (this.hardware != undefined) {
       for(var sd in this.sale_data.deposit){
         if(this.hardware.name===sd){
-          a*=0.5;
-          this.originpay=Number(this.sale_data.deposit[sd]['0']) * this.diff + a;
+          a*=((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
+          this.originpay=Number(this.sale_data.deposit[sd][String(this.contrast)]) * this.diff + a;
           console.log(this.originpay);
-          console.log(Number(this.sale_data.deposit[sd]['0']))
+          console.log(Number(this.sale_data.deposit[sd][String(this.contrast)]))
           console.log(this.diff);
           console.log(a);
           for(var sd2 in this.sale_data.deposit[sd]){
-            if(this.contrast==Number(sd2)){
+            if(this.contrast===Number(sd2)){
+              console.log(sd2);
               this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
               this.coins = this.user.points;
             }
           }
         }
       }
-      this.hardwareprice = this.contrast + this.hwprice * this.diff;
+      this.hardwareprice = this.hwprice * this.diff;
       console.log(this.hardwareprice);
       console.log(this.sale_data)
       console.log(this.longdiscount)
       
-      this.totalpaymoney = this.hardwareprice + this.gameprice;
+      this.totalpaymoney = this.hardwareprice + a;
       for(var sd in this.sale_data.percentage.date){
         if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
           this.longdiscount = 
@@ -293,6 +294,8 @@ export class PaymentPage {
     }
 
     this.totalpaymoney-=this.longdiscount;
+    this.totalpaymoney+=this.contrast;
+    this.originpay+=this.contrast;
     this.gameprice_piece=this.gameprice/this.game.length
   }
   

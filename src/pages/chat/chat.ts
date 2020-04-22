@@ -65,6 +65,9 @@ export class ChatPage {
 
   keyboardchecker(){
     
+    // this.keyboard.onKeyboardWillHide().then(()=>{
+      
+    // })
     console.log(this.keyboard.isVisible);
     console.log(this.keyboard_check);
     if(this.keyboard.isVisible!=this.keyboard_check){
