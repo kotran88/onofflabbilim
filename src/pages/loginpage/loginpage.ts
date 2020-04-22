@@ -8,6 +8,7 @@ import { SignupPage } from '../signup/signup';
 import {IamportCordova} from '@ionic-native/iamport-cordova/'
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { dateDataSortValue } from 'ionic-angular/umd/util/datetime-util';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -117,7 +118,7 @@ export class LoginpagePage {
       console.log(uuid)
       this.confirmAlert2('a'+uuid);
       // this.unique_ID=uuid; 
-      this.firemain.child('users').child('01023393927').update({'uuid':uuid}).then(()=>{
+      this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
         console.log('uuid then')
       })
     })
@@ -130,14 +131,10 @@ export class LoginpagePage {
       this.confirmAlert2('b'+resp);
       // resp.coords.latitude
       // resp.coords.longitude
-      this.firemain.child('users').child('01023393927').child('geolocation').update({
+      this.firemain.child('users').child(this.phone).child('geolocation').push({
         ratitude:resp.coords.latitude,
         longitude:resp.coords.longitude,
-        accuracy:resp.coords.accuracy,
-        altitude:resp.coords.altitude,
-        altitudeAccuracy:resp.coords.altitudeAccuracy,
-        heading:resp.coords.heading,
-        speed:resp.coords.speed,
+        date:new Date(),
       }).then(()=>{
         console.log('resp then')
       })

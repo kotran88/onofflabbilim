@@ -251,16 +251,15 @@ export class HomePage {
     }else{
       this.navCtrl.push(CoinsPage,{"id":this.id,"user":this.user});
     }
-   
-      }
-      settings(){
-        if('false'==this.loginflag||this.loginflag==null){
-          this.confirmAlert("회원가입/로그인을 해주세요")
-        }else{
-          this.navCtrl.push(SettingPage,{"id":this.id,"user":this.user})
-        }
-      
-      }
+  }
+  settings(){
+    if('false'==this.loginflag||this.loginflag==null){
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    }else{
+      this.navCtrl.push(SettingPage,{"id":this.id,"user":this.user})
+    }
+  
+  }
   go_chat(){
     if('false'==this.loginflag||this.loginflag==null){
       this.confirmAlert("회원가입/로그인을 해주세요")
