@@ -94,6 +94,7 @@ export class PaymentPage {
         gamedct += this.game[i].price * 1;
       }
     }
+    this.console_sale_gameprice*=this.diff;
     console.log(this.console_sale_gameprice)
     this.gamediscount = gamedct;
     this.gameprice = this.gamediscount * this.diff;
@@ -215,17 +216,11 @@ export class PaymentPage {
       
       this.totalpaymoney = this.hardwareprice + this.gameprice;
       for(var sd in this.sale_data.percentage.date){
-        if(Number(sd.split('~')[0])>0&&this.diff>=Number(sd.split('~')[0])){
-          if(sd.split('~')[1]!=''&&sd.split('~')[1]!=undefined&&sd.split('~')[1]!=null&&this.diff<Number(sd.split('~')[1])){
-            this.longdiscount = 
-            this.totalpaymoney-(this.totalpaymoney * 
-            ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
-            
-            break;
-          }
-        }
-        else{
-          this.longdiscount=0;
+        if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
+          this.longdiscount = 
+          this.totalpaymoney-(this.totalpaymoney * 
+          ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
+          
           break;
         }
       }
@@ -236,22 +231,16 @@ export class PaymentPage {
       this.totalpaymoney=this.gameprice;
 
       for(var sd in this.sale_data.percentage.date){
-        if(Number(sd.split('~')[0])>0&&this.diff>=Number(sd.split('~')[0])){
-          if(sd.split('~')[1]!=''&&sd.split('~')[1]!=undefined&&sd.split('~')[1]!=null&&this.diff<Number(sd.split('~')[1])){
-            this.longdiscount = this.totalpaymoney-(this.gameprice * 
-            ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
-            console.log("123")
-            console.log((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100)
-            // this.longdiscount = this.totalpaymoney;
-            break;
-          }
-        }
-        else{
-          this.longdiscount=0;
+        if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
+          this.longdiscount =
+          this.totalpaymoney-(this.gameprice * 
+          ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
           break;
         }
       }
     }
+
+    this.totalpaymoney-=this.longdiscount;
     this.gameprice_piece=this.gameprice/this.game.length
   }
   
