@@ -4,6 +4,8 @@ import * as $ from 'jquery'
 import firebase from 'firebase';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 import { HomePage } from '../home/home';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 /**
  * Generated class for the PaymentPage page.
  *
@@ -47,7 +49,7 @@ export class PaymentPage {
   console_sale_gameprice:any;
 
   tick: any;
-  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
+  constructor(private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
     this.hardware = this.navParams.get("hardware");
@@ -109,9 +111,52 @@ export class PaymentPage {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
     return String(num).replace(regexp, ',');
   }
-  
-  ordering() {
+    
+  game_stock_check(){
+    if(this.hardware!=undefined){
+      this.firemain.child('category').child(this.hardware.flag)
+        .child('hardware').child(this.hardware.itemcode).update({stock:String(Number(this.hardware.stock)-1)});
+    }
 
+    var root=this.firemain.child('category').child(this.game[0].flag).child('software');
+
+    root.once('value').then((snap)=>{
+      for(var g in this.game){
+        for(var s in snap.val()){
+          if(snap.val()[s].name===this.game[g].name){
+            this.stock_update(root.child(s),this.game[g].stock)
+            break;
+          }
+        }
+      }
+    })
+  }
+
+  stock_update(root,num){
+    root.update({stock:String(Number(num)-1)})
+  }
+
+  geolocation_update(root){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      console.log('b');
+      console.log(resp);
+      console.log(resp.coords)
+      this.confirmAlert2('b'+resp);
+      // resp.coords.latitude
+      // resp.coords.longitude
+      root.child('geolocation').update({
+        ratitude:resp.coords.latitude,
+        longitude:resp.coords.longitude,
+        date:new Date(),
+      }).then(()=>{
+        console.log('resp then')
+      })
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }
+
+  ordering() {
     var data = {
       pay_method: 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
@@ -148,6 +193,8 @@ export class PaymentPage {
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
+              this.game_stock_check();
+              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
               console.log(e);
@@ -158,6 +205,8 @@ export class PaymentPage {
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.game_stock_check();
+              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
@@ -167,8 +216,6 @@ export class PaymentPage {
         }
       },
     }
-
-
     // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
     IamportCordova.payment(PaymentObject)
       .then((response) => {
