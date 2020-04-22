@@ -175,7 +175,7 @@ export class ChatPage {
       console.log('user : '+this.userid)
       console.log('nowtime : '+this.now_time())
       if(this.input.text===''&&this.input.image===''){
-       this.confirmAlert2('전송할 정보를 입혁하여 주세요.'); 
+       this.confirmAlert2('전송할 정보를 입력해주세요.'); 
       }
       else if(this.input.image!=''&&this.input.image!=undefined){
         this.uploadImageToFirebase(this.input.image,0)
@@ -227,7 +227,7 @@ export class ChatPage {
           this.input.image=url;
           // alert("download url is : "+url);
           this.upload(0);
-          this.send_push('문의 올립니다 ('+this.name+','+this.userid+')','사진이 도착하였습니다.',this.input.image);
+          this.send_push('문의 올립니다 ('+this.name+','+this.userid+')','사진이 도착했습니다.',this.input.image);
           this.loading_off();
           // window.alert("완료!")
 
