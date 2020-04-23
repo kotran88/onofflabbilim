@@ -131,7 +131,6 @@ export class LoginpagePage {
     .then((uuid: any) =>{
       console.log('a');
       console.log(uuid)
-      this.confirmAlert2('a'+uuid);
       // this.unique_ID=uuid; 
       this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
         console.log('uuid then')
@@ -143,7 +142,6 @@ export class LoginpagePage {
       console.log('b');
       console.log(resp);
       console.log(resp.coords)
-      this.confirmAlert2('b'+resp);
       // resp.coords.latitude
       // resp.coords.longitude
       this.firemain.child('users').child(this.phone).child('geolocation').push({

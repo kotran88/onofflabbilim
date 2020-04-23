@@ -60,16 +60,39 @@ export class ChatPage {
     })
 
     addEventListener('keyboardWillShow', () => {
-      console.log("Keyboard will Show");
-    });
-    addEventListener('keyboardDidShow', () => {
-      console.log("Keyboard is Shown");
       setTimeout(() => {
         this.chatlist.scrollToBottom();
       }, 1000);
     });
-    addEventListener('keyboardWillHide', () => {
-      console.log("Keyboard will Hide");
+    addEventListener('onKeyboardWillHide',()=>{
+      console.log(this.keyboard.isVisible);
+      console.log(this.keyboard_check);
+      if(this.keyboard.isVisible!=this.keyboard_check){
+        console.log('?!?!?!?!?')
+        if(this.keyboard_check===true){
+          this.keyboard.show();
+          console.log('keyboard show!!')
+        }
+        else{
+          this.keyboard.hide();
+          console.log('keyboard hide!!')
+        }
+      }
+    });
+    addEventListener('onKeyboardHide',()=>{
+      console.log(this.keyboard.isVisible);
+      console.log(this.keyboard_check);
+      if(this.keyboard.isVisible!=this.keyboard_check){
+        console.log('?!?!?!?!?')
+        if(this.keyboard_check===true){
+          this.keyboard.show();
+          console.log('keyboard show!!')
+        }
+        else{
+          this.keyboard.hide();
+          console.log('keyboard hide!!')
+        }
+      }
     });
     addEventListener('keyboardDidHide', () => {
       console.log("Keyboard is Hidden");
@@ -297,11 +320,9 @@ export class ChatPage {
     this.http.post('https://onesignal.com/api/v1/notifications', JSON.stringify(data), options).toPromise().then((e)=>{
       console.log("then come")
       console.log(e);
-      alert('ok : '+e)
     }).catch((e)=>{
       console.log('error');
       console.log(e);
-      alert('no : '+e);
     })
   }
 }

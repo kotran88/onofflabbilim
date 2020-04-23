@@ -18,12 +18,26 @@ export class DeliveryAreaPage {
 
   firemain = firebase.database().ref();
 
-  Delivery:any;
+  Delivery:any
+  name:any;
+  phone:any;
   constructor(public alertCtrl:AlertController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
     
     this.Delivery=this.navParams.get('Delivery');
-    console.log(this.Delivery);
+    this.name=this.navParams.get('user').name;
+    this.phone=this.navParams.get('user').phone;
+
+
+    console.log(this.Delivery)
+    if(this.Delivery!=undefined){
+     
+    }
+    else{
+      this.Delivery={adress:'',code:'',detail_adress:''}
+    }
     
+    console.log(this.Delivery);
+
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
       this.navCtrl.pop();
@@ -71,16 +85,16 @@ export class DeliveryAreaPage {
     else{
       var key=localStorage.getItem('id');
       this.firemain.child("users").child(key).child('adress').update({
-        name:this.Delivery.name,
-        phone:this.Delivery.phone,
+        name:this.name,
+        phone:this.phone,
         code:this.Delivery.code,
         adress:this.Delivery.adress,
         detail_adress:this.Delivery.detail_adress,
       })
       this.viewCtrl.dismiss(
         {
-          name:this.Delivery.name,
-          phone:this.Delivery.phone,
+          name:this.name,
+          phone:this.phone,
           code:this.Delivery.code,
           adress:this.Delivery.adress,
           detail_adress:this.Delivery.detail_adress,

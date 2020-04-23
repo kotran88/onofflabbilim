@@ -42,7 +42,7 @@ export class OrderpagePage {
   startDate:any;
   endDate:any;
 
-  Delivery=[];
+  Delivery:any;
   Delivery_check=false;
 
   resultAddress : any;
@@ -68,20 +68,19 @@ export class OrderpagePage {
     console.log(this.diff); //대여일
     console.log(this.hardware); //기계
     console.log(this.gamearray); //게임에 대해
-    this.firemain.child("users").child(this.user.phone).child('adress').once("value",(snap)=>{
-      if(snap.val()){
-        this.Delivery=snap.val();
-        this.Delivery_check=true;
-      }
-    })
+
     for(var k in this.user){
       console.log(k);
       if(k=='adress'){
         console.log(this.user[k].adress);
         this.resultAddress = this.user[k].adress;
+        this.Delivery=this.user[k];
+        if(this.resultAddress===undefined) this.Delivery_check=false;
+        else this.Delivery_check=true;
       }
     }
     console.log(this.resultAddress);
+    console.log(this.Delivery)
     var a = 0;
     for(var i=0; i<this.gamearray.length; i++){
       a+=this.gamearray[i].price*this.diff;
@@ -163,10 +162,11 @@ export class OrderpagePage {
   }
 
   Delivery_area(){
-    this.navCtrl.push(DeliveryAreaPage,{"Delivery":this.Delivery}).then(() => {
+    this.navCtrl.push(DeliveryAreaPage,{'user':this.user,"Delivery":this.Delivery}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
         if(data){
           this.Delivery=data;
+          this.resultAddress=this.Delivery.adress;
           this.Delivery_check=true;
         }
       })
@@ -352,7 +352,7 @@ export class OrderpagePage {
     if(this.Delivery_check===false){
       this.confirmAlert2('어디로 밍을 해야할지 몰라요....');
     }
-    if(this.resultAddress.indexOf("전북 전주")==-1){
+    else if(this.resultAddress.indexOf("전북 전주")==-1){
       console.log("전주");
       this.confirmAlert2("현재 전주 지역만 배송이 가능합니다.<br>주소를 확인해주세요.");
     }
