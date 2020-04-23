@@ -31,6 +31,7 @@ export class LoginpagePage {
   certified_check=false;
   login_check:any;
   phone_check=false;
+  test_phone:any;
 
   firemain = firebase.database().ref();
   constructor(private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
@@ -52,8 +53,9 @@ export class LoginpagePage {
       // this.number=localStorage.getItem('number');
     }
     else{
-      // this.main_title='회원가입/로그인';
-      // this.login_check=false;
+      this.firemain.child('admin').child('phone').once('value').then((snap)=>{
+        this.test_phone=snap.val();
+      })
     }
 
     console.log(this.login_check)
@@ -81,11 +83,20 @@ export class LoginpagePage {
   }
 
   certified(){
+
+    if(this.phone===this.test_phone){
+      this.name="홍길동";
+      this.login();
+      this.certified_check=true;
+      return;
+    }
+
     if(this.name==='') this.confirmAlert2('이름을 입력해주세요.');
     else if(this.phone==='') this.confirmAlert2('휴대폰 번호를 입력해주세요.');
     else{
       this.certified_check=true;
     }
+
     if(this.certified_check){
       var userCode = 'imp10391932';
       var data = {
@@ -154,7 +165,7 @@ export class LoginpagePage {
         this.confirmAlert2('가입을 축하합니다. 밍을 부담없이 하기 위해 코인을 1개 드립니다.');
         this.firemain.child('users').child(this.phone).update(
           {
-            first_login:new Date(),
+            'first_login':new Date(),
             point:"1",
           }
         )

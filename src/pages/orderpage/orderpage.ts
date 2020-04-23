@@ -163,7 +163,7 @@ export class OrderpagePage {
   }
 
   Delivery_area(){
-    this.navCtrl.push(DeliveryAreaPage,{"name":this.user.name, "phone":this.user.phone}).then(() => {
+    this.navCtrl.push(DeliveryAreaPage,{"Delivery":this.Delivery}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
         if(data){
           this.Delivery=data;

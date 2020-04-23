@@ -18,14 +18,12 @@ export class DeliveryAreaPage {
 
   firemain = firebase.database().ref();
 
-  name='';
-  phone='';
-  adress='';
-  adress2='';
-  adress3='';
+  Delivery:any;
   constructor(public alertCtrl:AlertController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
-    this.name=this.navParams.get("name");
-    this.phone=this.navParams.get("phone");
+    
+    this.Delivery=this.navParams.get('Delivery');
+    console.log(this.Delivery);
+    
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
       this.navCtrl.pop();
@@ -49,14 +47,14 @@ export class DeliveryAreaPage {
   }
 
   adress_check(){
-    this.adress =  $("#adress_A").val();
-    this.adress2 =  $("#adress_B").val();
-    this.adress3 =  $("#adress_C").val();
+    this.Delivery.code =  $("#adress_A").val();
+    this.Delivery.adress =  $("#adress_B").val();
+    this.Delivery.detail_adress =  $("#adress_C").val();
 
-    if(this.adress2.indexOf("전주")!=-1){
-      this.adress =  $("#adress_A").val();
-      this.adress2 =  $("#adress_B").val();
-      this.adress3 =  $("#adress_C").val();
+    if(this.Delivery.adress.indexOf("전주")!=-1){
+      this.Delivery.code =  $("#adress_A").val();
+      this.Delivery.adress =  $("#adress_B").val();
+      this.Delivery.detail_adress =  $("#adress_C").val();
     }
   }
   
@@ -65,27 +63,27 @@ export class DeliveryAreaPage {
   }
 
   check(){
-    if(this.name==='') this.confirmAlert2('수령인을 입력해주세요.');
-    else if(this.phone==='') this.confirmAlert2('연락처를 입력해주세요.');
-    else if(this.adress==='') this.confirmAlert2('우편번호를 입력해주세요.');
-    else if(this.adress2==='') this.confirmAlert2('주소를 입력해주세요.');
-    else if(this.adress3==='') this.confirmAlert2('상세주소를 입력해주세요.');
+    if(this.Delivery.name==='') this.confirmAlert2('수령인을 입력해주세요.');
+    else if(this.Delivery.phone==='') this.confirmAlert2('연락처를 입력해주세요.');
+    else if(this.Delivery.code==='') this.confirmAlert2('우편번호를 입력해주세요.');
+    else if(this.Delivery.adress==='') this.confirmAlert2('주소를 입력해주세요.');
+    else if(this.Delivery.detail_adress==='') this.confirmAlert2('상세주소를 입력해주세요.');
     else{
       var key=localStorage.getItem('id');
       this.firemain.child("users").child(key).child('adress').update({
-        name:this.name,
-        phone:this.phone,
-        code:this.adress,
-        adress:this.adress2,
-        detail_adress:this.adress3,
+        name:this.Delivery.name,
+        phone:this.Delivery.phone,
+        code:this.Delivery.code,
+        adress:this.Delivery.adress,
+        detail_adress:this.Delivery.detail_adress,
       })
       this.viewCtrl.dismiss(
         {
-          name:this.name,
-          phone:this.phone,
-          code:this.adress,
-          adress:this.adress2,
-          detail_adress:this.adress3,
+          name:this.Delivery.name,
+          phone:this.Delivery.phone,
+          code:this.Delivery.code,
+          adress:this.Delivery.adress,
+          detail_adress:this.Delivery.detail_adress,
         }
       )
     }
