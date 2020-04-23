@@ -113,7 +113,7 @@ export class LoginpagePage {
           if(response.imp_success){
             this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
-            let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'modal-test' });
+            let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'css-test' });
             modal.present();
             return;
 
