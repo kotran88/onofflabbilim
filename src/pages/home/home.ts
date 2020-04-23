@@ -16,6 +16,7 @@ import { SettingPage } from '../setting/setting';
 import { FirstlandingPage } from '../firstlanding/firstlanding';
 import { HomeslidePage } from '../homeslide/homeslide';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 declare var naver: any;
 
 @Component({
@@ -51,8 +52,7 @@ export class HomePage {
   counter: any = 0;
 
   slide() {
-    let modal = this.modal.create(HomeslidePage, {}, { cssClass: 'css-modal' });
-    modal.present();
+    this.navCtrl.push(HomeslidePage);
   }
 
   presentToast() {
@@ -69,12 +69,14 @@ export class HomePage {
     toast.present();
   }
 
-  constructor(private toastCtrl: ToastController, public modal: ModalController, public view: ViewController, public platform: Platform, public app: App, public appVersion: AppVersion, public event: Events, public oneSignal: OneSignal, public zone: NgZone, public alertCtrl: AlertController, public navParam: NavParams, public navCtrl: NavController) {
+  firstflag:any="true";
+  constructor(public inapp:InAppBrowser,private toastCtrl: ToastController, public modal: ModalController, public view: ViewController, public platform: Platform, public app: App, public appVersion: AppVersion, public event: Events, public oneSignal: OneSignal, public zone: NgZone, public alertCtrl: AlertController, public navParam: NavParams, public navCtrl: NavController) {
 
 
     this.id = localStorage.getItem("id")
     this.name = localStorage.getItem("name")
     this.loginflag = localStorage.getItem("loginflag");
+    this.firstflag=localStorage.getItem("firstflag");
     console.log(this.loginflag);
 
     this.firemain.child("sale_data").once('value').then((snap) => {
@@ -89,16 +91,21 @@ export class HomePage {
         this.id = snap.val().testid;
         this.loginflag = "true";
       }
-      else if (this.loginflag == 'false' || this.loginflag == null) {
-        let modal = this.modal.create(FirstlandingPage, {}, { cssClass: 'test-modal' });
-        modal.onDidDismiss(data => {
-          if (data != undefined) {
-            console.log(data);
+      else if (this.firstflag == 'true' || this.firstflag == null) {
+        // let modal = this.modal.create(FirstlandingPage, {}, { cssClass: 'test-modal' });
+        // modal.onDidDismiss(data => {
+        //   if (data != undefined) {
+        //     console.log(data);
 
-            // this.uploadImageToFirebase(data);
-          }
-        });
-        modal.present();
+        //     // this.uploadImageToFirebase(data);
+        //   }
+        // });
+        // modal.present();
+
+        console.log("homeslides")
+        this.navCtrl.push(HomeslidePage);
+        // let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'css-modal' });
+        // modal.present();
       }
       platform.registerBackButtonAction(() => {
 
@@ -151,7 +158,9 @@ export class HomePage {
             versionnumber = version;
             //0.2 3
             if (Number(this.version) > Number(versionnumber)) {
-              this.confirmAlert2("앱을 업데이트 해주세요!")
+              this.confirmAlert3("앱을 업데이트 해주세요!")
+            
+
             }
           });
         })
@@ -299,6 +308,24 @@ export class HomePage {
     localStorage.setItem("id", null);
     localStorage.setItem("loginflag", "false")
     this.navCtrl.setRoot(LoginpagePage);
+  }
+  confirmAlert3(str) {
+    let alert = this.alertCtrl.create({
+      subTitle: str,
+      buttons: [
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+            this.inapp.create("https://play.google.com/store/apps/details?id=io.ionic.onofflab.bilim","_system").on("exit").subscribe(()=>{
+              window.alert("close")
+              this.platform.exitApp();
+            })
+          }
+        }],
+      cssClass: 'alertDanger'
+    });
+    alert.present({ animate: false });
   }
   confirmAlert2(str) {
     let alert = this.alertCtrl.create({

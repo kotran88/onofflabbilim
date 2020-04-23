@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, AlertController, NavParams, ViewController, Platform } from 'ionic-angular';
 import * as $ from 'jquery'
 import firebase from 'firebase';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
@@ -52,7 +52,7 @@ export class PaymentPage {
   console_sale_gameprice:any;
 
   tick: any;
-  constructor( public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
+  constructor(public platform:Platform, public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
     this.hardware = this.navParams.get("hardware");
@@ -62,14 +62,20 @@ export class PaymentPage {
     this.sale_data=this.navParams.get("sale");
     console.log(this.contrast);
 
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
     this.firemain.child('admin').once('value').then((snap)=>{
       this.admin=snap.val();
     })
     // this.diff = 19;
     // this.diff = 31;
 
-    this.coins = this.user.points;
+    this.coins = this.user.point;
     this.totalcoins=this.coins;
+    console.log("payment user is : "+this.coins);
     console.log(this.user);
     console.log(this.diff);
     console.log(this.hardware);
@@ -111,6 +117,7 @@ export class PaymentPage {
     console.log(this.gameprice);
     console.log(this.sale_data)
     this.choice();
+    console.log(this.coins);
   }
   coin: any;
 
@@ -148,7 +155,6 @@ export class PaymentPage {
       console.log('b');
       console.log(resp);
       console.log(resp.coords)
-      this.confirmAlert2('b'+resp);
       // resp.coords.latitude
       // resp.coords.longitude
       root.child('geolocation').update({
@@ -167,10 +173,10 @@ export class PaymentPage {
     var data = {
       pay_method: 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
-      name: 'Ming 코인충전',
+      name: '게임/게임기 대여',
       amount: this.totalpaymoney + "",
       app_scheme: 'ionickcp',
-      buyer_email: 'iamport@siot.do',
+      buyer_email: '',
       buyer_name: '구매자이름',
       buyer_tel: '010-1234-5678',
       buyer_addr: '서울특별시 강남구 삼성동',
@@ -266,7 +272,6 @@ export class PaymentPage {
             if(this.contrast===Number(sd2)){
               console.log(sd2);
               this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
-              this.coins = this.user.points;
             }
           }
         }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, RequestOptions, Headers} from '@angular/http';
 import { updateDate } from 'ionic-angular/umd/util/datetime-util';
-import { IonicPage,Platform,ModalController,AlertController, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage,ViewController,Platform,ModalController,AlertController, NavController, NavParams, LoadingController } from 'ionic-angular';
 import firebase from 'firebase';
 import { ChatPage } from '../chat/chat';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -34,7 +34,7 @@ export class MypagePage {
   // deviceId="61acf6b0-73f3-40a2-8b19-fc85697494c0";
 
   firemain = firebase.database().ref();
-  constructor(public loading:LoadingController,public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams, public http:Http) {
+  constructor(public view:ViewController,public loading:LoadingController,public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams, public http:Http) {
     this.firemain.child('admin').once('value').then((snap)=>{
       this.deviceId=snap.val().deviceId;
     })
@@ -54,8 +54,8 @@ export class MypagePage {
     console.log(this.id,this.userid);
 
     let backAction =  platform.registerBackButtonAction(() => {
-      console.log("second");
-      this.navCtrl.pop();
+      window.alert("dismiss!");
+      this.view.dismiss();
       backAction();
     },2)
   }

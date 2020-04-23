@@ -187,6 +187,7 @@ export class DetailPage {
     this.user=navParams.get("user");
     this.sale_data=navParams.get("sale");
 
+    console.log("user is : "+this.user);
     console.log(this.sale_data)
 
     this.loginflag=localStorage.getItem("loginflag");
