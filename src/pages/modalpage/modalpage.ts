@@ -69,8 +69,9 @@ export class ModalpagePage {
     for(var i=0; i<this.gamearray.length; i++){
       var flag=this.gamearray[i].fflag;
       console.log(flag)
+      // console.log(this.count,this.gamearraytrue)
       if(flag==true){
-      this.gamearraytrue.push(this.gamearray[i])
+      this.gamearraytrue[this.gamearraytrue.length]=this.gamearray[i];
       this.count++;
       }
     }

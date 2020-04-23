@@ -26,7 +26,7 @@ export class PaymentPage {
   user: any;
   diff: any;
   hardware: any;
-  game = [];
+  game=[];
   startDate: any;
   endDate: any;
   contrast: number = 0;
@@ -67,6 +67,7 @@ export class PaymentPage {
     })
     // this.diff = 19;
     // this.diff = 31;
+    console.log(this.navParams.get("game"))
 
     this.coins = this.user.points;
     this.totalcoins=this.coins;
@@ -92,24 +93,26 @@ export class PaymentPage {
     var a = 0;
     var gamedct = 0;
     this.console_sale_gameprice=0;
+    this.gamediscount=0;
     for (var i = 0; i < this.game.length; i++) {
       a += this.game[i].price * this.diff;
       // this.originpay = a + b;
       if (this.hardware != undefined) {
-        gamedct += this.game[i].price * ((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
+        gamedct = this.game[i].price * ((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
         this.console_sale_gameprice+=Number(this.game[i].price * Number(this.sale_data.percentage.console.split('%')[0])/100);
       }
       else if (this.hardware == undefined) {
         gamedct += this.game[i].price * 1;
       }
+      this.gamediscount+=gamedct;
+      this.game[i]+={saleprice:gamedct};
     }
+    console.log(this.game);
     this.console_sale_gameprice*=this.diff;
     console.log(this.console_sale_gameprice)
-    this.gamediscount = gamedct;
     this.gameprice = this.gamediscount * this.diff;
     console.log(this.gamediscount);
     console.log(this.gameprice);
-    console.log(this.sale_data)
     this.choice();
   }
   coin: any;
@@ -148,7 +151,6 @@ export class PaymentPage {
       console.log('b');
       console.log(resp);
       console.log(resp.coords)
-      this.confirmAlert2('b'+resp);
       // resp.coords.latitude
       // resp.coords.longitude
       root.child('geolocation').update({
@@ -277,6 +279,7 @@ export class PaymentPage {
       console.log(this.longdiscount)
       
       this.totalpaymoney = this.hardwareprice + a;
+      this.longdiscount=0;
       for(var sd in this.sale_data.percentage.date){
         if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
           this.longdiscount = 
