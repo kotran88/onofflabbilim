@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, AlertController,NavController, NavParams } from 'ionic-angular';
+import { IonicPage, AlertController,NavController, NavParams, ModalController } from 'ionic-angular';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import  firebase from 'firebase';
@@ -9,6 +9,7 @@ import {IamportCordova} from '@ionic-native/iamport-cordova/'
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { dateDataSortValue } from 'ionic-angular/umd/util/datetime-util';
+import { HomeslidePage } from '../homeslide/homeslide';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -34,7 +35,7 @@ export class LoginpagePage {
   test_phone:any;
 
   firemain = firebase.database().ref();
-  constructor(private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams, public modal : ModalController) {
     
     if(localStorage.getItem('loginflag')!='false'&&localStorage.getItem('loginflag')!=null){
       // this.main_title='회원가입/로그인';
@@ -112,13 +113,16 @@ export class LoginpagePage {
           if(response.imp_success){
             this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
+            let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'test-modal' });
+            modal.present();
             return;
-           
+
           }
         },                           // 콜백 함수
       };
       IamportCordova.certification(params);
-
+     
+      // this.navCtrl.push(HomeslidePage);
     }
   }
 

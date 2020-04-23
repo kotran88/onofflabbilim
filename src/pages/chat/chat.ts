@@ -84,13 +84,14 @@ export class ChatPage {
         else{
           this.keyboard.hide();
           console.log('keyboard hide!!')
-        } 
+        }
+        this.keyboard_check=false;
       }
     });
   }
 
   keyboardchecker_reset(n){
-    this.keyboard_check=n;
+    // this.keyboard_check=n;
   }
 
   confirmAlert2(str) {
@@ -174,6 +175,7 @@ export class ChatPage {
   }
   
   upload(mode){
+    this.keyboard_check=true;
     if(mode===0){
       this.input.user=this.userid;
       this.input.date=this.nowtime;
