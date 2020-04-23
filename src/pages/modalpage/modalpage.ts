@@ -48,6 +48,7 @@ export class ModalpagePage {
     this.endDate=this.navParams.get("endDate");
     this.diff=this.navParams.get("diff");
     this.user=this.navParams.get("user");
+    this.generatehardware();
     console.log(this.sale_data);
     console.log("flag : ");
     console.log(this.flag);
@@ -57,6 +58,7 @@ export class ModalpagePage {
     console.log("startDate :" + this.startDate);
     console.log("endDate : "+this.endDate);
     console.log("diff : "+this.diff);
+
 
     if(this.user.point==undefined){
       this.points=0;
@@ -81,7 +83,6 @@ export class ModalpagePage {
     this.total=a;
     this.totalprice=a;
     this.totalprice2=a;
-    this.generatehardware();
   }
   number_format(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
