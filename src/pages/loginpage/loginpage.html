@@ -28,7 +28,10 @@
 
         <ion-input class="input-box" placeholder="이름을 입력해주세요." [(ngModel)]="name" type="text"></ion-input>
         <ion-input class="input-box" placeholder="휴대폰 번호를 입력해주세요." [(ngModel)]="phone" type="number"></ion-input>
-        <button ion-button class="btn" (click)="certified()" style="background-color: rgb(58,62,70); color: rgb(250, 250, 250)">인증문자 받기</button>
+
+        <p> <a href="https://blog.naver.com/kotran/221924786163"> 이용약관 </a> &nbsp;&nbsp; 및 <a href="https://blog.naver.com/kotran/221921665703"> 개인정보처리방침 </a>  </p><br>
+
+        <button ion-button class="btn" (click)="certified()" style="background-color: rgb(58,62,70); color: rgb(250, 250, 250)">동의하고 진행하기</button>
         <!-- <div style="text-align: center;">
             <a>이용약관</a> 및
             <a>개인정보 취급방침</a>
