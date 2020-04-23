@@ -209,7 +209,10 @@ export class HomePage {
         })
       })
     })
-    this.OneSignalInstall();
+    
+    setTimeout(() => {
+      this.OneSignalInstall();
+    }, 1000);
   }
 
   logRatingChange(v) {
@@ -230,6 +233,12 @@ export class HomePage {
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     console.log("onesignal 22");
     console.log("onesiganl get id startedddddd")
+
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      console.log("received data");
+      console.log(data);
+      var welcome=data.notification.payload.title;
+    })
     this.oneSignal.getIds().then(data => {
       console.log(data);
       console.log("get id success" + data.userId)
