@@ -69,6 +69,11 @@ export class DetailPage {
     console.log(v)
   }
 
+  number_format(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return String(num).replace(regexp, ',');
+  }
+
   datecheck(mode,date):boolean{
     
     var a=new Date().getTime()-new Date(date).getTime();

@@ -18,23 +18,23 @@
         <!-- <div class="input-title">이름</div>
     <ion-input class="input-box" placeholder="이름" [(ngModel)]="name" type="text"></ion-input> -->
         <div class="input-title">수령인</div>
-        <ion-input class="input-box" placeholder="" [(ngModel)]="name" type="text"></ion-input>
+        <ion-input class="input-box" placeholder="" [(ngModel)]="Delivery.name" type="text"></ion-input>
 
         <div class="input-title">연락처</div>
-        <ion-input class="input-box" placeholder="" [(ngModel)]="phone" type="text"></ion-input>
+        <ion-input class="input-box" placeholder="" [(ngModel)]="Delivery.phone" type="text"></ion-input>
 
         <div class="input-title">우편번호</div>
-        <ion-input onclick="sample3_execDaumPostcode()" disabled="true" id="adress_A" class="input-box" style="width: 30%;" [(ngModel)]="adress" type="text"></ion-input>
+        <ion-input onclick="sample3_execDaumPostcode()" disabled="true" id="adress_A" class="input-box" style="width: 30%;" [(ngModel)]="Delivery.code" type="text"></ion-input>
         <button onclick="sample3_execDaumPostcode()" style="width: 30%; padding: 3%;">
       <a href="#postal-code" style="text-decoration: none; color: black;">우편번호 찾기</a>
     </button>
         <button style="display: none;" (click)="adress_check();" id="postal-code-btn"></button>
 
         <div class="input-title">주소</div>
-        <ion-input id="adress_B" disabled="true" class="input-box" value="" [(ngModel)]="adress2" type="text"></ion-input>
+        <ion-input id="adress_B" disabled="true" class="input-box" value="" [(ngModel)]="Delivery.adress" type="text"></ion-input>
 
         <div class="input-title">상세주소</div>
-        <ion-input id="adress_C" class="input-box" value="" [(ngModel)]="adress3" type="text"></ion-input>
+        <ion-input id="adress_C" class="input-box" value="" [(ngModel)]="Delivery.detail_adress" type="text"></ion-input>
 
 
         <div id="postal-code" style="margin-left: 5%; width: 90%; height: auto; border:solid 1px black; display: none; position: relative;">

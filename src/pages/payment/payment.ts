@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 import { HomePage } from '../home/home';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Http, RequestOptions, Headers} from '@angular/http';
 
 /**
  * Generated class for the PaymentPage page.
@@ -38,6 +39,7 @@ export class PaymentPage {
   gamediscount: any;
   originpay: any;
   longdiscount: any;
+  longdiscount_text:any;
 
   hwprice: any;
   hwdiscount: any;
@@ -45,11 +47,12 @@ export class PaymentPage {
   gameprice_piece:any;
   hardwareprice: any;
   coindiscount: any;
+  admin:any;
 
   console_sale_gameprice:any;
 
   tick: any;
-  constructor(private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
+  constructor( public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
     this.hardware = this.navParams.get("hardware");
@@ -58,6 +61,10 @@ export class PaymentPage {
     this.endDate = this.navParams.get("end");
     this.sale_data=this.navParams.get("sale");
     console.log(this.contrast);
+
+    this.firemain.child('admin').once('value').then((snap)=>{
+      this.admin=snap.val();
+    })
     // this.diff = 19;
     // this.diff = 31;
 
@@ -194,6 +201,7 @@ export class PaymentPage {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.game_stock_check();
+              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
@@ -206,6 +214,7 @@ export class PaymentPage {
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.game_stock_check();
+              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.navCtrl.setRoot(HomePage);
@@ -273,7 +282,7 @@ export class PaymentPage {
           this.longdiscount = 
           this.totalpaymoney-(this.totalpaymoney * 
           ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
-          
+          this.longdiscount_text=this.sale_data.percentage.date_text[sd];
           break;
         }
       }
@@ -288,6 +297,7 @@ export class PaymentPage {
           this.longdiscount =
           this.totalpaymoney-(this.gameprice * 
           ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
+          this.longdiscount_text=this.sale_data.percentage.date_text[sd];
           break;
         }
       }
@@ -307,8 +317,8 @@ export class PaymentPage {
 
     this.count+=n;
     this.coins-=n;
-    this.coindiscount=this.count * 100;
-    this.totalpaymoney-=n*100;
+    this.coindiscount=this.count * Number(this.sale_data.coin.price);
+    this.totalpaymoney-=n*Number(this.sale_data.coin.price);
     console.log(this.totalpaymoney);
   }
 
@@ -364,6 +374,35 @@ export class PaymentPage {
         )
       },10);
     }
+  }
+
+  send_push(header,content,url){
+    console.log('ready');
+
+    // this.status_change(this.check_order,'delivered');
+
+    console.log("sendpushnotification")
+    let data={
+      "app_id": "6505b348-1705-4d73-abe4-55ab40758266",
+      "include_player_ids": this.admin.deviceIds,
+      "headings":{"en":header},
+      "ios_badgeType":"Increase",
+      "ios_badgeCount":1,
+      "data": {"welcome": "pdJung", "store":'this.store'},
+      "contents": {"en": content},
+      "big_picture":String(url),
+      "large_icon":String(url),
+    }
+    console.log(data);
+    let headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Basic MDMzN2UxYjUtYzNiOS00YmY5LThjNDUtYzAyYmMwOTkwMTMw' });
+    let options = new RequestOptions({headers:headers});
+    this.http.post('https://onesignal.com/api/v1/notifications', JSON.stringify(data), options).toPromise().then((e)=>{
+      console.log("then come")
+      console.log(e);
+    }).catch((e)=>{
+      console.log('error');
+      console.log(e);
+    })
   }
   
   goup(){

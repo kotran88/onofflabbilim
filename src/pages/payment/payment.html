@@ -48,7 +48,13 @@
         </div>
     </div>
     <div style="width:90%; position:relative " class="main ">
-        <span style="margin-left:25px; font-size:17px; line-height: 40px; ">할인적용 <span style="font-size:9px; color:red; "> * 코인을 누르면 할인이 적용됩니다(코인 1개 = 100원)</span> </span>
+        <span style="margin-left:25px; font-size:17px; line-height: 40px; ">
+            할인적용
+            <span style="font-size:9px; color:red; "> 
+                <!-- * 코인을 누르면 할인이 적용됩니다(코인 1개 = 100원) -->
+                {{sale_data.coin.text}}
+            </span>
+        </span>
     </div>
     <div class="clicked" style="background: #70c5ed; color: white; height: 80px; width: 100%; position: relative;">
         <!-- <div style="position: absolute;" class="up "> -->
@@ -85,7 +91,7 @@
         </div>
 
         <div style="text-align: right; margin-top:-20px;">
-            <span *ngIf="contrast!=undefined" style="font-size:13px;">장기대여할인 : -{{longdiscount}}원</span><br>
+            <span *ngIf="contrast!=undefined" style="font-size:13px;">장기대여할인 {{longdiscount_text}}: -{{longdiscount}}원</span><br>
             <span style="font-size:13px;">기기대여에 따른 게임할인(-{{sale_data.percentage.console}}) : -{{console_sale_gameprice}}원</span><br>
             <span style="font-size: 13px;">코인할인 : </span>
             <span *ngIf="coindiscount===0||coindiscount===undefined" style="font-size:13px">0원</span>
