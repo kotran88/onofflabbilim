@@ -22,13 +22,13 @@
         </ion-item>
         <div style="text-align: center;">
             <span *ngIf="contrast == undefined" style="font-size:13px;">보증금을 선택하세요.</span>
-            <span *ngIf="contrast != undefined" style="font-size:13px;">보증금 : {{contrast}}</span>
+            <span *ngIf="contrast != undefined" style="font-size:13px;">보증금 : {{number_format(contrast)}}</span>
             <div style="text-align: left;">
-                <span *ngIf="contrast != undefined" style="font-size:13px;">- 1일 대여료 : {{hwprice}}원</span><br>
+                <span *ngIf="contrast != undefined" style="font-size:13px;">- 1일 대여료 : {{number_format(hwprice)}}원</span><br>
             </div>
             <div style="text-align: right;">
                 <!-- <span *ngIf="contrast==0" style="font-size:15px;">원</span> -->
-                <span *ngIf="contrast!=undefined" style="font-size:15px;">{{hwprice*diff}}원</span>
+                <span *ngIf="contrast!=undefined" style="font-size:15px;">{{number_format(hwprice*diff)}}원</span>
             </div>
         </div>
     </div>
@@ -48,7 +48,13 @@
         </div>
     </div>
     <div style="width:90%; position:relative " class="main ">
-        <span style="margin-left:25px; font-size:17px; line-height: 40px; ">할인적용 <span style="font-size:9px; color:red; "> * 코인을 누르면 할인이 적용됩니다(코인 1개 = 100원)</span> </span>
+        <span style="margin-left:25px; font-size:17px; line-height: 40px; ">
+            할인적용
+            <span style="font-size:9px; color:red; "> 
+                <!-- * 코인을 누르면 할인이 적용됩니다(코인 1개 = 100원) -->
+                {{sale_data.coin.text}}
+            </span>
+        </span>
     </div>
     <div class="clicked" style="background: #70c5ed; color: white; height: 80px; width: 100%; position: relative;">
         <!-- <div style="position: absolute;" class="up "> -->
@@ -70,16 +76,6 @@
 
             <span *ngIf="totalpaymoney!=originpay" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
             <span style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <!-- <span *ngIf="diff<15 && hardware==undefined" style="font-size:17px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff<15 && hardware!=undefined" style="font-size:17px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware==undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware==undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=15 && diff<30 && hardware!=undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=30 && hardware==undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=30 && hardware==undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span>
-            <span *ngIf="diff>=30 && hardware!=undefined" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span *ngIf="diff>=30 && hardware!=undefined" style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span> -->
         </div>
 
         <div style="width:30%; margin-top:15px;">
@@ -87,7 +83,7 @@
         </div>
 
         <div style="text-align: right; margin-top:-20px;">
-            <span *ngIf="contrast!=undefined" style="font-size:13px;">장기대여할인 : -{{longdiscount}}원</span><br>
+            <span *ngIf="contrast!=undefined" style="font-size:13px;">장기대여할인 {{longdiscount_text}}: -{{longdiscount}}원</span><br>
             <span style="font-size:13px;">기기대여에 따른 게임할인(-{{sale_data.percentage.console}}) : -{{console_sale_gameprice}}원</span><br>
 
             <span style="font-size: 13px;">코인할인 : </span>

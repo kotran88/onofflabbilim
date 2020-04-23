@@ -83,6 +83,10 @@ export class ModalpagePage {
     this.totalprice2=a;
     this.generatehardware();
   }
+  number_format(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return String(num).replace(regexp, ',');
+  }
   confirmAlert2(str) {
     let alert = this.alertCtrl.create({      
         subTitle: str,

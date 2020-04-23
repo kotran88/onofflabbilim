@@ -31,7 +31,7 @@ ion-navbar.toolbar{
     color:green
     }
     .alertDanger{
-        background-color: white;
+        background-color: transparent;
         color: red;
         button{
             width:100% !important;
@@ -238,13 +238,6 @@ button .button-inner {
 }
 .alert-md .alert-button .button-inner{
     color:white !important;
-}
-.alertDanger{
-    background-color: white;
-    color: red;
-    button{
-        color: red;
-    }
 }
 .alert-button-group {
     background: #FFA200;
