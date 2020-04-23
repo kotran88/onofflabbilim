@@ -163,6 +163,7 @@ export class OrderpagePage {
   }
 
   Delivery_area(){
+    console.log(this.Delivery);
     this.navCtrl.push(DeliveryAreaPage,{"Delivery":this.Delivery}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
         if(data){

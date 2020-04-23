@@ -23,6 +23,9 @@ export class DeliveryAreaPage {
     
     this.Delivery=this.navParams.get('Delivery');
     console.log(this.Delivery);
+    for(var name in this.Delivery){
+      console.log(name);
+    }
     
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
