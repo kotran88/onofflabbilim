@@ -51,7 +51,7 @@ export class HomePage {
   counter: any = 0;
 
   slide() {
-    let modal = this.modal.create(HomeslidePage, {}, { cssClass: 'test-modal' });
+    let modal = this.modal.create(HomeslidePage, {}, { cssClass: 'css-modal' });
     modal.present();
   }
 
