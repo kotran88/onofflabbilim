@@ -229,6 +229,12 @@ export class HomePage {
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     console.log("onesignal 22");
     console.log("onesiganl get id startedddddd")
+
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      console.log("received data");
+      console.log(data);
+      var welcome=data.notification.payload.title;
+    })
     this.oneSignal.getIds().then(data => {
       console.log(data);
       console.log("get id success"+data.userId)
@@ -236,8 +242,6 @@ export class HomePage {
         this.firemain.child("users").child(this.id).update({"deviceId":data.userId})
         localStorage.setItem("tokenvalue",data.userId);
       }
-    
-
     }).catch((e)=>{
       // window.alert("onesignal error"+e);
       console.log("onesignal error : "+e);

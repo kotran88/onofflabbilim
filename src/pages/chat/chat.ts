@@ -10,6 +10,7 @@ import { CameraselectPage} from '../cameraselect/cameraselect';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Http, RequestOptions, Headers} from '@angular/http';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { observable } from 'rxjs';
 
 // import undefined from 'firebase/empty-import';
 /*
@@ -57,30 +58,39 @@ export class ChatPage {
     this.firedata.child(this.userid).on('value',(snapshots) =>{
       this.read_log(snapshots.val())
     })
+
+    addEventListener('keyboardWillShow', () => {
+      console.log("Keyboard will Show");
+    });
+    addEventListener('keyboardDidShow', () => {
+      console.log("Keyboard is Shown");
+      setTimeout(() => {
+        this.chatlist.scrollToBottom();
+      }, 1000);
+    });
+    addEventListener('keyboardWillHide', () => {
+      console.log("Keyboard will Hide");
+    });
+    addEventListener('keyboardDidHide', () => {
+      console.log("Keyboard is Hidden");
+      console.log(this.keyboard.isVisible);
+      console.log(this.keyboard_check);
+      if(this.keyboard.isVisible!=this.keyboard_check){
+        console.log('?!?!?!?!?')
+        if(this.keyboard_check===true){
+          this.keyboard.show();
+          console.log('keyboard show!!')
+        }
+        else{
+          this.keyboard.hide();
+          console.log('keyboard hide!!')
+        } 
+      }
+    });
   }
 
   keyboardchecker_reset(n){
     this.keyboard_check=n;
-  }
-
-  keyboardchecker(){
-    
-    // this.keyboard.onKeyboardWillHide().then(()=>{
-      
-    // })
-    console.log(this.keyboard.isVisible);
-    console.log(this.keyboard_check);
-    if(this.keyboard.isVisible!=this.keyboard_check){
-      console.log('?!?!?!?!?')
-      if(this.keyboard_check===true){
-        this.keyboard.show();
-        console.log('keyboard show!!')
-      }
-      else{
-        this.keyboard.hide();
-        console.log('keyboard hide!!')
-      } 
-    }
   }
 
   confirmAlert2(str) {
@@ -212,14 +222,14 @@ export class ChatPage {
 
   uploadImage(imageURI,index){
     let storageRef = firebase.storage().ref();
-    var result=this.nowtime;
+    var result='U'+this.nowtime;
     console.log(imageURI);
     imageURI=  "data:image/png;base64," + imageURI;
     console.log("sssssssssss : "+result);
     console.log(imageURI);
     console.log("donE!!!!!!!!!!")
 
-    this.mypicref=firebase.storage().ref('imagelist/');
+    this.mypicref=firebase.storage().ref('message/');
     // this.key=this.nowtime();
     var a = this.mypicref.child(this.userid).child(result.toString());
     this.encodeImageUri(imageURI, (image64)=>{
@@ -285,9 +295,11 @@ export class ChatPage {
     this.http.post('https://onesignal.com/api/v1/notifications', JSON.stringify(data), options).toPromise().then((e)=>{
       console.log("then come")
       console.log(e);
+      alert('ok : '+e)
     }).catch((e)=>{
       console.log('error');
       console.log(e);
+      alert('no : '+e);
     })
   }
 }
