@@ -1,0 +1,16 @@
+page-homeslide {
+    .swiper-container {
+        height: auto;
+    }
+    .slide-zoom {
+        height: 500px;
+    }
+    .closebtn {
+        margin-top: 3px;
+        position: relative;
+        width: 10%;
+        float: right;
+        background-color: transparent;
+        z-index: 999999;
+    }
+}

@@ -38,6 +38,7 @@ import { PaymentPage } from '../pages/payment/payment';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { HomeslidePage } from '../pages/homeslide/homeslide';
 
 
 var firebaseConfig = {
@@ -70,7 +71,8 @@ firebase.initializeApp(firebaseConfig);
     FirstlandingPage,
     CameraselectPage,
     CoinsPage,
-    PaymentPage
+    PaymentPage,
+    HomeslidePage
     // ChatroomlistPage,
   ],
   imports: [
@@ -99,7 +101,8 @@ firebase.initializeApp(firebaseConfig);
     DeliveryAreaPage,
     GameDetailPage,
     CameraselectPage,
-    PaymentPage
+    PaymentPage,
+    HomeslidePage
     // ChatroomlistPage,
   ],
   providers: [
