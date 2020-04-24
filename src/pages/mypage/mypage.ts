@@ -31,6 +31,7 @@ export class MypagePage {
   lloading:any;
   check_order:any;
   deviceId:any;
+  admin:any;
   // deviceId="61acf6b0-73f3-40a2-8b19-fc85697494c0";
 
   firemain = firebase.database().ref();
@@ -41,6 +42,8 @@ export class MypagePage {
 
     this.id=navParams.get("id")
     this.user=navParams.get("user");
+    this.admin=navParams.get("admin");
+
     console.log(this.id,this.user)
     if(this.user.points==undefined){
       this.point=0;
@@ -246,7 +249,7 @@ export class MypagePage {
     console.log("sendpushnotification")
     let data={
       "app_id": "6505b348-1705-4d73-abe4-55ab40758266",
-      "include_player_ids": [this.deviceId],
+      "include_player_ids": this.admin.deviceIds,
       "headings":{"en":header},
       "ios_badgeType":"Increase",
       "ios_badgeCount":1,
