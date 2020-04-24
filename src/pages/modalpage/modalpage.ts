@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController,ViewController,IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController,Platform,ViewController,IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as $ from 'jquery';
 import firebase from 'firebase';
 
@@ -38,7 +38,7 @@ export class ModalpagePage {
   count:any=0;
   firemain = firebase.database().ref();
 
-  constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController) {
+  constructor(public view:ViewController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController) {
     console.log('modalpage come')
     this.sale_data=this.navParams.get("sale");
     this.flag= this.navParams.get("flag");
@@ -60,7 +60,12 @@ export class ModalpagePage {
     console.log("diff : "+this.diff);
 
 
-    if(this.user.point==undefined){
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("secondssssssss");
+      this.view.dismiss();
+      backAction();
+    },2)
+    if(this.user==null){
       this.points=0;
     }else{
     this.points=this.user.point;
@@ -72,6 +77,7 @@ export class ModalpagePage {
       // console.log(this.count,this.gamearraytrue)
       if(flag==true){
       this.gamearraytrue[this.gamearraytrue.length]=this.gamearray[i];
+      console.log(this.gamearraytrue);
       this.count++;
       }
     }
@@ -224,7 +230,6 @@ export class ModalpagePage {
           if(isNaN(this.total)){
             this.total=0;
           }
-
         }
       });
     });

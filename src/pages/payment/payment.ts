@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, AlertController, NavParams, ViewController, Platform } from 'ionic-angular';
 import * as $ from 'jquery'
 import firebase from 'firebase';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
@@ -53,7 +53,7 @@ export class PaymentPage {
   console_sale_gameprice:any;
 
   tick: any;
-  constructor( public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
+  constructor(public platform:Platform, public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
     this.hardware = this.navParams.get("hardware");
@@ -64,6 +64,11 @@ export class PaymentPage {
     console.log(this.contrast);
     // this.rental_date_update(this.firemain.child('category').child(this.game[0].flag).child('software').child('BAYONETTA 2'));
 
+    let backAction =  platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.pop();
+      backAction();
+    },2)
     this.firemain.child('admin').once('value').then((snap)=>{
       this.admin=snap.val();
     })
@@ -71,8 +76,9 @@ export class PaymentPage {
     // this.diff = 31;
     console.log(this.navParams.get("game"))
 
-    this.coins = this.user.points;
+    this.coins = this.user.point;
     this.totalcoins=this.coins;
+    console.log("payment user is : "+this.coins);
     console.log(this.user);
     console.log(this.diff);
     console.log(this.hardware);
@@ -116,6 +122,7 @@ export class PaymentPage {
     console.log(this.gamediscount);
     console.log(this.gameprice);
     this.choice();
+    console.log(this.coins);
   }
   coin: any;
 
@@ -154,6 +161,7 @@ export class PaymentPage {
 
     var date:any;
     var date2:any;
+    var total:any;
 
     root.child('near_return_date').once('value').then((snap)=>{
       if(snap.val()!=undefined){
@@ -162,12 +170,16 @@ export class PaymentPage {
   
         date2=new Date(this.endDate);
         console.log(date2);
+
+        total=date.getTime()-date2.getTime()
   
-        console.log(date.getDate());
-        console.log(date2.getDate());
-        console.log(date.getDate()-date2.getDate());
+        console.log(date.getTime());
+        console.log(date2.getTime());
+
+        console.log(total/(3600*24*1000));
+        total=total/(3600*24*1000)
   
-        if(date.getDate()-date2.getDate()>0){
+        if(total>0){
           root.child('near_return_date').update(new Date(this.endDate));
         }
       }
@@ -214,77 +226,76 @@ export class PaymentPage {
   }
 
   ordering() {
-    this.game_stock_check();
-    // var data = {
-    //   pay_method: 'card',
-    //   merchant_uid: 'mid_' + new Date().getTime(),
-    //   name: 'Ming 코인충전',
-    //   amount: this.totalpaymoney + "",
-    //   app_scheme: 'ionickcp',
-    //   buyer_email: 'iamport@siot.do',
-    //   buyer_name: '구매자이름',
-    //   buyer_tel: '010-1234-5678',
-    //   buyer_addr: '서울특별시 강남구 삼성동',
-    //   buyer_postcode: '123-456'
-    // };
+    var data = {
+      pay_method: 'card',
+      merchant_uid: 'mid_' + new Date().getTime(),
+      name: '게임/게임기 대여',
+      amount: this.totalpaymoney + "",
+      app_scheme: 'ionickcp',
+      buyer_email: '',
+      buyer_name: '구매자이름',
+      buyer_tel: '010-1234-5678',
+      buyer_addr: '서울특별시 강남구 삼성동',
+      buyer_postcode: '123-456'
+    };
 
-    // var PaymentObject = {
-    //   userCode: "imp58611631",
-    //   data: data,
-    //   callback: (response) => {
-    //     console.log(response);
-    //     if (response.imp_success == "true") {
-    //       console.log("success")
-    //       console.log(this.hardware);
-    //       console.log(this.coins);
-    //       console.log("coin is")
-    //       var now = new Date();
-    //       var year = now.getFullYear();
-    //       var month = now.getMonth() + 1;
-    //       var date = now.getDate();
-    //       var hour = now.getHours();
-    //       var min = now.getMinutes();
-    //       var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
-    //       console.log(nnow);
-    //       if (this.hardware != undefined) {
-    //         var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-    //         this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-    //           this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
-    //           this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
-    //           this.game_stock_check();
-    //           this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-    //           this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-    //           this.navCtrl.setRoot(HomePage);
-    //         }).catch((e) => {
-    //           console.log(e);
-    //         })
+    var PaymentObject = {
+      userCode: "imp58611631",
+      data: data,
+      callback: (response) => {
+        console.log(response);
+        if (response.imp_success == "true") {
+          console.log("success")
+          console.log(this.hardware);
+          console.log(this.coins);
+          console.log("coin is")
+          var now = new Date();
+          var year = now.getFullYear();
+          var month = now.getMonth() + 1;
+          var date = now.getDate();
+          var hour = now.getHours();
+          var min = now.getMinutes();
+          var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
+          console.log(nnow);
+          if (this.hardware != undefined) {
+            var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
+              this.game_stock_check();
+              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
+              this.navCtrl.setRoot(HomePage);
+            }).catch((e) => {
+              console.log(e);
+            })
 
-    //       } else {
+          } else {
 
-    //         var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-    //         this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-    //           this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
-    //           this.game_stock_check();
-    //           this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-    //           this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-    //           this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
-    //           this.navCtrl.setRoot(HomePage);
-    //         }).catch((e) => {
-    //           console.log(e);
-    //         })
-    //       }
-    //     }
-    //   },
-    // }
-    // // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
-    // IamportCordova.payment(PaymentObject)
-    //   .then((response) => {
-    //     this.confirmAlert2("success"+'\n'+JSON.stringify(response))
-    //   })
-    //   .catch((err) => {
-    //     this.confirmAlert2('error : '+err)
-    //   })
-    //   ;
+            var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.game_stock_check();
+              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
+              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
+              this.navCtrl.setRoot(HomePage);
+            }).catch((e) => {
+              console.log(e);
+            })
+          }
+        }
+      },
+    }
+    // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
+    IamportCordova.payment(PaymentObject)
+      .then((response) => {
+        this.confirmAlert2("success"+'\n'+JSON.stringify(response))
+      })
+      .catch((err) => {
+        this.confirmAlert2('error : '+err)
+      })
+      ;
   }
   confirmAlert2(str) {
     let alert = this.alertCtrl.create({
@@ -317,7 +328,6 @@ export class PaymentPage {
             if(this.contrast===Number(sd2)){
               console.log(sd2);
               this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
-              this.coins = this.user.points;
             }
           }
         }

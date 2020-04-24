@@ -187,6 +187,7 @@ export class DetailPage {
     this.user=navParams.get("user");
     this.sale_data=navParams.get("sale");
 
+    console.log("user is : "+this.user);
     console.log(this.sale_data)
 
     this.loginflag=localStorage.getItem("loginflag");
@@ -364,7 +365,16 @@ export class DetailPage {
     this.zone.run(()=>{
 
       if(Number(this.gamearray[i].stock)<=0){
-        this.confirmAlert2('재고가 없는 게임입니다.')
+        var date=undefined;
+        
+        if(this.gamearray[i].near_return_date!=undefined){
+          date=new Date(this.gamearray[i].near_return_date);
+          console.log(date)
+          this.confirmAlert2('재고가 없는 게임입니다.\n 가까운 반납 예정일'+date.getMonth()+'월 '+date.getDate()+'일')
+        }
+        else{
+          this.confirmAlert2('재고가 없는 게임입니다.');
+        }
       }
       else if(this.gamearray[i].check===false&&this.count>=3){
         this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")

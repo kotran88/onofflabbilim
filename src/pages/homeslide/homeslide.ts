@@ -20,6 +20,7 @@ export class HomeslidePage {
   slides = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    localStorage.setItem("firstflag","false");
     this.firemain.child("explainpage").once("value", (snapshot) => {
 
       for (var a in snapshot.val()) {

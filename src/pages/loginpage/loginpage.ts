@@ -113,9 +113,7 @@ export class LoginpagePage {
           if(response.imp_success){
             this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
-            let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'css-modal' });
-            modal.present();
-            return;
+          
 
           }
         },                           // 콜백 함수
@@ -125,12 +123,30 @@ export class LoginpagePage {
       // this.navCtrl.push(HomeslidePage);
     }
   }
-
+  geolocation_update(root){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      console.log('b');
+      console.log(resp);
+      console.log(resp.coords)
+      // resp.coords.latitude
+      // resp.coords.longitude
+      root.child('logingeolocation').update({
+        ratitude:resp.coords.latitude,
+        longitude:resp.coords.longitude,
+        date:new Date(),
+      }).then(()=>{
+        console.log('resp then')
+      })
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }
   login(){
     this.uniqueDeviceID.get()
     .then((uuid: any) =>{
       console.log('a');
       console.log(uuid)
+      this.geolocation_update(this.firemain.child("users").child(this.phone));
       // this.unique_ID=uuid; 
       this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
         console.log('uuid then')
@@ -164,11 +180,11 @@ export class LoginpagePage {
         }
       )
       if(snap.val()===undefined||snap.val()===null){
-        this.confirmAlert2('가입을 축하합니다. 밍을 부담없이 하기 위해 코인을 1개 드립니다.');
+        this.confirmAlert2('가입을 축하합니다~ 코인을 10개 드립니다.');
         this.firemain.child('users').child(this.phone).update(
           {
             'first_login':new Date(),
-            point:"1",
+            point:"10",
           }
         )
       }
