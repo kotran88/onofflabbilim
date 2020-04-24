@@ -6,6 +6,7 @@ import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 import { HomePage } from '../home/home';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Http, RequestOptions, Headers} from '@angular/http';
+import { rootRenderNodes } from '@angular/core/src/view';
 
 /**
  * Generated class for the PaymentPage page.
@@ -61,6 +62,7 @@ export class PaymentPage {
     this.endDate = this.navParams.get("end");
     this.sale_data=this.navParams.get("sale");
     console.log(this.contrast);
+    // this.rental_date_update(this.firemain.child('category').child(this.game[0].flag).child('software').child('BAYONETTA 2'));
 
     this.firemain.child('admin').once('value').then((snap)=>{
       this.admin=snap.val();
@@ -124,8 +126,10 @@ export class PaymentPage {
     
   game_stock_check(){
     if(this.hardware!=undefined){
-      this.firemain.child('category').child(this.hardware.flag)
-        .child('hardware').child(this.hardware.itemcode).update({stock:String(Number(this.hardware.stock)-1)});
+      this.stock_update2(this.hardware);
+      // this.firemain.child('category').child(this.hardware.flag)
+      //   .child('hardware').child(this.hardware.itemcode).update({stock:String(Number(this.hardware.stock)-1)});
+
     }
 
     var root=this.firemain.child('category').child(this.game[0].flag).child('software');
@@ -135,6 +139,7 @@ export class PaymentPage {
         for(var s in snap.val()){
           if(snap.val()[s].name===this.game[g].name){
             this.stock_update(root.child(s),this.game[g].stock)
+            this.rental_date_update(root.child(s));
             break;
           }
         }
@@ -142,8 +147,51 @@ export class PaymentPage {
     })
   }
 
+  rental_date_update(root){
+
+    console.log('rental_date_update');
+    console.log(root);
+
+    var date:any;
+    var date2:any;
+
+    root.child('near_return_date').once('value').then((snap)=>{
+      if(snap.val()!=undefined){
+        date=new Date(snap.val());
+        console.log(date);
+  
+        date2=new Date(this.endDate);
+        console.log(date2);
+  
+        console.log(date.getDate());
+        console.log(date2.getDate());
+        console.log(date.getDate()-date2.getDate());
+  
+        if(date.getDate()-date2.getDate()>0){
+          root.child('near_return_date').update(new Date(this.endDate));
+        }
+      }
+      else{
+        root.child('near_return_date').update(new Date(this.endDate));
+      }
+    })
+  }
+
   stock_update(root,num){
     root.update({stock:String(Number(num)-1)})
+  }
+
+  stock_update2(hardware){
+    this.firemain.child('category').child(hardware.flag).child('console_stock').once('value').then((snap)=>{
+      for(var s in snap.val()){
+        if(s.substring(0,2)+s.substring(8,9)===hardware.substring(0,2)+hardware.substring(8,9)){
+          this.firemain.child('category').child(hardware.flag).child('console_stock').child(s)
+          .update(String(Number(hardware.stock)-1));
+        }
+      }
+    });
+
+    // .update(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9):String(Number(hardware.stock)-1))
   }
 
   geolocation_update(root){
@@ -166,76 +214,77 @@ export class PaymentPage {
   }
 
   ordering() {
-    var data = {
-      pay_method: 'card',
-      merchant_uid: 'mid_' + new Date().getTime(),
-      name: 'Ming 코인충전',
-      amount: this.totalpaymoney + "",
-      app_scheme: 'ionickcp',
-      buyer_email: 'iamport@siot.do',
-      buyer_name: '구매자이름',
-      buyer_tel: '010-1234-5678',
-      buyer_addr: '서울특별시 강남구 삼성동',
-      buyer_postcode: '123-456'
-    };
+    this.game_stock_check();
+    // var data = {
+    //   pay_method: 'card',
+    //   merchant_uid: 'mid_' + new Date().getTime(),
+    //   name: 'Ming 코인충전',
+    //   amount: this.totalpaymoney + "",
+    //   app_scheme: 'ionickcp',
+    //   buyer_email: 'iamport@siot.do',
+    //   buyer_name: '구매자이름',
+    //   buyer_tel: '010-1234-5678',
+    //   buyer_addr: '서울특별시 강남구 삼성동',
+    //   buyer_postcode: '123-456'
+    // };
 
-    var PaymentObject = {
-      userCode: "imp58611631",
-      data: data,
-      callback: (response) => {
-        console.log(response);
-        if (response.imp_success == "true") {
-          console.log("success")
-          console.log(this.hardware);
-          console.log(this.coins);
-          console.log("coin is")
-          var now = new Date();
-          var year = now.getFullYear();
-          var month = now.getMonth() + 1;
-          var date = now.getDate();
-          var hour = now.getHours();
-          var min = now.getMinutes();
-          var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
-          console.log(nnow);
-          if (this.hardware != undefined) {
-            var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
-              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
-              this.game_stock_check();
-              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-              this.navCtrl.setRoot(HomePage);
-            }).catch((e) => {
-              console.log(e);
-            })
+    // var PaymentObject = {
+    //   userCode: "imp58611631",
+    //   data: data,
+    //   callback: (response) => {
+    //     console.log(response);
+    //     if (response.imp_success == "true") {
+    //       console.log("success")
+    //       console.log(this.hardware);
+    //       console.log(this.coins);
+    //       console.log("coin is")
+    //       var now = new Date();
+    //       var year = now.getFullYear();
+    //       var month = now.getMonth() + 1;
+    //       var date = now.getDate();
+    //       var hour = now.getHours();
+    //       var min = now.getMinutes();
+    //       var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
+    //       console.log(nnow);
+    //       if (this.hardware != undefined) {
+    //         var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+    //         this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+    //           this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+    //           this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
+    //           this.game_stock_check();
+    //           this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+    //           this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
+    //           this.navCtrl.setRoot(HomePage);
+    //         }).catch((e) => {
+    //           console.log(e);
+    //         })
 
-          } else {
+    //       } else {
 
-            var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
-              this.game_stock_check();
-              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
-              this.navCtrl.setRoot(HomePage);
-            }).catch((e) => {
-              console.log(e);
-            })
-          }
-        }
-      },
-    }
-    // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
-    IamportCordova.payment(PaymentObject)
-      .then((response) => {
-        this.confirmAlert2("success"+'\n'+JSON.stringify(response))
-      })
-      .catch((err) => {
-        this.confirmAlert2('error : '+err)
-      })
-      ;
+    //         var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+    //         this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+    //           this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+    //           this.game_stock_check();
+    //           this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+    //           this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
+    //           this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
+    //           this.navCtrl.setRoot(HomePage);
+    //         }).catch((e) => {
+    //           console.log(e);
+    //         })
+    //       }
+    //     }
+    //   },
+    // }
+    // // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
+    // IamportCordova.payment(PaymentObject)
+    //   .then((response) => {
+    //     this.confirmAlert2("success"+'\n'+JSON.stringify(response))
+    //   })
+    //   .catch((err) => {
+    //     this.confirmAlert2('error : '+err)
+    //   })
+    //   ;
   }
   confirmAlert2(str) {
     let alert = this.alertCtrl.create({

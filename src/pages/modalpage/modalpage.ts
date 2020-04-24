@@ -147,7 +147,7 @@ export class ModalpagePage {
       for(var a in snapshot.val()){
         console.log(a)
         if(a==this.hardware){
-               for(var b in snapshot.val()[a]){
+          for(var b in snapshot.val()[a]){
             console.log(b);
             console.log(snapshot.val()[a][b])
           
@@ -173,6 +173,11 @@ export class ModalpagePage {
                     this.hardwarearray.push(snapshot.val()[a][b][c]);
                   }
                 }
+              }
+
+              for(var s of this.hardwarearray){
+                console.log(snapshot.val()[a]['console_stock'][s.itemcode.substring(0,2)+s.itemcode.substring(8,9)])
+                s.stock=snapshot.val()[a]['console_stock'][s.itemcode.substring(0,2)+s.itemcode.substring(8,9)]
               }
 
               for(var j in this.hardwarearray){
