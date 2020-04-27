@@ -76,8 +76,15 @@ export class DetailPage {
 
   datecheck(mode,date):boolean{
     
-    var a=new Date().getTime()-new Date(date).getTime();
+    var t=new Date();
+    var t2=new Date(date);
+    var a=t.getTime()-t2.getTime();
     console.log(a);
+
+    if(mode===1&&t.getHours()>14&&t.getDate()===t2.getDate()){
+      this.confirmAlert2('오후 2시 이전 주문시만 당일 주문 가능합니다.')
+      return false;
+    }
 
     if(a/(1000*3600*24)>0){
       console.log(a/(1000*3600*24))
@@ -107,7 +114,6 @@ export class DetailPage {
     this.diff=diff+1;
     console.log(this.diff)
 
-    // this.diff=this.diff+1;
     if(Difference_In_Days>0){
       if(mode===1){
         this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
@@ -143,6 +149,7 @@ export class DetailPage {
           a.setDate(a.getDate()+179);
           this.endDate=a.toISOString();
           this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+          this.datechange(mode);
         }
         else{
           this.endDate=b.toISOString();
@@ -154,13 +161,6 @@ export class DetailPage {
 
   pick_date(mode){
     var temp:any;
-    // var date=new Date();
-    // date.setDate(new Date().getDate()-1)
-    // this.startDate=date;
-    // console.log(this.startDate);
-    // if(this.datecheck()===true){
-    //   this.datechange(mode);
-    // }
     if(mode===1) temp=new Date(this.startDate);
     else if(mode===2) temp=new Date(this.endDate);
     this.datePicker.show({
@@ -201,29 +201,25 @@ export class DetailPage {
       backAction();
     },2)
 
+    if(date.getHours()<14){date.setDate(date.getDate());}
+    else{date.setDate(date.getDate()+1);}
+
     this.startDate=date.toISOString();
     this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
+    
 
+    date=new Date(this.startDate);
     date.setDate(date.getDate() + 2);
 
     this.endDate=date.toISOString();
     this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
 
-      this.datechange(1);
-      this.datechange(2);
+    this.datechange(1);
+    this.datechange(2);
 
     console.log(this.startDate);
     console.log(this.endDate);
 
-    // var startDate2=new Date();
-    // console.log(date);
-    // console.log(startDate2)
-    // var diff=date.getTime()-startDate2.getTime();
-
-    // var Difference_In_Days = diff / (1000 * 3600 * 24); 
-    // var diff=Difference_In_Days;
-    // this.diff=Math.ceil(diff)
-    // console.log(this.diff);
     this.gamearray=navParams.get("game");
     this.expressmessage=navParams.get("setting");
     this.maker=this.detail.maker;
@@ -239,7 +235,6 @@ export class DetailPage {
     this.date = new Date();
     this.monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     this.getDaysOfMonth();
-    // this.loadEventThisMonth();
     console.log(this.detail)
     console.log("mmm")
     this.mainimage=this.detail.url;
@@ -248,10 +243,6 @@ export class DetailPage {
       console.log(this.detail.mainbanner[a])
       this.arraying.push(this.detail.mainbanner[a])
     }
-    // for( var a in this.gamearray){
-    //   console.log(this.gamearray[a])
-    //   this.arraying.push(this.detail.mainbanner[a])
-    // }
     for( var a in this.detail.descriptionimage){
       this.descriptionimage.push(this.detail.descriptionimage[a])
     }
@@ -305,7 +296,6 @@ export class DetailPage {
     this.daysInThisMonth = new Array();
     this.daysInLastMonth = new Array();
     this.daysInNextMonth = new Array();
-    // this.currentMonth = this.monthNames[this.date.getMonth()];
     this.currentMonth =this.date.getMonth()+1;
     this.currentYear = this.date.getFullYear();
     if(this.date.getMonth() === new Date().getMonth()) {
@@ -326,7 +316,6 @@ export class DetailPage {
     }
 
     var lastDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth()+1, 0).getDay();
-    // var nextNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0).getDate();
     for (var k = 0; k < (6-lastDayThisMonth); k++) {
       this.daysInNextMonth.push(k+1);
     }
@@ -370,7 +359,7 @@ export class DetailPage {
         if(this.gamearray[i].near_return_date!=undefined){
           date=new Date(this.gamearray[i].near_return_date);
           console.log(date)
-          this.confirmAlert2('재고가 없는 게임입니다.\n 가까운 반납 예정일'+date.getMonth()+'월 '+date.getDate()+'일')
+          this.confirmAlert2('재고가 없는 게임입니다.<br> 반납 예정일 '+(date.getMonth()+1)+'월 '+date.getDate()+'일')
         }
         else{
           this.confirmAlert2('재고가 없는 게임입니다.');
@@ -423,7 +412,6 @@ export class DetailPage {
   gotogamedetail(game){
     console.log(game);
     console.log("g")
-    // const browser = this.inapp.create('https://store.nintendo.co.kr/70010000016050',"_blank","location=no");
     let modal = this.modal.create(GameDetailPage, {game:game}, { cssClass: 'test-modal' });
     modal.present();
   }
@@ -485,32 +473,7 @@ export class DetailPage {
     else if(this.count===0){
       this.confirmAlert2('1가지 이상의 게임을 선택해주세요.')
     }
-    // else if(this.count>6){
-    //   let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail,"set":this.setdata},{ cssClass: 'test-modal3' });
-    //   modal.onDidDismiss(data => {
-    //     if(data!=undefined){
-    //       console.log(data);
-  
-    //       // this.uploadImageToFirebase(data);
-    //     }
-        
-    //   });
-    //   modal.present();
-    // }
-    // else if(this.count>3){
-    //   let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail},{ cssClass: 'test-modal2' });
-    //   modal.onDidDismiss(data => {
-    //     if(data!=undefined){
-    //       console.log(data);
-  
-    //       // this.uploadImageToFirebase(data);
-    //     }
-        
-    //   });
-    //   modal.present();
-    // }
     else{
-      // window.alert("less than 3")
       var modaloption : ModalOptions={
         enableBackdropDismiss:true
       }
@@ -522,48 +485,3 @@ export class DetailPage {
     }
   }
 }
-      // this.navCtrl.push(OrderpagePage)
-
-
-
-//  var data = {
-//   pay_method : 'card',
-//       merchant_uid: 'mid_' + new Date().getTime(),
-//       name : '주문명:결제테스트',
-//       amount : "1400",
-//       app_scheme : 'ionickcp',
-//       buyer_email : 'iamport@siot.do',
-//       buyer_name : '구매자이름',
-//       buyer_tel : '010-1234-5678',
-//       buyer_addr : '서울특별시 강남구 삼성동',
-//       buyer_postcode : '123-456'
-//     };
-//     const param = {
-//       pay_method : 'card',
-//       merchant_uid : 'merchant_' + new Date().getTime(),
-//       name : '주문명:결제테스트',
-//       amount : 1400,
-//       buyer_email : 'iamport@siot.do',
-//       buyer_name : '구매자이름',
-//       buyer_tel : '010-1234-5678',
-//       buyer_addr : '서울특별시 강남구 삼성동',
-//       buyer_postcode : '123-456'
-//     };
-
-//     var PaymentObject={
-//       userCode: "imp58611631",
-//       data: data,
-//       callback:function(response) { alert(JSON.stringify(response)); },   
-//     }
-        
-    
-//     // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
-//     IamportCordova.payment(PaymentObject )
-//       .then((response)=> {
-//         alert("success")
-//         alert(JSON.stringify(response))
-//       })
-//       .catch((err)=> {
-//         alert(err)
-//       })
-//     ;

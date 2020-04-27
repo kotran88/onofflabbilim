@@ -6,7 +6,6 @@ import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 import { HomePage } from '../home/home';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Http, RequestOptions, Headers} from '@angular/http';
-import { rootRenderNodes } from '@angular/core/src/view';
 
 /**
  * Generated class for the PaymentPage page.
@@ -27,7 +26,7 @@ export class PaymentPage {
   user: any;
   diff: any;
   hardware: any;
-  game=[];
+  game = [];
   startDate: any;
   endDate: any;
   contrast: number = 0;
@@ -62,7 +61,6 @@ export class PaymentPage {
     this.endDate = this.navParams.get("end");
     this.sale_data=this.navParams.get("sale");
     console.log(this.contrast);
-    // this.rental_date_update(this.firemain.child('category').child(this.game[0].flag).child('software').child('BAYONETTA 2'));
 
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
@@ -74,7 +72,6 @@ export class PaymentPage {
     })
     // this.diff = 19;
     // this.diff = 31;
-    console.log(this.navParams.get("game"))
 
     this.coins = this.user.point;
     this.totalcoins=this.coins;
@@ -110,17 +107,19 @@ export class PaymentPage {
         this.console_sale_gameprice+=Number(this.game[i].price * Number(this.sale_data.percentage.console.split('%')[0])/100);
       }
       else if (this.hardware == undefined) {
-        gamedct += this.game[i].price * 1;
+        gamedct = this.game[i].price * 1;
       }
       this.gamediscount+=gamedct;
-      this.game[i]+={saleprice:gamedct};
+      this.game[i].saleprice=gamedct;
     }
     console.log(this.game);
     this.console_sale_gameprice*=this.diff;
     console.log(this.console_sale_gameprice)
+    // this.gamediscount = gamedct;
     this.gameprice = this.gamediscount * this.diff;
     console.log(this.gamediscount);
     console.log(this.gameprice);
+    console.log(this.sale_data)
     this.choice();
     console.log(this.coins);
   }
@@ -133,10 +132,8 @@ export class PaymentPage {
     
   game_stock_check(){
     if(this.hardware!=undefined){
+      console.log('hardware');
       this.stock_update2(this.hardware);
-      // this.firemain.child('category').child(this.hardware.flag)
-      //   .child('hardware').child(this.hardware.itemcode).update({stock:String(Number(this.hardware.stock)-1)});
-
     }
 
     var root=this.firemain.child('category').child(this.game[0].flag).child('software');
@@ -145,15 +142,15 @@ export class PaymentPage {
       for(var g in this.game){
         for(var s in snap.val()){
           if(snap.val()[s].name===this.game[g].name){
-            this.stock_update(root.child(s),this.game[g].stock)
+            this.stock_update(root.child(s),snap.val()[s].stock)
             this.rental_date_update(root.child(s));
+
             break;
           }
         }
       }
     })
   }
-
   rental_date_update(root){
 
     console.log('rental_date_update');
@@ -163,9 +160,9 @@ export class PaymentPage {
     var date2:any;
     var total:any;
 
-    root.child('near_return_date').once('value').then((snap)=>{
-      if(snap.val()!=undefined){
-        date=new Date(snap.val());
+    root.once('value').then((snap)=>{
+      if(snap.val().near_return_date!=undefined){
+        date=new Date(snap.val().near_return_date);
         console.log(date);
   
         date2=new Date(this.endDate);
@@ -180,11 +177,11 @@ export class PaymentPage {
         total=total/(3600*24*1000)
   
         if(total>0){
-          root.child('near_return_date').update(new Date(this.endDate));
+          root.update({'near_return_date':new Date(this.endDate)});
         }
       }
       else{
-        root.child('near_return_date').update(new Date(this.endDate));
+        root.update({'near_return_date':new Date(this.endDate)});
       }
     })
   }
@@ -192,20 +189,22 @@ export class PaymentPage {
   stock_update(root,num){
     root.update({stock:String(Number(num)-1)})
   }
-
   stock_update2(hardware){
-    this.firemain.child('category').child(hardware.flag).child('console_stock').once('value').then((snap)=>{
-      for(var s in snap.val()){
-        if(s.substring(0,2)+s.substring(8,9)===hardware.substring(0,2)+hardware.substring(8,9)){
-          this.firemain.child('category').child(hardware.flag).child('console_stock').child(s)
-          .update(String(Number(hardware.stock)-1));
-        }
-      }
+    console.log(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9));
+    this.firemain.child('category').child(hardware.flag).child('console_stock').
+        child(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9)).once('value').then((snap)=>{
+          console.log(snap.val())
+
+          var text=hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9);
+          var root=this.firemain.child('category').child(hardware.flag).child('console_stock');
+          
+          if(text==='CNS') root.update({'CNS':String(Number(snap.val())-1)});
+          else if(text==='CNL') root.update({'CNL':String(Number(snap.val())-1)});
+          else if(text==='CSP') root.update({'CSP':String(Number(snap.val())-1)});
     });
 
     // .update(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9):String(Number(hardware.stock)-1))
   }
-
   geolocation_update(root){
     this.geolocation.getCurrentPosition().then((resp) => {
       console.log('b');
@@ -261,10 +260,10 @@ export class PaymentPage {
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
-              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
+              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
               console.log(e);

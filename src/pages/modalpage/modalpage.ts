@@ -185,7 +185,6 @@ export class ModalpagePage {
                 console.log(snapshot.val()[a]['console_stock'][s.itemcode.substring(0,2)+s.itemcode.substring(8,9)])
                 s.stock=snapshot.val()[a]['console_stock'][s.itemcode.substring(0,2)+s.itemcode.substring(8,9)]
               }
-
               for(var j in this.hardwarearray){
                 if(Number(this.hardwarearray[j].stock)<=0){
                   this.hardwarearray[j].name+="[일시품절]"

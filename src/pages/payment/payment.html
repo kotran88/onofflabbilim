@@ -48,7 +48,7 @@
         <div style="text-align: right;">
             <span *ngIf="hardware==undefined" style="font-size:15px;">{{number_format(game.price * diff)}}원</span>
             <span *ngIf="hardware!=undefined " style="text-decoration:line-through; font-size:15px; color:#9e9e9e ">{{number_format(game.price * diff)}}원</span>
-            <span *ngIf="hardware!=undefined " style="font-size:15px; ">{{number_format(game.saleprice)}}원</span>
+            <span *ngIf="hardware!=undefined " style="font-size:15px; ">{{number_format(game.saleprice * diff)}}원</span>
         </div>
     </div>
     <div style="width:90%; position:relative " class="main ">
@@ -62,8 +62,8 @@
     </div>
     <div class="clicked" style="background: #70c5ed; color: white; height: 80px; width: 100%; position: relative;">
         <!-- <div style="position: absolute;" class="up "> -->
-        <img (click)="godown();" style="height: 100%; float: left;" src="assets/img/arrow_down.png" />
-        <img (click)="goup();" style="height: 100%; float: right;" src="assets/img/arrow_up.png" />
+        <img (click)="godown();" style="height: 80px; float: left;" src="assets/img/arrow_down.png" />
+        <img (click)="goup();" style="height: 80px; float: right;" src="assets/img/arrow_up.png" />
         <div style="width: 100%; text-align: center; line-height: 80px;" class="inner">
             <span style="display:inline-block;"> 코인 수 : </span>
             <img id="abc" style="height: 25px; width: 25px; font-size: 80px; bottom: 30px; position: absolute;" src="/assets/img/coinimage.png " />

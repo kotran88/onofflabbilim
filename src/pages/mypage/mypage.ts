@@ -30,20 +30,17 @@ export class MypagePage {
   mypicref:any;
   lloading:any;
   check_order:any;
-  deviceId:any;
-  admin:any;
+  deviceIds=[];
   // deviceId="61acf6b0-73f3-40a2-8b19-fc85697494c0";
 
   firemain = firebase.database().ref();
   constructor(public view:ViewController,public loading:LoadingController,public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams, public http:Http) {
     this.firemain.child('admin').once('value').then((snap)=>{
-      this.deviceId=snap.val().deviceId;
+      this.deviceIds=snap.val().deviceIds;
     })
 
     this.id=navParams.get("id")
     this.user=navParams.get("user");
-    this.admin=navParams.get("admin");
-
     console.log(this.id,this.user)
     if(this.user.points==undefined){
       this.point=0;
@@ -249,7 +246,7 @@ export class MypagePage {
     console.log("sendpushnotification")
     let data={
       "app_id": "6505b348-1705-4d73-abe4-55ab40758266",
-      "include_player_ids": this.admin.deviceIds,
+      "include_player_ids": this.deviceIds,
       "headings":{"en":header},
       "ios_badgeType":"Increase",
       "ios_badgeCount":1,
