@@ -110,6 +110,7 @@ export class LoginpagePage {
         data: data,                              // 결제 데이터
         callback: (response) =>{
           
+          console.log(response);
           if(response.imp_success){
             this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
@@ -159,7 +160,7 @@ export class LoginpagePage {
 
     this.uuid_update();
     this.geolocation_update();
-    
+
      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
       this.firemain.child('users').child(this.phone).update(
         {
