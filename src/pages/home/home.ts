@@ -298,7 +298,9 @@ export class HomePage {
     if ('false' == this.loginflag || this.loginflag == null) {
       this.confirmAlert("회원가입/로그인을 해주세요")
     } else {
-      this.navCtrl.push(MypagePage, { "id": this.id, "user": this.user })
+      this.firemain.child("admin").once('value').then((snap) => {
+      this.navCtrl.push(MypagePage, { "id": this.id, "user": this.user, "admin": snap.val() })
+      })
     }
     console.log("mypage come")
 
