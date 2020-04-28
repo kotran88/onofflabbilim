@@ -46,6 +46,7 @@ export class OrderpagePage {
   Delivery_check=false;
 
   resultAddress : any;
+  peripheral:any;
 
   constructor(public platform:Platform,public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
 
@@ -62,6 +63,8 @@ export class OrderpagePage {
     this.diff=this.navParams.get("diff");
     this.hardware=this.navParams.get("hardware");
     this.gamearray=this.navParams.get("gamearray")
+    this.peripheral=this.navParams.get("peripheral");
+    console.log(this.peripheral);
     console.log(this.sale_data)
     console.log(this.user); //대여인
     console.log(this.point);
