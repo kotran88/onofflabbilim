@@ -52,6 +52,7 @@ export class HomePage {
   user: any;
   counter: any = 0;
 
+
   slide() {
     this.navCtrl.push(HomeslidePage);
   }

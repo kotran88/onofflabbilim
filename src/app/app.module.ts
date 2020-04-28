@@ -40,6 +40,7 @@ import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HomeslidePage } from '../pages/homeslide/homeslide';
 import { CoinSavePage } from '../pages/coin-save/coin-save';
+import { AccessPage } from '../pages/access/access';
 
 
 var firebaseConfig = {
@@ -75,6 +76,7 @@ firebase.initializeApp(firebaseConfig);
     PaymentPage,
     HomeslidePage,
     CoinSavePage,
+    AccessPage
     // ChatroomlistPage,
   ],
   imports: [
@@ -106,6 +108,7 @@ firebase.initializeApp(firebaseConfig);
     PaymentPage,
     HomeslidePage,
     CoinSavePage,
+    AccessPage
     // ChatroomlistPage,
   ],
   providers: [

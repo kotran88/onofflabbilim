@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, AlertController,NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, AlertController,NavController, NavParams, ModalController ,Platform} from 'ionic-angular';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import  firebase from 'firebase';
@@ -10,6 +10,7 @@ import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { dateDataSortValue } from 'ionic-angular/umd/util/datetime-util';
 import { HomeslidePage } from '../homeslide/homeslide';
+import { AccessPage } from '../access/access';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -35,7 +36,7 @@ export class LoginpagePage {
   test_phone:any;
 
   firemain = firebase.database().ref();
-  constructor(private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams, public modal : ModalController) {
+  constructor(public platform: Platform,private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams, public modal : ModalController) {
     
     if(localStorage.getItem('loginflag')!='false'&&localStorage.getItem('loginflag')!=null){
       // this.main_title='회원가입/로그인';
@@ -91,8 +92,7 @@ export class LoginpagePage {
       this.certified_check=true;
       return;
     }
-
-    if(this.name==='') this.confirmAlert2('이름을 입력해주세요.');
+    else if(this.name==='') this.confirmAlert2('이름을 입력해주세요.');
     else if(this.phone==='') this.confirmAlert2('휴대폰 번호를 입력해주세요.');
     else{
       this.certified_check=true;
@@ -110,19 +110,32 @@ export class LoginpagePage {
         data: data,                              // 결제 데이터
         callback: (response) =>{
           
+          console.log('response');
           console.log(response);
-          if(response.imp_success){
+          if(response.imp_success==="true"){
             this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
-          
-
+          }
+          else if(response.imp_success==="false"){
+            this.confirmAlert2("휴대전화 인증에 실패하였습니다.")
+            // setTimeout(() => {
+            //   this.platform.exitApp();
+            // }, 3000);
           }
         },                           // 콜백 함수
       };
-      IamportCordova.certification(params);
-     
+      IamportCordova.certification(params).then((snap)=>{
+        console.log('response2');
+        console.log(snap);
+
+        this.confirmAlert2("휴대전화 인증에 실패하였습니다.")
+        // setTimeout(() => {
+        //   this.platform.exitApp();
+        // }, 3000);
+      });
       // this.navCtrl.push(HomeslidePage);
     }
+    this.navCtrl.push(AccessPage);
   }
   geolocation_update(){
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -140,6 +153,7 @@ export class LoginpagePage {
       })
     }).catch((error) => {
       console.log('Error getting location', error);
+      this.platform.exitApp();
     });
   }
 
@@ -153,13 +167,13 @@ export class LoginpagePage {
         console.log('uuid then')
       })
     })
-    .catch((error: any) => console.log(error));
+    .catch((error: any) =>{
+      console.log(error);
+      this.platform.exitApp(); 
+    })
   }
 
   login(){
-
-    this.uuid_update();
-    this.geolocation_update();
 
      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
       this.firemain.child('users').child(this.phone).update(
@@ -183,7 +197,7 @@ export class LoginpagePage {
     localStorage.setItem("loginflag","true");
     localStorage.setItem("id",this.phone);
     localStorage.setItem("name",this.name);
-    this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})
+    this.access_modal();
   }
 
   loginagain(){
@@ -197,7 +211,7 @@ export class LoginpagePage {
     localStorage.setItem("loginflag","true");
     localStorage.setItem("id",this.phone);
     localStorage.setItem("name",this.name);
-    this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})
+    this.access_modal();
   }
 
   st_format(text,len):String{
@@ -225,5 +239,17 @@ export class LoginpagePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginpagePage');
+  }
+
+  access_modal(){
+    let modal = this.modal.create(AccessPage,{},{cssClass:'access-modal'});
+    modal.onDidDismiss(data=>{
+      this.geolocation_update();
+      this.uuid_update();
+      setTimeout(() => {
+        this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})  
+      }, 1000);
+    });
+    modal.present();
   }
 }
