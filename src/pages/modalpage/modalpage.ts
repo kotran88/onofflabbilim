@@ -75,17 +75,9 @@ export class ModalpagePage {
     for (var i = 0; i < this.gamearray.length; i++) {
       var flag = this.gamearray[i].fflag;
       console.log(flag)
-<<<<<<< HEAD
       if (flag == true) {
         this.gamearraytrue.push(this.gamearray[i])
         this.count++;
-=======
-      // console.log(this.count,this.gamearraytrue)
-      if(flag==true){
-      this.gamearraytrue[this.gamearraytrue.length]=this.gamearray[i];
-      console.log(this.gamearraytrue);
-      this.count++;
->>>>>>> 38f64a1ccac3bc4efe324ef3807a63749e7666d7
       }
     }
     // window.alert(this.count)
@@ -163,13 +155,8 @@ export class ModalpagePage {
     this.firemain.child("category").once("value", (snapshot) => {
       for (var a in snapshot.val()) {
         console.log(a)
-<<<<<<< HEAD
         if (a == this.hardware) {
           for (var b in snapshot.val()[a]) {
-=======
-        if(a==this.hardware){
-          for(var b in snapshot.val()[a]){
->>>>>>> 38f64a1ccac3bc4efe324ef3807a63749e7666d7
             console.log(b);
             console.log(snapshot.val()[a][b])
             if (b == "hardware") {
@@ -196,19 +183,9 @@ export class ModalpagePage {
                 }
               }
 
-<<<<<<< HEAD
               for (var j in this.hardwarearray) {
                 if (Number(this.hardwarearray[j].stock) <= 0) {
                   this.hardwarearray[j].name += "[일시품절]"
-=======
-              for(var s of this.hardwarearray){
-                console.log(snapshot.val()[a]['console_stock'][s.itemcode.substring(0,2)+s.itemcode.substring(8,9)])
-                s.stock=snapshot.val()[a]['console_stock'][s.itemcode.substring(0,2)+s.itemcode.substring(8,9)]
-              }
-              for(var j in this.hardwarearray){
-                if(Number(this.hardwarearray[j].stock)<=0){
-                  this.hardwarearray[j].name+="[일시품절]"
->>>>>>> 38f64a1ccac3bc4efe324ef3807a63749e7666d7
                   console.log(this.hardwarearray[j].name);
                 }
               }
@@ -281,7 +258,6 @@ export class ModalpagePage {
         }
         if (ck === true) {
           console.log(e.target.value);
-<<<<<<< HEAD
           this.totalprice2 = this.totalprice;
           this.totalprice2 += Number(e.target.value.split("/")[1]);
           this.total = this.totalprice2;
@@ -293,13 +269,6 @@ export class ModalpagePage {
 
           if (isNaN(this.total)) {
             this.total = 0;
-=======
-          this.totalprice2=this.totalprice;
-          this.totalprice2+=Number(e.target.value.split("/")[1]);
-          this.total=this.totalprice2;
-          if(isNaN(this.total)){
-            this.total=0;
->>>>>>> 38f64a1ccac3bc4efe324ef3807a63749e7666d7
           }
         }
         console.log(this.game);

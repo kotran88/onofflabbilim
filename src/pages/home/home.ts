@@ -17,6 +17,7 @@ import { FirstlandingPage } from '../firstlanding/firstlanding';
 import { HomeslidePage } from '../homeslide/homeslide';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { AccessPage } from '../access/access';
 declare var naver: any;
 
 @Component({
@@ -50,6 +51,7 @@ export class HomePage {
   realpsarray: any;
   user: any;
   counter: any = 0;
+
 
   slide() {
     this.navCtrl.push(HomeslidePage);

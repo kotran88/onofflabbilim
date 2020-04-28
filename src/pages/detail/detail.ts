@@ -9,6 +9,7 @@ import { Modalbottom } from '../modalbottom/modalbottom';
 import { ModalpagePage } from '../modalpage/modalpage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { GameDetailPage } from '../game-detail/game-detail';
+import { AccessPage } from '../access/access';
 
 
 /**
@@ -481,6 +482,7 @@ export class DetailPage {
       modal.onDidDismiss(imagedata => {
         console.log(imagedata)
       });
+     
       modal.present();
     }
   }

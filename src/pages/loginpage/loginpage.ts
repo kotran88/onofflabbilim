@@ -10,6 +10,7 @@ import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { dateDataSortValue } from 'ionic-angular/umd/util/datetime-util';
 import { HomeslidePage } from '../homeslide/homeslide';
+import { AccessPage } from '../access/access';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -113,8 +114,6 @@ export class LoginpagePage {
           if(response.imp_success){
             this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
-          
-
           }
         },                           // 콜백 함수
       };
@@ -122,6 +121,7 @@ export class LoginpagePage {
      
       // this.navCtrl.push(HomeslidePage);
     }
+    this.navCtrl.push(AccessPage);
   }
   geolocation_update(root){
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -142,34 +142,24 @@ export class LoginpagePage {
     });
   }
   login(){
-    this.uniqueDeviceID.get()
-    .then((uuid: any) =>{
-      console.log('a');
-      console.log(uuid)
-      this.geolocation_update(this.firemain.child("users").child(this.phone));
-      // this.unique_ID=uuid; 
-      this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
-        console.log('uuid then')
-      })
-    })
-    .catch((error: any) => console.log(error));
 
-    this.geolocation.getCurrentPosition().then((resp) => {
-      console.log('b');
-      console.log(resp);
-      console.log(resp.coords)
-      // resp.coords.latitude
-      // resp.coords.longitude
-      this.firemain.child('users').child(this.phone).child('geolocation').push({
-        ratitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        date:new Date(),
-      }).then(()=>{
-        console.log('resp then')
-      })
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+
+    // this.geolocation.getCurrentPosition().then((resp) => {
+    //   console.log('b');
+    //   console.log(resp);
+    //   console.log(resp.coords)
+    //   // resp.coords.latitude
+    //   // resp.coords.longitude
+    //   this.firemain.child('users').child(this.phone).child('geolocation').push({
+    //     ratitude:resp.coords.latitude,
+    //     longitude:resp.coords.longitude,
+    //     date:new Date(),
+    //   }).then(()=>{
+    //     console.log('resp then')
+    //   })
+    // }).catch((error) => {
+    //   console.log('Error getting location', error);
+    // });
 
      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
       this.firemain.child('users').child(this.phone).update(
@@ -187,6 +177,7 @@ export class LoginpagePage {
             point:"10",
           }
         )
+        this.access_modal();
       }
     })
     localStorage.setItem("loginflag","true");
@@ -210,5 +201,23 @@ export class LoginpagePage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginpagePage');
+  }
+
+  access_modal(){
+    let modal = this.modal.create(AccessPage,{},{cssClass:'access-modal'});
+    modal.onDidDismiss(data=>{
+      this.uniqueDeviceID.get()
+      .then((uuid: any) =>{
+        console.log('a');
+        console.log(uuid)
+        this.geolocation_update(this.firemain.child("users").child(this.phone));
+        // this.unique_ID=uuid; 
+        this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
+          console.log('uuid then')
+        })
+      })
+      .catch((error: any) => console.log(error));
+    });
+    modal.present();
   }
 }
