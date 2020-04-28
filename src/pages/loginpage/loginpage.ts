@@ -123,14 +123,14 @@ export class LoginpagePage {
       // this.navCtrl.push(HomeslidePage);
     }
   }
-  geolocation_update(root){
+  geolocation_update(){
     this.geolocation.getCurrentPosition().then((resp) => {
       console.log('b');
       console.log(resp);
       console.log(resp.coords)
       // resp.coords.latitude
       // resp.coords.longitude
-      root.child('logingeolocation').update({
+      this.firemain.child("users").child(this.phone).child('logingeolocation').update({
         ratitude:resp.coords.latitude,
         longitude:resp.coords.longitude,
         date:new Date(),
@@ -141,36 +141,25 @@ export class LoginpagePage {
       console.log('Error getting location', error);
     });
   }
-  login(){
+
+  uuid_update(){
     this.uniqueDeviceID.get()
     .then((uuid: any) =>{
       console.log('a');
       console.log(uuid)
-      this.geolocation_update(this.firemain.child("users").child(this.phone));
       // this.unique_ID=uuid; 
       this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
         console.log('uuid then')
       })
     })
     .catch((error: any) => console.log(error));
+  }
 
-    this.geolocation.getCurrentPosition().then((resp) => {
-      console.log('b');
-      console.log(resp);
-      console.log(resp.coords)
-      // resp.coords.latitude
-      // resp.coords.longitude
-      this.firemain.child('users').child(this.phone).child('geolocation').push({
-        ratitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        date:new Date(),
-      }).then(()=>{
-        console.log('resp then')
-      })
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+  login(){
 
+    this.uuid_update();
+    this.geolocation_update();
+    
      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
       this.firemain.child('users').child(this.phone).update(
         {
@@ -181,6 +170,7 @@ export class LoginpagePage {
       )
       if(snap.val()===undefined||snap.val()===null){
         this.confirmAlert2('가입을 축하합니다~ 코인을 10개 드립니다.');
+        this.coin_check('가입축하 기념',10);
         this.firemain.child('users').child(this.phone).update(
           {
             'first_login':new Date(),
@@ -208,6 +198,30 @@ export class LoginpagePage {
     localStorage.setItem("name",this.name);
     this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})
   }
+
+  st_format(text,len):String{
+    text=String(text);
+    for(var i=text.length;i<len;i++){
+      text='0'+text;
+    }
+    return text;
+  }
+
+  today():String{
+    var t=new Date();
+    var r=
+        this.st_format(t.getFullYear(),4)+'-'+this.st_format(t.getMonth()+1,2)+'-'+this.st_format(t.getDate(),2)
+        +'|'+
+        this.st_format(t.getHours(),2)+':'+this.st_format(t.getMinutes(),2)+':'+this.st_format(t.getSeconds(),2);
+    return r;
+  }
+
+  coin_check(res,coin){
+    var now=this.today();
+    this.firemain.child('users').child(this.phone).child('accumulation').child(now.toString())
+    .update({reason:res,coin:coin,date:now})
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginpagePage');
   }
