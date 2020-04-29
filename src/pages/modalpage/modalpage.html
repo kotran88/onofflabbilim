@@ -1,6 +1,6 @@
-<ion-content>
+<ion-content style="background-color:transparent">
     <div (click)="orderpage()" style="position: absolute;
-      bottom: 0%; width: 100%; z-index: 99999; height: 50px;
+      bottom: 0%; width: 100%; z-index: 99999; height: 52px;
       text-align: center; background: #E5333F;" class="order">
         <p style="font-size: 18px; line-height: 10px; color: white;">빌리기 (2/3)</p>
     </div>
@@ -13,29 +13,40 @@
         </div>
 
         <div style="height: auto; text-align: center; margin: 0;
-        display: inline-block; width: 100%; position: relative;" class="gameselect">
+    display: inline-block; width: 100%; position: relative;" class="gameselect">
 
-            <div style="width: 33%; height: 140px; text-align: center; padding: 10px; float: left;" *ngFor="let game of gamearraytrue; let i = index">
-                <img style="height: 60%; width: 100%;" src="{{game.url}}" />
+            <div style="width: 33%; height: 140px; text-align: center; padding: 5px; float: left;" *ngFor="let game of gamearraytrue; let i = index">
+                <img style="height: 60%; width: 100%; margin-top:0px;" src="{{game.url}}" />
                 <br>
                 <span style="text-align: center;">
-              <div style="width: 100%; height: auto; margin-bottom: 5px; max-height: 30%;">
-                <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
-                <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;" *ngIf="game.name.split('\n')[1]!=undefined">{{game.name.split('\n')[1]}}</p>
-              </div>
+          <div style="width: 100%; height: auto; margin-bottom: 5px; max-height: 30%;">
+            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
+            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;" *ngIf="game.name.split('\n')[1]!=undefined">{{game.name.split('\n')[1]}}</p>
+          </div>
 
-              <div style="width: 100%; text-align: center;">
-                <p style="display: inline-block; margin:0px;"> 대여(일):</p>
-                <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(game.price)}}원</p> <br>
-              </div>
-            </span>
+          <div style="width: 100%; text-align: center;">
+            <p style="display: inline-block; margin:0px;"> 대여(일):</p>
+            <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(game.price)}}원</p> <br>
+          </div>
+        </span>
             </div>
         </div>
-        <p style="margin-top: 15px; font-size:15px; text-align: center;">게임기가 없으시다면? 게임기를 추가해보세요</p>
+        <p style="margin-top: 10px; font-size:15px; text-align: center;">게임기가 없으시다면? 게임기를 추가해보세요</p>
 
         <select id="mySelect" class="box" name="location" style="border: solid 1px black;">
-          <option id="a"  value="no">추가안함</option>
-          <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}}</option>
-        </select>
+      <option id="a"  value="no" selected >추가안함</option>
+      <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}}</option>
+    </select>
+
+        <div *ngIf="game=='닌텐도 스위치' || game=='Playstation Pro'">
+            <ion-select id="peripheral" [selectOptions]="{'cssClass': 'wider-popover'}" [(ngModel)]="peripheralitem" class='periselects' interface="popover" style="margin-top:5px; border: solid 1px black" [ngClass]="peripheralitem=='no'? 'periselect':'periselects'">
+                <ion-option id="p" value="no" selected>추가안함</ion-option>
+                <ion-option id="p" value="{{p.name}}" *ngFor="let p of peripheral">{{p.name}}</ion-option>
+            </ion-select>
+            <ion-select id="peripheral" [(ngModel)]="peripheralitem2" class='periselects' interface="popover" style="margin-top:5px; border: solid 1px black" *ngIf="peripheralitem!='no'">
+                <ion-option id="p" value="no" selected>추가안함</ion-option>
+                <ion-option id="p" value="{{p.name}}" *ngFor="let p of peripheral">{{p.name}}</ion-option>
+            </ion-select>
+        </div>
     </div>
 </ion-footer>

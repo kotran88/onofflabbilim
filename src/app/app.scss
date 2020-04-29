@@ -7,6 +7,10 @@
     // font-style: 500;
 }
 
+.popover-content {
+    min-width: 300px;
+}
+
 ion-title {
     line-height: 40px !important;
 }
@@ -56,10 +60,11 @@ ion-navbar.toolbar {
 }
 
 .modal-wrapper {
-    width: 100%;
+    width: 80%;
     height: 45%;
     position: absolute !important;
-    bottom: 0% !important;
+    bottom: 0;
+    padding: 0;
 }
 
 .select-modal .modal-wrapper {
@@ -72,6 +77,16 @@ ion-navbar.toolbar {
 .select-modal {
     background: rgba(0, 0, 0, 0.5) !important;
     padding: 20% 10% !important;
+}
+
+.access-modal {
+    .modal-wrapper {
+        border-radius: 10px;
+        width: 80%;
+        height: 75%;
+        left: 10%;
+        top: 10%;
+    }
 }
 
 .test-modal {
@@ -95,7 +110,7 @@ ion-navbar.toolbar {
 .test-modal1 {
     .modal-wrapper {
         width: 100%;
-        height: 320px; //240
+        height: 400px; //240
         position: absolute !important;
         bottom: 0% !important;
     }
@@ -156,7 +171,6 @@ ion-app.md [padding] .scroll-content {
 .footer-cont {
     height: 100px;
     padding: 10px;
-    padding-top: 20px;
 }
 
 .footer h3 {

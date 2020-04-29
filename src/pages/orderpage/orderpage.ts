@@ -46,6 +46,10 @@ export class OrderpagePage {
   Delivery_check=false;
 
   resultAddress : any;
+  peripheral:any;
+  periArr=[];
+  peripheralname:any;
+  choiceperi=[];
 
   constructor(public platform:Platform,public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
 
@@ -62,13 +66,38 @@ export class OrderpagePage {
     this.diff=this.navParams.get("diff");
     this.hardware=this.navParams.get("hardware");
     this.gamearray=this.navParams.get("gamearray")
+    this.peripheral=this.navParams.get("peripheral");
+    this.peripheralname=this.navParams.get("peripheralname");
+    console.log(this.peripheral); // 주변기기
     console.log(this.sale_data)
     console.log(this.user); //대여인
     console.log(this.point);
     console.log(this.diff); //대여일
     console.log(this.hardware); //기계
     console.log(this.gamearray); //게임에 대해
+    console.log(this.peripheralname);
 
+    for(var name in this.peripheral){
+      console.log(this.peripheral[name]);
+      console.log(this.peripheralname[name]);
+      for(var periname in this.peripheralname){
+        if(this.peripheralname[periname]==this.peripheral[name].name){
+          console.log(this.peripheral[name]);
+          if(this.peripheral[name].stock != "0"){
+            console.log(this.peripheral[name].stock);
+            this.choiceperi.push(this.peripheral[name]);
+          }
+          else if(this.peripheral[name].stock == "0"){
+            console.log(this.peripheral[name].stock);
+            this.confirmAlert2(this.peripheral[name].name+"의 재고가 없습니다.")
+          }
+        }
+      }
+    
+    }
+    console.log(this.choiceperi);
+    
+    
     for(var k in this.user){
       console.log(k);
       if(k=='adress'){
@@ -357,7 +386,7 @@ export class OrderpagePage {
       this.confirmAlert2("현재 전주 지역만 배송이 가능합니다.<br>주소를 확인해주세요.");
     }
     else {
-      this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware, "game":this.gamearray ,"start":this.startDate, "end":this.endDate,"sale":this.sale_data});
+      this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware,"peripheral":this.choiceperi, "game":this.gamearray ,"start":this.startDate, "end":this.endDate,"sale":this.sale_data});
     }
 
     /*  console.log(this.user); //대여인

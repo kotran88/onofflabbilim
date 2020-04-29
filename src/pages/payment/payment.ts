@@ -52,6 +52,8 @@ export class PaymentPage {
   console_sale_gameprice:any;
 
   tick: any;
+  peripheral: any;
+  periprice:any;
   constructor(public platform:Platform, public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
@@ -60,8 +62,10 @@ export class PaymentPage {
     this.startDate = this.navParams.get("start");
     this.endDate = this.navParams.get("end");
     this.sale_data=this.navParams.get("sale");
+    this.peripheral=this.navParams.get("peripheral");
     console.log(this.contrast);
-
+    console.log(this.peripheral);
+  
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
       this.navCtrl.pop();
@@ -224,6 +228,30 @@ export class PaymentPage {
     });
   }
 
+
+  st_format(text,len):String{
+    text=String(text);
+    for(var i=text.length;i<len;i++){
+      text='0'+text;
+    }
+    return text;
+  }
+
+  today():String{
+    var t=new Date();
+    var r=
+        this.st_format(t.getFullYear(),4)+'-'+this.st_format(t.getMonth()+1,2)+'-'+this.st_format(t.getDate(),2)
+        +'|'+
+        this.st_format(t.getHours(),2)+':'+this.st_format(t.getMinutes(),2)+':'+this.st_format(t.getSeconds(),2);
+    return r;
+  }
+
+  coin_check(){
+    var now=this.today();
+    this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
+    .update({reason:"밍 포인트 사용",coin:Number(this.totalcoins-this.coins),date:now})
+  }
+
   ordering() {
     var data = {
       pay_method: 'card',
@@ -259,7 +287,11 @@ export class PaymentPage {
           if (this.hardware != undefined) {
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              var delivery_time:any;
+              if(hour<11) delivery_time="배송예정시각은 대여일 오전 9시~11시 입니다.";
+              else delivery_time="배송예정시각은 대여일 오후 3시~5시 입니다.";
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
+              this.coin_check();
               this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
@@ -275,6 +307,7 @@ export class PaymentPage {
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.game_stock_check();
+              this.coin_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
@@ -312,17 +345,20 @@ export class PaymentPage {
   }
   choice() {
     var a = 0;
-    for (var i in this.game) { this.game[i].price; a += this.game[i].price * this.diff }
-
+    var b = 0;
+    for (var i in this.game) {this.game[i].price; a += this.game[i].price * this.diff }
+    for (var j in this.peripheral) { b += this.peripheral[j].pricedaily * this.diff }
+    console.log(a);
+    console.log(b);
     if (this.hardware != undefined) {
       for(var sd in this.sale_data.deposit){
         if(this.hardware.name===sd){
-          a*=((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
-          this.originpay=Number(this.sale_data.deposit[sd][String(this.contrast)]) * this.diff + a;
+          this.originpay=Number(this.sale_data.deposit[sd][String(this.contrast)]) * this.diff + a + b;
           console.log(this.originpay);
           console.log(Number(this.sale_data.deposit[sd][String(this.contrast)]))
           console.log(this.diff);
           console.log(a);
+          a*=((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
           for(var sd2 in this.sale_data.deposit[sd]){
             if(this.contrast===Number(sd2)){
               console.log(sd2);
@@ -334,9 +370,8 @@ export class PaymentPage {
       this.hardwareprice = this.hwprice * this.diff;
       console.log(this.hardwareprice);
       console.log(this.sale_data)
-      console.log(this.longdiscount)
       
-      this.totalpaymoney = this.hardwareprice + a;
+      this.totalpaymoney = this.hardwareprice + a + b; 
       this.longdiscount=0;
       for(var sd in this.sale_data.percentage.date){
         if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
@@ -367,7 +402,8 @@ export class PaymentPage {
     this.totalpaymoney-=this.longdiscount;
     this.totalpaymoney+=this.contrast;
     this.originpay+=this.contrast;
-    this.gameprice_piece=this.gameprice/this.game.length
+    this.gameprice_piece=this.gameprice/this.game.length;
+    console.log(this.originpay);
   }
   
   clickcoin(n) {

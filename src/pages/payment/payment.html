@@ -12,7 +12,7 @@
         <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월 {{endDate.split("T")[0].split("-")[2]}}일)</span>
     </div>
     <p style="
-    display: table; margin:auto;" *ngIf="hardware != undefined" >보증금은 게임을 즐기신 후, 반납시 코인지급과 함께 결제가 취소됩니다.</p>
+    display: table; margin:auto;" *ngIf="hardware != undefined">보증금은 게임을 즐기신 후, 반납시 코인지급과 함께 결제가 취소됩니다.</p>
     <p style="
     display: table; margin:auto;" *ngIf="hardware != undefined">보증금을 많이 낼 수록, 1일 대여료가 낮아집니다.</p>
     <div *ngIf="hardware != undefined" style="position: relative; width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black ">
@@ -33,6 +33,17 @@
             <div style="text-align: right;">
                 <!-- <span *ngIf="contrast==0" style="font-size:15px;">원</span> -->
                 <span *ngIf="contrast!=undefined" style="font-size:15px;">{{number_format(hwprice*diff)}}원</span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="peripheral != undefined">
+        <div *ngFor="let peri of peripheral" style="position: relative; width:90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:rgb(255, 208, 0)">
+            <span style="font-size:17px;">{{peri.name}}</span>
+            <div>
+                <span style="font-size:13px;"> - 1일 대여료 : {{peri.pricedaily}}원</span>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-size:15px;">{{number_format(peri.pricedaily*diff)}}원</span>
             </div>
         </div>
     </div>
