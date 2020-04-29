@@ -346,18 +346,19 @@ export class PaymentPage {
   choice() {
     var a = 0;
     var b = 0;
-    for (var i in this.game) { this.game[i].price; a += this.game[i].price * this.diff }
+    for (var i in this.game) {this.game[i].price; a += this.game[i].price * this.diff }
     for (var j in this.peripheral) { b += this.peripheral[j].pricedaily * this.diff }
+    console.log(a);
     console.log(b);
     if (this.hardware != undefined) {
       for(var sd in this.sale_data.deposit){
         if(this.hardware.name===sd){
-          a*=((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
-          this.originpay=Number(this.sale_data.deposit[sd][String(this.contrast)]) * this.diff + a;
+          this.originpay=Number(this.sale_data.deposit[sd][String(this.contrast)]) * this.diff + a + b;
           console.log(this.originpay);
           console.log(Number(this.sale_data.deposit[sd][String(this.contrast)]))
           console.log(this.diff);
           console.log(a);
+          a*=((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
           for(var sd2 in this.sale_data.deposit[sd]){
             if(this.contrast===Number(sd2)){
               console.log(sd2);
@@ -401,7 +402,8 @@ export class PaymentPage {
     this.totalpaymoney-=this.longdiscount;
     this.totalpaymoney+=this.contrast;
     this.originpay+=this.contrast;
-    this.gameprice_piece=this.gameprice/this.game.length
+    this.gameprice_piece=this.gameprice/this.game.length;
+    console.log(this.originpay);
   }
   
   clickcoin(n) {

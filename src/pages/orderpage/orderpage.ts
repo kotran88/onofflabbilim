@@ -80,20 +80,20 @@ export class OrderpagePage {
     for(var name in this.peripheral){
       console.log(this.peripheral[name]);
       console.log(this.peripheralname[name]);
-      if(this.peripheralname[name]==this.peripheral[name].name){
-        console.log(this.peripheral[name]);
-        if(this.peripheral[name].stock != "0"){
-          if(this.peripheral[name]===this.peripheral[name]){
-            this.choiceperi.push(this.peripheral[name]);
-          }else{
+      for(var periname in this.peripheralname){
+        if(this.peripheralname[periname]==this.peripheral[name].name){
+          console.log(this.peripheral[name]);
+          if(this.peripheral[name].stock != "0"){
+            console.log(this.peripheral[name].stock);
             this.choiceperi.push(this.peripheral[name]);
           }
-        }
-        else if(this.peripheral[name].stock == "0"){
-          console.log(this.peripheral[name].stock);
-          this.confirmAlert2(this.peripheral[name].name+"의 재고가 없습니다.")
+          else if(this.peripheral[name].stock == "0"){
+            console.log(this.peripheral[name].stock);
+            this.confirmAlert2(this.peripheral[name].name+"의 재고가 없습니다.")
+          }
         }
       }
+    
     }
     console.log(this.choiceperi);
     

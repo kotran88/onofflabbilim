@@ -200,19 +200,18 @@ export class ModalpagePage {
                 console.log(peri);
                 console.log(snapshot.val()[a][b][peri]);
                 this.peripheral.push(snapshot.val()[a][b][peri]);
-                for (var m = 0; m < this.peripheral.length; m++) {
-                  if (this.peripheral[m].itemcode.substring(0, 2)
-                    === snapshot.val()[a][b][peri].itemcode.substring(0, 2) &&
-                    this.peripheral[m].itemcode.substring(8, 9)
-                    === snapshot.val()[a][b][peri].itemcode.substring(8, 9)) {
-                    // this.peripheral[m].stock += Number(snapshot.val()[a][b][peri].stock);
-                    break;
-                  }
-                  else if (m === this.peripheral.length - 1) {
-                    console.log(snapshot.val()[a][b][peri])
-                    this.peripheral.push(snapshot.val()[a][b][peri]);
-                  }
-                }
+                // for (var m = 0; m < this.peripheral.length; m++) {
+                //   if (this.peripheral[m].itemcode.substring(0, 2)
+                //     === snapshot.val()[a][b][peri].itemcode.substring(0, 2) &&
+                //     this.peripheral[m].itemcode.substring(8, 9)
+                //     === snapshot.val()[a][b][peri].itemcode.substring(8, 9)) {
+                //     this.peripheral[m].stock = this.peripheral[m].stock
+                //   }
+                //   else if (m === this.peripheral.length - 1) {
+                //     console.log(snapshot.val()[a][b][peri])
+                //     this.peripheral.push(snapshot.val()[a][b][peri]);
+                //   }
+                // }
               }
             }
           }
