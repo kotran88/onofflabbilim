@@ -152,7 +152,10 @@ export class LoginpagePage {
         console.log('uuid then')
       })
     })
-    .catch((error: any) => console.log(error));
+    .catch((error: any) => {console.log(error);
+      console.log("unique error")
+      this.geolocation_update(this.firemain.child("users").child(this.phone));
+    });
 
     this.geolocation.getCurrentPosition().then((resp) => {
       console.log('b');

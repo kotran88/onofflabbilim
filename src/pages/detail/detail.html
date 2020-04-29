@@ -26,14 +26,14 @@
     <div class="startrent">
         <ion-list>
             <ion-item (click)="pick_date(1)">
-                <ion-label style="width:50%; float:left;">대여시작일</ion-label>
+                <ion-label style="width:50%; float:left; margin-bottom:0px !important;">대여시작일</ion-label>
                 <ion-label style="width:50%; text-align: end; font-size: 100%; padding-right: 10px;">
                     {{startDate_text.split('-')[0]}}년 {{startDate_text.split('-')[1]}}월 {{startDate_text.split('-')[2]}}일
                 </ion-label>
             </ion-item>
             <ion-item (click)="pick_date(2)">
-                <ion-label>대여반납일</ion-label>
-                <ion-label style="width:50%; text-align: end; font-size: 100%; padding-right: 10px;">
+                <ion-label style="margin-bottom:0px !important;">대여반납일</ion-label>
+                <ion-label style="width:50%; text-align: end; margin-bottom:0px !important; font-size: 100%; padding-right: 10px;">
                     {{endDate_text.split('-')[0]}}년 {{endDate_text.split('-')[1]}}월 {{endDate_text.split('-')[2]}}일
                 </ion-label>
             </ion-item>

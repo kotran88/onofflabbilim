@@ -19,7 +19,8 @@ page-detail {
     //     border-top:none !important;
     // }
     .label-ios {
-        margin: 11px 0px 11px 0 !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
     }
     .header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after{
         border-bottom:unset !important;
@@ -165,13 +166,10 @@ page-detail {
     .toolbar-background-md {
         background-color:white !important
     }
-   .label-ios{
-
-    }
     .item-ios{
 
-    min-height: 200px;
-    padding-left:0 !important;
+    min-height: 50px;
+    padding-left:10 !important;
     padding-right:0 !important;
     }
     .item-md.item-block .item-inner {
@@ -273,9 +271,6 @@ page-detail {
     }
     .item-ios.item-block .item-inner{
         padding-right:0px !important;
-    }
-    .label-ios {
-       margin-bottom:30px !important
     }
 
    
