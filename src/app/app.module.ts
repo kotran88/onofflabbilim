@@ -39,6 +39,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HomeslidePage } from '../pages/homeslide/homeslide';
+import { CoinSavePage } from '../pages/coin-save/coin-save';
 import { AccessPage } from '../pages/access/access';
 
 
@@ -74,6 +75,7 @@ firebase.initializeApp(firebaseConfig);
     CoinsPage,
     PaymentPage,
     HomeslidePage,
+    CoinSavePage,
     AccessPage
     // ChatroomlistPage,
   ],
@@ -105,6 +107,7 @@ firebase.initializeApp(firebaseConfig);
     CameraselectPage,
     PaymentPage,
     HomeslidePage,
+    CoinSavePage,
     AccessPage
     // ChatroomlistPage,
   ],

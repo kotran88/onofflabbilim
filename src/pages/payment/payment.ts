@@ -228,6 +228,30 @@ export class PaymentPage {
     });
   }
 
+
+  st_format(text,len):String{
+    text=String(text);
+    for(var i=text.length;i<len;i++){
+      text='0'+text;
+    }
+    return text;
+  }
+
+  today():String{
+    var t=new Date();
+    var r=
+        this.st_format(t.getFullYear(),4)+'-'+this.st_format(t.getMonth()+1,2)+'-'+this.st_format(t.getDate(),2)
+        +'|'+
+        this.st_format(t.getHours(),2)+':'+this.st_format(t.getMinutes(),2)+':'+this.st_format(t.getSeconds(),2);
+    return r;
+  }
+
+  coin_check(){
+    var now=this.today();
+    this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
+    .update({reason:"밍 포인트 사용",coin:Number(this.totalcoins-this.coins),date:now})
+  }
+
   ordering() {
     var data = {
       pay_method: 'card',
@@ -263,7 +287,11 @@ export class PaymentPage {
           if (this.hardware != undefined) {
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              var delivery_time:any;
+              if(hour<11) delivery_time="배송예정시각은 대여일 오전 9시~11시 입니다.";
+              else delivery_time="배송예정시각은 대여일 오후 3시~5시 입니다.";
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
+              this.coin_check();
               this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
@@ -279,6 +307,7 @@ export class PaymentPage {
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.game_stock_check();
+              this.coin_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })

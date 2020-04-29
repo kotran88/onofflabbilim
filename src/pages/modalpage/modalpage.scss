@@ -14,13 +14,13 @@ page-modalpage {
     }
     .box {
         text-align: center;
-        margin-top: 20px;
+        // margin-top: 20px;
         margin-left: 5%;
         width: 90%;
         font-size: 20px;
         border: 1px solid #eee;
         background-color: white;
-        height: 70px;
+        height: 50px;
     }
     .peribox {
         text-align: center;
@@ -37,16 +37,38 @@ page-modalpage {
         height: 0;
     }
     .periselect {
+        float: left;
         text-align: left;
         // margin-top: 6px;
+        margin: 0;
         margin-left: 5%;
+<<<<<<< HEAD
         width: 90%;
         font-size: 18px;
         border: 1px solid #eee;
         background-color: white;
         width: 100%;
         height: 45px;
+=======
+        font-size: 20px;
+        border: 1px solid #eee;
+        background-color: white;
+        width: 90%;
+        height: 50px;
+>>>>>>> 1c6d9f9d389ac431b6cfeb1814452ad133de07aa
         max-width: 90%;
+        border-radius: 5px;
+    }
+    .periselects {
+        float: left;
+        text-align: left;
+        // margin-top: 6px;
+        margin-left: 5%;
+        width: 42%;
+        font-size: 20px;
+        border: 1px solid #eee;
+        background-color: white;
+        height: 50px;
         border-radius: 5px;
     }
     .footer {

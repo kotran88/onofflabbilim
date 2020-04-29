@@ -17,7 +17,7 @@ import { FirstlandingPage } from '../firstlanding/firstlanding';
 import { HomeslidePage } from '../homeslide/homeslide';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { AccessPage } from '../access/access';
+import { CoinSavePage } from '../coin-save/coin-save';
 declare var naver: any;
 
 @Component({
@@ -296,6 +296,41 @@ export class HomePage {
     }
   }
 
+  st_format(text,len):String{
+    
+    text=String(text);
+    for(var i=text.length;i<len;i++){
+      text='0'+text;
+    }
+
+    return text;
+  }
+
+  today():String{
+    
+    var t=new Date();
+    var r=
+        this.st_format(t.getFullYear(),4)+'-'+this.st_format(t.getMonth()+1,2)+'-'+this.st_format(t.getDate(),2)
+        +'|'+
+        this.st_format(t.getHours(),2)+':'+this.st_format(t.getMinutes(),2)+':'+this.st_format(t.getSeconds(),2);
+    
+    return r;
+  }
+
+  CoinAccumulation(){
+    if ('false' == this.loginflag || this.loginflag == null) {
+      this.confirmAlert("회원가입/로그인을 해주세요")
+    } else {
+      // var now=this.today();
+      // this.firemain.child('users').child(this.id).child('accumulation').child(now.toString())
+      // .update({reason:"검수후 적립",coin:10,date:now})
+      this.firemain.child('users').child(this.id).once('value').then((snap) => {
+      this.navCtrl.push(CoinSavePage, {'data':snap.val()});
+      })
+    }
+    console.log("CoinAccumulation come")
+  }
+
   mypage() {
     if ('false' == this.loginflag || this.loginflag == null) {
       this.confirmAlert("회원가입/로그인을 해주세요")
@@ -305,7 +340,6 @@ export class HomePage {
       })
     }
     console.log("mypage come")
-
   }
   logout() {
     localStorage.setItem("key", null);
