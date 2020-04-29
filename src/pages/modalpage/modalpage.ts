@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, Platform, ViewController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, Platform, ViewController, NavController, NavParams } from 'ionic-angular';
 import * as $ from 'jquery';
 import firebase from 'firebase';
 
@@ -37,7 +37,9 @@ export class ModalpagePage {
   points: any;
   count: any = 0;
   firemain = firebase.database().ref();
+  perihardware = [];
   peripheralitem = "no";
+  peripheralitem2 = "no";
 
   constructor(public view: ViewController, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
     console.log('modalpage come')
@@ -59,7 +61,7 @@ export class ModalpagePage {
     console.log("startDate :" + this.startDate);
     console.log("endDate : " + this.endDate);
     console.log("diff : " + this.diff);
-
+    console.log(this.peripheralitem); 
 
     let backAction = platform.registerBackButtonAction(() => {
       console.log("secondssssssss");
@@ -91,7 +93,7 @@ export class ModalpagePage {
     this.totalprice2 = a;
 
     console.log(this.peripheralitem);
-
+   
   }
   number_format(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
@@ -130,7 +132,9 @@ export class ModalpagePage {
           break;
         }
       }
-      this.navCtrl.push(OrderpagePage, { "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "gamearray": this.gamearraytrue, "hardware": this.hardwarename, "user": this.user, "sale": this.sale_data, "peripheral":this.peripheralitem }).then(() => {
+      this.perihardware.push(this.peripheralitem,this.peripheralitem2);
+      console.log(this.perihardware);
+      this.navCtrl.push(OrderpagePage, { "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "gamearray": this.gamearraytrue, "hardware": this.hardwarename, "user": this.user, "sale": this.sale_data, "peripheral":this.peripheral, "peripheralname":this.perihardware }).then(() => {
         this.navCtrl.getActive().onDidDismiss(data => {
           this.view.dismiss();
         });
@@ -196,13 +200,12 @@ export class ModalpagePage {
                 console.log(peri);
                 console.log(snapshot.val()[a][b][peri]);
                 this.peripheral.push(snapshot.val()[a][b][peri]);
-
                 for (var m = 0; m < this.peripheral.length; m++) {
                   if (this.peripheral[m].itemcode.substring(0, 2)
                     === snapshot.val()[a][b][peri].itemcode.substring(0, 2) &&
                     this.peripheral[m].itemcode.substring(8, 9)
                     === snapshot.val()[a][b][peri].itemcode.substring(8, 9)) {
-                    this.peripheral[m].stock += Number(snapshot.val()[a][b][peri].stock);
+                    // this.peripheral[m].stock += Number(snapshot.val()[a][b][peri].stock);
                     break;
                   }
                   else if (m === this.peripheral.length - 1) {
@@ -274,15 +277,15 @@ export class ModalpagePage {
         console.log(this.game);
         console.log(this.gameboolean);
         console.log(this.peripheralitem);
-
-          $('#peripheral').change((m) => {
-            console.log(m.target.value)
-          });
+        
+        
       });
 
       $(document).ready(() => {
         console.log("스위치");
-
+        $('#peripheral').change((m) => {
+          console.log(m.target.value)
+        });
       });
       console.log($("#peripheral"))
       console.log(this.game);

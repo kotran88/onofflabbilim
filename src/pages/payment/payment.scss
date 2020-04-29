@@ -1,4 +1,9 @@
-page-payment {}
+page-payment {
+    .popover-content {
+        width: 300px;
+        border-radius: 10px;
+    }
+}
 
 .range-slider {
     margin-top: 20px;

@@ -52,6 +52,8 @@ export class PaymentPage {
   console_sale_gameprice:any;
 
   tick: any;
+  peripheral: any;
+  periprice:any;
   constructor(public platform:Platform, public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
@@ -60,8 +62,10 @@ export class PaymentPage {
     this.startDate = this.navParams.get("start");
     this.endDate = this.navParams.get("end");
     this.sale_data=this.navParams.get("sale");
+    this.peripheral=this.navParams.get("peripheral");
     console.log(this.contrast);
-
+    console.log(this.peripheral);
+  
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
       this.navCtrl.pop();
@@ -312,8 +316,10 @@ export class PaymentPage {
   }
   choice() {
     var a = 0;
+    var b = 0;
     for (var i in this.game) { this.game[i].price; a += this.game[i].price * this.diff }
-
+    for (var j in this.peripheral) { b += this.peripheral[j].pricedaily * this.diff }
+    console.log(b);
     if (this.hardware != undefined) {
       for(var sd in this.sale_data.deposit){
         if(this.hardware.name===sd){
@@ -334,9 +340,8 @@ export class PaymentPage {
       this.hardwareprice = this.hwprice * this.diff;
       console.log(this.hardwareprice);
       console.log(this.sale_data)
-      console.log(this.longdiscount)
       
-      this.totalpaymoney = this.hardwareprice + a;
+      this.totalpaymoney = this.hardwareprice + a + b; 
       this.longdiscount=0;
       for(var sd in this.sale_data.percentage.date){
         if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){

@@ -1,4 +1,7 @@
 page-modalpage {
+    .select-md {
+        padding: 10px 8px 10px 3px;
+    }
     ion-content div.scroll-content {
         background-color: transparent;
         margin-bottom: auto !important;
@@ -38,16 +41,16 @@ page-modalpage {
         // margin-top: 6px;
         margin-left: 5%;
         width: 90%;
-        font-size: 20px;
+        font-size: 18px;
         border: 1px solid #eee;
         background-color: white;
         width: 100%;
-        height: 50px;
+        height: 45px;
         max-width: 90%;
         border-radius: 5px;
     }
     .footer {
-        height: 85%;
+        height: 95%;
         display: flex;
         bottom: 13%;
         position: absolute;
