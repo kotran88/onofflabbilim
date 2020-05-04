@@ -1,15 +1,21 @@
-<ion-header>
+<ion-header style="margin-top:30px; background:white;">
     <!-- <ion-navbar> -->
-    <button (click)="goback()" style="background-color: #fff; float:left; margin-top:15px;">
+    <button (click)="goback()" style="background-color: #fff; float:left;  z-index: 99999;
+    width: 50px;
+    height: 100%;
+    z-index: 9999999;
+">
       <img src="assets/img/back.png" style="width:20px;background-color: #fff;float:left;" alt="">
     </button>
-    <div style="margin-top:4%;">
-        <span style="font-size:16px; margin-left:-20px">상세페이지</span>
-    </div>
+    <ion-title style=" 
+    height: 50px;
+    z-index: -1;
+    width: 100%;
+    position: absolute;">나의 페이지</ion-title>
 </ion-header>
 
 <ion-content padding>
-    <ion-slides class="firstslide" style="margin-top: 15px; width:100% !important;" pager style="height:auto; margin-top: 20px;  ">
+    <ion-slides class="firstslide" style="margin-top: 15px; width:100% !important;" pager style="height:auto; margin-top: 60px;  ">
         <ion-slide style="width:100% !important;" *ngFor="let slide of arraying">
             <img style="width:100% !important; height:100% !important;" [src]="slide">
         </ion-slide>
@@ -19,9 +25,9 @@
     <div style="height: auto; color:white; width: 100%;
       background: #70c5ed; float: left;" class="express">
         <p style="float:left; width:20%; margin: 3% 3% 3% 5%;">배송비 </p>
-        <p style="margin:3% 3% 3% 3%; float:right;  width:60%; text-align: end;">배송비 무료 </p>
+        <p style="margin:3% 3% 3% 3%; float:right;  width:60%; text-align: end;">무료배송 </p>
         <p style="float:left; width:20%; margin: 3% 3% 3% 5%;">배송안내 </p>
-        <p style="margin:3% 3% 3% 3%; float:right;  width:60%; text-align: end;">{{expressmessage}} </p>
+        <p style="margin:3% 3% 3% 3%; float:right;  width:60%; text-align: end;">지금 주문시, {{delivery_time}} </p>
     </div>
     <div class="startrent">
         <ion-list>

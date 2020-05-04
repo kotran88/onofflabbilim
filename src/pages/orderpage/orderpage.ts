@@ -62,6 +62,7 @@ export class OrderpagePage {
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
     this.user=this.navParams.get("user");
+    console.log(this.user);
     this.point=this.user.point
     this.diff=this.navParams.get("diff");
     this.hardware=this.navParams.get("hardware");

@@ -88,6 +88,7 @@ export class LoginpagePage {
 
     if(this.phone===this.test_phone){
       this.name="홍길동";
+      console.log("")
       this.login();
       this.certified_check=true;
       return;
@@ -109,15 +110,14 @@ export class LoginpagePage {
         userCode: userCode,                           // 가맹점 식별코드
         data: data,                              // 결제 데이터
         callback: (response) =>{
-          
           console.log('response');
           console.log(response);
           if(response.imp_success==="true"){
-            this.confirmAlert2("휴대전화 인증이 완료되었습니다");
             this.login();
           }
           else if(response.imp_success==="false"){
             this.confirmAlert2("휴대전화 인증에 실패하였습니다.")
+            this.navCtrl.setRoot(HomePage);
             // setTimeout(() => {
             //   this.platform.exitApp();
             // }, 3000);
@@ -129,13 +129,14 @@ export class LoginpagePage {
         console.log(snap);
 
         this.confirmAlert2("휴대전화 인증에 실패하였습니다.")
+
+        this.navCtrl.setRoot(HomePage);
         // setTimeout(() => {
         //   this.platform.exitApp();
         // }, 3000);
       });
       // this.navCtrl.push(HomeslidePage);
     }
-    this.navCtrl.push(AccessPage);
   }
   geolocation_update(){
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -175,6 +176,10 @@ export class LoginpagePage {
 
   login(){
 
+    console.log("login come!")
+    console.log(this.phone);
+    console.log(this.name);
+    var flag=false;
      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
       this.firemain.child('users').child(this.phone).update(
         {
@@ -183,7 +188,9 @@ export class LoginpagePage {
           'last_login':new Date(),
         }
       )
+      console.log(snap.val());
       if(snap.val()===undefined||snap.val()===null){
+        flag=true;
         this.confirmAlert2('가입을 축하합니다~ 코인을 10개 드립니다.');
         this.coin_check('가입축하 기념',10);
         this.firemain.child('users').child(this.phone).update(
@@ -192,15 +199,22 @@ export class LoginpagePage {
             point:"10",
           }
         )
+        this.access_modal();
+      }else{
+       
       }
     })
+    if(!flag){
+      this.navCtrl.setRoot(HomePage,{"phone":this.phone,"name":this.name})
+    }
     localStorage.setItem("loginflag","true");
     localStorage.setItem("id",this.phone);
     localStorage.setItem("name",this.name);
-    this.access_modal();
+ 
   }
 
   loginagain(){
+
     this.firemain.child('users').child(this.phone).update(
       {
         'name':this.name,
@@ -211,7 +225,6 @@ export class LoginpagePage {
     localStorage.setItem("loginflag","true");
     localStorage.setItem("id",this.phone);
     localStorage.setItem("name",this.name);
-    this.access_modal();
   }
 
   st_format(text,len):String{
@@ -242,13 +255,13 @@ export class LoginpagePage {
   }
 
   access_modal(){
-    let modal = this.modal.create(AccessPage,{},{cssClass:'access-modal'});
+    let modal = this.modal.create(AccessPage,{"id":this.phone,"name":this.name},{cssClass:'access-modal'});
     modal.onDidDismiss(data=>{
-      this.geolocation_update();
-      this.uuid_update();
-      setTimeout(() => {
-        this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})  
-      }, 1000);
+      // this.geolocation_update();
+      // this.uuid_update();
+      // setTimeout(() => {
+      //   this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})  
+      // }, 1000);
     });
     modal.present();
   }

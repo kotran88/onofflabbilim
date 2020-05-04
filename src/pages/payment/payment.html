@@ -1,12 +1,12 @@
-<ion-content>
-    <div style="background-color:rgb(240, 239, 239);">
-        <button (click)="goback()" style="background-color: rgb(240, 239, 239); float:left; margin-top:9px;">
-            <img src="assets/img/back.png" style="width:20px;background-color: rgb(240, 239, 239);;float:left;" alt="">
-        </button>
-        <ion-title style="margin-left:35%; margin-right:35%; text-align: center;">주문페이지</ion-title>
+<ion-content style=" background:white;">
+    <div style="background-color:white">
+        <button (click)="goback()" style="background-color: #fff; float:left; margin-top:15px;">
+            <img src="assets/img/back.png" style="width:25px;background-color: #fff;float:left;" alt="">
+          </button>
+        
     </div>
 
-    <div style="margin-left:auto; margin-right:auto; margin-top:10px; text-align: center;">
+    <div style="margin-left:auto; margin-right:auto;  text-align: center;">
         <span>대여기간 : </span>
         <span style="font-size:25px; background-color:rgb(240, 239, 239)">{{diff}}일</span>
         <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월 {{endDate.split("T")[0].split("-")[2]}}일)</span>
@@ -113,7 +113,7 @@
             <span *ngIf="coindiscount>0" style="font-size:13px">-{{number_format(coindiscount)}}원</span>
         </div>
     </div>
-    <div (click)="ordering();" style="position:sticky; bottom: 0%; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
+    <div (click)="ordering();" style="position:sticky; bottom: 30px; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
         <button style="margin-top:14px; background-color:#E5333F; font-size: 18px; color: white; ">결제하기</button>
     </div>
 </ion-content>

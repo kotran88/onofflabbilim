@@ -89,8 +89,19 @@ ion-navbar.toolbar {
     }
 }
 
+.slide-modal {
+    .modal-wrapper {
+        border-radius: 10px;
+        width: 90%;
+        height: 80%;
+        left: 5%;
+        right:5%;
+        top: 5%;
+    }
+}
 .test-modal {
     .modal-wrapper {
+
         width: 80%;
         left: calc(20%/2);
         height: 80%;
@@ -110,6 +121,7 @@ ion-navbar.toolbar {
 .test-modal1 {
     .modal-wrapper {
         width: 100%;
+    left: 0px;
         height: 400px; //240
         position: absolute !important;
         bottom: 0% !important;

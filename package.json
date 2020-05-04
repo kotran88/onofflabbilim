@@ -68,6 +68,7 @@
     "setimmediate": "^1.0.5",
     "sw-toolbox": "3.6.0",
     "whatwg-fetch": "^3.0.0",
+    "y": "0.3.2",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
@@ -97,8 +98,8 @@
       "cordova-plugin-uniquedeviceid": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

@@ -29,6 +29,7 @@ import { AccessPage } from '../access/access';
 })
 export class DetailPage {
   sale_data:any;
+  delivery_time:any;
   detail:any;
   arraying=[];
   mainimage:any;
@@ -64,7 +65,7 @@ export class DetailPage {
   maker:any;
   startDate:any= new Date().toISOString();
   user:any;
-
+  tomorrowflag:any=false;
   font_size=[];
   logRatingChange(v){
     console.log(v)
@@ -117,6 +118,10 @@ export class DetailPage {
 
     if(Difference_In_Days>0){
       if(mode===1){
+
+
+
+
         this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
         var a=new Date();
         this.startDate=a.toISOString();
@@ -187,6 +192,32 @@ export class DetailPage {
     this.detail=navParams.get("a")
     this.user=navParams.get("user");
     this.sale_data=navParams.get("sale");
+
+
+    var now = new Date();
+
+    var tomorrow = new Date();
+    tomorrow.setDate(now.getDate()+1);
+              var year = now.getFullYear();
+              var month = now.getMonth() + 1;
+              var datee = now.getDate();
+              var hour = now.getHours();
+              var min = now.getMinutes();
+              var nnow = year + "-" + month + "-" + datee + " " + hour + ":" + min;
+              console.log(nnow);
+              if(hour<9){ this.delivery_time="오늘("+now.getDate()+") 오전 9시~11시 " ;
+              this.tomorrowflag=false; 
+            }else if(hour>=9&&hour<13){
+              this.delivery_time=" 오늘("+now.getDate()+") 오후 3시~5시 ";
+              this.tomorrowflag=false; 
+            }else{
+                this.tomorrowflag=true;
+                this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
+
+                this.startDate_text=(year+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
+    
+
+              }
 
     console.log("user is : "+this.user);
     console.log(this.sale_data)
@@ -390,6 +421,7 @@ export class DetailPage {
   }
 
   goback(){
+    console.log("gotoback")
     this.view.dismiss();
   }
   goToday(){
@@ -475,6 +507,11 @@ export class DetailPage {
       this.confirmAlert2('1가지 이상의 게임을 선택해주세요.')
     }
     else{
+
+
+     
+
+      
       var modaloption : ModalOptions={
         enableBackdropDismiss:true
       }

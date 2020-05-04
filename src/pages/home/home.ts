@@ -1,14 +1,14 @@
 import { Component, NgZone, ViewChild } from '@angular/core';
 import { IamportCordova } from '@ionic-native/iamport-cordova';
-import { DetailPage } from './../detail/detail'
+import { DetailPage } from '../detail/detail'
 import { IonicPage, ToastController, Slides, ModalController, ViewController, Events, Platform, App, AlertController, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 
 // import { Geolocation } from '@ionic-native/geolocation/';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
-import { MypagePage } from './../../pages/mypage/mypage';
-import { LoginpagePage } from './../../pages/loginpage/loginpage';
+import { MypagePage } from '../mypage/mypage';
+import { LoginpagePage } from '../loginpage/loginpage';
 import { ChatPage } from '../chat/chat';
 import { CoinsPage } from '../coins/coins';
 
@@ -18,6 +18,7 @@ import { HomeslidePage } from '../homeslide/homeslide';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { CoinSavePage } from '../coin-save/coin-save';
+import { AccessPage } from '../access/access';
 declare var naver: any;
 
 @Component({
@@ -54,7 +55,15 @@ export class HomePage {
 
 
   slide() {
-    this.navCtrl.push(HomeslidePage);
+     let modal2 = this.modal.create(HomeslidePage,{},{cssClass:'slide-modal'});
+    modal2.onDidDismiss(data=>{
+      // this.geolocation_update();
+      // this.uuid_update();
+      // setTimeout(() => {
+      //   this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})  
+      // }, 1000);
+    });
+    modal2.present();
   }
 
   presentToast() {
@@ -73,8 +82,17 @@ export class HomePage {
 
   firstflag:any="true";
   constructor(public inapp:InAppBrowser,private toastCtrl: ToastController, public modal: ModalController, public view: ViewController, public platform: Platform, public app: App, public appVersion: AppVersion, public event: Events, public oneSignal: OneSignal, public zone: NgZone, public alertCtrl: AlertController, public navParam: NavParams, public navCtrl: NavController) {
+    // let modal2 = this.modal.create(AccessPage,{"id":"010","name":"test"},{cssClass:'access-modal'});
+    // modal2.onDidDismiss(data=>{
+    //   // this.geolocation_update();
+    //   // this.uuid_update();
+    //   // setTimeout(() => {
+    //   //   this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})  
+    //   // }, 1000);
+    // });
+    // modal2.present();
 
-
+ 
     this.id = localStorage.getItem("id")
     this.name = localStorage.getItem("name")
     this.loginflag = localStorage.getItem("loginflag");
@@ -105,7 +123,7 @@ export class HomePage {
         // modal.present();
 
         console.log("homeslides")
-        this.navCtrl.push(HomeslidePage);
+        // this.navCtrl.push(HomeslidePage);
         // let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'css-modal' });
         // modal.present();
       }
@@ -139,7 +157,7 @@ export class HomePage {
           this.firemain.child("users").child(this.id).once("value", (snapshot) => {
             console.log(snapshot.val());
             this.user = snapshot.val();
-            console.log("user");
+            console.log("user is...");
             console.log(this.user);
           })
         }

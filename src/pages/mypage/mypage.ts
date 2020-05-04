@@ -54,7 +54,6 @@ export class MypagePage {
     console.log(this.id,this.userid);
 
     let backAction =  platform.registerBackButtonAction(() => {
-      window.alert("dismiss!");
       this.view.dismiss();
       backAction();
     },2)

@@ -13,7 +13,7 @@ import { Http, RequestOptions, Headers} from '@angular/http';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+declare var naver;
 @Component({
   selector: 'page-payment',
   templateUrl: 'payment.html',
@@ -33,6 +33,8 @@ export class PaymentPage {
   coins: any;
   totalcoins;
   count = 0;
+  lat:any;
+  lng:any;
 
   totalpaymoney: any;
   discount: any;
@@ -209,21 +211,19 @@ export class PaymentPage {
 
     // .update(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9):String(Number(hardware.stock)-1))
   }
-  geolocation_update(root){
+  geolocation_update(){
     this.geolocation.getCurrentPosition().then((resp) => {
-      console.log('b');
       console.log(resp);
       console.log(resp.coords)
       // resp.coords.latitude
       // resp.coords.longitude
-      root.child('geolocation').update({
-        ratitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        date:new Date(),
-      }).then(()=>{
-        console.log('resp then')
-      })
+      this.lat=resp.coords.latitude;
+      this.lng=resp.coords.longitude;
+      this.reversegeo();
+
     }).catch((error) => {
+
+      this.confirmAlert("위치정보는 절대로 수집되지 않으며, 서비스 가능 지역인지 파악하기 위함입니다.")
       console.log('Error getting location', error);
     });
   }
@@ -251,8 +251,36 @@ export class PaymentPage {
     this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
     .update({reason:"밍 포인트 사용",coin:Number(this.totalcoins-this.coins),date:now})
   }
+  reversegeo(){
+    naver.maps.Service.reverseGeocode({
+      location: new naver.maps.LatLng(this.lat, this.lng),
+  }, (status,response)=> {
+      if (status !== naver.maps.Service.Status.OK) {
+        console.log("status not ok");
+          console.log(status);
+      }else{
+        console.log("status  ok");
+        console.log(status);
+      }
 
-  ordering() {
+      var result = response.result, // 검색 결과의 컨테이너
+          items = result.items; // 검색 결과의 배열
+          console.log(result);
+          console.log(items[0].address);
+          var res=items[0].address.split(" ");
+          console.log(res.length);
+          console.log(res[1]+"시")
+          if(res[1].indexOf("전주")||res[1].indexOf("익산")){
+           this.payment();
+          }else{
+            this.confirmAlert2("현재 전주와 익산지역에서만 서비스 가능합니다!")
+            return;
+          }
+         
+        });
+  }
+payment(){
+
     var data = {
       pay_method: 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
@@ -260,7 +288,7 @@ export class PaymentPage {
       amount: this.totalpaymoney + "",
       app_scheme: 'ionickcp',
       buyer_email: '',
-      buyer_name: '구매자이름',
+      buyer_name: this.user.name,
       buyer_tel: '010-1234-5678',
       buyer_addr: '서울특별시 강남구 삼성동',
       buyer_postcode: '123-456'
@@ -277,6 +305,9 @@ export class PaymentPage {
           console.log(this.coins);
           console.log("coin is")
           var now = new Date();
+
+var tomorrow = new Date();
+tomorrow.setDate(now.getDate()+1);
           var year = now.getFullYear();
           var month = now.getMonth() + 1;
           var date = now.getDate();
@@ -288,13 +319,15 @@ export class PaymentPage {
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               var delivery_time:any;
-              if(hour<11) delivery_time="배송예정시각은 대여일 오전 9시~11시 입니다.";
-              else delivery_time="배송예정시각은 대여일 오후 3시~5시 입니다.";
+              if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
+              else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
+                delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
+              }
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
               this.coin_check();
               this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
+              // this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
@@ -305,11 +338,16 @@ export class PaymentPage {
 
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+              var delivery_time:any;
+              if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
+              else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
+                delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
+              }
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
               this.game_stock_check();
               this.coin_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
+              // this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
               this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
@@ -328,7 +366,66 @@ export class PaymentPage {
         this.confirmAlert2('error : '+err)
       })
       ;
+}
+  ordering() {
+    console.log(this.user);
+    if(this.user.name=="홍길동"){
+      //payment startedd
+      this.payment();
+    }else{
+      //geo check and if ok, payment started
+      this.geolocation_update();
+    }
+    
   }
+  confirmAlert(str) {
+    let alert = this.alertCtrl.create({
+      subTitle: str,
+      buttons: [
+        {
+          role: 'Cancel',
+          text: '취소',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        },
+        {
+          role: 'Ok',
+          text: '권한 허용하고 이동하기',
+          handler: () => {
+            this.payment();
+          }
+        }]
+
+    });
+    alert.present({ animate: false });
+  }
+
+  // confirmAlert(str) {
+
+    
+  //   let alert = this.alertCtrl.create({
+  //     subTitle: str,
+  //     buttons: [
+  //       {
+  //         role: 'Cancel',
+  //         text: '취소하기',
+  //         handler: () => {
+  //           console.log('Buy clicked');
+  //         }
+  //       },
+  //       {
+  //         role: 'Ok',
+  //         text: '권한 허용하고 진행',
+  //         handler: () => {
+  //           this.geolocation_update();
+  //           console.log('Buy clicked');
+  //         }
+  //       }]
+
+  //   });
+  //   alert.present({ animate: false });
+  // }
   confirmAlert2(str) {
     let alert = this.alertCtrl.create({
       subTitle: str,
@@ -507,7 +604,7 @@ export class PaymentPage {
     console.log(this.coins);
   
     if(this.coins>=this.totalcoins){
-      this.confirmAlert2('보유코인을 초과 할 수 없습니다..')
+      this.confirmAlert2('보유코인을 초과 할 수 없습니다.')
     }
     else{
       this.clickcoin(-1);

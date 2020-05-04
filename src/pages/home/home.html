@@ -1,34 +1,39 @@
 <ion-header>
   <ion-navbar>
     <div style="width: 100%; float: left; " class="title">
-      <span style="text-align: center; line-height: 30px; position: absolute;
+      <ion-title style=" 
+      height: 50px;
+      z-index: -1;
+      width: 100%;
+      position: absolute;">Ming</ion-title>
+      <!-- <span style="text-align: center; line-height: 30px; position: absolute;
           font-size: 18px; font-weight: bold; color: black;">
         Ming
-      </span>
-      <div style="float: right; width:110px;" class="righticonarea">
+      </span> -->
+      <div style="float: right; width:180px;" class="righticonarea">
         <img (click)="settings();" src="assets/img/set7.png" style="font-size: 1.8em;
       right: 15%; 
       width:32px;
       float: right;
       margin-top:10px;
-      margin-left:3px;
-      margin-right:3px;" name="search" />
+      margin-left:8px;
+      margin-right:8px;" name="search" />
                 <img (click)="mypage();" src="assets/img/mypage3.png" style="font-size: 1.8em;
 
     right: 15%; 
     width:30px;
     float: right;
     margin-top:10px;
-    margin-left:3px;
-      margin-right:3px;" name="search" />
+    margin-left:8px;
+      margin-right:8px;" name="search" />
 
     <img (click)="CoinAccumulation();" src="assets/img/coinimage.png" style="font-size: 1.8em;
     right: 15%; 
     width:25px;
     float: right;
     margin-top:11px;
-    margin-left:3px;
-      margin-right:3px;" name="search" />
+    margin-left:8px;
+      margin-right:8px;" name="search" />
                 <!-- <ion-icon style="
     font-size: 30px;
     margin-left: 10px;" name="settings" (click)="settings();"></ion-icon>
@@ -44,12 +49,13 @@
 
 <ion-content class="home">
 
-    <ion-slides (click)="slide()" *ngIf="slides && slides.length" pager="true" autoplay="2000" loop=true speed=1000 class="firstslide" style="width: 100% !important; height:30%; margin-top:55px !important;">
-        <ion-slide style="width:100% !important;" *ngFor="let slide of slides">
+    <ion-slides (click)="slide()" *ngIf="slides && slides.length" pager="true" autoplay="2000" loop=true speed=1000 class="firstslide" style="width: 100% !important; height:35%; margin-top:65px !important;">
+        <ion-slide style="width:100% !important;" *ngFor="let slide of slides;let i = index">
 
             <!-- <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" src="sli"> -->
 
-            <img style="width:100% !important; height:100% !important;" [src]="slide.url">
+            <img *ngIf="i==2" style="width:100% !important; margin-top:20px; height:100% !important;" [src]="slide.url">
+            <img *ngIf="i!=2" style="width:100% !important; height:100% !important;" [src]="slide.url">
         </ion-slide>
     </ion-slides>
 
