@@ -7,10 +7,14 @@
 <ion-header style="
 display: flex; background-color: #E5333F;">
     <!-- <ion-navbar> -->
-    <button (click)="goback()" style="background-color: #E5333F; float:left; ">
+    <button (click)="goback()" style="background-color: #E5333F; float:left; z-index: 999999; ">
       <img src="assets/img/back1.png" style="width:25px;background-color: #E5333F;float:left;" alt="">
     </button>
-    <ion-title style="">설정 페이지</ion-title>
+    <ion-title style="
+    height: 50px;
+    z-index: -1;
+    width: 100%;
+    position: absolute;">설정 페이지</ion-title>
     <!-- </ion-navbar> -->
 </ion-header>
 

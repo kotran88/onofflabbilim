@@ -225,7 +225,6 @@ export class HomePage {
                 }
               }
             }
-
           }
           this.realswitcharray = this.switcharray[0].url;
 
