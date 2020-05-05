@@ -101,6 +101,7 @@ export class DetailPage {
 
   datechange(mode){
     console.log(this.startDate);
+    console.log(this.startDate_text)
 
     console.log(this.endDate)
     var a = new Date(this.startDate);
@@ -161,8 +162,8 @@ export class DetailPage {
       }
       else{
         if(mode===1){
-          this.startDate=a.toISOString();
-          this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+          // this.startDate=a.toISOString();
+          // this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
         }
         else{
           this.endDate=b.toISOString();
@@ -214,20 +215,23 @@ export class DetailPage {
     console.log(nnow);
     console.log(tomorrow);
     if(hour<9){
+      this.startDate=now.toISOString();
       this.delivery_time="오늘("+now.getDate()+"일) 오전 9시~11시 " ;
       this.tomorrowflag=false; 
     }
     else if(hour>=9&&hour<13){
       this.delivery_time=" 오늘("+now.getDate()+"일) 오후 3시~5시 ";
       this.tomorrowflag=false; 
+      this.startDate=now.toISOString();
     }
     else{
       this.tomorrowflag=true;
       this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
-
+      this.startDate=tomorrow.toISOString();
       this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
     }
 
+    console.log(this.startDate_text+"zzzz")
   //   console.log("user is : "+this.user);
   //   console.log(this.sale_data)
   //   console.log("user is : "+this.user);
