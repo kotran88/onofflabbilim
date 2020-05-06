@@ -78,6 +78,7 @@ export class PaymentPage {
     })
     // this.diff = 19;
     // this.diff = 31;
+    if(this.user.point===undefined) this.user.point="10"
 
     this.coins = this.user.point;
     this.totalcoins=this.coins;
@@ -250,6 +251,9 @@ export class PaymentPage {
     var now=this.today();
     this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
     .update({reason:"밍 포인트 사용",coin:Number(this.totalcoins-this.coins),date:now})
+    this.firemain.child('users').child('point').once('value').then((snap)=>{
+      this.firemain.child('users').update({point:Number(snap.val())-Number(Number(this.totalcoins-this.coins))})
+    })
   }
   reversegeo(){
     naver.maps.Service.reverseGeocode({

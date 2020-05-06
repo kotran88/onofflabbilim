@@ -151,6 +151,7 @@ export class DetailPage {
           this.endDate=a.toISOString();
           this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
         }
+        this.datechange(mode);
       }
       else if(Difference_In_Days<-179){
         this.confirmAlert2("최대 대여기간은 180일 입니다.")
@@ -160,16 +161,16 @@ export class DetailPage {
         this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
         this.datechange(mode);
       }
-      else{
-        if(mode===1){
-          // this.startDate=a.toISOString();
-          // this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
-        }
-        else{
-          this.endDate=b.toISOString();
-          this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
-        }
-      }
+      // else{
+      //   if(mode===1){
+      //     this.startDate=a.toISOString();
+      //     this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      //   }
+      //   else{
+      //     this.endDate=b.toISOString();
+      //     this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+      //   }
+      // }
     }
   }
 
