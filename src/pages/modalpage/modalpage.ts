@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, Platform, ViewController, NavController, NavParams } from 'ionic-angular';
 import * as $ from 'jquery';
-import firebase from 'firebase';
-
+import firebase from 'firebase/app';
 
 import { OrderpagePage } from './../../pages/orderpage/orderpage';
 // import undefined from 'firebase/empty-import';

@@ -9,6 +9,7 @@
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
+    "ionic:build": "node --max-old-space-size=8192 --stack-size=1968 node_modules/@ionic/app-scripts/bin/ionic-app-scripts.js build",
     "sync-android": "cordova platform rm android && rm -rf platforms && cordova platform add android"
   },
   "dependencies": {
@@ -72,7 +73,7 @@
     "zone.js": "0.8.29"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.2.4",
+    "@ionic/app-scripts": "^3.1.4",
     "typescript": "^3.8.3"
   },
   "description": "An Ionic project",

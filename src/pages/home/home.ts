@@ -2,8 +2,7 @@ import { Component, NgZone, ViewChild } from '@angular/core';
 import { IamportCordova } from '@ionic-native/iamport-cordova';
 import { DetailPage } from '../detail/detail'
 import { LoadingController, ToastController, Slides, ModalController, ViewController, Events, Platform, App, AlertController, NavController, NavParams } from 'ionic-angular';
-import firebase from 'firebase';
-
+import firebase from 'firebase/app';
 // import { Geolocation } from '@ionic-native/geolocation/';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';

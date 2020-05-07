@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, ViewController, Platform } from 'ionic-angular';
 import * as $ from 'jquery'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 import { HomePage } from '../home/home';
 import { Geolocation } from '@ionic-native/geolocation/ngx';

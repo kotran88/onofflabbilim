@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Http, RequestOptions, Headers} from '@angular/http';
 import { updateDate } from 'ionic-angular/umd/util/datetime-util';
 import { IonicPage,ViewController,Platform,ModalController,AlertController, NavController, NavParams, LoadingController } from 'ionic-angular';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { ChatPage } from '../chat/chat';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CoinsPage } from '../coins/coins';

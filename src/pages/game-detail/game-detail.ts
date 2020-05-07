@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 // import { PhotoViewer } from '@ionic-native/photo-viewer';
 // import undefined from 'firebase/empty-import';
 
