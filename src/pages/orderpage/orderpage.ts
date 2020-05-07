@@ -6,6 +6,8 @@ import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
 import { DeliveryAreaPage } from '../delivery-area/delivery-area';
 import {HomePage } from '../home/home'
 import { PaymentPage } from '../payment/payment';
+import { DatePicker } from '@ionic-native/date-picker/ngx';
+
 /**
  * Generated class for the OrderpagePage page.
  *
@@ -41,6 +43,9 @@ export class OrderpagePage {
   point:any;
   startDate:any;
   endDate:any;
+  startDate_text:any;
+  endDate_text:any;
+  tomorrowflag:any;
 
   Delivery:any;
   Delivery_check=false;
@@ -51,7 +56,126 @@ export class OrderpagePage {
   peripheralname:any;
   choiceperi=[];
 
-  constructor(public platform:Platform,public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController) {
+  datecheck(mode,date):boolean{
+    
+    var t=new Date();
+    var t2=new Date(date);
+    var a=t.getTime()-t2.getTime();
+    console.log(a);
+
+    if(mode===1&&t.getHours()>14&&t.getDate()===t2.getDate()){
+      this.confirmAlert2('오후 2시 이전 주문시만 당일 주문 가능합니다.')
+      return false;
+    }
+
+    if(a/(1000*3600*24)>0){
+      console.log(a/(1000*3600*24))
+      
+      if(mode===1) this.confirmAlert2('대여일이 오늘보다 빠를수는 없습니다.')
+      else this.confirmAlert2('반납일이 오늘보다 빠를수는 없습니다.')
+
+      return false
+    }
+    else return true;
+  }
+
+  datechange(mode){
+    console.log(this.startDate);
+    console.log(this.startDate_text)
+
+    console.log(this.endDate)
+    var a = new Date(this.startDate);
+    var b = new Date(this.endDate);
+    console.log(a);
+    console.log(b);
+    var diff=a.getTime()-b.getTime();
+    var Difference_In_Days = diff / (1000 * 3600 * 24);
+    diff=Difference_In_Days
+    console.log(diff)
+    diff=Math.floor(diff);
+    diff=Math.abs(diff);
+    this.diff=diff+1;
+    console.log(this.diff)
+
+    if(Difference_In_Days>0){
+      if(mode===1){
+        this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
+        var a=new Date();
+        if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
+        this.startDate=a.toISOString();
+        this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      }
+      else {
+        this.confirmAlert2("반납일이 대여 시작일보다 빠를 수는 없습니다.")
+        var a=new Date(this.startDate);
+        a.setDate(a.getDate()+2);
+        this.endDate=a.toISOString();
+        this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      }
+      this.datechange(mode)
+    }
+    else{
+      if(Difference_In_Days>-2){
+        this.confirmAlert2("최소 대여기간은 3일 입니다.")
+        if(mode===1){
+          var a=new Date();
+          if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
+          // a.setDate(a.getDate()+2);
+          this.startDate=a.toISOString();
+          this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        }
+        else{
+          var a=new Date(this.startDate);
+          // if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
+          a.setDate(a.getDate()+2);
+          this.endDate=a.toISOString();
+          this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        }
+        this.datechange(mode);
+      }
+      else if(Difference_In_Days<-179){
+        this.confirmAlert2("최대 대여기간은 180일 입니다.")
+        var a=new Date(this.startDate);
+        a.setDate(a.getDate()+179);
+        this.endDate=a.toISOString();
+        this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        this.datechange(mode);
+      }
+      // else{
+      //   if(mode===1){
+      //     this.startDate=a.toISOString();
+      //     this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      //   }
+      //   else{
+      //     this.endDate=b.toISOString();
+      //     this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+      //   }
+      // }
+    }
+  }
+
+  pick_date(mode){
+    var temp:any;
+    if(mode===1) temp=new Date(this.startDate);
+    else if(mode===2) temp=new Date(this.endDate);
+    this.datePicker.show({
+      date: temp,
+      mode: 'date',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
+    }).then(
+      date =>{
+        console.log('Got date: ', date);
+        if(this.datecheck(mode,date)===true){
+          if(mode===1) this.startDate=date;
+          else if(mode===2) this.endDate=date;
+          this.datechange(mode);
+        }
+      },
+      err => console.log('Error occurred while getting date: ', err)
+    );
+  }
+
+  constructor(public platform:Platform,public alertCtrl:AlertController,public v:ViewController,public navCtrl: NavController, public navParams: NavParams,public modal:ModalController,public datePicker:DatePicker) {
 
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
@@ -61,6 +185,7 @@ export class OrderpagePage {
     this.sale_data=this.navParams.get("sale");
     this.startDate=this.navParams.get("startDate");
     this.endDate=this.navParams.get("endDate");
+    this.tomorrowflag=this.navParams.get("tomorrowflag");
     this.user=this.navParams.get("user");
     console.log(this.user);
     this.point=this.user.point
@@ -77,6 +202,13 @@ export class OrderpagePage {
     console.log(this.hardware); //기계
     console.log(this.gamearray); //게임에 대해
     console.log(this.peripheralname);
+
+    
+    var date=new Date(this.startDate);
+    this.startDate_text=((date.getFullYear())+'-'+(date.getMonth()+1)+'-'+date.getDate());
+
+    date=new Date(this.endDate);
+    this.endDate_text=((date.getFullYear())+'-'+(date.getMonth()+1)+'-'+date.getDate());
 
     for(var name in this.peripheral){
       console.log(this.peripheral[name]);

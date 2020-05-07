@@ -10,6 +10,7 @@ import { ModalpagePage } from '../modalpage/modalpage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { GameDetailPage } from '../game-detail/game-detail';
 import { AccessPage } from '../access/access';
+import {HomePage} from '../home/home'
 
 
 /**
@@ -60,6 +61,7 @@ export class DetailPage {
   startDate_text:any;
   endDate_text:any;
   gamearray=[];
+  gamearraytrue=[];
   loginflag:any="false";
   diff:any;
   maker:any;
@@ -67,6 +69,7 @@ export class DetailPage {
   user:any;
   tomorrowflag:any=false;
   font_size=[];
+  no_rental_data=[];
   logRatingChange(v){
     console.log(v)
   }
@@ -194,6 +197,52 @@ export class DetailPage {
       err => console.log('Error occurred while getting date: ', err)
     );
   }
+  // rental_check():boolean{
+  //   var near_start:any;
+  //   var temp_date:any;
+  //   var return_data=false;
+
+  //   for(var q in this.gamearraytrue){
+
+  //     if(this.gamearraytrue[q].rental_date===undefined) continue;
+  //     else if(Number(this.gamearraytrue[q].stock)-Number(this.gamearraytrue[q].reservation)>0){
+  //       continue;
+  //     }
+      
+  //     for(var w in this.gamearraytrue[q].rental_date){
+  //       if(this.gamearraytrue[q].rental_date[w].start===''||this.gamearraytrue[q].rental_date[w].start===' '||
+  //         this.gamearraytrue[q].rental_date[w].end===''||this.gamearraytrue[q].rental_date[w].end===' ') {continue};
+  //       temp_date=new Date(this.gamearraytrue[q].rental_date[w].start);
+  //       // temp_date.setDate(temp_date.getDate());
+
+  //       if(near_start===undefined) near_start=temp_date;
+  //       else if(near_start.getFullYear()>temp_date.getFullYear()||
+  //               near_start.getMonth()>temp_date.getMonth()||
+  //               near_start.getDate()>temp_date.getDate()){
+  //         // temp_date.setDate(temp_date.getDate()+1);
+  //         near_start=temp_date;
+  //       }
+  //     }
+  //   }
+    
+  //   if(near_start!=undefined){
+
+  //     temp_date=new Date(this.endDate);
+  //     // temp_date.setDate(temp_date.getDate()-1);
+
+  //     if(near_start.getFullYear()<temp_date.getFullYear()||
+  //         near_start.getMonth()<temp_date.getMonth()||
+  //         near_start.getDate()<temp_date.getDate()){
+  //       return_data=false;
+  //     }
+  //     else{
+  //       return_data=true;
+  //     }
+  //   }
+
+  //   return return_data;
+  // }
+
   gotologin(){
     this.navCtrl.push(LoginpagePage)
   }
@@ -229,8 +278,9 @@ export class DetailPage {
       this.tomorrowflag=true;
       this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
       this.startDate=tomorrow.toISOString();
-      this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
     }
+    this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
+
 
     console.log(this.startDate_text+"zzzz")
   //   console.log("user is : "+this.user);
@@ -242,7 +292,7 @@ export class DetailPage {
 
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
-      this.navCtrl.pop();
+      this.navCtrl.setRoot(HomePage);
       backAction();
     },2)
 
@@ -269,6 +319,7 @@ export class DetailPage {
     this.gamearray=navParams.get("game");
     this.expressmessage=navParams.get("setting");
     this.maker=this.detail.maker;
+    this.game_sort();
     events.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
  
     for(var ii=0; ii<this.gamearray.length; ii++){
@@ -297,6 +348,40 @@ export class DetailPage {
     this.thismonth=this.date.getMonth()+1;
     this.thisdate=this.date.getDate();
     this.length_check();
+  }
+
+  delete(v,n,n2):String{
+    v=String(v)
+    v=v.substring(n,n2);
+
+    return v;
+  }
+
+  game_sort(){
+    var temp:any;
+    var num:any;
+
+    for(var q=0;q<this.gamearray.length;q++){
+      if(this.gamearray[q].name[0]==='!'){
+
+        num=this.gamearray[q].name.length;
+        this.gamearray[q].name=this.gamearray[q].name.substring(1,num);
+        continue;
+      }
+      for(var w=q+1;w<this.gamearray.length;w++){
+        if(this.gamearray[w].name[0]==='!'){
+
+          num=this.gamearray[w].name.length;
+          this.gamearray[w].name=this.gamearray[w].name.substring(1,num);
+
+          temp=this.gamearray[q];
+          this.gamearray[q]=this.gamearray[w];
+          this.gamearray[w]=temp;
+          break;
+        }
+      }
+    }
+    console.log(this.gamearray)
   }
 
   length_check(){
@@ -397,7 +482,7 @@ export class DetailPage {
   }
   gameselected(v,i){
     this.zone.run(()=>{
-
+      console.log(this.gamearray[i])
       if(Number(this.gamearray[i].stock)<=0){
         var date=undefined;
         
@@ -428,6 +513,15 @@ export class DetailPage {
             this.count++;
           }
         }
+
+        this.gamearraytrue=[];
+        for (var i = 0; i < this.gamearray.length; i++) {
+          var flag = this.gamearray[i].fflag;
+          console.log(flag)
+          if (flag == true) {
+            this.gamearraytrue.push(this.gamearray[i])
+          }
+        }
         console.log("count is : "+this.count);
       }
     })
@@ -435,7 +529,7 @@ export class DetailPage {
 
   goback(){
     console.log("gotoback")
-    this.view.dismiss();
+    this.navCtrl.setRoot(HomePage);
   }
   goToday(){
     this.date=new Date(this.today.getFullYear(),this.today.getMonth()+1,0);
@@ -520,15 +614,13 @@ export class DetailPage {
       this.confirmAlert2('1가지 이상의 게임을 선택해주세요.')
     }
     else{
-
-
-     
-
-      
+      // if(this.rental_check()===false){
+      //   this.confirmAlert2("반납일이 다른 유저 대여일과 겹칩니다.");
+      // }
       var modaloption : ModalOptions={
         enableBackdropDismiss:true
       }
-      let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"diff":this.diff,"list":this.gamearray,"flag":this.detail,"sale":this.sale_data},{ cssClass: 'test-modal1' });
+      let modal = this.modal.create(ModalpagePage,{"user":this.user,"startDate":this.startDate,"endDate":this.endDate,"tomorrowflag":this.tomorrowflag,"diff":this.diff,"list":this.gamearraytrue,"flag":this.detail,"sale":this.sale_data},{ cssClass: 'test-modal1' });
       modal.onDidDismiss(imagedata => {
         console.log(imagedata)
       });

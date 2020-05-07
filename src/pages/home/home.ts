@@ -427,13 +427,13 @@ export class HomePage {
     console.log(a.flag);
     console.log(this.user)
     if (a.flag == "ds") {
-      this.navCtrl.push(DetailPage, { "a": a, "game": this.dsgamearray, "setting": this.setting, "user": this.user, "sale": this.sale_data });
+      this.navCtrl.setRoot(DetailPage, { "a": a, "game": this.dsgamearray, "setting": this.setting, "user": this.user, "sale": this.sale_data });
     }
     if (a.flag == "switch") {
-      this.navCtrl.push(DetailPage, { "a": a, "game": this.switchgamearray, "setting": this.setting, "user": this.user, "sale": this.sale_data });
+      this.navCtrl.setRoot(DetailPage, { "a": a, "game": this.switchgamearray, "setting": this.setting, "user": this.user, "sale": this.sale_data });
     }
     if (a.flag == "ps") {
-      this.navCtrl.push(DetailPage, { "a": a, "game": this.psgamearray, "setting": this.setting, "user": this.user, "sale": this.sale_data });
+      this.navCtrl.setRoot(DetailPage, { "a": a, "game": this.psgamearray, "setting": this.setting, "user": this.user, "sale": this.sale_data });
     }
   }
   kakaoLogin() {

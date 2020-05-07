@@ -21,7 +21,6 @@ import { OrderpagePage } from './../../pages/orderpage/orderpage';
 })
 export class ModalpagePage {
   sale_data: any;
-  gamearray = [];
   hardwarearray = [];
   hardwarename: any;
   gamearraytrue = [];
@@ -35,22 +34,23 @@ export class ModalpagePage {
   hardware: any;
   user: any;
   points: any;
-  count: any = 0;
   firemain = firebase.database().ref();
   perihardware = [];
   peripheralitem = "no";
   peripheralitem2 = "no";
+  tomorrowflag:any;
 
   constructor(public view: ViewController, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
     console.log('modalpage come')
     this.sale_data = this.navParams.get("sale");
     this.flag = this.navParams.get("flag");
     this.hardware = this.flag.flag
-    this.gamearray = this.navParams.get("list");
+    this.gamearraytrue = this.navParams.get("list");
     this.startDate = this.navParams.get("startDate");
     this.endDate = this.navParams.get("endDate");
     this.diff = this.navParams.get("diff");
     this.user = this.navParams.get("user");
+    this.tomorrowflag=this.navParams.get("tomorrowflag");
     this.generatehardware();
     console.log(this.sale_data);
     console.log("flag : ");
@@ -74,14 +74,14 @@ export class ModalpagePage {
       this.points = this.user.point;
     }
 
-    for (var i = 0; i < this.gamearray.length; i++) {
-      var flag = this.gamearray[i].fflag;
-      console.log(flag)
-      if (flag == true) {
-        this.gamearraytrue.push(this.gamearray[i])
-        this.count++;
-      }
-    }
+    // for (var i = 0; i < this.gamearray.length; i++) {
+    //   var flag = this.gamearray[i].fflag;
+    //   console.log(flag)
+    //   if (flag == true) {
+    //     this.gamearraytrue.push(this.gamearray[i])
+    //     this.count++;
+    //   }
+    // }
     // window.alert(this.count)
     console.log(this.gamearraytrue)
     var a = 0;
@@ -134,7 +134,7 @@ export class ModalpagePage {
       }
       this.perihardware.push(this.peripheralitem,this.peripheralitem2);
       console.log(this.perihardware);
-      this.navCtrl.push(OrderpagePage, { "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "gamearray": this.gamearraytrue, "hardware": this.hardwarename, "user": this.user, "sale": this.sale_data, "peripheral":this.peripheral, "peripheralname":this.perihardware }).then(() => {
+      this.navCtrl.push(OrderpagePage, { "startDate": this.startDate, "endDate": this.endDate,"tomorrowflag":this.tomorrowflag, "diff": this.diff, "gamearray": this.gamearraytrue, "hardware": this.hardwarename, "user": this.user, "sale": this.sale_data, "peripheral":this.peripheral, "peripheralname":this.perihardware }).then(() => {
         this.navCtrl.getActive().onDidDismiss(data => {
           this.view.dismiss();
         });
