@@ -1,4 +1,4 @@
-<ion-header style="background:white;">
+<ion-header style="background:white; margin-top:10%;">
     <button (click)="goback()" style="background-color: #fff; float:left; margin-top:15px;">
   <img src="assets/img/back.png" style="width:25px;background-color: #fff;float:left;" alt="">
 </button>
@@ -9,7 +9,7 @@ width: 100%;
 position: absolute;">주문페이지</ion-title>
     <!-- </ion-navbar> -->
 </ion-header>
-<ion-content padding>
+<ion-content padding style="margin-top:10%;">
 
     <ion-list>
         <ion-item (click)="view(0)" [ngClass]="selected==0?'noselect':'select'">
@@ -36,7 +36,7 @@ margin-left: 20px;" class="gameshowing">
             </div>
         </ion-item>
 
-        <ion-item (click)="pick_date(1)"  style="background-color: aquamarine;">
+        <ion-item (click)="pick_date(1)" style="background-color: aquamarine;">
             <ion-label style="width:50%; float:left; margin-bottom:0px !important; padding-left: 10px;">대여시작일</ion-label>
             <ion-label style="width:50%; text-align: end; font-size: 100%; padding-right: 10px;">
                 {{startDate_text.split('-')[0]}}년 {{startDate_text.split('-')[1]}}월 {{startDate_text.split('-')[2]}}일

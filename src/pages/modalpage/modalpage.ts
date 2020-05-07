@@ -23,6 +23,7 @@ export class ModalpagePage {
   sale_data: any;
   hardwarearray = [];
   hardwarename: any;
+  gamearray = [];
   gamearraytrue = [];
   diff: any;
   startDate: any;
@@ -74,14 +75,14 @@ export class ModalpagePage {
       this.points = this.user.point;
     }
 
-    // for (var i = 0; i < this.gamearray.length; i++) {
-    //   var flag = this.gamearray[i].fflag;
-    //   console.log(flag)
-    //   if (flag == true) {
-    //     this.gamearraytrue.push(this.gamearray[i])
-    //     this.count++;
-    //   }
-    // }
+    for (var i = 0; i < this.gamearray.length; i++) {
+      var flag = this.gamearray[i].fflag;
+      console.log(flag)
+      if (flag == true) {
+        this.gamearraytrue.push(this.gamearray[i])
+        // this.count++;
+      }
+    }
     // window.alert(this.count)
     console.log(this.gamearraytrue)
     var a = 0;
