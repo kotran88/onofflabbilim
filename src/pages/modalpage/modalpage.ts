@@ -46,7 +46,7 @@ export class ModalpagePage {
     this.sale_data = this.navParams.get("sale");
     this.flag = this.navParams.get("flag");
     this.hardware = this.flag.flag
-    this.gamearraytrue = this.navParams.get("list");
+    this.gamearray = this.navParams.get("list");
     this.startDate = this.navParams.get("startDate");
     this.endDate = this.navParams.get("endDate");
     this.diff = this.navParams.get("diff");
