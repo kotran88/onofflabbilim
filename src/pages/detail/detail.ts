@@ -2,6 +2,7 @@ import { Component,NgZone } from '@angular/core';
 import { IonicPage,App, ModalController,ModalOptions,AlertController,ViewController,NavController,Events, NavParams, Platform } from 'ionic-angular';
 
 import { DatePicker } from '@ionic-native/date-picker/ngx';
+import firebase from 'firebase';
 
 import { LoginpagePage} from './../../pages/loginpage/loginpage'
 import { Modalbottom } from '../modalbottom/modalbottom';
@@ -27,6 +28,8 @@ import { AccessPage } from '../access/access';
   templateUrl: 'detail.html',
 })
 export class DetailPage {
+  firemain = firebase.database().ref();
+
   sale_data:any;
   delivery_time:any;
   detail:any;
@@ -286,6 +289,9 @@ export class DetailPage {
     console.log(this.endDate);
 
     this.gamearray=navParams.get("game");
+    // if(this.gamearray===undefined){
+    //   this.firemain.child()
+    // }
     this.expressmessage=navParams.get("setting");
     this.maker=this.detail.maker;
     this.game_sort();
