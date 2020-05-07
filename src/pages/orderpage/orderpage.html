@@ -94,7 +94,7 @@ margin-left: 20px;" class="gameshowing">
      line-height: 40px;" class="item-title">주문상품</p>
             </div>
 
-            <div class="clicked" class="display" style="background:rgb(246,246,246); height:380px;
+            <div class="clicked" class="display" style="background:rgb(246,246,246);
         white-space: initial !important; font-size:13px;border:0.5px solid rgb(234,234,234);">
                 <p style="
         font-size: 15px;
@@ -106,7 +106,7 @@ margin-left: 20px;" class="gameshowing">
                     <div style="
       width: 33%; 
     display: grid;
-      height: 110px; padding:10px;
+      padding:10px;
       float: left;" *ngFor="let game of gamearray; let i = index" [ngClass]="game.fflag==true ? 'gameshowwithborder':'gameshow'">
                         <img style="
         height: 80px;
@@ -116,18 +116,21 @@ margin-left: 20px;" class="gameshowing">
                         <span style="font-size:13px;">{{number_format(game.price)}}</span>
                     </div>
                 </div>
-                <p style="font-size: 15px;font-weight: bold;margin-left: 20px;margin-top: 5px;">선택한 하드웨어</p>
-                <div style="min-height: 150px;padding: 10px; padding-top:0px;" *ngIf="hardware!=undefined" class="gameshowing">
-                    <div style="width: 33%;display: grid;height: 110px; padding:10px;float: left; text-align: center;" *ngIf="hardware.length!=0">
-                        <img style="height: 80px;width: 100%;" src="{{hardware.url}}" />
-                        <span style="font-weight: bold; font-size: 14px;">{{hardware.name}}</span>
-                    </div>
-                    <div *ngFor="let peri of choiceperi; let i = index" style="width:33%;display:grid; height:110px; padding:10px; float:left; text-align: center;">
-                        <img style="height:80px; width:100%;" src="{{peri.url}}" alt="">
-                        <span style="font-weight:bold; font-size:14px;">{{peri.name}}</span>
+                <div *ngIf="hardware!=undefined">
+                    <p style="font-size: 15px;font-weight: bold;margin-left: 20px;margin-top: 5px;">선택한 하드웨어</p>
+                    <div style="min-height: 150px;padding: 10px; padding-top:0px;" *ngIf="hardware!=undefined" class="gameshowing">
+                        <div style="width: 33%;display: grid;height: 110px; padding:10px;float: left; text-align: center;" *ngIf="hardware.length!=0">
+                            <img style="height: 80px;width: 100%;" src="{{hardware.url}}" />
+                            <span style="font-weight: bold; font-size: 14px;">{{hardware.name}}</span>
+                        </div>
+                        <div *ngFor="let peri of choiceperi; let i = index" style="width:33%;display:grid; height:110px; padding:10px; float:left; text-align: center;">
+                            <img style="height:80px; width:100%;" src="{{peri.url}}" alt="">
+                            <span style="font-weight:bold; font-size:14px;">{{peri.name}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </ion-item>
 
 
