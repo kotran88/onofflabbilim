@@ -60,6 +60,16 @@ export class OrderpagePage {
     
     var t=new Date();
     var t2=new Date(date);
+
+
+    t.setHours(0);
+    t.setMinutes(0);
+    t.setSeconds(0);
+
+    t2.setHours(0);
+    t2.setMinutes(0);
+    t2.setSeconds(0);
+
     var a=t.getTime()-t2.getTime();
     console.log(a);
 
@@ -86,13 +96,21 @@ export class OrderpagePage {
     console.log(this.endDate)
     var a = new Date(this.startDate);
     var b = new Date(this.endDate);
-    console.log(a);
-    console.log(b);
+
+    a.setHours(0);
+    a.setMinutes(0);
+    a.setSeconds(0);
+
+    b.setHours(0);
+    b.setMinutes(0);
+    b.setSeconds(0);
+
     var diff=a.getTime()-b.getTime();
     var Difference_In_Days = diff / (1000 * 3600 * 24);
     diff=Difference_In_Days
     console.log(diff)
     diff=Math.floor(diff);
+    // Difference_In_Days=diff;
     diff=Math.abs(diff);
     this.diff=diff+1;
     console.log(this.diff)
@@ -118,8 +136,10 @@ export class OrderpagePage {
       if(Difference_In_Days>-2){
         this.confirmAlert2("최소 대여기간은 3일 입니다.")
         if(mode===1){
-          var a=new Date();
+          a=new Date();
           if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
+          
+          // b=new Date(this.endDate);
           // a.setDate(a.getDate()+2);
           this.startDate=a.toISOString();
           this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
