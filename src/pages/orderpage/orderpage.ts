@@ -382,14 +382,9 @@ export class OrderpagePage {
     if(this.Delivery_check===false){
       this.confirmAlert2('어디로 밍을 해야할지 몰라요....');
     }
-<<<<<<< HEAD
     else if(this.resultAddress.indexOf("전북 전주")==1 || this.resultAddress.indexOf("전북 익산")==1){
       console.log("전주");
       this.confirmAlert2("현재 전주와 익산 지역만 배송이 가능합니다.<br>주소를 확인해주세요.");
-=======
-    else if(this.resultAddress.indexOf("전북 전주")==-1 &&this.resultAddress.indexOf("익산")==-1) {
-      this.confirmAlert2("현재 전주, 익산지역만 배송이 가능합니다.<br>주소를 확인해주세요.");
->>>>>>> 58c1178004708e6bd955803e4b93c5f04bb61260
     }
     else {
       this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware,"peripheral":this.choiceperi, "game":this.gamearray ,"start":this.startDate, "end":this.endDate,"sale":this.sale_data});
