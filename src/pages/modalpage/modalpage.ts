@@ -23,6 +23,7 @@ export class ModalpagePage {
   sale_data: any;
   hardwarearray = [];
   hardwarename: any;
+  gamearray = [];
   gamearraytrue = [];
   diff: any;
   startDate: any;
@@ -45,7 +46,7 @@ export class ModalpagePage {
     this.sale_data = this.navParams.get("sale");
     this.flag = this.navParams.get("flag");
     this.hardware = this.flag.flag
-    this.gamearraytrue = this.navParams.get("list");
+    this.gamearray = this.navParams.get("list");
     this.startDate = this.navParams.get("startDate");
     this.endDate = this.navParams.get("endDate");
     this.diff = this.navParams.get("diff");
@@ -74,14 +75,14 @@ export class ModalpagePage {
       this.points = this.user.point;
     }
 
-    // for (var i = 0; i < this.gamearray.length; i++) {
-    //   var flag = this.gamearray[i].fflag;
-    //   console.log(flag)
-    //   if (flag == true) {
-    //     this.gamearraytrue.push(this.gamearray[i])
-    //     this.count++;
-    //   }
-    // }
+    for (var i = 0; i < this.gamearray.length; i++) {
+      var flag = this.gamearray[i].fflag;
+      console.log(flag)
+      if (flag == true) {
+        this.gamearraytrue.push(this.gamearray[i])
+        // this.count++;
+      }
+    }
     // window.alert(this.count)
     console.log(this.gamearraytrue)
     var a = 0;

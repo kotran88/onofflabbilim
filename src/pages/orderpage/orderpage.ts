@@ -141,16 +141,16 @@ export class OrderpagePage {
         this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
         this.datechange(mode);
       }
-      // else{
-      //   if(mode===1){
-      //     this.startDate=a.toISOString();
-      //     this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
-      //   }
-      //   else{
-      //     this.endDate=b.toISOString();
-      //     this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
-      //   }
-      // }
+      else{
+        if(mode===1){
+          this.startDate=a.toISOString();
+          this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        }
+        else{
+          this.endDate=b.toISOString();
+          this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+        }
+      }
     }
   }
 
