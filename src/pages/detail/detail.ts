@@ -101,6 +101,7 @@ export class DetailPage {
 
   datechange(mode){
     console.log(this.startDate);
+    console.log(this.startDate_text)
 
     console.log(this.endDate)
     var a = new Date(this.startDate);
@@ -118,12 +119,9 @@ export class DetailPage {
 
     if(Difference_In_Days>0){
       if(mode===1){
-
-
-
-
         this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
         var a=new Date();
+        if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
         this.startDate=a.toISOString();
         this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
@@ -137,31 +135,42 @@ export class DetailPage {
       this.datechange(mode)
     }
     else{
-      if(mode===1){
-        this.startDate=a.toISOString();
-        this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
-      }
-      else {
-        if(Difference_In_Days>-2){
-          this.confirmAlert2("최소 대여기간은 3일 입니다.")
+      if(Difference_In_Days>-2){
+        this.confirmAlert2("최소 대여기간은 3일 입니다.")
+        if(mode===1){
+          var a=new Date();
+          if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
+          // a.setDate(a.getDate()+2);
+          this.startDate=a.toISOString();
+          this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        }
+        else{
           var a=new Date(this.startDate);
+          // if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
           a.setDate(a.getDate()+2);
           this.endDate=a.toISOString();
           this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
         }
-        else if(Difference_In_Days<-179){
-          this.confirmAlert2("최대 대여기간은 180일 입니다.")
-          var a=new Date(this.startDate);
-          a.setDate(a.getDate()+179);
-          this.endDate=a.toISOString();
-          this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
-          this.datechange(mode);
-        }
-        else{
-          this.endDate=b.toISOString();
-          this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
-        }
+        this.datechange(mode);
       }
+      else if(Difference_In_Days<-179){
+        this.confirmAlert2("최대 대여기간은 180일 입니다.")
+        var a=new Date(this.startDate);
+        a.setDate(a.getDate()+179);
+        this.endDate=a.toISOString();
+        this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        this.datechange(mode);
+      }
+      // else{
+      //   if(mode===1){
+      //     this.startDate=a.toISOString();
+      //     this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+      //   }
+      //   else{
+      //     this.endDate=b.toISOString();
+      //     this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+      //   }
+      // }
     }
   }
 
@@ -198,34 +207,38 @@ export class DetailPage {
 
     var tomorrow = new Date();
     tomorrow.setDate(now.getDate()+1);
-              var year = now.getFullYear();
-              var month = now.getMonth() + 1;
-              var datee = now.getDate();
-              var hour = now.getHours();
-              var min = now.getMinutes();
-              var nnow = year + "-" + month + "-" + datee + " " + hour + ":" + min;
-              console.log(nnow);
-              if(hour<9){ this.delivery_time="오늘("+now.getDate()+") 오전 9시~11시 " ;
-              this.tomorrowflag=false; 
-            }else if(hour>=9&&hour<13){
-              this.delivery_time=" 오늘("+now.getDate()+") 오후 3시~5시 ";
-              this.tomorrowflag=false; 
-            }else{
-                this.tomorrowflag=true;
-                this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var datee = now.getDate();
+    var hour = now.getHours();
+    var min = now.getMinutes();
+    var nnow = year + "-" + month + "-" + datee + " " + hour + ":" + min;
+    console.log(nnow);
+    console.log(tomorrow);
+    if(hour<9){
+      this.startDate=now.toISOString();
+      this.delivery_time="오늘("+now.getDate()+"일) 오전 9시~11시 " ;
+      this.tomorrowflag=false; 
+    }
+    else if(hour>=9&&hour<13){
+      this.delivery_time=" 오늘("+now.getDate()+"일) 오후 3시~5시 ";
+      this.tomorrowflag=false; 
+      this.startDate=now.toISOString();
+    }
+    else{
+      this.tomorrowflag=true;
+      this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
+      this.startDate=tomorrow.toISOString();
+      this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
+    }
 
-                this.startDate_text=(year+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
-    
-
-              }
-
-    console.log("user is : "+this.user);
-    console.log(this.sale_data)
+    console.log(this.startDate_text+"zzzz")
+  //   console.log("user is : "+this.user);
+  //   console.log(this.sale_data)
+  //   console.log("user is : "+this.user);
+  //  console.log(this.detail);
 
     this.loginflag=localStorage.getItem("loginflag");
-    console.log("user is : "+this.user);
-   console.log(this.detail);
-    var date = new Date();
 
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
@@ -233,14 +246,15 @@ export class DetailPage {
       backAction();
     },2)
 
-    if(date.getHours()<14){date.setDate(date.getDate());}
-    else{date.setDate(date.getDate()+1);}
+    // if(date.getHours()<14){date.setDate(date.getDate());}
+    // else{date.setDate(date.getDate()+1);}
 
-    this.startDate=date.toISOString();
-    this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
+    // this.startDate=date.toISOString();
+    // this.startDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
     
 
-    date=new Date(this.startDate);
+    var date = new Date(this.startDate);
+    // date=new Date(this.startDate);
     date.setDate(date.getDate() + 2);
 
     this.endDate=date.toISOString();
@@ -257,7 +271,6 @@ export class DetailPage {
     this.maker=this.detail.maker;
     events.subscribe('star-rating:changed', (starRating) => {console.log(starRating)});
  
-
     for(var ii=0; ii<this.gamearray.length; ii++){
       this.gamearray[ii].fflag=false;
       this.gamearray[ii].check=false;

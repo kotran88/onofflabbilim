@@ -52,10 +52,10 @@
     <ion-slides (click)="slide()" *ngIf="slides && slides.length" pager="true" autoplay="2000" loop=true speed=1000 class="firstslide" style="width: 100% !important; height:35%; margin-top:65px !important;">
         <ion-slide style="width:100% !important;" *ngFor="let slide of slides;let i = index">
 
-            <!-- <img style="width:100% !important; height:100% !important;" (click)="enlarge(slide)" src="sli"> -->
+            <img style="width:100% !important; height:100% !important;" [src]="slide.url">
 
-            <img *ngIf="i==2" style="width:100% !important; margin-top:20px; height:100% !important;" [src]="slide.url">
-            <img *ngIf="i!=2" style="width:100% !important; height:100% !important;" [src]="slide.url">
+            <!-- <img *ngIf="i==2" style="width:100% !important; margin-top:20px; height:100% !important;" [src]="slide.url">
+            <img *ngIf="i!=2" style="width:100% !important; height:100% !important;" [src]="slide.url"> -->
         </ion-slide>
     </ion-slides>
 

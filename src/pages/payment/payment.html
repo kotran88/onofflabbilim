@@ -84,7 +84,7 @@
         <!-- </div> -->
     </div>
     <div style="width:90%; position:relative " class="main ">
-        <div style="width:30%">
+        <div style="width:40%">
             <span style="margin-left:25px; font-size:17px; line-height: 40px; ">총 결제금액</span>
         </div>
         <div style="text-align: right; margin-left:150px; margin-top:-30px;">
@@ -93,7 +93,7 @@
             <span style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span><br><br>
 
         </div>
-        <div style="width:70%">
+        <div style="width:60%">
             <span style="margin-left: 25px; font-size:15px;">보증금</span>
             <!-- <span style="font-size:11px">(보증금은 기계 정상 반납 시 반납됩니다.)</span> -->
         </div>
@@ -113,7 +113,7 @@
             <span *ngIf="coindiscount>0" style="font-size:13px">-{{number_format(coindiscount)}}원</span>
         </div>
     </div>
-    <div (click)="ordering();" style="position:sticky; bottom: 30px; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
+    <div (click)="ordering();" style="position:sticky; bottom: 0px; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
         <button style="margin-top:14px; background-color:#E5333F; font-size: 18px; color: white; ">결제하기</button>
     </div>
 </ion-content>

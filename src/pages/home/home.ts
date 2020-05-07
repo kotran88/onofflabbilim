@@ -92,7 +92,7 @@ export class HomePage {
     // });
     // modal2.present();
 
- 
+    
     this.id = localStorage.getItem("id")
     this.name = localStorage.getItem("name")
     this.loginflag = localStorage.getItem("loginflag");
@@ -123,9 +123,8 @@ export class HomePage {
         // modal.present();
 
         console.log("homeslides")
-        // this.navCtrl.push(HomeslidePage);
-        // let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'css-modal' });
-        // modal.present();
+        let modal = this.modal.create(HomeslidePage,{},{ cssClass: 'slide-modal' });
+        modal.present();
       }
       platform.registerBackButtonAction(() => {
 
@@ -179,7 +178,10 @@ export class HomePage {
             //0.2 3
             if (Number(this.version) > Number(versionnumber)) {
               this.confirmAlert3("앱을 업데이트 해주세요!")
-            
+              var market_url = "market://details?id=io.ionic.onofflab.bilim";
+              this.inapp.create(market_url,"_blank")
+
+              
 
             }
           });
@@ -225,7 +227,6 @@ export class HomePage {
                 }
               }
             }
-
           }
           this.realswitcharray = this.switcharray[0].url;
 
