@@ -5,16 +5,20 @@
   Ionic pages and navigation.
 -->
 <ion-header style="
-display: flex; background-color: #E5333F;">
+display: flex; background-color: #E5333F; margin-top:10%">
     <!-- <ion-navbar> -->
     <button (click)="goback()" style="background-color: #E5333F; float:left; ">
       <img src="assets/img/back1.png" style="width:25px;background-color: #E5333F;float:left;" alt="">
     </button>
-    <ion-title style="">설정 페이지</ion-title>
+    <ion-title style="
+    height: 50px;
+    z-index: -1;
+    width: 100%;
+    position: absolute;">설정 페이지</ion-title>
     <!-- </ion-navbar> -->
 </ion-header>
 
-<ion-content style="margin-top:40px;" padding>
+<ion-content style="margin-top:10%" padding>
     <ion-list>
         <ion-item>
             <ion-label (click)="alertsetting()">알람설정</ion-label>

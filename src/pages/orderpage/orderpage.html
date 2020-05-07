@@ -1,8 +1,8 @@
-<ion-header style="background:white;">
+<ion-header style="background:white; margin-top:10%;">
     <button (click)="goback()" style="background-color: #fff; float:left; margin-top:15px;">
   <img src="assets/img/back.png" style="width:25px;background-color: #fff;float:left;" alt="">
 </button>
-<ion-title style=" 
+    <ion-title style=" 
 height: 50px;
 z-index: -1;
 width: 100%;
@@ -13,9 +13,8 @@ position: absolute;">주문페이지</ion-title>
 
     <ion-list>
         <ion-item (click)="view(0)" [ngClass]="selected==0?'noselect':'select'">
-            <div style="position:relative" class="main">
-                <p style="
-  line-height: 44px;" class="item-title">주문자 정보</p>
+            <div style="position:relative; margin-top:5%;" class="main">
+                <p style="line-height: 44px;" class="item-title">주문자 정보</p>
 
             </div>
             <div class="clicked" class="display" style="background:rgb(246,246,246);
