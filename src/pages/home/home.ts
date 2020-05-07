@@ -1,7 +1,7 @@
 import { Component, NgZone, ViewChild } from '@angular/core';
 import { IamportCordova } from '@ionic-native/iamport-cordova';
 import { DetailPage } from '../detail/detail'
-import { IonicPage, ToastController, Slides, ModalController, ViewController, Events, Platform, App, AlertController, NavController, NavParams } from 'ionic-angular';
+import { LoadingController, ToastController, Slides, ModalController, ViewController, Events, Platform, App, AlertController, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 
 // import { Geolocation } from '@ionic-native/geolocation/';
@@ -52,6 +52,7 @@ export class HomePage {
   realpsarray: any;
   user: any;
   counter: any = 0;
+  loader:any;
 
 
   slide() {
@@ -79,9 +80,16 @@ export class HomePage {
 
     toast.present();
   }
-
+  presentLoading(){
+      this.loader = this.loadingCtrl.create();
+      this.loader.present();
+  }
+  hidelode(){
+   this.loader.dismiss();
+  }
   firstflag:any="true";
-  constructor(public inapp:InAppBrowser,private toastCtrl: ToastController, public modal: ModalController, public view: ViewController, public platform: Platform, public app: App, public appVersion: AppVersion, public event: Events, public oneSignal: OneSignal, public zone: NgZone, public alertCtrl: AlertController, public navParam: NavParams, public navCtrl: NavController) {
+  nintendoimg:any;
+  constructor(public inapp:InAppBrowser,private toastCtrl: ToastController, public modal: ModalController, public view: ViewController, public platform: Platform, public app: App, public appVersion: AppVersion, public event: Events, public oneSignal: OneSignal, public zone: NgZone, public alertCtrl: AlertController, public navParam: NavParams, public navCtrl: NavController, public loadingCtrl:LoadingController) {
     // let modal2 = this.modal.create(AccessPage,{"id":"010","name":"test"},{cssClass:'access-modal'});
     // modal2.onDidDismiss(data=>{
     //   // this.geolocation_update();
@@ -91,8 +99,9 @@ export class HomePage {
     //   // }, 1000);
     // });
     // modal2.present();
-
-    
+    // localStorage.setItem("nintendo",'""');
+  
+    this.presentLoading();
     this.id = localStorage.getItem("id")
     this.name = localStorage.getItem("name")
     this.loginflag = localStorage.getItem("loginflag");
@@ -103,7 +112,6 @@ export class HomePage {
       console.log(snap.val())
       this.sale_data = snap.val();
     })
-
     this.firemain.child('setting').once('value').then((snap) => {
       if (snap.val().login_freepass === true) {
         localStorage.setItem("loginflag", 'true');
@@ -228,6 +236,7 @@ export class HomePage {
               }
             }
           }
+          
           this.realswitcharray = this.switcharray[0].url;
 
           this.realpsarray = this.psarray[0].url;
@@ -238,6 +247,7 @@ export class HomePage {
           console.log("ddddd")
         })
       })
+      this.hidelode();
     })
     
     setTimeout(() => {

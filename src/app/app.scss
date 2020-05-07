@@ -8,7 +8,7 @@
 }
 
 .popover-content {
-    min-width: 300px;
+    min-width: 85% !important;
 }
 
 ion-title {
@@ -95,13 +95,13 @@ ion-navbar.toolbar {
         width: 90%;
         height: 80%;
         left: 5%;
-        right:5%;
+        right: 5%;
         top: 5%;
     }
 }
+
 .test-modal {
     .modal-wrapper {
-
         width: 80%;
         left: calc(20%/2);
         height: 80%;
@@ -121,7 +121,7 @@ ion-navbar.toolbar {
 .test-modal1 {
     .modal-wrapper {
         width: 100%;
-    left: 0px;
+        left: 0px;
         height: 400px; //240
         position: absolute !important;
         bottom: 0% !important;
@@ -697,6 +697,7 @@ p {
 * {
     font-family: 'ggg' !important;
 }
-.label-ios{
-    margin-bottom:0px !important;
+
+.label-ios {
+    margin-bottom: 0px !important;
 }

@@ -146,6 +146,7 @@ export class DetailPage {
           // a.setDate(a.getDate()+2);
           this.startDate=a.toISOString();
           this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+
         }
         else{
           var a=new Date(this.startDate);
@@ -278,9 +279,10 @@ export class DetailPage {
       this.tomorrowflag=true;
       this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
       this.startDate=tomorrow.toISOString();
+      console.log(this.startDate_text);
+
     }
     this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
-
 
     console.log(this.startDate_text+"zzzz")
   //   console.log("user is : "+this.user);

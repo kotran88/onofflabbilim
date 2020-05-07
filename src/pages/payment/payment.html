@@ -3,18 +3,16 @@
         <button (click)="goback()" style="background-color: #fff; float:left; margin-top:15px;">
             <img src="assets/img/back.png" style="width:25px;background-color: #fff;float:left;" alt="">
           </button>
-        
+
     </div>
 
-    <div style="margin-left:auto; margin-right:auto;  text-align: center;">
+    <div style="margin-left:auto; margin-right:auto;  text-align: center; margin-top:10%;">
         <span>대여기간 : </span>
         <span style="font-size:25px; background-color:rgb(240, 239, 239)">{{diff}}일</span>
         <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월 {{endDate.split("T")[0].split("-")[2]}}일)</span>
     </div>
-    <p style="
-    display: table; margin:auto;" *ngIf="hardware != undefined">보증금은 게임을 즐기신 후, 반납시 코인지급과 함께 결제가 취소됩니다.</p>
-    <p style="
-    display: table; margin:auto;" *ngIf="hardware != undefined">보증금을 많이 낼 수록, 1일 대여료가 낮아집니다.</p>
+    <!-- <p style="display: table; margin:auto;" *ngIf="hardware != undefined">보증금은 게임을 즐기신 후, 반납시 코인지급과 함께 결제가 취소됩니다.</p> -->
+    <!-- <p style="display: table; margin:auto;" *ngIf="hardware != undefined">보증금을 많이 낼 수록, 1일 대여료가 낮아집니다.</p> -->
     <div *ngIf="hardware != undefined" style="position: relative; width: 90%; margin-top:10px; margin-bottom:5px; margin-left:auto; margin-right:auto; padding:10px; border:2px solid; border-color:black ">
         <span style="font-size:17px; margin-bottom:10px;">{{hardware.name}}</span>
         <span style="font-size:13px;"><br>* 보증금 선택</span><br>
@@ -76,21 +74,21 @@
         <img (click)="godown();" style="height: 80px; float: left;" src="assets/img/arrow_down.png" />
         <img (click)="goup();" style="height: 80px; float: right;" src="assets/img/arrow_up.png" />
         <div style="width: 100%; text-align: center; line-height: 80px;" class="inner">
-            <span style="display:inline-block;"> 보유 코인 수 : </span>
+            <span style="display:inline-block;"> 보유 코인 : </span>
             <img id="abc" style="height: 25px; width: 25px; font-size: 80px; bottom: 30px; position: absolute;" src="/assets/img/coinimage.png " />
             <!-- <span style="margin-left: 30px;" class="coin ">  x {{}}</span> -->
             <span style="margin-left: 30px;" class="coin ">  x {{coins}}</span>
         </div>
         <!-- </div> -->
     </div>
-    <div style="width:90%; position:relative " class="main ">
+    <div style="width:100%; position:relative; " class="main ">
         <div style="width:40%">
             <span style="margin-left:25px; font-size:17px; line-height: 40px; ">총 결제금액</span>
         </div>
         <div style="text-align: right; margin-left:150px; margin-top:-30px;">
 
-            <span *ngIf="totalpaymoney!=originpay" style="font-size:17px; text-decoration: line-through; color:#9e9e9e">{{number_format(originpay)}}원</span>
-            <span style="font-size:17px; margin-left:0px;">{{number_format(totalpaymoney)}}원</span><br><br>
+            <span *ngIf="totalpaymoney!=originpay" style="font-size:17px; text-decoration: line-through; color:#9e9e9e;">{{number_format(originpay)}}원</span>
+            <span style="font-size:17px; margin-left:0px; margin-right:15%;">{{number_format(totalpaymoney)}}원</span><br><br>
 
         </div>
         <div style="width:60%">
@@ -98,19 +96,29 @@
             <!-- <span style="font-size:11px">(보증금은 기계 정상 반납 시 반납됩니다.)</span> -->
         </div>
         <div style="text-align: right; margin-left:150px; margin-top:-20px; margin-bottom:20px;">
-            <span style="font-size:13px;">{{number_format(contrast)}}원</span>
+            <span style="font-size:13px; margin-right:15%;">{{number_format(contrast)}}원</span>
         </div>
-
+        <div style="width:60%">
+            <span style="margin-left: 25px; font-size:15px;">실제 결제금액</span>
+        </div>
+        <div style="text-align: right; margin-left:150px; margin-top:-20px; margin-bottom:20px;">
+            <span style="font-size:13px; margin-right:15%;">{{number_format(totalpaymoney-contrast)}}원</span>
+        </div>
+        <hr style="color:rgb(196, 196, 196); width:90%; height: 2px;">
+        <div style="width:100%">
+            <p style="display: table; margin:auto; font-size:13px;" *ngIf="hardware != undefined">보증금은 게임을 즐기신 후, 반납시 코인지급과 함께 결제가 취소됩니다.</p>
+            <p style="display: table; margin:auto; font-size:13px;" *ngIf="hardware != undefined">보증금을 많이 낼 수록, 1일 대여료가 낮아집니다.</p>
+        </div>
         <div style="width:30%; margin-top:15px;">
             <span style="margin-left: 25px; font-size:15px;">할인적용</span>
         </div>
 
         <div style="text-align: right; margin-top:-20px;">
-            <span *ngIf="contrast!=undefined" style="font-size:13px;">장기대여할인 {{longdiscount_text}}: -{{longdiscount}}원</span><br>
-            <span style="font-size:13px;">기기대여에 따른 게임할인(-{{sale_data.percentage.console}}) : -{{console_sale_gameprice}}원</span><br>
+            <span *ngIf="contrast!=undefined" style="font-size:13px; margin-right:10%">장기대여할인 {{longdiscount_text}}: -{{longdiscount}}원</span><br>
+            <span style="font-size:13px; margin-right:10%">기기대여에 따른 게임할인(-{{sale_data.percentage.console}}) : -{{console_sale_gameprice}}원</span><br>
             <span style="font-size: 13px;">코인할인 : </span>
-            <span *ngIf="coindiscount===0||coindiscount===undefined" style="font-size:13px">0원</span>
-            <span *ngIf="coindiscount>0" style="font-size:13px">-{{number_format(coindiscount)}}원</span>
+            <span *ngIf="coindiscount===0||coindiscount===undefined" style="font-size:13px; margin-right:10%">0원</span>
+            <span *ngIf="coindiscount>0" style="font-size:13px; margin-right:10%">-{{number_format(coindiscount)}}원</span>
         </div>
     </div>
     <div (click)="ordering();" style="position:sticky; bottom: 0px; width: 100%; z-index: 99999; height: 50px; text-align: center; background: #E5333F; " class="order ">
