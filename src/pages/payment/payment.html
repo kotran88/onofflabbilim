@@ -9,7 +9,8 @@
     <div style="margin-left:auto; margin-right:auto;  text-align: center; margin-top:10%;">
         <span>대여기간 : </span>
         <span style="font-size:25px; background-color:rgb(240, 239, 239)">{{diff}}일</span>
-        <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월 {{endDate.split("T")[0].split("-")[2]}}일)</span>
+        <!-- <span style="font-size:12px;">({{startDate.split("T")[0].split("-")[1]}}월 {{startDate.split("T")[0].split("-")[2]}}일 ~ {{endDate.split("T")[0].split("-")[1]}}월 {{endDate.split("T")[0].split("-")[2]}}일)</span> -->
+        <span style="font-size:12px;">({{startDate_text.split("-")[1]}}월 {{startDate_text.split("-")[2]}}일 ~ {{endDate_text.split("-")[1]}}월 {{endDate_text.split("-")[2]}}일)</span>
     </div>
     <!-- <p style="display: table; margin:auto;" *ngIf="hardware != undefined">보증금은 게임을 즐기신 후, 반납시 코인지급과 함께 결제가 취소됩니다.</p> -->
     <!-- <p style="display: table; margin:auto;" *ngIf="hardware != undefined">보증금을 많이 낼 수록, 1일 대여료가 낮아집니다.</p> -->

@@ -59,10 +59,10 @@ export class OrderpagePage {
   datecheck(mode,date):boolean{
     var t=new Date();
     var t2=new Date(date);
-    t.setHours(0);
+    t.setHours(1);
     t.setMinutes(0);
     t.setSeconds(0);
-    t2.setHours(0);
+    t2.setHours(1);
     t2.setMinutes(0);
     t2.setSeconds(0);
     var a=t.getTime()-t2.getTime();
@@ -83,14 +83,19 @@ export class OrderpagePage {
     console.log(this.startDate);
     console.log(this.startDate_text)
     console.log(this.endDate)
+    console.log(this.endDate_text)
     var a = new Date(this.startDate);
     var b = new Date(this.endDate);
-    a.setHours(0);
+    console.log(a);
+    console.log(b);
+    a.setHours(1);
     a.setMinutes(0);
     a.setSeconds(0);
-    b.setHours(0);
+    b.setHours(1);
     b.setMinutes(0);
     b.setSeconds(0);
+    console.log(a);
+    console.log(b);
     var diff=a.getTime()-b.getTime();
     var Difference_In_Days = diff / (1000 * 3600 * 24);
     diff=Difference_In_Days
@@ -100,17 +105,17 @@ export class OrderpagePage {
     diff=Math.abs(diff);
     this.diff=diff+1;
     console.log(this.diff)
-    if(Difference_In_Days>0){
+    if(Difference_In_Days>=0){
       if(mode===1){
         this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
-        var a=new Date();
+        a=new Date();
         if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
         this.startDate=a.toISOString();
         this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
       else {
         this.confirmAlert2("반납일이 대여 시작일보다 빠를 수는 없습니다.")
-        var a=new Date(this.startDate);
+        a=new Date(this.startDate);
         a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
@@ -129,7 +134,7 @@ export class OrderpagePage {
           this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
         }
         else{
-          var a=new Date(this.startDate);
+          a=new Date(this.startDate);
           // if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
           a.setDate(a.getDate()+2);
           this.endDate=a.toISOString();
@@ -139,7 +144,7 @@ export class OrderpagePage {
       }
       else if(Difference_In_Days<-179){
         this.confirmAlert2("최대 대여기간은 180일 입니다.")
-        var a=new Date(this.startDate);
+        a=new Date(this.startDate);
         a.setDate(a.getDate()+179);
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
@@ -147,15 +152,24 @@ export class OrderpagePage {
       }
       else{
         if(mode===1){
+          // a = new Date(this.startDate);
           this.startDate=a.toISOString();
           this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
+          
         }
         else{
+          // b = new Date(this.endDate);
           this.endDate=b.toISOString();
           this.endDate_text=(b.getFullYear())+"-"+(b.getMonth()+1)+ "-"+(b.getDate());
         }
       }
     }
+    console.log(a);
+    console.log(b);
+    console.log(this.startDate)
+    console.log(this.startDate_text)
+    console.log(this.endDate)
+    console.log(this.endDate_text)
   }
 
   pick_date(mode){
@@ -519,15 +533,15 @@ export class OrderpagePage {
     console.log(this.startDate)
     console.log(this.endDate)
     //2020-05-07T15:00:00.446Z
-    var a=new Date(this.startDate);
-        a.setDate(a.getDate()+1);
-        a.setDate(a.getDate()-1);
-        var b=new Date(this.endDate);
-        b.setDate(b.getDate()+1);
-         b.setDate(b.getDate()-1);
-        console.log(a+"///"+b)
-       var year= this.startDate.getDate();
-       window.alert(year);
+    // var a=new Date(this.startDate);
+    //     a.setDate(a.getDate()+1);
+    //     a.setDate(a.getDate()-1);
+    //     var b=new Date(this.endDate);
+    //     b.setDate(b.getDate()+1);
+    //      b.setDate(b.getDate()-1);
+    //     console.log(a+"///"+b)
+    //    var year= this.startDate.getDate();
+    //    window.alert(year);
     if(this.Delivery_check===false){
       this.confirmAlert2('어디로 밍을 해야할지 몰라요....');
     }
@@ -536,7 +550,7 @@ export class OrderpagePage {
       this.confirmAlert2("현재 전주와 익산 지역만 배송이 가능합니다.<br>주소를 확인해주세요.");
     }
     else {
-      this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware,"peripheral":this.choiceperi, "game":this.gamearray ,"start":this.startDate, "end":this.endDate,"sale":this.sale_data});
+      this.navCtrl.push(PaymentPage,{"user":this.user, "diff":this.diff, "hardware":this.hardware,"peripheral":this.choiceperi, "game":this.gamearray ,"start":this.startDate, "end":this.endDate,"start_text":this.startDate_text, "end_text":this.endDate_text,"sale":this.sale_data});
     }
 
     /*  console.log(this.user); //대여인

@@ -29,6 +29,8 @@ export class PaymentPage {
   game = [];
   startDate: any;
   endDate: any;
+  startDate_text: any;
+  endDate_text: any;
   contrast: number = 0;
   coins: any;
   totalcoins;
@@ -63,6 +65,8 @@ export class PaymentPage {
     this.game = this.navParams.get("game");
     this.startDate = this.navParams.get("start");
     this.endDate = this.navParams.get("end");
+    this.startDate_text = this.navParams.get("start_text");
+    this.endDate_text = this.navParams.get("end_text");
     this.sale_data=this.navParams.get("sale");
     this.peripheral=this.navParams.get("peripheral");
     console.log(this.contrast);
@@ -89,6 +93,8 @@ export class PaymentPage {
     console.log(this.game);
     console.log(this.startDate);
     console.log(this.endDate);
+    console.log(this.startDate_text);
+    console.log(this.endDate_text);
     // console.log(this.hardware.pricenormal);
     if (this.hardware != undefined) {
       var ticknumber = 0;
@@ -322,7 +328,7 @@ tomorrow.setDate(now.getDate()+1);
           console.log(nnow);
           if (this.hardware != undefined) {
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               var delivery_time:any;
               if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
               else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
@@ -342,7 +348,7 @@ tomorrow.setDate(now.getDate()+1);
           } else {
 
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate, "endDate": this.endDate, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
               var delivery_time:any;
               if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
               else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
