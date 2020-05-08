@@ -9,6 +9,7 @@ import { ModalpagePage } from '../modalpage/modalpage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { GameDetailPage } from '../game-detail/game-detail';
 import { AccessPage } from '../access/access';
+import { HomePage} from '../home/home';
 
 
 /**
@@ -80,10 +81,10 @@ export class DetailPage {
   datecheck(mode,date):boolean{
     var t=new Date();
     var t2=new Date(date);
-    t.setHours(0);
+    t.setHours(1);
     t.setMinutes(0);
     t.setSeconds(0);
-    t2.setHours(0);
+    t2.setHours(1);
     t2.setMinutes(0);
     t2.setSeconds(0);
     var a=t.getTime()-t2.getTime();
@@ -104,14 +105,19 @@ export class DetailPage {
     console.log(this.startDate);
     console.log(this.startDate_text)
     console.log(this.endDate)
+    console.log(this.endDate_text)
     var a = new Date(this.startDate);
     var b = new Date(this.endDate);
-    a.setHours(0);
+    console.log(a);
+    console.log(b);
+    a.setHours(1);
     a.setMinutes(0);
     a.setSeconds(0);
-    b.setHours(0);
+    b.setHours(1);
     b.setMinutes(0);
     b.setSeconds(0);
+    console.log(a);
+    console.log(b);
     var diff=a.getTime()-b.getTime();
     var Difference_In_Days = diff / (1000 * 3600 * 24);
     diff=Difference_In_Days
@@ -121,17 +127,17 @@ export class DetailPage {
     diff=Math.abs(diff);
     this.diff=diff+1;
     console.log(this.diff)
-    if(Difference_In_Days>0){
+    if(Difference_In_Days>=0){
       if(mode===1){
         this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
-        var a=new Date();
+        a=new Date();
         if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
         this.startDate=a.toISOString();
         this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
       }
       else {
         this.confirmAlert2("반납일이 대여 시작일보다 빠를 수는 없습니다.")
-        var a=new Date(this.startDate);
+        a=new Date(this.startDate);
         a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
@@ -150,7 +156,7 @@ export class DetailPage {
           this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
         }
         else{
-          var a=new Date(this.startDate);
+          a=new Date(this.startDate);
           // if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
           a.setDate(a.getDate()+2);
           this.endDate=a.toISOString();
@@ -160,7 +166,7 @@ export class DetailPage {
       }
       else if(Difference_In_Days<-179){
         this.confirmAlert2("최대 대여기간은 180일 입니다.")
-        var a=new Date(this.startDate);
+        a=new Date(this.startDate);
         a.setDate(a.getDate()+179);
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
@@ -168,21 +174,28 @@ export class DetailPage {
       }
       else{
         if(mode===1){
+          a = new Date(this.startDate);
           this.startDate=a.toISOString();
           this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
         }
         else{
+          b = new Date(this.endDate);
           this.endDate=b.toISOString();
           this.endDate_text=(b.getFullYear())+"-"+(b.getMonth()+1)+ "-"+(b.getDate());
         }
       }
     }
+    console.log(this.startDate)
+    console.log(this.startDate_text)
+    console.log(this.endDate)
+    console.log(this.endDate_text)
   }
 
   pick_date(mode){
     var temp:any;
     if(mode===1) temp=new Date(this.startDate);
     else if(mode===2) temp=new Date(this.endDate);
+    temp.setHours(1);
     this.datePicker.show({
       date: temp,
       mode: 'date',
@@ -234,8 +247,8 @@ export class DetailPage {
       this.tomorrowflag=true;
       this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
       this.startDate=tomorrow.toISOString();
-      this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
     }
+    this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
 
     console.log(this.startDate_text+"zzzz")
   //   console.log("user is : "+this.user);
@@ -247,7 +260,8 @@ export class DetailPage {
 
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
-      this.navCtrl.pop();
+      // this.navCtrl.pop();
+      this.navCtrl.setRoot(HomePage);
       backAction();
     },2)
 
@@ -471,7 +485,8 @@ export class DetailPage {
 
   goback(){
     console.log("gotoback")
-    this.view.dismiss();
+    // this.view.dismiss();
+    this.navCtrl.setRoot(HomePage);
   }
   goToday(){
     this.date=new Date(this.today.getFullYear(),this.today.getMonth()+1,0);
@@ -556,10 +571,6 @@ export class DetailPage {
       this.confirmAlert2('1가지 이상의 게임을 선택해주세요.')
     }
     else{
-
-
-     
-
       
       var modaloption : ModalOptions={
         enableBackdropDismiss:true
