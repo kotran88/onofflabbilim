@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController, AlertController, NavParams, ViewController, Platform } from 'ionic-angular';
 import * as $ from 'jquery'
 import firebase from 'firebase/app';
@@ -6,7 +6,6 @@ import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 import { HomePage } from '../home/home';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Http, RequestOptions, Headers} from '@angular/http';
-
 /**
  * Generated class for the PaymentPage page.
  *
@@ -58,7 +57,7 @@ export class PaymentPage {
   tick: any;
   peripheral: any;
   periprice:any;
-  constructor(public platform:Platform, public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
+  constructor(public zone:NgZone,public platform:Platform, public http:Http,private geolocation: Geolocation,public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public view: ViewController) {
     this.user = this.navParams.get("user");
     this.diff = this.navParams.get("diff");
     this.hardware = this.navParams.get("hardware");
@@ -236,7 +235,7 @@ export class PaymentPage {
   }
 
 
-  st_format(text,len):String{
+  str_format(text,len):String{
     text=String(text);
     for(var i=text.length;i<len;i++){
       text='0'+text;
@@ -247,9 +246,9 @@ export class PaymentPage {
   today():String{
     var t=new Date();
     var r=
-        this.st_format(t.getFullYear(),4)+'-'+this.st_format(t.getMonth()+1,2)+'-'+this.st_format(t.getDate(),2)
+        this.str_format(t.getFullYear(),4)+'-'+this.str_format(t.getMonth()+1,2)+'-'+this.str_format(t.getDate(),2)
         +'|'+
-        this.st_format(t.getHours(),2)+':'+this.st_format(t.getMinutes(),2)+':'+this.st_format(t.getSeconds(),2);
+        this.str_format(t.getHours(),2)+':'+this.str_format(t.getMinutes(),2)+':'+this.str_format(t.getSeconds(),2);
     return r;
   }
 
@@ -452,66 +451,68 @@ tomorrow.setDate(now.getDate()+1);
     alert.present({ animate: false });
   }
   choice() {
-    var a = 0;
-    var b = 0;
-    for (var i in this.game) {this.game[i].price; a += this.game[i].price * this.diff }
-    for (var j in this.peripheral) { b += this.peripheral[j].pricedaily * this.diff }
-    console.log(a);
-    console.log(b);
-    if (this.hardware != undefined) {
-      for(var sd in this.sale_data.deposit){
-        if(this.hardware.name===sd){
-          this.originpay=Number(this.sale_data.deposit[sd][String(this.contrast)]) * this.diff + a + b;
-          console.log(this.originpay);
-          console.log(Number(this.sale_data.deposit[sd][String(this.contrast)]))
-          console.log(this.diff);
-          console.log(a);
-          a*=((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
-          for(var sd2 in this.sale_data.deposit[sd]){
-            if(this.contrast===Number(sd2)){
-              console.log(sd2);
-              this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
+    this.zone.run(()=>{
+      var a = 0;
+      var b = 0;
+      for (var i in this.game) {this.game[i].price; a += this.game[i].price * this.diff }
+      for (var j in this.peripheral) { b += this.peripheral[j].pricedaily * this.diff }
+      console.log(a);
+      console.log(b);
+      if (this.hardware != undefined) {
+        for(var sd in this.sale_data.deposit){
+          if(this.hardware.name===sd){
+            this.originpay=Number(this.sale_data.deposit[sd][String(this.contrast)]) * this.diff + a + b;
+            console.log(this.originpay);
+            console.log(Number(this.sale_data.deposit[sd][String(this.contrast)]))
+            console.log(this.diff);
+            console.log(a);
+            a*=((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
+            for(var sd2 in this.sale_data.deposit[sd]){
+              if(this.contrast===Number(sd2)){
+                console.log(sd2);
+                this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
+              }
             }
           }
         }
+        this.hardwareprice = this.hwprice * this.diff;
+        console.log(this.hardwareprice);
+        console.log(this.sale_data)
+        
+        this.totalpaymoney = this.hardwareprice + a + b; 
+        this.longdiscount=0;
+        for(var sd in this.sale_data.percentage.date){
+          if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
+            this.longdiscount = 
+            this.totalpaymoney-(this.totalpaymoney * 
+            ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
+            this.longdiscount_text=this.sale_data.percentage.date_text[sd];
+            break;
+          }
+        }
+        console.log(this.longdiscount)
       }
-      this.hardwareprice = this.hwprice * this.diff;
-      console.log(this.hardwareprice);
-      console.log(this.sale_data)
-      
-      this.totalpaymoney = this.hardwareprice + a + b; 
-      this.longdiscount=0;
-      for(var sd in this.sale_data.percentage.date){
-        if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
-          this.longdiscount = 
-          this.totalpaymoney-(this.totalpaymoney * 
-          ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
-          this.longdiscount_text=this.sale_data.percentage.date_text[sd];
-          break;
+      if (this.hardware == undefined) {
+        this.originpay = this.gameprice;
+        this.totalpaymoney=this.gameprice;
+
+        for(var sd in this.sale_data.percentage.date){
+          if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
+            this.longdiscount =
+            this.totalpaymoney-(this.gameprice * 
+            ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
+            this.longdiscount_text=this.sale_data.percentage.date_text[sd];
+            break;
+          }
         }
       }
-      console.log(this.longdiscount)
-    }
-    if (this.hardware == undefined) {
-      this.originpay = this.gameprice;
-      this.totalpaymoney=this.gameprice;
 
-      for(var sd in this.sale_data.percentage.date){
-        if(this.diff>=Number(sd.split('~')[0])&&(Number(sd.split('~')[1])===0||this.diff<Number(sd.split('~')[1]))){
-          this.longdiscount =
-          this.totalpaymoney-(this.gameprice * 
-          ((100-Number(this.sale_data.percentage.date[sd].split('%')[0]))/100));
-          this.longdiscount_text=this.sale_data.percentage.date_text[sd];
-          break;
-        }
-      }
-    }
-
-    this.totalpaymoney-=this.longdiscount;
-    this.totalpaymoney+=this.contrast;
-    this.originpay+=this.contrast;
-    this.gameprice_piece=this.gameprice/this.game.length;
-    console.log(this.originpay);
+      this.totalpaymoney-=this.longdiscount;
+      this.totalpaymoney+=this.contrast;
+      this.originpay+=this.contrast;
+      this.gameprice_piece=this.gameprice/this.game.length;
+      console.log(this.originpay);
+    })
   }
   
   clickcoin(n) {

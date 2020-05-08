@@ -116,8 +116,8 @@
         </div>
 
         <div style="text-align: right; margin-top:-20px;">
-            <span *ngIf="contrast!=undefined" style="font-size:13px; margin-right:10%">장기대여할인 {{longdiscount_text}}: -{{longdiscount}}원</span><br>
-            <span style="font-size:13px; margin-right:10%">기기대여에 따른 게임할인(-{{sale_data.percentage.console}}) : -{{console_sale_gameprice}}원</span><br>
+            <span *ngIf="contrast!=undefined" style="font-size:13px; margin-right:10%">장기대여할인 {{longdiscount_text}}: -{{number_format(longdiscount)}}원</span><br>
+            <span style="font-size:13px; margin-right:10%">기기대여에 따른 게임할인(-{{sale_data.percentage.console}}) : -{{number_format(console_sale_gameprice)}}원</span><br>
             <span style="font-size: 13px;">코인할인 : </span>
             <span *ngIf="coindiscount===0||coindiscount===undefined" style="font-size:13px; margin-right:10%">0원</span>
             <span *ngIf="coindiscount>0" style="font-size:13px; margin-right:10%">-{{number_format(coindiscount)}}원</span>
