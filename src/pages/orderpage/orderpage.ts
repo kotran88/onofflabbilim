@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage,Platform,AlertController,ViewController,NavController, NavParams, ModalController } from 'ionic-angular';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
 import { DeliveryAreaPage } from '../delivery-area/delivery-area';
@@ -57,46 +57,49 @@ export class OrderpagePage {
   choiceperi=[];
 
   datecheck(mode,date):boolean{
-    
     var t=new Date();
     var t2=new Date(date);
+    t.setHours(0);
+    t.setMinutes(0);
+    t.setSeconds(0);
+    t2.setHours(0);
+    t2.setMinutes(0);
+    t2.setSeconds(0);
     var a=t.getTime()-t2.getTime();
     console.log(a);
-
     if(mode===1&&t.getHours()>14&&t.getDate()===t2.getDate()){
-      this.confirmAlert2('오후 2시 이전 주문시만 당일 주문 가능합니다.')
+      this.confirmAlert2("오후 2시 이전 주문시만 당일 주문 가능합니다.")
       return false;
     }
-
     if(a/(1000*3600*24)>0){
       console.log(a/(1000*3600*24))
-      
-      if(mode===1) this.confirmAlert2('대여일이 오늘보다 빠를수는 없습니다.')
-      else this.confirmAlert2('반납일이 오늘보다 빠를수는 없습니다.')
-
+      if(mode===1) this.confirmAlert2("대여일이 오늘보다 빠를수는 없습니다.")
+      else this.confirmAlert2("반납일이 오늘보다 빠를수는 없습니다.")
       return false
     }
     else return true;
   }
-
   datechange(mode){
     console.log(this.startDate);
     console.log(this.startDate_text)
-
     console.log(this.endDate)
     var a = new Date(this.startDate);
     var b = new Date(this.endDate);
-    console.log(a);
-    console.log(b);
+    a.setHours(0);
+    a.setMinutes(0);
+    a.setSeconds(0);
+    b.setHours(0);
+    b.setMinutes(0);
+    b.setSeconds(0);
     var diff=a.getTime()-b.getTime();
     var Difference_In_Days = diff / (1000 * 3600 * 24);
     diff=Difference_In_Days
     console.log(diff)
     diff=Math.floor(diff);
+    // Difference_In_Days=diff;
     diff=Math.abs(diff);
     this.diff=diff+1;
     console.log(this.diff)
-
     if(Difference_In_Days>0){
       if(mode===1){
         this.confirmAlert2("대여 시작일이 반납일보다 늦을 수는 없습니다.")
@@ -110,7 +113,7 @@ export class OrderpagePage {
         var a=new Date(this.startDate);
         a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
-        this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
       }
       this.datechange(mode)
     }
@@ -118,18 +121,19 @@ export class OrderpagePage {
       if(Difference_In_Days>-2){
         this.confirmAlert2("최소 대여기간은 3일 입니다.")
         if(mode===1){
-          var a=new Date();
+          a=new Date();
           if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
+          // b=new Date(this.endDate);
           // a.setDate(a.getDate()+2);
           this.startDate=a.toISOString();
-          this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+          this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
         }
         else{
           var a=new Date(this.startDate);
           // if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
           a.setDate(a.getDate()+2);
           this.endDate=a.toISOString();
-          this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+          this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
         }
         this.datechange(mode);
       }
@@ -138,17 +142,17 @@ export class OrderpagePage {
         var a=new Date(this.startDate);
         a.setDate(a.getDate()+179);
         this.endDate=a.toISOString();
-        this.endDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
         this.datechange(mode);
       }
       else{
         if(mode===1){
           this.startDate=a.toISOString();
-          this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+          this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
         }
         else{
           this.endDate=b.toISOString();
-          this.endDate_text=(b.getFullYear())+'-'+(b.getMonth()+1)+'-'+(b.getDate());
+          this.endDate_text=(b.getFullYear())+"-"+(b.getMonth()+1)+ "-"+(b.getDate());
         }
       }
     }
@@ -511,6 +515,19 @@ export class OrderpagePage {
   payment(){
     console.log(this.resultAddress);
    
+
+    console.log(this.startDate)
+    console.log(this.endDate)
+    //2020-05-07T15:00:00.446Z
+    var a=new Date(this.startDate);
+        a.setDate(a.getDate()+1);
+        a.setDate(a.getDate()-1);
+        var b=new Date(this.endDate);
+        b.setDate(b.getDate()+1);
+         b.setDate(b.getDate()-1);
+        console.log(a+"///"+b)
+       var year= this.startDate.getDate();
+       window.alert(year);
     if(this.Delivery_check===false){
       this.confirmAlert2('어디로 밍을 해야할지 몰라요....');
     }

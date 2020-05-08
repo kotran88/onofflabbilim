@@ -3,7 +3,7 @@ import { IonicPage, AlertController,Content,NavController, Platform,ModalControl
 import { Chatting } from '../../components/models/chatting';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { storage } from 'firebase';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { BigpicturePage } from '../bigpicture/bigpicture'
 import { CameraselectPage} from '../cameraselect/cameraselect';

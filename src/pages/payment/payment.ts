@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, ViewController, Platform } from 'ionic-angular';
 import * as $ from 'jquery'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 import { HomePage } from '../home/home';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -250,10 +250,10 @@ export class PaymentPage {
   coin_check(){
     var now=this.today();
     this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
-    .update({reason:"밍 포인트 사용",coin:Number(this.totalcoins-this.coins),date:now})
-    this.firemain.child('users').child('point').once('value').then((snap)=>{
-      this.firemain.child('users').update({point:Number(snap.val())-Number(Number(this.totalcoins-this.coins))})
-    })
+    .update({reason:"밍 포인트 사용",coin:-Number(this.totalcoins-this.coins),date:now})
+    // this.firemain.child('users').child('point').once('value').then((snap)=>{
+    this.firemain.child('users').child(this.user.phone).update({point:Number(this.coins)})
+    // })
   }
   reversegeo(){
     naver.maps.Service.reverseGeocode({
@@ -283,6 +283,7 @@ export class PaymentPage {
          
         });
   }
+
 payment(){
 
     var data = {
@@ -332,7 +333,7 @@ tomorrow.setDate(now.getDate()+1);
               this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               // this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
+              // this.firemain.child("users").child(this.user.phone).update({ "point": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
               console.log(e);
@@ -352,7 +353,7 @@ tomorrow.setDate(now.getDate()+1);
               this.coin_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               // this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-              this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
+              // this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
               console.log(e);

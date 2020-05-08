@@ -9,7 +9,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import * as firebase from 'firebase/app';
+import { initializeApp } from "firebase/app";
+
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {DetailPage } from './../pages/detail/detail'
@@ -41,6 +42,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HomeslidePage } from '../pages/homeslide/homeslide';
 import { CoinSavePage } from '../pages/coin-save/coin-save';
 import { AccessPage } from '../pages/access/access';
+import { BigpicturePage } from '../pages/bigpicture/bigpicture';
+import { ReviewPage } from '../pages/review/review';
 
 
 var firebaseConfig = {
@@ -53,7 +56,7 @@ var firebaseConfig = {
   appId: "1:609791307988:web:12d29bbbed509f9f930b41",
   measurementId: "G-ZCMV9QVCVE"
 };
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 @NgModule({
   declarations: [
@@ -76,7 +79,9 @@ firebase.initializeApp(firebaseConfig);
     PaymentPage,
     HomeslidePage,
     CoinSavePage,
-    AccessPage
+    AccessPage,
+    BigpicturePage,
+    ReviewPage
     // ChatroomlistPage,
   ],
   imports: [
@@ -91,10 +96,12 @@ firebase.initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     DetailPage,
+    ReviewPage,
     LoginpagePage,
     CoinsPage,
     SettingPage,
     HomePage,
+    BigpicturePage,
     MypagePage,
     ChatPage,
     SignupPage,

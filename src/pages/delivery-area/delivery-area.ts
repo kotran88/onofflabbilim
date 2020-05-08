@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage,AlertController, Platform,NavController, NavParams, ViewController } from 'ionic-angular';
 import * as $ from 'jquery'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 /**
  * Generated class for the DeliveryAreaPage page.

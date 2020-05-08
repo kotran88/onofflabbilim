@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage,Platform,AlertController, NavController, NavParams } from 'ionic-angular';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import * as $ from 'jquery'
 import { IamportCordova ,PaymentObject} from '@ionic-native/iamport-cordova';
 /**

@@ -99,10 +99,11 @@
             <span style="font-size:13px; margin-right:15%;">{{number_format(contrast)}}원</span>
         </div>
         <div style="width:60%">
-            <span style="margin-left: 25px; font-size:15px;">실제 결제금액</span>
+            <span style="margin-left: 25px; font-size:15px;">실질 결제금액</span>
+            <span>(총 결제금액 - 보증금)</span>
         </div>
         <div style="text-align: right; margin-left:150px; margin-top:-20px; margin-bottom:20px;">
-            <span style="font-size:13px; margin-right:15%;">{{number_format(totalpaymoney-contrast)}}원</span>
+            <span style="font-size:15px; margin-right:15%; color:red;">{{number_format(totalpaymoney-contrast)}}원</span>
         </div>
         <hr style="color:rgb(196, 196, 196); width:90%; height: 2px;">
         <div style="width:100%">

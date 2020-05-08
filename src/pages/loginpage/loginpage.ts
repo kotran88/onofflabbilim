@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, AlertController,NavController, NavParams, ModalController ,Platform} from 'ionic-angular';
 
 import { AngularFireAuth } from 'angularfire2/auth';
-import  firebase from 'firebase';
+import firebase from 'firebase/app';
 import { HomePage } from '../home/home';
 import { SignupPage } from '../signup/signup';
 import {IamportCordova} from '@ionic-native/iamport-cordova/'
@@ -27,7 +27,7 @@ export class LoginpagePage {
   main_title='';
 
   name='';
-  phone='';
+  phone:any;
   code='';
 
   certified_check=false;
@@ -85,7 +85,13 @@ export class LoginpagePage {
   }
 
   certified(){
+this.phone="0"+this.phone;
 
+console.log(this.phone);
+console.log(this.phone.length);
+    if(this.phone.length==10){
+   
+    }
     if(this.phone===this.test_phone){
       this.name="홍길동";
       console.log("")

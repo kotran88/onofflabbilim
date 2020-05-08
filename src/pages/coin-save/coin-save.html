@@ -35,7 +35,7 @@ display: flex; background-color: #E5333F; margin-top:10%;">
 
         <span style="margin-left: 10px;">{{list.reason}}</span>
         <span style="float: right;">개</span>
-        <span style="float: right; color: blue;" *ngIf="list.coin>0">{{list.coin}}</span>
+        <span style="float: right; color: blue;" *ngIf="list.coin>=0">{{list.coin}}</span>
         <span style="float: right; color: red;" *ngIf="list.coin<0">{{list.coin}}</span>
         <span style="position: absolute; right: 40px; font-size: 10px; bottom: 1px;">{{list.date.split('|')[0]}}</span>
 
