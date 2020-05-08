@@ -260,15 +260,29 @@ export class ModalpagePage {
         }
         if (ck === true) {
           console.log(e.target.value);
+          var nonlightflag = true;
           this.totalprice2 = this.totalprice;
           this.totalprice2 += Number(e.target.value.split("/")[1]);
           this.total = this.totalprice2;
           this.game = e.target.value.split("/")[0];
           if (this.game == '닌텐도 스위치') { this.gameboolean = false }
           if (this.game == 'Playstation Pro') { this.gameboolean = false }
-          if (this.game == '스위치 라이트') { this.gameboolean = true }
+          if (this.game == '스위치 라이트') {
+            this.gameboolean = true;
+            for(var gamename in this.gamearraytrue){
+              console.log(this.gamearraytrue[gamename].name);
+              if(this.gamearraytrue[gamename].name.indexOf('링 피트')>-1 ||
+              this.gamearraytrue[gamename].name.indexOf("JUST")>-1 ||
+              this.gamearraytrue[gamename].name.indexOf("복싱")>-1){
+                nonlightflag = false;
+              }
+            }
+            if(nonlightflag == false){
+                this.confirmAlert2("선택하신 게임 중에 스위치 라이트로 동작하지 않는 게임이 존재합니다.");
+              this.navCtrl.pop();
+            }
+          }
           if (this.game == 'no') { this.gameboolean = true }
-
           if (isNaN(this.total)) {
             this.total = 0;
           }
@@ -276,9 +290,8 @@ export class ModalpagePage {
         console.log(this.game);
         console.log(this.gameboolean);
         console.log(this.peripheralitem);
-        
-        
       });
+
 
       $(document).ready(() => {
         console.log("스위치");
