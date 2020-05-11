@@ -68,7 +68,7 @@
           </span>
             </div>
 
-            <button style="background: transparent; margin-top: 0px; 
+            <button *ngIf="game.flag!='ps'" style="background: transparent; margin-top: 0px; 
             border: solid 1px; height: 40px;" (click)="gotogamedetail(game)">
         상세설명보기
       </button>

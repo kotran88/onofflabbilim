@@ -154,9 +154,8 @@ export class PaymentPage {
       for(var g in this.game){
         for(var s in snap.val()){
           if(snap.val()[s].name===this.game[g].name){
-            this.stock_update(root.child(s),snap.val()[s].stock)
+            this.stock_update(root.child(s),snap.val()[s].reservation)
             this.rental_date_update(root.child(s));
-
             break;
           }
         }
@@ -170,25 +169,38 @@ export class PaymentPage {
 
     var date:any;
     var date2:any;
+    var date3:any;
     var total:any;
+    var total2:any;
 
     root.once('value').then((snap)=>{
       if(snap.val().near_return_date!=undefined){
         date=new Date(snap.val().near_return_date);
-        console.log(date);
-  
         date2=new Date(this.endDate);
+        date3=new Date();
+
+        date.setHour(0);date2.setHour(0);date3.setHour(0);
+        date.setMinutes(0);date2.setMinutes(0);date3.setMinutes(0);
+        date.setSeconds(0);date2.setSeconds(0);date3.setSeconds(0);
+
+        console.log(date);
         console.log(date2);
+        console.log(date3);
 
         total=date.getTime()-date2.getTime()
+        total2=date3.getTime()-date.getTime();
   
         console.log(date.getTime());
         console.log(date2.getTime());
+        console.log(date3.getTime());
 
-        console.log(total/(3600*24*1000));
         total=total/(3600*24*1000)
+        total2=total2/(3600*24*1000)
+
+        console.log(total);
+        console.log(total2);
   
-        if(total>0){
+        if(total>0||total2>=0){
           root.update({'near_return_date':new Date(this.endDate)});
         }
       }
@@ -199,21 +211,34 @@ export class PaymentPage {
   }
 
   stock_update(root,num){
-    root.update({stock:String(Number(num)-1)})
+    root.update({reservation:String(Number(num)+1)})
   }
   stock_update2(hardware){
     console.log(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9));
-    this.firemain.child('category').child(hardware.flag).child('console_stock').
+    this.firemain.child('category').child(hardware.flag).child('reservation').
         child(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9)).once('value').then((snap)=>{
           console.log(snap.val())
 
           var text=hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9);
-          var root=this.firemain.child('category').child(hardware.flag).child('console_stock');
+          var root=this.firemain.child('category').child(hardware.flag).child('reservation');
           
-          if(text==='CNS') root.update({'CNS':String(Number(snap.val())-1)});
-          else if(text==='CNL') root.update({'CNL':String(Number(snap.val())-1)});
-          else if(text==='CSP') root.update({'CSP':String(Number(snap.val())-1)});
+          root.child(text).update(String(Number(snap.val())+1));
+          // if(text==='CNS') root.update({'CNS':String(Number(snap.val())+1)});
+          // else if(text==='CNL') root.update({'CNL':String(Number(snap.val())+1)});
+          // else if(text==='CSP') root.update({'CSP':String(Number(snap.val())+1)});
+          // else if(text==='CSN') root.update({'CSN':String(Number(snap.val())+1)});
     });
+    // this.firemain.child('category').child(hardware.flag).child('console_stock').
+    //     child(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9)).once('value').then((snap)=>{
+    //       console.log(snap.val())
+
+    //       var text=hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9);
+    //       var root=this.firemain.child('category').child(hardware.flag).child('console_stock');
+          
+    //       if(text==='CNS') root.update({'CNS':String(Number(snap.val())-1)});
+    //       else if(text==='CNL') root.update({'CNL':String(Number(snap.val())-1)});
+    //       else if(text==='CSP') root.update({'CSP':String(Number(snap.val())-1)});
+    // });
 
     // .update(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9):String(Number(hardware.stock)-1))
   }
@@ -256,9 +281,7 @@ export class PaymentPage {
     var now=this.today();
     this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
     .update({reason:"밍 포인트 사용",coin:-Number(this.totalcoins-this.coins),date:now})
-    // this.firemain.child('users').child('point').once('value').then((snap)=>{
     this.firemain.child('users').child(this.user.phone).update({point:Number(this.coins)})
-    // })
   }
   reversegeo(){
     naver.maps.Service.reverseGeocode({
@@ -316,8 +339,8 @@ payment(){
           console.log("coin is")
           var now = new Date();
 
-var tomorrow = new Date();
-tomorrow.setDate(now.getDate()+1);
+          var tomorrow = new Date();
+          tomorrow.setDate(now.getDate()+1);
           var year = now.getFullYear();
           var month = now.getMonth() + 1;
           var date = now.getDate();
@@ -470,7 +493,7 @@ tomorrow.setDate(now.getDate()+1);
             for(var sd2 in this.sale_data.deposit[sd]){
               if(this.contrast===Number(sd2)){
                 console.log(sd2);
-                this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
+             this.hwprice = Number(this.sale_data.deposit[sd][sd2]);
               }
             }
           }

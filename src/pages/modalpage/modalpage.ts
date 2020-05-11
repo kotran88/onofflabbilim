@@ -175,8 +175,8 @@ export class ModalpagePage {
                 for (var i = 0; i < this.hardwarearray.length; i++) {
                   if (this.hardwarearray[i].itemcode.substring(0, 2)
                     === snapshot.val()[a][b][c].itemcode.substring(0, 2) &&
-                    this.hardwarearray[i].itemcode.substring(8, 9)
-                    === snapshot.val()[a][b][c].itemcode.substring(8, 9)) {
+                    this.hardwarearray[i].itemcode.substring(8, 10)
+                    === snapshot.val()[a][b][c].itemcode.substring(8, 10)) {
                     this.hardwarearray[i].stock += Number(snapshot.val()[a][b][c].stock);
                     break;
                   }
