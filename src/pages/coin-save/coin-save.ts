@@ -15,11 +15,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class CoinSavePage {
 
   coin_list=[];
-  mycoins
+  mycoins:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     var data=this.navParams.get('data').accumulation;
-    this.mycoins=this.navParams.get('data').point;
+    this.mycoins=Number(this.navParams.get('data').point);
     for(var i in data){
       this.coin_list[this.coin_list.length]=data[i];
 

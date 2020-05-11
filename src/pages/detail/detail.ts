@@ -297,6 +297,8 @@ export class DetailPage {
     for(var ii=0; ii<this.gamearray.length; ii++){
       this.gamearray[ii].fflag=false;
       this.gamearray[ii].check=false;
+      // this.gamearray[ii].stock=Number(this.gamearray[ii].stock);
+      // this.gamearray[ii].reservation=Number(this.gamearray[ii].reservation);
       // this.gamearray[ii].stock=String(Number(this.gamearray[ii].stock)-Number(this.gamearray[ii].reservation))
     }
     console.log(this.detail);
@@ -573,6 +575,44 @@ export class DetailPage {
     }
     else{
       
+      var alert_text='';
+      var near_date:any;
+      var end_date:any;
+
+      for(var i in this.gamearray){
+        if(this.gamearray[i].fflag===true){
+          console.log(this.gamearray[i]);
+
+          this.gamearray[i].stock=Number(this.gamearray[i].stock)
+          this.gamearray[i].reservation=Number(this.gamearray[i].reservation)
+
+          console.log(this.gamearray[i].stock);
+          console.log(this.gamearray[i].reservation);
+          
+          if(this.gamearray[i].stock-this.gamearray[i].reservation===0){
+
+            end_date=new Date(this.endDate_text);
+            near_date=new Date(this.gamearray[i].near_start_date);
+            near_date.setDate(near_date.getDate()-1);
+            end_date.setHours(0);end_date.setMinutes(0);end_date.setSeconds(0);
+            near_date.setHours(0);near_date.setMinutes(0);near_date.setSeconds(0);
+
+            console.log(end_date);
+            console.log(near_date);
+
+            if(end_date.getTime()>near_date.getTime()){
+              near_date.setDate(near_date.getDate()+1);
+              if(alert_text!='') alert_text+='<br>';
+              alert_text+=''+this.gamearray[i].name+"("+(near_date.getMonth()+1)+"월"+near_date.getDate()+"일),";
+            }
+          }
+        }
+      }
+      if(alert_text!=''){
+        this.confirmAlert2(alert_text+"\b <br>예약이 있습니다.");
+        return;
+      }
+
       var modaloption : ModalOptions={
         enableBackdropDismiss:true
       }
@@ -580,7 +620,7 @@ export class DetailPage {
       modal.onDidDismiss(imagedata => {
         console.log(imagedata)
       });
-     
+      
       modal.present();
     }
   }

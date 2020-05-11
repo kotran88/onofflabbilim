@@ -153,18 +153,21 @@ export class PaymentPage {
     root.once('value').then((snap)=>{
       for(var g in this.game){
         for(var s in snap.val()){
-          if(snap.val()[s].name===this.game[g].name){
+          console.log(this.game[g],snap.val());
+          if(snap.val()[s].itemcode===this.game[g].itemcode){
+            console.log(this.game[g].name)
             this.stock_update(root.child(s),snap.val()[s].reservation)
-            this.rental_date_update(root.child(s));
+            this.near_enddate_update(root.child(s));
+            this.near_startdate_update(root.child(s));
             break;
           }
         }
       }
     })
   }
-  rental_date_update(root){
+  near_enddate_update(root){
 
-    console.log('rental_date_update');
+    console.log('near_enddate_update');
     console.log(root);
 
     var date:any;
@@ -210,6 +213,53 @@ export class PaymentPage {
     })
   }
 
+  near_startdate_update(root){
+    console.log('near_startdate_update');
+    console.log(root);
+
+    var date:any;
+    var date2:any;
+    var date3:any;
+    var total:any;
+    var total2:any;
+
+    root.once('value').then((snap)=>{
+      if(snap.val().near_start_date!=undefined){
+        date=new Date(snap.val().near_start_date);
+        date2=new Date(this.startDate);
+        date3=new Date();
+
+        date.setHours(0);date2.setHours(0);date3.setHours(0);
+        date.setMinutes(0);date2.setMinutes(0);date3.setMinutes(0);
+        date.setSeconds(0);date2.setSeconds(0);date3.setSeconds(0);
+
+        console.log(date);
+        console.log(date2);
+        console.log(date3);
+
+        total=date.getTime()-date2.getTime()
+        total2=date3.getTime()-date.getTime();
+  
+        console.log(date.getTime());
+        console.log(date2.getTime());
+        console.log(date3.getTime());
+
+        total=total/(3600*24*1000)
+        total2=total2/(3600*24*1000)
+
+        console.log(total);
+        console.log(total2);
+  
+        if(total>=0||total2>=0){
+          root.update({'near_start_date':new Date(this.startDate)});
+        }
+      }
+      else{
+        root.update({'near_start_date':new Date(this.startDate)});
+      }
+    })
+  }
+
   stock_update(root,num){
     root.update({reservation:String(Number(num)+1)})
   }
@@ -222,25 +272,12 @@ export class PaymentPage {
           var text=hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9);
           var root=this.firemain.child('category').child(hardware.flag).child('reservation');
           
-          root.child(text).update(String(Number(snap.val())+1));
-          // if(text==='CNS') root.update({'CNS':String(Number(snap.val())+1)});
-          // else if(text==='CNL') root.update({'CNL':String(Number(snap.val())+1)});
-          // else if(text==='CSP') root.update({'CSP':String(Number(snap.val())+1)});
-          // else if(text==='CSN') root.update({'CSN':String(Number(snap.val())+1)});
+          if(text==='CNS') root.update({'CNS':String(Number(snap.val())+1)})
+          else if(text==='CNL') root.update({'CNL':String(Number(snap.val())+1)})
+          else if(text==='CSP') root.update({'CSP':String(Number(snap.val())+1)})
+          else if(text==='CNN') root.update({'CSN':String(Number(snap.val())+1)})
+          // root.child(text).update(String(Number(snap.val())+1));
     });
-    // this.firemain.child('category').child(hardware.flag).child('console_stock').
-    //     child(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9)).once('value').then((snap)=>{
-    //       console.log(snap.val())
-
-    //       var text=hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9);
-    //       var root=this.firemain.child('category').child(hardware.flag).child('console_stock');
-          
-    //       if(text==='CNS') root.update({'CNS':String(Number(snap.val())-1)});
-    //       else if(text==='CNL') root.update({'CNL':String(Number(snap.val())-1)});
-    //       else if(text==='CSP') root.update({'CSP':String(Number(snap.val())-1)});
-    // });
-
-    // .update(hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9):String(Number(hardware.stock)-1))
   }
   geolocation_update(){
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -312,7 +349,57 @@ export class PaymentPage {
         });
   }
 
-payment(){
+  test_payment(){
+    var now = new Date();
+
+    var tomorrow = new Date();
+    tomorrow.setDate(now.getDate()+1);
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var date = now.getDate();
+    var hour = now.getHours();
+    var min = now.getMinutes();
+    var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
+
+    if (this.hardware != undefined) {
+      var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+        var delivery_time:any;
+        if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
+        else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
+          delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
+        }
+        this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
+        this.coin_check();
+        this.game_stock_check();
+        this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+        this.navCtrl.setRoot(HomePage);
+      }).catch((e) => {
+        console.log(e);
+      })
+
+    } 
+    else {
+
+      var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
+        var delivery_time:any;
+        if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
+        else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
+          delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
+        }
+        this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
+        this.coin_check();
+        this.game_stock_check();
+        this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+        this.navCtrl.setRoot(HomePage);
+      }).catch((e) => {
+        console.log(e);
+      })
+    }
+  }
+
+  payment(){
 
     var data = {
       pay_method: 'card',
@@ -360,8 +447,6 @@ payment(){
               this.coin_check();
               this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              // this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-              // this.firemain.child("users").child(this.user.phone).update({ "point": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
               console.log(e);
@@ -376,12 +461,10 @@ payment(){
               else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
                 delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
               }
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>");
+              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
               this.game_stock_check();
               this.coin_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              // this.geolocation_update(this.firemain.child("users").child(this.user.phone).child("orderlist").child(k));
-              // this.firemain.child("users").child(this.user.phone).update({ "points": this.coins })
               this.navCtrl.setRoot(HomePage);
             }).catch((e) => {
               console.log(e);
@@ -397,15 +480,15 @@ payment(){
       })
       .catch((err) => {
         this.confirmAlert2('error : '+err)
-      })
-      ;
-}
+      });
+  }
   ordering() {
     console.log(this.user);
-    if(this.user.name=="홍길동"){
+    if(this.user.name==this.admin.name){
       //payment startedd
-      this.payment();
-    }else{
+      this.test_payment();
+    }
+    else{
       //geo check and if ok, payment started
       this.geolocation_update();
     }

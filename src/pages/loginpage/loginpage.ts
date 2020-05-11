@@ -144,41 +144,41 @@ console.log(this.phone.length);
       // this.navCtrl.push(HomeslidePage);
     }
   }
-  geolocation_update(){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      console.log('b');
-      console.log(resp);
-      console.log(resp.coords)
-      // resp.coords.latitude
-      // resp.coords.longitude
-      this.firemain.child("users").child(this.phone).child('logingeolocation').update({
-        ratitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        date:new Date(),
-      }).then(()=>{
-        console.log('resp then')
-      })
-    }).catch((error) => {
-      console.log('Error getting location', error);
-      this.platform.exitApp();
-    });
-  }
+  // geolocation_update(){
+  //   this.geolocation.getCurrentPosition().then((resp) => {
+  //     console.log('b');
+  //     console.log(resp);
+  //     console.log(resp.coords)
+  //     // resp.coords.latitude
+  //     // resp.coords.longitude
+  //     this.firemain.child("users").child(this.phone).child('logingeolocation').update({
+  //       ratitude:resp.coords.latitude,
+  //       longitude:resp.coords.longitude,
+  //       date:new Date(),
+  //     }).then(()=>{
+  //       console.log('resp then')
+  //     })
+  //   }).catch((error) => {
+  //     console.log('Error getting location', error);
+  //     this.platform.exitApp();
+  //   });
+  // }
 
-  uuid_update(){
-    this.uniqueDeviceID.get()
-    .then((uuid: any) =>{
-      console.log('a');
-      console.log(uuid)
-      // this.unique_ID=uuid; 
-      this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
-        console.log('uuid then')
-      })
-    })
-    .catch((error: any) =>{
-      console.log(error);
-      this.platform.exitApp(); 
-    })
-  }
+  // uuid_update(){
+  //   this.uniqueDeviceID.get()
+  //   .then((uuid: any) =>{
+  //     console.log('a');
+  //     console.log(uuid)
+  //     // this.unique_ID=uuid; 
+  //     this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
+  //       console.log('uuid then')
+  //     })
+  //   })
+  //   .catch((error: any) =>{
+  //     console.log(error);
+  //     this.platform.exitApp(); 
+  //   })
+  // }
 
   login(){
 
@@ -187,13 +187,7 @@ console.log(this.phone.length);
     console.log(this.name);
     var flag=false;
      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
-      this.firemain.child('users').child(this.phone).update(
-        {
-          'name':this.name,
-          'phone':this.phone,
-          'last_login':new Date(),
-        }
-      )
+      
       console.log(snap.val());
       if(snap.val()===undefined||snap.val()===null){
         flag=true;
@@ -206,9 +200,14 @@ console.log(this.phone.length);
           }
         )
         this.access_modal();
-      }else{
-       
       }
+      this.firemain.child('users').child(this.phone).update(
+        {
+          'name':this.name,
+          'phone':this.phone,
+          'last_login':new Date(),
+        }
+      )
     })
     if(!flag){
       this.navCtrl.setRoot(HomePage,{"phone":this.phone,"name":this.name})
