@@ -577,7 +577,9 @@ export class DetailPage {
       
       var alert_text='';
       var near_date:any;
+      var near_date2:any;
       var end_date:any;
+      var start_date:any;
 
       for(var i in this.gamearray){
         if(this.gamearray[i].fflag===true){
@@ -589,21 +591,34 @@ export class DetailPage {
           console.log(this.gamearray[i].stock);
           console.log(this.gamearray[i].reservation);
           
-          if(this.gamearray[i].stock-this.gamearray[i].reservation===0){
+          if(this.gamearray[i].stock-this.gamearray[i].reservation<=0){
 
+            start_date=new Date(this.startDate_text);
             end_date=new Date(this.endDate_text);
             near_date=new Date(this.gamearray[i].near_start_date);
+            near_date2=new Date(this.gamearray[i].near_return_date)
+
             near_date.setDate(near_date.getDate()-1);
+            near_date2.setDate(near_date2.getDate()+1);
+
+            start_date.setHours(0);start_date.setMinutes(0);start_date.setSeconds(0);
             end_date.setHours(0);end_date.setMinutes(0);end_date.setSeconds(0);
             near_date.setHours(0);near_date.setMinutes(0);near_date.setSeconds(0);
+            near_date2.setHours(0);near_date2.setMinutes(0);near_date2.setSeconds(0);
 
+            console.log(start_date);
             console.log(end_date);
             console.log(near_date);
+            console.log(near_date2);
 
-            if(end_date.getTime()>near_date.getTime()){
+            if((start_date.getTime()>near_date.getTime()&&start_date.getTime()<near_date2.getTime())
+              ||(end_date.getTime()>near_date.getTime()&&end_date.getTime()<near_date2.getTime())){
               near_date.setDate(near_date.getDate()+1);
+              near_date2.setDate(near_date2.getDate()-1);
               if(alert_text!='') alert_text+='<br>';
-              alert_text+=''+this.gamearray[i].name+"("+(near_date.getMonth()+1)+"월"+near_date.getDate()+"일),";
+              alert_text+=''+this.gamearray[i].name+
+              " ("+(near_date.getMonth()+1)+"월"+near_date.getDate()+"일 ~ "
+              +(near_date2.getMonth()+1)+"월"+near_date2.getDate()+"일),";
             }
           }
         }

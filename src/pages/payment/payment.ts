@@ -177,12 +177,12 @@ export class PaymentPage {
     var total2:any;
 
     root.once('value').then((snap)=>{
-      if(snap.val().near_return_date!=undefined){
+      if(snap.val().near_return_date!=undefined&&snap.val().near_return_date!=""){
         date=new Date(snap.val().near_return_date);
         date2=new Date(this.endDate);
         date3=new Date();
 
-        date.setHour(0);date2.setHour(0);date3.setHour(0);
+        date.setHours(0);date2.setHours(0);date3.setHours(0);
         date.setMinutes(0);date2.setMinutes(0);date3.setMinutes(0);
         date.setSeconds(0);date2.setSeconds(0);date3.setSeconds(0);
 
@@ -197,8 +197,8 @@ export class PaymentPage {
         console.log(date2.getTime());
         console.log(date3.getTime());
 
-        total=total/(3600*24*1000)
-        total2=total2/(3600*24*1000)
+        // total=total/(3600*24*1000)
+        // total2=total2/(3600*24*1000)
 
         console.log(total);
         console.log(total2);
@@ -224,7 +224,7 @@ export class PaymentPage {
     var total2:any;
 
     root.once('value').then((snap)=>{
-      if(snap.val().near_start_date!=undefined){
+      if(snap.val().near_start_date!=undefined&&snap.val().near_start_date!=""){
         date=new Date(snap.val().near_start_date);
         date2=new Date(this.startDate);
         date3=new Date();
@@ -400,7 +400,7 @@ export class PaymentPage {
   }
 
   payment(){
-
+    
     var data = {
       pay_method: 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
@@ -434,7 +434,7 @@ export class PaymentPage {
           var hour = now.getHours();
           var min = now.getMinutes();
           var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
-          console.log(nnow);
+
           if (this.hardware != undefined) {
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
@@ -447,12 +447,15 @@ export class PaymentPage {
               this.coin_check();
               this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              this.navCtrl.setRoot(HomePage);
+              setTimeout(() => {
+                this.navCtrl.setRoot(HomePage);
+              }, 1000);
             }).catch((e) => {
               console.log(e);
             })
 
-          } else {
+          } 
+          else {
 
             var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
             this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
@@ -462,10 +465,12 @@ export class PaymentPage {
                 delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
               }
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
-              this.game_stock_check();
               this.coin_check();
+              this.game_stock_check();
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              this.navCtrl.setRoot(HomePage);
+              setTimeout(() => {
+                this.navCtrl.setRoot(HomePage);
+              }, 1000);
             }).catch((e) => {
               console.log(e);
             })
@@ -486,6 +491,11 @@ export class PaymentPage {
     console.log(this.user);
     if(this.user.name==this.admin.name){
       //payment startedd
+      // this.test_payment();
+      // this.payment();
+      this.test_payment();
+    }
+    else if(this.user.name=='장진혁'){
       this.test_payment();
     }
     else{
