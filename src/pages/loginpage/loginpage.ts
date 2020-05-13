@@ -11,6 +11,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { dateDataSortValue } from 'ionic-angular/umd/util/datetime-util';
 import { HomeslidePage } from '../homeslide/homeslide';
 import { AccessPage } from '../access/access';
+import { HttpClient } from '@angular/common/http';
+
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -27,16 +29,19 @@ export class LoginpagePage {
   main_title='';
 
   name='';
-  phone:any;
-  code='';
+  phone='';
+  certified_code='';
+  login_flag=false;
 
   certified_check=false;
+  kko_certified_check=false;
+  certified_time:any;
   login_check:any;
   phone_check=false;
-  test_phone:any;
+  admin_phone:any;
 
   firemain = firebase.database().ref();
-  constructor(public platform: Platform,private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams, public modal : ModalController) {
+  constructor(private http: HttpClient,public platform: Platform,private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams, public modal : ModalController) {
     
     if(localStorage.getItem('loginflag')!='false'&&localStorage.getItem('loginflag')!=null){
       // this.main_title='회원가입/로그인';
@@ -56,7 +61,7 @@ export class LoginpagePage {
     }
     else{
       this.firemain.child('admin').child('phone').once('value').then((snap)=>{
-        this.test_phone=snap.val();
+        this.admin_phone=snap.val();
       })
     }
 
@@ -84,15 +89,87 @@ export class LoginpagePage {
       this.navCtrl.pop();
   }
 
-  certified(){
-this.phone="0"+this.phone;
+  str_format(str,num):string{
+    str=String(str);
 
-console.log(this.phone);
-console.log(this.phone.length);
-    if(this.phone.length==10){
-   
+    for(var i= str.length;i<num;i++){
+      str="0"+str;
     }
-    if(this.phone===this.test_phone){
+
+    return str;
+  }
+
+  kko_certified(){
+    if(this.phone===''){
+      this.confirmAlert2('휴대전화 번호를 입력해 주세요.')
+      return;
+    }
+    else if(this.name===''){
+      this.confirmAlert2('이름을 입력해 주세요.')
+      return;
+    }
+
+    if(this.phone[0]!='0') this.phone="0"+this.phone;
+    console.log(this.name);
+    console.log(this.phone);
+
+    this.http.get('http://onofflab.co.kr/authpn?rq=kko&pn='+this.phone).subscribe((response) => {
+      console.log(response);
+    });
+
+    this.certified_number_check();
+  }
+
+  certified_number_check(){
+    var timer;
+    var time=180;
+
+    if(this.kko_certified_check===false){
+
+      var kko_certified_time=new Date()
+      kko_certified_time.setTime(time*1000);
+      this.certified_time=''+this.str_format(kko_certified_time.getMinutes(),2)+':'+
+                              this.str_format(kko_certified_time.getSeconds(),2);
+      
+      this.kko_certified_check=true;
+  
+      timer=setInterval(()=>{
+        time-=1;
+        kko_certified_time.setTime(time*1000);
+        this.certified_time=''+this.str_format(kko_certified_time.getMinutes(),2)+':'+
+                                this.str_format(kko_certified_time.getSeconds(),2);
+        if(time===0||this.kko_certified_check===false){
+          clearInterval(timer);
+          this.kko_certified_check=false;
+        }
+        console.log(time);
+        console.log(this.certified_time);
+        console.log(kko_certified_time);
+      },1000)
+    }
+    else{
+      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
+        console.log(snap.val());
+        if(String(this.certified_code)===String(snap.val().certified_code)){
+          this.confirmAlert2('인증에 성공하였습니다.')
+          clearInterval(timer);
+          this.kko_certified_check=false;
+          this.login();
+        }
+        else{
+          this.confirmAlert2('인증에 실패하였습니다.')
+        }
+      })
+    }
+  }
+
+  certified(){
+  this.phone="0"+this.phone;
+
+  console.log(this.phone);
+  console.log(this.phone.length);
+    
+    if(this.phone===this.admin_phone){
       this.name="홍길동";
       console.log("")
       this.login();
@@ -185,12 +262,13 @@ console.log(this.phone.length);
     console.log("login come!")
     console.log(this.phone);
     console.log(this.name);
-    var flag=false;
-     this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
+    this.login_flag=false;
+
+    this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
       
       console.log(snap.val());
-      if(snap.val()===undefined||snap.val()===null){
-        flag=true;
+      if(snap.val().point===undefined||snap.val().point===null){
+        this.login_flag=true;
         this.confirmAlert2('가입을 축하합니다~ 코인을 10개 드립니다.');
         this.coin_check('가입축하 기념',10);
         this.firemain.child('users').child(this.phone).update(
@@ -209,7 +287,7 @@ console.log(this.phone.length);
         }
       )
     })
-    if(!flag){
+    if(!this.login_flag){
       this.navCtrl.setRoot(HomePage,{"phone":this.phone,"name":this.name})
     }
     localStorage.setItem("loginflag","true");
