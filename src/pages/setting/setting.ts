@@ -106,14 +106,14 @@ export class SettingPage {
           text: '허용',
           // role: 'cancel',
           handler: data => {
-            this.firemain.child("users").child(this.id).push({"alert":true});
+            this.firemain.child("users").child(this.id).update({"alert":true});
             this.confirmAlert2("알람 ON")
           }
         },
         {
           text: '거부',
           handler: data => {
-            this.firemain.child("users").child(this.id).push({"alert":false});
+            this.firemain.child("users").child(this.id).update({"alert":false});
             this.confirmAlert2("알람 OFF")
           }
         }

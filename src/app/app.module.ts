@@ -44,6 +44,7 @@ import { CoinSavePage } from '../pages/coin-save/coin-save';
 import { AccessPage } from '../pages/access/access';
 import { BigpicturePage } from '../pages/bigpicture/bigpicture';
 import { ReviewPage } from '../pages/review/review';
+import { HttpClientModule } from '@angular/common/http';
 
 
 var firebaseConfig = {
@@ -91,6 +92,7 @@ initializeApp(firebaseConfig);
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(firebaseConfig),
     HttpModule,
+    HttpClientModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

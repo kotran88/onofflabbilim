@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the CoinSavePage page.
@@ -15,11 +15,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class CoinSavePage {
 
   coin_list=[];
-  mycoins
+  mycoins:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public view:ViewController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams) {
     var data=this.navParams.get('data').accumulation;
-    this.mycoins=this.navParams.get('data').point;
+    this.mycoins=Number(this.navParams.get('data').point);
     for(var i in data){
       this.coin_list[this.coin_list.length]=data[i];
 
@@ -33,6 +33,11 @@ export class CoinSavePage {
         String(this.coin_list[this.coin_list.length-1].date);
     }
     console.log(this.coin_list)
+
+    let backAction =  platform.registerBackButtonAction(() => {
+      this.view.dismiss();
+      backAction();
+    },2)
   }
 
   ionViewDidLoad() {

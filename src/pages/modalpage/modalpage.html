@@ -34,11 +34,11 @@
         <p style="margin-top: 10px; font-size:15px; text-align: center;">게임기가 없으시다면? 게임기를 추가해보세요</p>
 
         <select id="mySelect" class="box" name="location" style="border: solid 1px black;">
-      <option id="a"  value="no" selected >추가안함</option>
-      <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}}</option>
-    </select>
+            <option id="a"  value="no" selected >추가안함</option>
+            <option id="a" *ngFor="let a of hardwarearray" value="{{a.name}}/{{a.pricedaily}}">{{a.name}}</option>
+        </select>
 
-        <div *ngIf="game=='닌텐도 스위치' || game=='Playstation Pro'">
+        <div *ngIf="game=='닌텐도 스위치' || game=='Playstation4 Pro' || game=='Playstation4'">
             <ion-select id="peripheral" [selectOptions]="{'cssClass': 'wider-popover'}" [(ngModel)]="peripheralitem" class='periselects' interface="popover" style="margin-top:5px; border: solid 1px black" [ngClass]="peripheralitem=='no'? 'periselect':'periselects'">
                 <ion-option id="p" value="no" selected>주변기기 추가안함</ion-option>
                 <ion-option id="p" value="{{p.name}}" *ngFor="let p of peripheral">{{p.name}}</ion-option>
