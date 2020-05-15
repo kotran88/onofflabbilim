@@ -69,26 +69,33 @@ export class DetailPage {
   user:any;
   tomorrowflag:any=false;
   font_size=[];
+  newflag_list=[];
   // newflag=false;
 
   new_check(g):boolean{
 
-    console.log(g);
-
     var game=String(g.description.open_date);
 
     var newflag=false;
-    var today=new Date();
+    var date=new Date();
     var open=new Date();
     open.setFullYear(Number(game.split('.')[0]));
-    open.setMonth(Number(game.split('.')[1]));
+    open.setMonth(Number(game.split('.')[1])-1);
     open.setDate(Number(game.split('.')[2]));
+    date.setDate(date.getDate()-45)
 
-    if(today.getTime()-open.getTime()<0){
-      newflag=true;
+    console.log(g);
+    console.log(date)
+    console.log(open+'\n');
+
+    if(
+      (date.getFullYear()<open.getFullYear())||
+      (date.getFullYear()===open.getFullYear()&&date.getMonth()<open.getMonth())||
+      (date.getFullYear()==open.getFullYear()&&date.getMonth()===open.getMonth()&&date.getDate()<open.getDate())){
+      console.log('true')
+      return true;
     }
-
-    return newflag;
+    else return false;
   }
 
 
