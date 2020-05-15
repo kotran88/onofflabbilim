@@ -109,13 +109,16 @@ export class LoginpagePage {
       return;
     }
 
-    if(this.phone[0]!='0') this.phone="0"+this.phone;
-    console.log(this.name);
-    console.log(this.phone);
+    if(this.kko_certified_check===false){
 
-    this.http.get('http://onofflab.co.kr/authpn?rq=kko&pn='+this.phone).subscribe((response) => {
-      console.log(response);
-    });
+      if(this.phone[0]!='0') this.phone="0"+this.phone;
+      console.log(this.name);
+      console.log(this.phone);
+
+      this.http.get('http://onofflab.co.kr/authpn?rq=kko&pn='+this.phone).subscribe((response) => {
+        console.log(response);
+      });
+    }
 
     this.certified_number_check();
   }

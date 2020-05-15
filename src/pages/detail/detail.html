@@ -48,24 +48,52 @@
     <div style="height: auto; display: table;" class="gameselect">
         <div style="width: 33%; height: 220px; text-align: center; padding: 10px;
           float: left;" *ngFor="let game of gamearray; let i = index" [ngClass]="game.stock==='0'? 'no_stock':game.fflag==true ? 'gameshowwithborder':'gameshow'">
-            <div (click)="gameselected(game,i);" class="disp">
-                <img style="height: 80px; width: 100%;" src="{{game.url}}" />
-                <!-- <img style="position:" -->
-                <br>
-                <span style="text-align: center;">
+            <div (click)="gameselected(game,i);" class="disp" style="position: relative;">
+              <img style="height: 80px; width: 100%;" src="{{game.url}}" />
+
+              <span *ngIf="game.hotflag!=true&&game.hotflag!='true'&&new_check(game)===true" style="position: absolute; font-family: Arial Rounded MT Bold !important;
+                right: -3px; top: -3px; font-weight: 600; line-height: 12px;
+                border: solid 2px; background: white; color: orange; z-index: 100;
+                padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+              ">NEW</span>
+
+              <span *ngIf="game.hotflag===true||game.hotflag==='true'&&new_check(game)===true" style="position: absolute; font-family: Arial Rounded MT Bold !important;
+              right: -3px; top: 18px; font-weight: 600; line-height: 12px;
+              border: solid 2px; background: white; color: orange; z-index: 100;
+              padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+              ">NEW</span>
+              <span *ngIf="game.hotflag===true||game.hotflag==='true'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
+              right: -3px; top: -3px; font-weight: 600; line-height: 12px;
+              border: solid 2px; background: white; color: red;
+              padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+              ">HOT</span>
+
+              <!-- <span style="position: absolute; font-family: Arial Rounded MT Bold !important;
+              right: -3px; top: 18px; font-weight: 600; line-height: 12px;
+              border: solid 2px; background: white; color: orange;
+              padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+              ">NEW</span>
+              <span style="position: absolute; font-family: Arial Rounded MT Bold !important;
+              right: -3px; top: -3px; font-weight: 600; line-height: 12px;
+              border: solid 2px; background: white; color: red;
+              padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+              ">HOT</span> -->
+              <!-- <img style="position:" -->
+              <br>
+              <span style="text-align: center;">
           <!-- <p style="margin:0px; font-weight: bold; height: auto;" [ngStyle]="{'font-size': game.font_size+'px'}">{{game.name}}</p> -->
-            <div style="height: 35px; margin-bottom: 5px;">
-              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
-              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[1]}}</p>
-            </div>
-        
-            <!-- <p style="float:left; margin:0px;">정가 :</p>
-            <p style="text-decoration: line-through; margin:0px;">{{game.fullprice}} 원</p> -->
-            <div style="text-align: center;">
-              <p style="display: inline-block; margin:0px;"> 대여(일):</p>
-              <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(game.price)}}원</p> <br>
-            </div>
-          </span>
+                <div style="height: 35px; margin-bottom: 5px;">
+                  <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
+                  <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[1]}}</p>
+                </div>
+            
+                <!-- <p style="float:left; margin:0px;">정가 :</p>
+                <p style="text-decoration: line-through; margin:0px;">{{game.fullprice}} 원</p> -->
+                <div style="text-align: center;">
+                  <p style="display: inline-block; margin:0px;"> 대여(일):</p>
+                  <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(game.price)}}원</p> <br>
+                </div>
+              </span>
             </div>
 
             <button *ngIf="game.flag!='ps'" style="background: transparent; margin-top: 0px; 
