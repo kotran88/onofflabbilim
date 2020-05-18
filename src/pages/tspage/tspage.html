@@ -1,0 +1,28 @@
+<!--
+  Generated template for the TspagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>tspage</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item-sliding>
+    <ion-item-options side="start">
+      <ion-item-option (click)="favorite(item)">Favorite</ion-item-option>
+      <ion-item-option color="danger" (click)="share(item)">Share</ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <ion-label>Item Options</ion-label>
+    </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option (click)="unread(item)">Unread</ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-content>

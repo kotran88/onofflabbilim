@@ -224,41 +224,6 @@ export class LoginpagePage {
       // this.navCtrl.push(HomeslidePage);
     }
   }
-  // geolocation_update(){
-  //   this.geolocation.getCurrentPosition().then((resp) => {
-  //     console.log('b');
-  //     console.log(resp);
-  //     console.log(resp.coords)
-  //     // resp.coords.latitude
-  //     // resp.coords.longitude
-  //     this.firemain.child("users").child(this.phone).child('logingeolocation').update({
-  //       ratitude:resp.coords.latitude,
-  //       longitude:resp.coords.longitude,
-  //       date:new Date(),
-  //     }).then(()=>{
-  //       console.log('resp then')
-  //     })
-  //   }).catch((error) => {
-  //     console.log('Error getting location', error);
-  //     this.platform.exitApp();
-  //   });
-  // }
-
-  // uuid_update(){
-  //   this.uniqueDeviceID.get()
-  //   .then((uuid: any) =>{
-  //     console.log('a');
-  //     console.log(uuid)
-  //     // this.unique_ID=uuid; 
-  //     this.firemain.child('users').child(this.phone).update({'uuid':uuid}).then(()=>{
-  //       console.log('uuid then')
-  //     })
-  //   })
-  //   .catch((error: any) =>{
-  //     console.log(error);
-  //     this.platform.exitApp(); 
-  //   })
-  // }
 
   login(){
 
