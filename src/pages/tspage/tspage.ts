@@ -16,12 +16,15 @@ import { GameDetailPage } from '../game-detail/game-detail';
 })
 export class TspagePage {
   @ViewChild('modeSlide') slides: Slides;
-  @ViewChild('gameSlide') game_slide:Slides;
+  @ViewChild('gameSlide') gslides:Slides;
 
   all_data:any;
   gamearray:any;
   hardwarearray:any;
   count=0;
+
+  game_slide:any;
+  slide_num:any;
 
   select_list:any;
   select_num:any;
@@ -35,6 +38,7 @@ export class TspagePage {
     this.select_list[0]={name:'닌텐도 스위치',key:'switch'};
     this.select_list[1]={name:'플레이 스테이션',key:'ps'};
     this.select_num=0;
+    this.slide_num=0;
     console.log(this.select_list)
 
     this.gamearray=[{}];
@@ -55,10 +59,19 @@ export class TspagePage {
       
       this.init_flag=false;
       this.select_num = this.slides.getActiveIndex();
+      this.gslides.slideTo(0);
       this.select_num%=2
-      this.select_num=1-this.select_num
+      this.select_num=1-this.select_num;
+      this.slide_num=0;
       console.log(this.select_num)
       this.game_init(this.select_num);
+    }
+  }
+
+  slideChanged2(){
+    if(this.init_flag===true){
+      
+      this.slide_num = this.gslides.getActiveIndex();
     }
   }
 
@@ -92,7 +105,31 @@ export class TspagePage {
     console.log(this.gamearray);
     console.log(this.hardwarearray);
     this.game_sort(num);
+    this.push_slide()
     this.init_flag=true;
+  }
+
+  push_slide(){
+    this.game_slide=[];
+    var num=this.gamearray.length;
+    var lmt=Math.floor(num/6)*6+(num%6);
+    console.log(this.gamearray);
+    console.log(num)
+    console.log(lmt)
+
+    for(var i=0;i<lmt/6;i++){
+      this.game_slide[i]=[];
+      for(var j=0;j<6;j+=2){
+        if(num<=(i*6)+j) break;
+        this.game_slide[i][j/2]=this.gamearray[(i*6)+j];
+        this.game_slide[i][j/2].num=(i*6)+j;
+
+        if(num<=(i*6)+j+1) break;
+        this.game_slide[i][j/2+3]=this.gamearray[(i*6)+(j+1)];
+        this.game_slide[i][j/2+3].num=(i*6)+(j+1);
+      }
+    }
+    console.log(this.game_slide)
   }
 
   number_format(num) {

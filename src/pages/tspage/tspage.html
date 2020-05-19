@@ -14,7 +14,7 @@
   <ion-slides #modeSlide pager=false loop=true (ionSlideDidChange)="slideChanged()"
   style="width: 60% !important; height:auto; margin-left: 20%;
   margin-top:30px !important;line-height: 50px;
-  border: solid 1px black; border-radius: 15%;"
+  border: solid 1px black; border-radius: 30px;"
   >
     <ion-slide *ngFor="let list of select_list; let i = index;" 
     style="width:100% !important;">
@@ -33,33 +33,79 @@
   background: transparent;
   color: black;
   border: solid 1px black;
-  margin: -10px 0 0 10px;">
+  margin: -10px 0 0 10px;" (click)="game_search()">
     <ion-icon name="search"></ion-icon>
   </button>
 
   <!-- <ion-slides pager=true loop=falsevase>
     <ion-slide>
     </ion-slide>
-  </ion-slides> -->
+  </ion-slides> --> 
+  <ion-slides #gameSlide paper=true loop=false style="margin-top: 10%;"*ngIf="init_flag===true">
+    <ion-slide *ngFor="let slidelist of game_slide; let i = index;"
+    style="width: 100%; height: 400px;">
+      <div style="width: 30%; height: 180px; text-align: center; margin: 1% 0 0 2.5%;
+      padding: 2% 0 0 0; float: left;" 
+      *ngFor="let slide of slidelist; let i = index" 
+      [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'">
+        <div (click)="gameselected(slide,slide.num);" class="disp" 
+        style="position: relative;">
+          <img style="height: 60px; width: 90%;" src="{{slide.url}}" />
 
-  <div style="height: auto; display: table; width: 90%; margin-left: 5%; margin-top: 10%;" class="gameselect" *ngIf="init_flag===true">
+          <span *ngIf="new_check(slide)===true" 
+          [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'"
+          style="position: absolute; font-family: Arial Rounded MT Bold !important;
+          right: -3px; font-weight: 600; line-height: 12px;
+          border: solid 2px; background: white; color: orange; z-index: 100;
+          padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+          ">NEW</span>
+              
+          <span *ngIf="slide.hotflag===true||slide.hotflag==='true'" 
+          style="position: absolute; font-family: Arial Rounded MT Bold !important;
+          right: -3px; top: -3px; font-weight: 600; line-height: 12px;
+          border: solid 2px; background: white; color: red;
+          padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+          ">HOT</span>
+
+          <br>
+          <span style="text-align: center;">
+            <div style="height: 35px; margin-bottom: 5px;">
+              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[0]}}</p>
+              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[1]}}</p>
+            </div>
+
+            <div style="text-align: center;">
+              <p style="display: inline-block; margin:0px;"> 대여(일):</p>
+              <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(slide.price)}}원</p> <br>
+            </div>
+          </span>
+        </div>
+
+        <button *ngIf="slide.flag!='ps'" style="background: transparent; margin-top: 0px; 
+        border: solid 1px; height: 40px;" (click)="gotogamedetail(slide)">
+        상세설명보기</button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <!-- <div style="height: auto; display: table; width: 90%; margin-left: 5%; margin-top: 10%;" class="gameselect" *ngIf="init_flag===true">
     <div style="width: 30%; height: 180px; text-align: center; margin: 1% 0 0 2.5%;
     padding: 2% 0 0 0; float: left;" 
-    *ngFor="let game of gamearray; let i = index" 
-    [ngClass]="game.stock==='0'? 'no_stock':game.fflag==true ? 'gameshowwithborder':'gameshow'">
-      <div (click)="gameselected(game,i);" class="disp" 
+    *ngFor="let slide of gamearray; let i = index" 
+    [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'">
+      <div (click)="gameselected(slide,i);" class="disp" 
       style="position: relative;">
-        <img style="height: 60px; width: 90%;" src="{{game.url}}" />
+        <img style="height: 60px; width: 90%;" src="{{slide.url}}" />
 
-        <span *ngIf="new_check(game)===true" 
-        [ngClass]="(game.hotflag===true||game.hotflag==='true')?'hotandnew':'onlynew'"
+        <span *ngIf="new_check(slide)===true" 
+        [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'"
         style="position: absolute; font-family: Arial Rounded MT Bold !important;
         right: -3px; font-weight: 600; line-height: 12px;
         border: solid 2px; background: white; color: orange; z-index: 100;
         padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
         ">NEW</span>
             
-        <span *ngIf="game.hotflag===true||game.hotflag==='true'" 
+        <span *ngIf="slide.hotflag===true||slide.hotflag==='true'" 
         style="position: absolute; font-family: Arial Rounded MT Bold !important;
         right: -3px; top: -3px; font-weight: 600; line-height: 12px;
         border: solid 2px; background: white; color: red;
@@ -69,20 +115,20 @@
         <br>
         <span style="text-align: center;">
           <div style="height: 35px; margin-bottom: 5px;">
-            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[0]}}</p>
-            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{game.name.split('\n')[1]}}</p>
+            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[0]}}</p>
+            <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[1]}}</p>
           </div>
 
           <div style="text-align: center;">
             <p style="display: inline-block; margin:0px;"> 대여(일):</p>
-            <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(game.price)}}원</p> <br>
+            <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(slide.price)}}원</p> <br>
           </div>
         </span>
       </div>
 
-      <button *ngIf="game.flag!='ps'" style="background: transparent; margin-top: 0px; 
-      border: solid 1px; height: 40px;" (click)="gotogamedetail(game)">
+      <button *ngIf="slide.flag!='ps'" style="background: transparent; margin-top: 0px; 
+      border: solid 1px; height: 40px;" (click)="gotogamedetail(slide)">
       상세설명보기</button>
     </div>
-  </div>
+  </div> -->
 </ion-content>
