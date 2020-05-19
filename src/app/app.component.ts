@@ -11,13 +11,14 @@ import { SignupPage } from '../pages/signup/signup';
 import { ChatPage } from '../pages/chat/chat';
 import { HomePage} from '../pages/home/home'
 import {AccessPage} from '../pages/access/access'
+import {TspagePage} from '../pages/tspage/tspage'
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   // rootPage:any = HomePage;
   // rootPage:any=MypagePage;
-  rootPage:any=HomePage;
+  rootPage:any=TspagePage;
   app:any;
   constructor( app : App,public alertCtrl:AlertController,statusBar: StatusBar,platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
     this.app=app;

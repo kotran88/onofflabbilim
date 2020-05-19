@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, NgZone, ViewChild} from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController } from 'ionic-angular';
+import firebase from 'firebase/app';
+import {LoginpagePage} from '../loginpage/loginpage'
+import { GameDetailPage } from '../game-detail/game-detail';
 
 /**
  * Generated class for the TspagePage page.
@@ -12,16 +15,227 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'tspage.html',
 })
 export class TspagePage {
+  @ViewChild('modeSlide') slides: Slides;
+  @ViewChild('gameSlide') game_slide:Slides;
 
-  game:any;
-  console:any;
+  all_data:any;
+  gamearray:any;
+  hardwarearray:any;
+  count=0;
 
   select_list:any;
   select_num:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  init_flag:any;
+  firemain = firebase.database().ref();
+
+  constructor(public modal:ModalController, public alertCtrl:AlertController,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams) {
+
+    this.select_list=[{}];
+    this.select_list[0]={name:'닌텐도 스위치',key:'switch'};
+    this.select_list[1]={name:'플레이 스테이션',key:'ps'};
+    this.select_num=0;
+    console.log(this.select_list)
+
+    this.gamearray=[{}];
+    this.hardwarearray=[{}]
+
+    this.init_flag=false;
+
+    this.firemain.child('category')
+    .once('value').then((snap)=>{
+      this.all_data=snap.val();
+      console.log(this.all_data)
+      this.game_init(this.select_num)
+    })
+  }
+
+  slideChanged(){
+    if(this.init_flag===true){
+      
+      this.init_flag=false;
+      this.select_num = this.slides.getActiveIndex();
+      this.select_num%=2
+      this.select_num=1-this.select_num
+      console.log(this.select_num)
+      this.game_init(this.select_num);
+    }
+  }
+
+  game_init(num){
+    var Data:any;
+    if(this.select_list[num].key==='switch'){
+      Data=this.all_data.switch;
+    }
+    else{
+      Data=this.all_data.ps;
+    }
+    console.log(Data);
+    this.gamearray=[];
+    this.hardwarearray=[];
+
+    var cnt=0;
+    for(var i in Data.software){
+      this.gamearray[cnt++]=Data.software[i];
+    }
+    cnt=0;
+    for(var i in Data.hardware){
+      this.hardwarearray[cnt++]=Data.hardware[i];
+    }
+    console.log(this.gamearray);
+    console.log(this.hardwarearray);
+
+    for(var ii in this.gamearray){
+      this.gamearray[ii].fflag=false;
+      this.gamearray[ii].check=false;
+    }
+    console.log(this.gamearray);
+    console.log(this.hardwarearray);
+    this.game_sort(num);
+    this.init_flag=true;
+  }
+
+  number_format(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return String(num).replace(regexp, ',');
+  }
+  
+  game_sort(n){
+    var temp:any;
+    var num:any;
+    console.log('sort_start')
+    for(var q=0;q<this.gamearray.length;q++){
+      this.gamearray[q].name=String(this.gamearray[q].name);
+
+      if(this.gamearray[q].name.substring(0,1)==='!'){
+
+        num=this.gamearray[q].name.length;
+        this.gamearray[q].name=this.gamearray[q].name.substring(1,num);
+        continue;
+      }
+      for(var w=q+1;w<this.gamearray.length;w++){
+        if(this.gamearray[w].name.substring(0,1)==='!'){
+
+          num=this.gamearray[w].name.length;
+          this.gamearray[w].name=this.gamearray[w].name.substring(1,num);
+
+          temp=this.gamearray[q];
+          this.gamearray[q]=this.gamearray[w];
+          this.gamearray[w]=temp;
+          break;
+        }
+      }
+    }
+    if(n===0) this.all_data.switch.software=this.gamearray;
+    else this.all_data.ps.software=this.gamearray;
+    console.log(this.all_data)
+  }
+
+  gameselected(v,i){
+    this.zone.run(()=>{
+
+      if(Number(this.gamearray[i].stock)<=0){
+        var date=undefined;
+        
+        if(this.gamearray[i].near_return_date!=undefined){
+          date=new Date(this.gamearray[i].near_return_date);
+          console.log(date)
+          this.confirmAlert2('재고가 없는 게임입니다.<br> 반납 예정일 '+(date.getMonth()+1)+'월 '+date.getDate()+'일')
+        }
+        else{
+          this.confirmAlert2('재고가 없는 게임입니다.');
+        }
+      }
+      else if(this.gamearray[i].check===false&&this.count>=3){
+        this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
+      }
+      else{
+        this.count=0;
+      
+        this.gamearray[i].check=!this.gamearray[i].check;
+        this.gamearray[i].fflag=!this.gamearray[i].fflag;
+        console.log(this.gamearray);
+        // if(this.gamearray[i].fflag==true){
+        //   this.gamearray[i].fflag=false;
+        // }else{
+        //   this.gamearray[i].fflag=true;
+        // }
+        for(var j=0; j<this.gamearray.length; j++){
+          if(this.gamearray[j].fflag==true){
+            this.count++;
+          }
+        }
+        console.log("count is : "+this.count);
+      }
+    })
+  }
+
+  gotogamedetail(game){
+    console.log(game);
+    console.log("g")
+    let modal = this.modal.create(GameDetailPage, {game:game}, { cssClass: 'test-modal' });
+    modal.present();
+  }
+
+  new_check(g):boolean{
+
+    // console.log(g);
+    var game=String(g.description.open_date);
+
+    var newflag=false;
+    var date=new Date();
+    var open=new Date();
+    open.setFullYear(Number(game.split('.')[0]));
+    open.setMonth(Number(game.split('.')[1])-1);
+    open.setDate(Number(game.split('.')[2]));
+    date.setDate(date.getDate()-45)
 
 
+    if(
+      (date.getFullYear()<open.getFullYear())||
+      (date.getFullYear()===open.getFullYear()&&date.getMonth()<open.getMonth())||
+      (date.getFullYear()==open.getFullYear()&&date.getMonth()===open.getMonth()&&date.getDate()<open.getDate())){
+        console.log(g);
+        console.log(date)
+        console.log(open+'\n');    
+        console.log('true')
+        return true;
+    }
+    else return false;
+  }
+
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:true});
+  }
+
+  confirmAlert(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [{
+          text: '취소',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: '이동하기',
+          handler: () => {
+            console.log('Buy clicked');
+            this.navCtrl.push(LoginpagePage);
+
+          }
+        }],
+    });
+    alert.present({animate:false});
   }
 
   ionViewDidLoad() {

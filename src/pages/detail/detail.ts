@@ -333,9 +333,6 @@ export class DetailPage {
     for(var ii=0; ii<this.gamearray.length; ii++){
       this.gamearray[ii].fflag=false;
       this.gamearray[ii].check=false;
-      // this.gamearray[ii].stock=Number(this.gamearray[ii].stock);
-      // this.gamearray[ii].reservation=Number(this.gamearray[ii].reservation);
-      // this.gamearray[ii].stock=String(Number(this.gamearray[ii].stock)-Number(this.gamearray[ii].reservation))
     }
     console.log(this.detail);
     console.log(this.gamearray);

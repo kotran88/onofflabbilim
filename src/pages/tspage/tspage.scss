@@ -1,3 +1,15 @@
 page-tspage {
-
+    .swiper-pagination{
+        // display: none !important;
+    }
+    .no_stock{
+        // filter: blur(1px);
+        background-color: lightgrey;
+        border-radius: 8px;
+        opacity: 0.5;
+    }
+    .gameshowwithborder{
+        border-radius:8px;
+        background-color: #70c5ed;
+    }   
 }

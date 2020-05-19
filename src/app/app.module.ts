@@ -45,6 +45,7 @@ import { AccessPage } from '../pages/access/access';
 import { BigpicturePage } from '../pages/bigpicture/bigpicture';
 import { ReviewPage } from '../pages/review/review';
 import { HttpClientModule } from '@angular/common/http';
+import { TspagePage } from '../pages/tspage/tspage';
 
 
 var firebaseConfig = {
@@ -82,7 +83,8 @@ initializeApp(firebaseConfig);
     CoinSavePage,
     AccessPage,
     BigpicturePage,
-    ReviewPage
+    ReviewPage,
+    TspagePage,
     // ChatroomlistPage,
   ],
   imports: [
@@ -117,7 +119,8 @@ initializeApp(firebaseConfig);
     PaymentPage,
     HomeslidePage,
     CoinSavePage,
-    AccessPage
+    AccessPage,
+    TspagePage,
     // ChatroomlistPage,
   ],
   providers: [
