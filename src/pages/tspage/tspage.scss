@@ -12,4 +12,17 @@ page-tspage {
         border-radius:8px;
         background-color: #70c5ed;
     }   
+    .wd33{
+        width: 33.2% !important;
+    }
+    .halfbox{
+        height: 165px;
+    }
+    .fullbox{
+        height: 300px;
+    }
+
+    .no_scroll .scroll-content{
+        overflow: hidden;
+    }
 }

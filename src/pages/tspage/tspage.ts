@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, Slides, ModalCont
 import firebase from 'firebase/app';
 import {LoginpagePage} from '../loginpage/loginpage'
 import { GameDetailPage } from '../game-detail/game-detail';
+import * as $ from 'jquery';
 
 /**
  * Generated class for the TspagePage page.
@@ -18,10 +19,14 @@ export class TspagePage {
   @ViewChild('modeSlide') slides: Slides;
   @ViewChild('gameSlide') gslides:Slides;
 
+  first_flag=false;
+
   all_data:any;
   gamearray:any;
+  gamearray2:any;
   hardwarearray:any;
   count=0;
+  search_str='';
 
   game_slide:any;
   slide_num:any;
@@ -44,63 +49,97 @@ export class TspagePage {
     this.gamearray=[{}];
     this.hardwarearray=[{}]
 
-    this.init_flag=false;
-
     this.firemain.child('category')
     .once('value').then((snap)=>{
-      this.all_data=snap.val();
+      console.log(snap.val())
+      // this.all_data=snap.val();
+      this.all_data={switch:{software:[],hardware:[]},ps:{software:[],hardware:[]},}
+      
+      var cnt=0;
+      this.all_data.switch.hardware=[];
+      for(var i in snap.val().switch.hardware)
+        this.all_data.switch.hardware[cnt++]=snap.val().switch.hardware[i];
+
+      cnt=0;
+      this.all_data.switch.software=[];
+      for(var i in snap.val().switch.software)
+        this.all_data.switch.software[cnt++]=snap.val().switch.software[i];
+      
+      cnt=0;
+      this.all_data.ps.hardware=[];
+      for(var i in snap.val().ps.hardware)
+        this.all_data.ps.hardware[cnt++]=snap.val().ps.hardware[i];
+      
+      cnt=0;
+      this.all_data.ps.software=[];
+      for(var i in snap.val().ps.software)
+        this.all_data.ps.software[cnt++]=snap.val().ps.software[i];
       console.log(this.all_data)
-      this.game_init(this.select_num)
+      this.game_init()
     })
   }
 
   slideChanged(){
     if(this.init_flag===true){
-      
       this.init_flag=false;
+      console.log(this.slides.getActiveIndex())
       this.select_num = this.slides.getActiveIndex();
       this.gslides.slideTo(0);
       this.select_num%=2
       this.select_num=1-this.select_num;
       this.slide_num=0;
+      this.search_str='';
       console.log(this.select_num)
-      this.game_init(this.select_num);
+      this.game_init();
     }
   }
 
   slideChanged2(){
-    if(this.init_flag===true){
-      
-      this.slide_num = this.gslides.getActiveIndex();
-    }
+    this.slide_num = this.gslides.getActiveIndex();
+    console.log(this.slide_num)
   }
 
-  game_init(num){
+  game_init(str:string=''){
+    var num=this.select_num;
     var Data:any;
-    if(this.select_list[num].key==='switch'){
+    if(num===0){
       Data=this.all_data.switch;
+      console.log('switch')
     }
     else{
       Data=this.all_data.ps;
+      console.log('ps')
     }
     console.log(Data);
     this.gamearray=[];
-    this.hardwarearray=[];
+    this.gamearray2=[];
 
     var cnt=0;
     for(var i in Data.software){
-      this.gamearray[cnt++]=Data.software[i];
+      if(str!=''&&str!=undefined){
+        console.log('search : ',str)
+        if(Data.software[i].name.indexOf(str)!=-1){
+          this.gamearray[cnt++]=Data.software[i];
+        }
+      }
+      else{
+        this.gamearray=Data.software;
+        break;
+      }
     }
     cnt=0;
-    for(var i in Data.hardware){
-      this.hardwarearray[cnt++]=Data.hardware[i];
-    }
-    console.log(this.gamearray);
-    console.log(this.hardwarearray);
-
-    for(var ii in this.gamearray){
-      this.gamearray[ii].fflag=false;
-      this.gamearray[ii].check=false;
+    // for(var i in Data.hardware){
+    if(this.init_flag===false){
+      this.hardwarearray=[];
+      this.hardwarearray=Data.hardware;
+      // }
+      console.log(this.gamearray);
+      console.log(this.hardwarearray);
+  
+      for(var ii in this.gamearray){
+        this.gamearray[ii].fflag=false;
+        this.gamearray[ii].check=false;
+      }
     }
     console.log(this.gamearray);
     console.log(this.hardwarearray);
@@ -117,17 +156,17 @@ export class TspagePage {
     console.log(num)
     console.log(lmt)
 
-    for(var i=0;i<lmt/6;i++){
+    for(var i=0;i<lmt/2;i++){
       this.game_slide[i]=[];
-      for(var j=0;j<6;j+=2){
-        if(num<=(i*6)+j) break;
-        this.game_slide[i][j/2]=this.gamearray[(i*6)+j];
-        this.game_slide[i][j/2].num=(i*6)+j;
+      // for(var j=0;j<6;j+=2){
+        if(num<=(i*2)) break;
+        this.game_slide[i][0]=this.gamearray[(i*2)];
+        this.game_slide[i][0].num=(i*2);
 
-        if(num<=(i*6)+j+1) break;
-        this.game_slide[i][j/2+3]=this.gamearray[(i*6)+(j+1)];
-        this.game_slide[i][j/2+3].num=(i*6)+(j+1);
-      }
+        if(num<=(i*2)+1) break;
+        this.game_slide[i][1]=this.gamearray[(i*2)+1];
+        this.game_slide[i][1].num=(i*2)+1;
+      // }
     }
     console.log(this.game_slide)
   }
@@ -163,8 +202,11 @@ export class TspagePage {
         }
       }
     }
-    if(n===0) this.all_data.switch.software=this.gamearray;
-    else this.all_data.ps.software=this.gamearray;
+    if(this.search_str===''){
+      if(n===0) this.all_data.switch.software=this.gamearray;
+      else this.all_data.ps.software=this.gamearray;
+      this.gamearray2=this.gamearray;
+    }
     console.log(this.all_data)
   }
 
@@ -275,8 +317,30 @@ export class TspagePage {
     alert.present({animate:false});
   }
 
+  change_category(n){
+    // if((n==-1&&this.slides.getActiveIndex()===0)
+    // ||(n==1&&this.slides.getActiveIndex()===2)){
+    //   this.slides.slideTo(1);
+    // }
+    // else this.slides.slideTo(this.slides.getActiveIndex()+n);
+
+    if(n>0) this.slides.slideNext();
+    else this.slides.slidePrev();
+    this.slideChanged();
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad TspagePage');
+//propertychange change keyup paste input
+    $("#searchbox").on("propertychange change keyup paste input", ()=>{
+      this.gslides.slideTo(0);
+      // var currentVal = $(this).val();
+      var currentVal=this.search_str;
+
+      console.log(currentVal)
+      this.game_init(currentVal);
+      console.log("changed!");
+    });
   }
 
 }
