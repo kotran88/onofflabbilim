@@ -12,10 +12,12 @@
 
 <ion-content padding>
 
-  <ion-slides #modeSlide pager=false loop=true (ionSlideDidChange)="slideChanged()"
-  style="width: 60% !important; height:auto; margin-left: 20%;
+  <ion-slides #modeSlide pager=false loop=true centeredSlides=true slidesPerView="2"
+  slidesOffsetBefore="30" slidesOffsetAfter="30"
+  (ionSlideDidChange)="slideChanged()"
+  style="width: 80% !important; height:auto; margin-left: 10%;
   margin-top:30px !important;line-height: 30px;
-  border-radius: 30px;">
+  border-radius: 30px;" >
     <ion-slide *ngFor="let list of select_list; let i = index;" 
     style="width:100% !important;">
       <span style="font-weight: 800;
@@ -23,17 +25,17 @@
     </ion-slide>
   </ion-slides>
 
-  <img (click)="change_category(-1)" 
-  style="height: 20px;width: 20px;
-  position: absolute; left: 10%; top: 30px;
-  background-color: white; border-radius: 100%;"
-  src="assets/img/information2.png"/>
+  <div (click)="change_category(-1)" 
+  style="height: 30px; width: 80px;
+  position: absolute; left: 7%; top: 30px;
+  background-color: transparent; z-index: 100;"
+  src="assets/img/information2.png"></div>
 
-  <img (click)="change_category(1)" 
-  style="height: 20px;width: 20px;
-  position: absolute; right: 10%; top: 30px;
-  background-color: white; border-radius: 100%;"
-  src="assets/img/information2.png"/>
+  <div (click)="change_category(1)" 
+  style="height: 30px;width: 80px;
+  position: absolute; right: 7%; top: 30px;
+  background-color: transparent; z-index: 100;"
+  src="assets/img/information2.png"></div>
 
   <input id="searchbox" style="height: 30px;
   padding: 10px; border: solid 1px black;
