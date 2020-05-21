@@ -13,7 +13,8 @@ page-tspage {
         background-color: #70c5ed;
     }   
     .wd33{
-        width: 33.2% !important;
+        width: 30% !important;
+        margin-left: 2.5%;
     }
     .halfbox{
         height: 165px;
@@ -24,5 +25,21 @@ page-tspage {
 
     .no_scroll .scroll-content{
         overflow: hidden;
+    }
+
+    .console_selectbox{
+        text-align: center;
+        margin-left: 5%;
+        width: 50%;
+        font-size: 20px;
+        background-color: white;
+        height: 30px;
+    }
+
+    .activate{
+        color: black;
+    }
+    .no_activate{
+        color: lightgray;
     }
 }

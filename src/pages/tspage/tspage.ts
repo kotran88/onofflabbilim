@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import {LoginpagePage} from '../loginpage/loginpage'
 import { GameDetailPage } from '../game-detail/game-detail';
 import * as $ from 'jquery';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 /**
  * Generated class for the TspagePage page.
@@ -18,37 +19,59 @@ import * as $ from 'jquery';
 export class TspagePage {
   @ViewChild('modeSlide') slides: Slides;
   @ViewChild('gameSlide') gslides:Slides;
-
-  first_flag=false;
+  @ViewChild('consoleSlide') cslides:Slides;
+  @ViewChild('periSlide0') pslides0:Slides;
+  @ViewChild('periSlide1') pslides1:Slides;
+  @ViewChild('periSlide2') pslides2:Slides;
 
   all_data:any;
   gamearray:any;
-  gamearray2:any;
   hardwarearray:any;
+  peripheral = [];
   count=0;
   search_str='';
 
+  hardware_slide:any;
+
+  console_flag=false;
+  peri_flag=[false,false,false];
+
   game_slide:any;
   gslide_num:any;
+  cslide_num:any;
+  pslide_num=[0,0,0];
 
   select_list:any;
   select_num:any;
 
   init_flag:any;
+
+  console_checkbox(){
+    console.log(this.console_flag)
+    // this.slides.lockSwipes(!this.console_flag);
+  }
+  peri_checkbox(n){
+    console.log(n)
+    console.log(this.peri_flag)
+  }
+  console_selectbox(){
+    console.log(this.console_flag)
+  }
+
   firemain = firebase.database().ref();
-
-  constructor(public modal:ModalController, public alertCtrl:AlertController,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams) {
-
+  constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams) {
+    
     this.select_list=[{}];
     this.select_list[0]={name:'닌텐도 스위치',key:'switch'};
     this.select_list[1]={name:'플레이 스테이션',key:'ps'};
     this.select_num=0;
     this.gslide_num=0;
+    this.cslide_num=0;
     console.log(this.select_list)
 
     this.gamearray=[{}];
-    this.hardwarearray=[{}]
-    
+
+
     this.firemain.child('category')
     .once('value').then((snap)=>{
       console.log(snap.val())
@@ -75,7 +98,9 @@ export class TspagePage {
       for(var i in snap.val().ps.software)
         this.all_data.ps.software[cnt++]=snap.val().ps.software[i];
       console.log(this.all_data)
+      this.generatehardware()
       this.game_init()
+      this.init_flag=true;
     })
   }
 
@@ -90,13 +115,28 @@ export class TspagePage {
       this.gslide_num=0;
       this.search_str='';
       console.log(this.select_num)
+      this.generatehardware();
       this.game_init();
+      this.init_flag=true;
     }
   }
 
   slideChanged2(){
     this.gslide_num = this.gslides.getActiveIndex();
     console.log(this.gslide_num)
+  }
+  slideChanged3(){
+    this.cslide_num = this.cslides.getActiveIndex();
+    this.cslide_num%=2;
+    console.log(this.cslide_num)
+  }
+  slideChanged4(n){
+    if(n==0){this.pslide_num[n] = this.pslides0.getActiveIndex();}
+    else if(n==1){this.pslide_num[n] = this.pslides1.getActiveIndex();}
+    else if(n==2){this.pslide_num[n] = this.pslides2.getActiveIndex();}
+    this.pslide_num[n]%=2;
+    console.log(n);
+    console.log(this.pslide_num)
   }
 
   game_init(str:string=''){
@@ -112,7 +152,6 @@ export class TspagePage {
     }
     console.log(Data);
     this.gamearray=[];
-    this.gamearray2=[];
 
     var cnt=0;
     for(var i in Data.software){
@@ -128,24 +167,10 @@ export class TspagePage {
       }
     }
     cnt=0;
-    // for(var i in Data.hardware){
-    if(this.init_flag===false){
-      this.hardwarearray=[];
-      this.hardwarearray=Data.hardware;
-      // }
-      console.log(this.gamearray);
-      console.log(this.hardwarearray);
-  
-      for(var ii in this.gamearray){
-        this.gamearray[ii].fflag=false;
-        this.gamearray[ii].check=false;
-      }
-    }
     console.log(this.gamearray);
-    console.log(this.hardwarearray);
     this.game_sort(num);
     this.push_slide()
-    this.init_flag=true;
+    // this.init_flag=true;
   }
 
   push_slide(){
@@ -205,7 +230,6 @@ export class TspagePage {
     if(this.search_str===''){
       if(n===0) this.all_data.switch.software=this.gamearray;
       else this.all_data.ps.software=this.gamearray;
-      this.gamearray2=this.gamearray;
     }
     console.log(this.all_data)
   }
@@ -250,10 +274,13 @@ export class TspagePage {
   }
 
   gotogamedetail(game){
-    console.log(game);
-    console.log("g")
-    let modal = this.modal.create(GameDetailPage, {game:game}, { cssClass: 'test-modal' });
-    modal.present();
+    const browser = this.iab.create('https://store.nintendo.co.kr/70010000024287',"_blank","location=no,toolbar=no");
+
+    // browser.on('loadstop').subscribe(event => {
+    //   browser.insertCSS({ code: "body{color: red;" });
+    // });
+
+    browser.close();
   }
 
   new_check(g):boolean{
@@ -317,12 +344,29 @@ export class TspagePage {
     alert.present({animate:false});
   }
 
+  change_peri(m,n){
+    var temp_slides:any;
+    if(m===0) {
+      console.log(this.pslides0.getActiveIndex())
+      if(n>0) this.pslides0.slideNext();
+      else this.pslides0.slidePrev();
+      console.log(this.pslides0.getActiveIndex())
+    }
+    else if(m===1){
+      console.log(this.pslides1.getActiveIndex())
+      if(n>0) this.pslides1.slideNext();
+      else this.pslides1.slidePrev();
+      console.log(this.pslides1.getActiveIndex())
+    }
+    else if(m===2){
+      console.log(this.pslides2.getActiveIndex())
+      if(n>0) this.pslides2.slideNext();
+      else this.pslides2.slidePrev();
+      console.log(this.pslides2.getActiveIndex())
+    }
+  }
+
   change_category(n){
-    // if((n==-1&&this.slides.getActiveIndex()===0)
-    // ||(n==1&&this.slides.getActiveIndex()===2)){
-    //   this.slides.slideTo(1);
-    // }
-    // else this.slides.slideTo(this.slides.getActiveIndex()+n);
     console.log(this.slides.getActiveIndex())
     if(n>0) this.slides.slideNext();
     else this.slides.slidePrev();
@@ -330,9 +374,70 @@ export class TspagePage {
     this.slideChanged();
   }
 
+  change_console(n){
+    console.log(this.cslides.getActiveIndex())
+    if(n>0) this.cslides.slideNext();
+    else this.cslides.slidePrev();
+    console.log(this.cslides.getActiveIndex())
+    // this.slideChanged3();
+  }
+
+  generatehardware() {
+    this.hardwarearray=[];
+    this.peripheral=[];
+    this.firemain.child("category").child(this.select_list[this.select_num].key)
+    .once("value").then((snapshot) => {
+      for (var b in snapshot.val().hardware) {
+        if (this.hardwarearray.length === 0) {
+          this.hardwarearray=[];
+          console.log(snapshot.val().hardware[b])
+          this.hardwarearray.push(snapshot.val().hardware[b]);
+        }
+        console.log(this.hardwarearray)
+
+        for (var i = 0; i < this.hardwarearray.length; i++) {
+          console.log(this.hardwarearray[i]);
+          if (this.hardwarearray[i].itemcode.substring(8, 10)
+          === snapshot.val().hardware[b].itemcode.substring(8, 10)) {
+            this.hardwarearray[i].stock =
+            Number(this.hardwarearray[i].stock)+Number(snapshot.val().hardware[b].stock);
+            break;
+          }
+          else if (i === this.hardwarearray.length - 1) {
+            console.log(snapshot.val().hardware[b])
+            this.hardwarearray.push(snapshot.val().hardware[b]);
+          }
+        }
+      }
+        
+      for (var j in this.hardwarearray) {
+        if (Number(this.hardwarearray[j].stock) <= 0) {
+          this.hardwarearray[j].name += "[일시품절]"
+          console.log(this.hardwarearray[j].name);
+        }
+      }
+  
+      for (var peri in snapshot.val().peripheral) {
+        console.log(peri);
+        console.log(snapshot.val().peripheral[peri]);
+        this.peripheral.push(snapshot.val().peripheral[peri]);
+      }
+
+      this.hardware_slide=[{}]
+      for(var hw in this.hardwarearray){
+        this.hardware_slide[hw]={name:this.hardwarearray[hw].name};
+      }
+      console.log(this.hardware_slide)
+      console.log(this.hardwarearray);
+    });
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad TspagePage');
 //propertychange change keyup paste input
+
+    // this.cslides.lockSwipes(!this.console_flag);
+    // this.cslides.lockSwipes(false);
     $("#searchbox").on("propertychange change keyup paste input", ()=>{
       this.gslides.slideTo(0);
       // var currentVal = $(this).val();
