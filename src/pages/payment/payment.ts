@@ -489,13 +489,10 @@ export class PaymentPage {
   }
   ordering() {
     console.log(this.user);
-    if(this.user.name==this.admin.name){
+    if(this.user.name==this.admin.name&&this.user.phone==this.admin.phone){
       //payment startedd
       // this.test_payment();
       // this.payment();
-      this.test_payment();
-    }
-    else if(this.user.name=='장진혁'){
       this.test_payment();
     }
     else{

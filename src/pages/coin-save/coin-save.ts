@@ -18,19 +18,25 @@ export class CoinSavePage {
   mycoins:any;
 
   constructor(public view:ViewController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams) {
-    var data=this.navParams.get('data').accumulation;
-    this.mycoins=Number(this.navParams.get('data').point);
+    var data=this.navParams.get('user');
+    console.log(data);
+    data=data.accumulation;
+    this.mycoins=Number(this.navParams.get('user').point);
+
+    var cnt=0;
     for(var i in data){
-      this.coin_list[this.coin_list.length]=data[i];
+      this.coin_list[cnt]=data[i];
 
-      this.coin_list[this.coin_list.length-1].coin=
-        Number(this.coin_list[this.coin_list.length-1].coin);
+      this.coin_list[cnt].coin=
+        Number(this.coin_list[cnt].coin);
 
-      this.coin_list[this.coin_list.length-1].reason=
-        String(this.coin_list[this.coin_list.length-1].reason);
+      this.coin_list[cnt].reason=
+        String(this.coin_list[cnt].reason);
 
-      this.coin_list[this.coin_list.length-1].date=
-        String(this.coin_list[this.coin_list.length-1].date);
+      this.coin_list[cnt].date=
+        String(this.coin_list[cnt].date);
+      
+      if(this.coin_list[cnt].coin!=0) cnt++;
     }
     console.log(this.coin_list)
 

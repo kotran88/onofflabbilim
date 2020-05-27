@@ -1,0 +1,51 @@
+<!--
+  Generated template for the ConfirmPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+        <ion-title>주문확인</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <!-- "(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew' -->
+
+
+    <div class="divwidth1">
+        <p style="font-weight: 800;">게임</p>
+        <div *ngFor="let games of game">
+            <p>{{games.name}}</p>
+        </div>
+    </div>
+    <div class="divwidth">
+        <div class="divwidth2">
+            <p style="font-weight: 800;">기기</p>
+            <div *ngFor="let hardware of hwArray ">
+                <p>{{hardware}}</p>
+            </div>
+        </div>
+        <div class="divwidth2">
+            <p style="font-weight: 800;">주변기기</p>
+            <div *ngFor="let peripherals of peripheral">
+                <p>{{peripherals.name}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="divwidth1">
+        <p style="font-weight: 800;">결제 금액</p>
+        <div>
+            <p style="font-size:11px; color:red">* 보증금은 정상 렌탈 종료 시 반환되는 금액입니다.</p>
+            <p>보증금 : {{number_format(contrast)}}원</p>
+        </div>
+
+        <p>게임 대여 비용 : {{number_format(gameprice)}}원</p>
+        <p>총 결제 금액 : {{number_format(totalprice)}}원</p>
+    </div>
+    <div (click)="geolocation_update();" class="payment">
+        <span>결제하기</span>
+    </div>
+</ion-content>

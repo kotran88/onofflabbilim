@@ -6,6 +6,9 @@
     // font-weight: 500;
     // font-style: 500;
 }
+.md ion-menu[type=overlay] .menu-inner {
+    width: 60%;
+}
 
 .popover-content {
     min-width: 85% !important;
@@ -67,6 +70,13 @@ ion-navbar.toolbar {
     padding: 0;
 }
 
+.discount-modal .modal-wrapper {
+    width: 70%;
+    left: 15%;
+    height: 50%;
+    top: 25%;
+}
+
 .select-modal .modal-wrapper {
     width: 100% !important;
     height: 90%;
@@ -115,6 +125,33 @@ ion-navbar.toolbar {
         left: calc(20%/2);
         height: 70%;
         top: calc(20%/2);
+    }
+}
+
+.deposit-modal {
+    .modal-wrapper {
+        width: 70%;
+        left: 15%;
+        height: 50%;
+        top: 25%;
+    }
+}
+
+.peri-modal1{
+    .modal-wrapper {
+        width: 70%;
+        left: 15%;
+        height: 35%;
+        top: 40%;
+    }
+}
+
+.peri-modal2{
+    .modal-wrapper {
+        width: 70%;
+        left: 15%;
+        height: 50%;
+        top: 25%;
     }
 }
 

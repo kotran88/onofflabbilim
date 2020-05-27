@@ -1,0 +1,45 @@
+page-discount {
+    .header-md::after,
+    .tabs-md[tabsPlacement="top"]>.tabbar::after {
+        background-color: transparent;
+    }
+    .wd33 {
+        width: cal(100/3)+'%';
+        margin: 0%;
+        padding: 0%;
+    }
+    .halfbox {
+        height: 100%;
+    }
+    .fullbox {
+        height: 100%;
+    }
+    .gameshowwithborder {
+        border-radius: 8px;
+        background-color: #70c5ed;
+    }
+    .notice {
+        width: 100%;
+        text-align: center;
+        padding: 2%;
+        font-size: 13px;
+    }
+    .ok {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        text-align: center;
+        padding: 2%;
+        font-size: 16px;
+        font-weight: 600;
+        color: white;
+        background-color: #70c5ed;
+    }
+    .price {
+        width: 100%;
+        text-align: center;
+        margin-top: 5%;
+        font-size: 18px;
+        font-weight: 800;
+    }
+}

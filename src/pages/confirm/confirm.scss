@@ -1,0 +1,61 @@
+page-confirm {
+    .header-md::after,
+    .tabs-md[tabsPlacement="top"]>.tabbar::after {
+        background: transparent;
+        border-bottom: 5px solid #eee;
+    }
+    .divwidth {
+        width: 100%;
+        text-align: center;
+        height: 23%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+    .divwidth1 {
+        text-align: left;
+        display: block;
+        width: 80%;
+        margin: 2%;
+        // height: 25%;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px dashed #70c5ed;
+        p {
+            font-size: 13px;
+            margin: 0;
+            padding: 0;
+        }
+        padding:2%;
+    }
+    .divwidth2 {
+        text-align: center;
+        display: inline-table;
+        width: 40%;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px dashed #70c5ed;
+        p {
+            font-size: 13px;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .payment {
+        position: fixed;
+        bottom: 0%;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        padding: 3%;
+        color: white;
+        background-color: #70c5ed;
+        span {
+            font-size: 20px;
+            font-weight: 900;
+        }
+    }
+}

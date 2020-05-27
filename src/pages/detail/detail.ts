@@ -84,16 +84,16 @@ export class DetailPage {
     open.setDate(Number(game.split('.')[2]));
     date.setDate(date.getDate()-45)
 
-    console.log(g);
-    console.log(date)
-    console.log(open+'\n');
 
     if(
       (date.getFullYear()<open.getFullYear())||
       (date.getFullYear()===open.getFullYear()&&date.getMonth()<open.getMonth())||
       (date.getFullYear()==open.getFullYear()&&date.getMonth()===open.getMonth()&&date.getDate()<open.getDate())){
-      console.log('true')
-      return true;
+        console.log(g);
+        console.log(date)
+        console.log(open+'\n');    
+        console.log('true')
+        return true;
     }
     else return false;
   }
@@ -138,14 +138,19 @@ export class DetailPage {
     console.log(this.endDate_text)
     var a = new Date(this.startDate);
     var b = new Date(this.endDate);
-    console.log(a);
-    console.log(b);
-    a.setHours(1);
-    a.setMinutes(0);
-    a.setSeconds(0);
-    b.setHours(1);
-    b.setMinutes(0);
-    b.setSeconds(0);
+    var c = new Date();
+
+    c.setTime(0);
+    c.setFullYear(a.getFullYear());
+    c.setMonth(a.getMonth());
+    c.setDate(a.getDate());
+    a=new Date(c);
+
+    c.setFullYear(b.getFullYear());
+    c.setMonth(b.getMonth());
+    c.setDate(b.getDate());
+    b=new Date(c);
+
     console.log(a);
     console.log(b);
     var diff=a.getTime()-b.getTime();
@@ -168,6 +173,7 @@ export class DetailPage {
       else {
         this.confirmAlert2("반납일이 대여 시작일보다 빠를 수는 없습니다.")
         a=new Date(this.startDate);
+        if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
         a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
         this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
@@ -327,9 +333,6 @@ export class DetailPage {
     for(var ii=0; ii<this.gamearray.length; ii++){
       this.gamearray[ii].fflag=false;
       this.gamearray[ii].check=false;
-      // this.gamearray[ii].stock=Number(this.gamearray[ii].stock);
-      // this.gamearray[ii].reservation=Number(this.gamearray[ii].reservation);
-      // this.gamearray[ii].stock=String(Number(this.gamearray[ii].stock)-Number(this.gamearray[ii].reservation))
     }
     console.log(this.detail);
     console.log(this.gamearray);
