@@ -86,6 +86,7 @@ export class TspagePage {
 
   payment_flag=false;
   version:any;
+  totalcontrast = 0;
 
   firemain = firebase.database().ref();
   constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController,public oneSignal:OneSignal
@@ -390,6 +391,12 @@ export class TspagePage {
   }
 
   pick_date(mode){
+
+    if(this.user===undefined){
+      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      return;
+    }
+
     var temp:any;
     if(mode===1) temp=new Date(this.startDate);
     else if(mode===2) temp=new Date(this.endDate);
@@ -446,6 +453,9 @@ export class TspagePage {
     this.totalprice=this.gametotalprice+this.consoletotalprice+this.peripheraltotalprice;
     this.totalprice*=this.diff;
     this.totalprice-=this.coinprice;
+    console.log(this.totalprice);
+    this.totalcontrast = this.totalprice+this.contrast;
+    console.log(this.totalcontrast);
   }
 
   gamecalculation(){
@@ -470,18 +480,8 @@ export class TspagePage {
     this.consoletotalprice=0;
 
     this.hardware.pricedaily=Number(this.sale_data.deposit[this.hardware.name][this.contrast]);
-
-    // for(var date in percent_date){
-    //   if(date.split('~')[0]==='0') continue;
-    //   else if(date.split('~')[1]==='0') flag=true;
-    //   else flag=false;
-
-    //   if(diff>percent_date[date].split('~')[0]&&(diff<percent_date[date].split('~')[1]||flag===true)){
-    //     this.hardware.pricedaily=(100-(Number(this.sale_data.percentage.date.split('~')[0]))/100);
-    //     break;
-    //   }
-    // }
     this.consoletotalprice=Number(this.hardware.pricedaily);
+    console.log(this.consoletotalprice);
   }
 
   peripheralcalculator(){
@@ -494,7 +494,6 @@ export class TspagePage {
         this.peripheraltotalprice += Number(periprice);
       }
       console.log(this.peripheraltotalprice)
-
   }
   console_checkbox(){
     console.log(this.console_flag)
@@ -610,6 +609,11 @@ export class TspagePage {
 
       this.gslides.centeredSlides=false;
       console.log('false');
+
+      if(this.user!=undefined){
+        this.user.point+=(this.coinprice/this.sale_data.coin.price);
+      }
+      this.coinprice = 0;
 
       // this.gslide_reset();
 
@@ -776,6 +780,10 @@ export class TspagePage {
   }
 
   gameselected(v,i){
+    if(this.user===undefined){
+      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      return;
+    }
     this.zone.run(()=>{
       console.log(this.gamearray[i]);
       console.log(this.gamearray[i].fflag)
@@ -809,8 +817,17 @@ export class TspagePage {
         }
         console.log("count is : "+this.count);
         if(this.count == 0){
+          this.consoletotalprice = 0;
+          this.peripheraltotalprice = 0;
+          this.contrast = 0;
+          this.user.point+=(this.coinprice/this.sale_data.coin.price);
+          console.log(this.user.point);
+          this.coinprice = 0;
+          console.log(this.coinprice);
           this.console_flag = false;
           this.peri_flag = false;
+          this.console_flag2 = false;
+          this.peri_flag2 = false;
         }
       }
       this.totalcalculator(1);
@@ -818,13 +835,20 @@ export class TspagePage {
   }
 
   gotogamedetail(game){
-    const browser = this.iab.create('https://store.nintendo.co.kr/70010000024287',"_blank","location=no,toolbar=no");
+    // const browser = this.iab.create('https://store.nintendo.co.kr/70010000024287',"_blank","location=no,toolbar=no");
+    if(game.detailurl!=''){
+      this.loading_on();
+      const browser = this.iab.create(game.detailurl,"_blank","location=no,toolbar=no");
+      browser.close();
+      this.loading_off();
+    }
+    else{
+      this.confirmAlert2('준비중입니다.')
+    }
 
     // browser.on('loadstop').subscribe(event => {
     //   browser.insertCSS({ code: "body{color: red;" });
     // });
-
-    browser.close();
   }
 
   new_check(g):boolean{
@@ -972,6 +996,14 @@ export class TspagePage {
   // }
 
   discount(){
+    if(this.user===undefined){
+      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      return;
+    }
+    else if(this.count===0){
+      this.confirmAlert2('상품 선택 후 이용할수 있습니다.');
+      return;
+    }
     console.log('discount');
     this.totalcalculator(0);
     let modal = this.modal.create(DiscountPage,{"user":this.user,'sale':this.sale_data.coin.price,'price':this.totalprice+this.contrast},{ cssClass: 'discount-modal'});
@@ -987,11 +1019,19 @@ export class TspagePage {
     modal.present();
   }
   goConfirm(){
-    let modal = this.modal.create(ConfirmPage,{"user":this.user, "price":this.totalprice+this.contrast, "game":this.game, "hw":this.hwborrow, "peri":this.peripheral, "gameprice":this.totalprice, "contrast":this.contrast},{ cssClass: 'confirm-modal'});
-    modal.onDidDismiss(data => {
-      console.log(data);
-    });
-    modal.present();
+    if(this.count>0&&this.user!=undefined){
+      let modal = this.modal.create(ConfirmPage,{"user":this.user, "price":this.totalprice+this.contrast, "game":this.game, "hw":this.hwborrow, "peri":this.peripheral, "gameprice":this.totalprice, "contrast":this.contrast},{ cssClass: 'confirm-modal'});
+      modal.onDidDismiss(data => {
+        console.log(data);
+      });
+      modal.present();
+    }
+    else if(this.user===undefined){
+      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+    }
+    else{
+      this.confirmAlert2('게임을 선택해 주세요.')
+    }
   }
 
   searching(str){

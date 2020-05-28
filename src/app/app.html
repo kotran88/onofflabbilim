@@ -9,12 +9,16 @@
             <ion-title *ngIf="user===undefined" style="float: left;">로그인을 해주세요.</ion-title>
             <ion-title *ngIf="user!=undefined" style="float: left;">{{user.name}}님</ion-title>
         </ion-toolbar>
-        <img src="assets/img/menu-icon.png" (click)="gosetting()"
-        menuClose
-        style="width: 17%; right: 0; top: 0;
+        <img src="assets/img/setting.png" (click)="gosetting()"
+        menuClose *ngIf="user!=undefined"
+        style="width: 40px; right: 0; top: 0;
         background: transparent; z-index: 15;
         margin: 0; padding: 5px; margin-top: 5px;
         position: absolute;"/>
+        <!-- <img src=“assets/img/menu-icon.png” menuToggle style=“width: 40px;
+        height: 40px; background: transparent;
+        margin: 0; padding: 5px; margin-top: 10px;
+        float: left;” *ngIf=“search_flag==false” /> -->
     </ion-header>
 
     <ion-content>

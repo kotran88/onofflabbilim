@@ -159,16 +159,42 @@ export class LoginpagePage {
           localStorage.setItem("loginflag","true");
           localStorage.setItem("id",this.phone);
           localStorage.setItem("name",this.name);
-          this.confirmAlert2('인증에 성공하였습니다.')
           clearInterval(timer);
           this.kko_certified_check=false;
-          this.login();
+          this.login_alert();
+          // this.confirmAlert2('인증에 성공하였습니다.')
+          // this.login();
         }
         else{
           this.confirmAlert2('인증에 실패하였습니다.')
         }
       })
     }
+  }
+  
+  login_alert(){
+    let alert = this.alertCtrl.create({
+      title: '인증에 성공하였습니다.',
+      buttons: [
+        {
+          text: '취소',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: '확인',
+          handler: data => {
+            // localStorage.setItem("loginflag", "true");
+            // localStorage.setItem("id", this.phone);
+            this.login();
+            // this.confirmAlert2("로그아웃 되었습니다.");
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   /*

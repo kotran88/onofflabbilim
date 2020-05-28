@@ -13,20 +13,26 @@ page-tspage {
         background-color: #70c5ed;
     }
     .wd33 {
-        width: cal(100/3)+'%';
         margin: 0%;
         padding: 0%;
+        float: left;
+    }
+    .wd33 .slide-zoom .disp{
+        height: 100%;
     }
     .btn-area {
         height: 150px;
         width: 31.25%;
         float: left;
     }
+    .slide-zoom{
+        height: 100%;
+    }
     .halfbox {
-        height: 167px;
+        height: 100%;
     }
     .fullbox {
-        height: 300px;
+        height: 100%;
     }
     .no_scroll .scroll-content {
         overflow: hidden;
@@ -103,6 +109,18 @@ page-tspage {
         margin-top: 15px;
         animation: slideout 1s ease-in normal;
     }
+    #menutoggle {
+        position: relative;
+        height: 30px;
+        padding: 10px;
+        border: solid 1px rgb(187, 187, 187);
+        border-radius: 10px;
+        width: 70%;
+        margin-left: 50px;
+        margin-top: 15px;
+        animation: slidein 1s ease-in normal;
+        box-shadow: 1px 1px 1px 1px rgba(201, 201, 201, 0.5);
+    }
     @keyframes slidein {
         0% {
             margin-left: 84%;
@@ -175,7 +193,7 @@ page-tspage {
     }
     .discount {
         float: right;
-        width: 18%;
+        width: 28%;
         color: white;
         text-align: center;
         background: #70c5ed;
@@ -189,6 +207,7 @@ page-tspage {
     .new1 {
         border-top: 5px dashed #70c5ed;
         background-color: white;
+        margin: 0;
     }
     .pay {
         width: 100%;
@@ -198,46 +217,15 @@ page-tspage {
         padding-left: 5%;
         padding-right: 5%;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .indented{
-        margin-left:20px;
+    .indented {
+        margin-left: 20px;
     }
-    @media only screen 
-    and (device-width : 375px) 
-    and (device-height : 812px) 
-    and (-webkit-device-pixel-ratio : 3) {
-        .firstslide  {
-            margin-top:50px !important;
-          }  
-     }
-  
-    .menu-inner{
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        .firstslide {
+            margin-top: 50px !important;
+        }
+    }
+    .menu-inner {
         width: 60%;
     }
     .toolbar-background-md {
@@ -392,6 +380,6 @@ page-tspage {
 .confirm-modal .modal-wrapper {
     width: 90%;
     left: 5%;
-    height: 60%;
-    top: 20%;
+    height: 80%;
+    top: 10%;
 }

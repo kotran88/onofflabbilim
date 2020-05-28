@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
+import { DeliveryAreaPage } from '../delivery-area/delivery-area';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
@@ -27,7 +28,17 @@ export class ConfirmPage {
   lat:any;
   lng:any;
   hwArray = [];
-  constructor(public geo:Geolocation,public navCtrl: NavController, public navParams: NavParams) {
+
+  Delivery:any;
+  Delivery_check=false;
+  resultAddress : any;
+
+  lastchecked : any;
+  selected : any;
+  count : any;
+  newcount : any;
+  geo:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
     this.user = this.navParams.get("user");
     this.totalprice = this.navParams.get("price");
     this.game = this.navParams.get("game");
@@ -43,13 +54,31 @@ export class ConfirmPage {
     console.log(this.peripheral);
     console.log(this.gameprice);
     console.log(this.contrast);
-    for(var game in this.hardware){
-      if(game == 'hd'){
-        console.log(this.hardware[game].name);
-        this.hwArray.push(this.hardware[game].name);
+      for(var game in this.hardware){
+        if(game == 'hd'){
+          if(this.hardware[game]!=undefined){
+          console.log(this.hardware[game].name);
+          this.hwArray.push(this.hardware[game].name);
+        }
       }
     }
+   
     console.log(this.hwArray);
+  }
+
+  confirmAlert2(str) {
+    let alert = this.alertCtrl.create({      
+        subTitle: str,
+        buttons: [  
+        {
+          text: '확인',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }],
+        cssClass: 'alertDanger'
+    });
+    alert.present({animate:false});
   }
 
   number_format(num) {
@@ -58,7 +87,9 @@ export class ConfirmPage {
   }
 
   payment(){
-    
+    if(this.payment_check()===false){
+      return;
+    }
     var data = {
       pay_method: 'card',
       merchant_uid: 'mid_' + new Date().getTime(),
@@ -78,60 +109,6 @@ export class ConfirmPage {
         console.log(response);
         if (response.imp_success == "true") {
           console.log("결제 완료 ")
-          // console.log(this.hardware);
-          // console.log(this.coins);
-          // console.log("coin is")
-          // var now = new Date();
-
-          // var tomorrow = new Date();
-          // tomorrow.setDate(now.getDate()+1);
-          // var year = now.getFullYear();
-          // var month = now.getMonth() + 1;
-          // var date = now.getDate();
-          // var hour = now.getHours();
-          // var min = now.getMinutes();
-          // var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
-
-          // if (this.hardware != undefined) {
-          //   var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-          //   this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-          //     var delivery_time:any;
-          //     if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
-          //     else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
-          //       delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
-          //     }
-          //     this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
-          //     this.coin_check();
-          //     this.game_stock_check();
-          //     this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-          //     setTimeout(() => {
-          //       this.navCtrl.setRoot(HomePage);
-          //     }, 1000);
-          //   }).catch((e) => {
-          //     console.log(e);
-          //   })
-
-          // } 
-          // else {
-
-          //   var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-          //   this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalpaymoney, "payment": this.totalpaymoney }).then(() => {
-          //     var delivery_time:any;
-          //     if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
-          //     else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
-          //       delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
-          //     }
-          //     this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
-          //     this.coin_check();
-          //     this.game_stock_check();
-          //     this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-          //     setTimeout(() => {
-          //       this.navCtrl.setRoot(HomePage);
-          //     }, 1000);
-          //   }).catch((e) => {
-          //     console.log(e);
-          //   })
-          // }
         }
       },
     }
@@ -192,4 +169,75 @@ export class ConfirmPage {
     });
   }
 
+  Delivery_area(){
+    this.navCtrl.push(DeliveryAreaPage,{'user':this.user,"Delivery":this.Delivery}).then(() => {
+      this.navCtrl.getActive().onDidDismiss(data => {
+        if(data){
+          this.Delivery=data;
+          this.resultAddress=this.Delivery.adress;
+          this.Delivery_check=true;
+        }
+      })
+    })
+  }
+  
+  view(i) {
+    //0번째 선택 , 1번째 선택
+    // 0번째 선택되면
+
+    if(this.lastchecked==undefined){
+      this.lastchecked=-1;
+    }
+    this.selected=i;
+    if(this.lastchecked==i){
+      this.count++;
+      //클릭한거 또 클릭함
+     
+      if(this.count%2==0){
+        this.selected=i;
+
+        this.count=0;
+        
+      }else{
+        this.selected=-1;
+
+      }
+      //already clicked
+    }else{
+      //새로운거 클릭함.
+      this.count=0;
+      this.newcount++;
+      if(this.newcount%2==0){
+       
+        this.selected=1;
+
+      }else{
+        this.selected=i;
+
+        this.newcount=0;
+
+      }
+    }
+    this.lastchecked=i;
+    console.log(this.selected+"is selected")
+  }
+
+  payment_check():boolean{
+    console.log("결제");
+    console.log(this.totalprice);
+    var ck=true;
+
+    if(this.Delivery_check===false){
+      this.confirmAlert2('어디로 밍을 해야할지 몰라요.<br>주소를 입력해주세요.');
+      ck=false;
+    }
+    else if(this.resultAddress.indexOf("전북 전주")==1 || this.resultAddress.indexOf("전북 익산")==1){
+      console.log("전주");
+      this.confirmAlert2("현재 전주와 익산 지역만 배송이 가능합니다.<br>주소를 확인해주세요.");
+      ck=false;
+    }
+    else ck=true;
+    
+    return ck;
+  }
 }

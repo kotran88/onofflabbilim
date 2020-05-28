@@ -45,7 +45,29 @@
         <p>게임 대여 비용 : {{number_format(gameprice)}}원</p>
         <p>총 결제 금액 : {{number_format(totalprice)}}원</p>
     </div>
-    <div (click)="geolocation_update();" class="payment">
+    <div class="divwidth1">
+        <p style="font-weight:800;display: inline-table;
+        width: 40%;
+        height: 100%;">배송지 정보</p>
+        <div class="divwidth2" style="float:right;background-color:#70c5ed;">
+            <button (click)="Delivery_area()" style="border-radius:10%;">입력/변경하기</button>
+        </div>
+
+        <div class="divaddress" *ngIf="user.address==undefined||user.address==null">
+            <div *ngIf="Delivery_check===false" style="font-size:12px;">
+                <p>기본 배송지가 입력되지 않았습니다.</p>
+                <p>입력/변경 버튼을 통해 배송지 정보를 입력해주세요.</p>
+            </div>
+            <div *ngIf="Delivery_check===true">
+                <p style="font-size:13px">수령인 : {{Delivery.name}}</p>
+                <p style="font-size:13px">연락처 : {{Delivery.phone}}</p>
+                <p style="font-size:13px">우편번호 : {{Delivery.code}}</p>
+                <p style="font-size:13px">주소 : {{Delivery.adress}}</p>
+                <p style="font-size:13px">상세주소 : {{Delivery.detail_adress}}</p>
+            </div>
+        </div>
+    </div>
+    <div (click)="payment()" class="payment">
         <span>결제하기</span>
     </div>
 </ion-content>

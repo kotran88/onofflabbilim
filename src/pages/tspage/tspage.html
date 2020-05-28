@@ -1,16 +1,10 @@
 <ion-content padding>
-    <!-- <button  style="left: 0px;
-      position: absolute;"  ion-button menuToggle (click)="openFirst()">
-          <img src="assets/imgs/menumenu.png" style="width:22px;" left name="menu"/>
-        </button> -->
-  <img src="assets/img/menu-icon.png" menuToggle
-  style="width: 40px;
+    <img src="assets/img/menu-icon.png" menuToggle style="width: 40px;
   height: 40px; background: transparent;
   margin: 0; padding: 5px; margin-top: 10px;
-  float: left;"/>
-    <!-- <ion-icon name="menu"></ion-icon> -->
-  <!-- </img> -->
-  <div style="width: 70% !important; height:auto; margin-left: 12%;
+  float: left;" *ngIf="search_flag==false" />
+
+    <div style="width: 70% !important; height:auto; margin-left: 15%;
   margin-top:15px !important;line-height: 30px;
   border-radius: 30px;">
         <ion-slides #modeSlide pager=false loop=true centeredSlides=true slidesPerView="2" (ionSlideDidChange)="slideChanged()">
@@ -64,63 +58,68 @@
       </div>
     </div> -->
 
-    <ion-slides #gameSlide paper=false loop=false slidesPerView="3.2" (ionSlideDidChange)="slideChanged2()" style="margin: 0% 5% 0 5%; width: 90%; z-index: 10;" *ngIf="init_flag===true" class="gameslide fullbox">
+    <ion-slides #gameSlide paper=false loop=false slidesPerView="3.2" (ionSlideDidChange)="slideChanged2()" style="margin: 5% 5% 0 5%; width: 90%; z-index: 10; height: 50%;" *ngIf="init_flag===true" class="gameslide">
         <ion-slide *ngFor="let slidelist of game_slide; let idx = index;" class="wd33" [ngClass]="slidelist.length<2? 'halfbox':'fullbox'">
-            <div style="width: 100%; height: auto; text-align: center; margin: 1% 0 0 0; padding: 5% 0 5% 0; float: left;
-        position: relative;" *ngFor="let slide of slidelist; let i = index" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'" (click)="gameselected(slide,slide.num);">
+            <div style="width: 100%; height: 50%; text-align: center; margin: 1% 0 0 0; padding: 5% 0 5% 0; float: left;
+            position: relative;" *ngFor="let slide of slidelist; let i = index" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'" (click)="gameselected(slide,slide.num);">
                 <div class="disp" style="position: relative;">
-                    <img style="height: 60px; width: 90%;" src="{{slide.url}}" />
+                    <div style="height: 50%; width: 90%; margin: 0 5% 0 5%;">
+                        <img style="height: auto; width: 100%;" src="{{slide.url}}" />
+                    </div>
                     <span *ngIf="new_check(slide)===true" [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
-            right: -3px; font-weight: 600; line-height: 12px;
-            border: solid 2px; background: white; color: orange; z-index: 20;
-            padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
-            ">NEW</span>
+                    right: -3px; font-weight: 600; line-height: 12px;
+                    border: solid 2px; background: white; color: orange; z-index: 20;
+                    padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+                    ">NEW</span>
 
                     <span *ngIf="slide.hotflag===true||slide.hotflag==='true'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
-          right: -3px; top: -3px; font-weight: 600; line-height: 12px;
-          border: solid 2px; background: white; color: red;
-          padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
-          ">HOT</span>
+                    right: -3px; top: -3px; font-weight: 600; line-height: 12px;
+                    border: solid 2px; background: white; color: red;
+                    padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+                    ">HOT</span>
 
-                    <br>
+                    <!-- <br> -->
                     <span style="text-align: center;">
-            <div style="height: 35px; margin-bottom: 5px;">
-              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[0]}}</p>
-              <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[1]}}</p>
-            </div>
+                        <div style="height: 35px; margin-bottom: 5px;">
+                        <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[0]}}</p>
+                        <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[1]}}</p>
+                        </div>
 
-            <div style="text-align: center;">
-              <p style="display: inline-block; margin:0px;"> 대여(일):</p>
-              <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(slide.price)}}원</p> <br>
-            </div>
-          </span>
+                        <div style="text-align: center; margin-top: 10px;">
+                        <p style="display: inline-block; margin:0px;"> 대여(일):</p>
+                        <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(slide.price)}}원</p> <br>
+                        </div>
+                    </span>
                 </div>
 
 
                 <img (click)="gotogamedetail(slide)" style="height: 15px;
-        width: 15px; z-index: 20;
-        position: absolute;
-        left: 3px;
-        top: 2px;
-        background-color: white;
-        border-radius: 100%;" src="assets/img/information2.png" />
+                width: 15px; z-index: 20;
+                position: absolute;
+                left: 3px;
+                top: 2px;
+                background-color: white;
+                border-radius: 100%;" src="assets/img/information2.png" />
             </div>
         </ion-slide>
     </ion-slides>
 
-    <div style="width: 100%; height: 30px;">
-        <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">기기 대여 여부</ion-label>
-        <ion-checkbox style="float: left; z-index: 100;" *ngIf="count!=0" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox>
-        <span style="width: 50% !important; text-align: center; margin-left:10px;" *ngIf="console_flag2===true">{{hardware.name}}</span>
+    <div style="width: 100%; height: auto; display: inline-block; margin-top: 2%; position: relative; text-align: center;">
+        <ion-label style="width: 40%; font-size: 15px; font-weight: 600; float: left; margin: 0;">기기 대여 여부</ion-label>
+        <ion-checkbox style="float: left; z-index: 100; width: 5%;" *ngIf="count!=0" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox>
+        <span style="width: 50% !important; text-align: center; margin-left:5%;" *ngIf="console_flag2===true">{{hardware.name}}</span>
     </div>
+    <!-- <br> -->
 
-    <div style="width: 100%; height: 30px;">
-        <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">주변 기기 대여 여부</ion-label>
-        <ion-checkbox style="float: left; z-index: 100;" *ngIf="count!=0" [(ngModel)]="peri_flag" (ionChange)="peri_checkbox()"></ion-checkbox>
-        <span style="width: 50% !important; text-align: center; margin-left:10px;" *ngIf="peri_flag2===true&&count!=0">
+    <div style="width: 100%; height: auto; position: relative; display: inline-block; text-align: center;">
+        <ion-label style="width: 40%; font-size: 15px; font-weight: 600; margin: 0; float: left;">주변 기기 대여 여부</ion-label>
+        <ion-checkbox style="float: left; z-index: 100; width: 5%;" *ngIf="count!=0" [(ngModel)]="peri_flag" (ionChange)="peri_checkbox()"></ion-checkbox>
+        <span style="width: 45% !important; text-align: center; margin-left:5%;" *ngIf="peri_flag2===true&&count!=0">
             {{peripheral[0].name}}<span *ngIf=" peripheral.length>1">외 {{peripheral.length-1}}개</span>
         </span>
     </div>
+
+    <br style="height: 2%;">
 
 
     <!-- <div style="width:90%; position:relative " class="main ">
@@ -142,21 +141,21 @@
         </div> -->
     <hr class="new1">
     <div class="pay" *ngIf="payment_flag===true">
-        <div style="width:80%; float:left">
+        <div style="width:70%; float:left">
             <div class="paymoney">
                 <span>예상 대여 금액 : </span>
-                <span>{{number_format(totalprice)}}</span>
+                <span>{{number_format(totalprice)}}원</span>
                 <span *ngIf="coinprice>0" style="color: red; font-size: 80%;">코인({{coinprice}}원)</span>
             </div>
 
             <div class="paymoney">
                 <span>총 보증금 : </span>
-                <span>{{number_format(contrast)}}</span>
+                <span>{{number_format(contrast)}}원</span>
             </div>
             <div class="paymoney">
                 <span>총 결제 금액 : </span>
-                <span *ngIf="totalpaymoney==0">{{number_format(totalprice+contrast)}}</span>
-                <span *ngIf="totalpaymoney!=0">{{number_format(totalpaymoney)}}</span>
+                <span *ngIf="totalpaymoney==0">{{number_format(totalcontrast)}}원</span>
+                <span *ngIf="totalpaymoney!=0">{{number_format(totalpaymoney)}}원</span>
             </div>
         </div>
         <div class="discount" (click)="discount()">

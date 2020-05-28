@@ -7,7 +7,7 @@ page-confirm {
     .divwidth {
         width: 100%;
         text-align: center;
-        height: 23%;
+        height: 15%;
         margin-left: auto;
         margin-right: auto;
         margin-top: 2%;
@@ -41,6 +41,23 @@ page-confirm {
             font-size: 13px;
             margin: 0;
             padding: 0;
+        }
+        button {
+            background-color: transparent;
+            color: white;
+            font-weight: 800;
+            font-size: 13px;
+        }
+    }
+    .divaddress {
+        margin-top: 3%;
+        background: rgb(246, 246, 246);
+        padding: 5%;
+        height: auto;
+        white-space: initial;
+        border: 0.5px solid rgb(234, 234, 234);
+        p {
+            font-size: 12px;
         }
     }
     .payment {
