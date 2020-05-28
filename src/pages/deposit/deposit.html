@@ -1,0 +1,59 @@
+<!--
+  Generated template for the DepositPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>보증금 선택</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div style="width: 100% !important; height: 100px; margin-left: 2%;
+  margin-top:30px !important; line-height: 30px;
+  border-radius: 30px;">
+    <ion-slides #consoleSlide pager=false loop=true centeredSlides=true slidesPerView="2"
+    (ionSlideDidChange)="slideChanged()">
+      <ion-slide *ngFor="let list of hardware; let i = index;" 
+      style="width:100% !important; height: 100px;">
+        <img style="width: 90%; height: 60px; margin-left: 5%;"src="{{list.url}}"  />
+        <span style="font-weight: 800;
+        font-size: 20px;">{{list.name}}</span>
+
+      </ion-slide>
+    </ion-slides>
+
+
+    <img (click)="change_console(-1)" 
+    style="height: 100px; width: 30%; border: none;
+    position: absolute; left: 1%; top: 30px;
+    background-color: transparent; z-index: 30;"
+    />
+
+    <img (click)="change_console(1)" 
+    style="height: 100px; width: 30%; border: none;
+    position: absolute; right: 1%; top: 30px;
+    background-color: transparent; z-index: 30;"
+    />
+  </div>
+
+  <ion-item>
+    <ion-range min="0" max="{{hardware[select_num].pricenormal}}" pin="true" step="{{tick}}" (ionChange)="deposit_change()" snaps="true" [(ngModel)]="contrast" class="range">
+        <ion-label range-left name="contrast"></ion-label>
+        <ion-label range-right name="contrast"></ion-label>
+    </ion-range>
+  </ion-item>
+
+  <span>보증금 : </span>
+  <span>{{contrast}}</span>
+  <br>
+  <span>일일 대여료 : </span>
+  <span>{{hardware.pricedaily}}</span>
+
+  <div style="width: 100%;">
+    <button ion-button style="width: 50%; text-align: center; background: blue;" (click)="cancle()">취소</button>
+    <button ion-button style="width: 50%; text-align: center; background: red;" (click)="save()">확인</button>
+  </div>
+</ion-content>
