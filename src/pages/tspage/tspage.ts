@@ -807,6 +807,7 @@ export class TspagePage {
         console.log(this.gamearray);
         for(var j=0; j<this.gamearray.length; j++){
           if(this.gamearray[j].fflag==true){
+            console.log(this.gamearray[j])
             this.game[this.count]=this.gamearray[j];
             this.count++;
           }
@@ -838,7 +839,7 @@ export class TspagePage {
     // const browser = this.iab.create('https://store.nintendo.co.kr/70010000024287',"_blank","location=no,toolbar=no");
     if(game.detailurl!=''){
       this.loading_on();
-      const browser = this.iab.create(game.detailurl,"_blank","location=no,toolbar=no");
+      const browser = this.iab.create(game.detailurl,"_self","location=no,toolbar=no");
       browser.close();
       this.loading_off();
     }
@@ -1019,17 +1020,20 @@ export class TspagePage {
     modal.present();
   }
   goConfirm(){
-    if(this.count>0&&this.user!=undefined){
-      let modal = this.modal.create(ConfirmPage,{"user":this.user, "price":this.totalprice+this.contrast, "game":this.game, "hw":this.hwborrow, "peri":this.peripheral, "gameprice":this.totalprice, "contrast":this.contrast},{ cssClass: 'confirm-modal'});
+    
+    console.log("game selected:"+this.count);
+    console.log(this.user);
+    if(this.count>0&&this.user!=undefined&&this.user!=null){
+      let modal = this.modal.create(ConfirmPage,{"user":this.user,"start":this.startDate,"end":this.endDate,"start_text":this.startDate_text,"end_text":this.endDate_text, "diff":this.diff, "price":this.totalprice+this.contrast, "game":this.game, "hw":this.hwborrow, "peri":this.peripheral, "gameprice":this.totalprice, "contrast":this.contrast},{ cssClass: 'confirm-modal'});
       modal.onDidDismiss(data => {
         console.log(data);
       });
       modal.present();
     }
-    else if(this.user===undefined){
+    else if(this.user===undefined||this.user==null){
       this.confirmAlert2('로그인 후 이용할수 있습니다.')
     }
-    else{
+    else if(this.count==0){
       this.confirmAlert2('게임을 선택해 주세요.')
     }
   }

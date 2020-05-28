@@ -42,6 +42,7 @@ export class MyApp {
 
     var loginflag=localStorage.getItem('loginflag');
 
+    console.log("login flag is : "+loginflag);
     if(loginflag===''||loginflag==='false'||loginflag===undefined||loginflag===null){
       this.pages=[
         {title:'로그인',component:LoginpagePage},
@@ -55,9 +56,10 @@ export class MyApp {
         console.log(snap.val());
         this.user=snap.val();
         this.pages=[
-          {title:'주문',component:MypagePage},
+          {title:'주문관리',component:MypagePage},
+         
+          {title:'코인관리',component:CoinSavePage},
           {title:'채팅',component:ChatPage},
-          {title:'코인',component:CoinSavePage},
           {title:'이용안내',component:'안내'},
           {title:'로그아웃',component:'logout'},
           // {title:'SETTING',component:SettingPage},

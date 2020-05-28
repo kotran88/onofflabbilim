@@ -63,8 +63,8 @@
             <div style="width: 100%; height: 50%; text-align: center; margin: 1% 0 0 0; padding: 5% 0 5% 0; float: left;
             position: relative;" *ngFor="let slide of slidelist; let i = index" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'" (click)="gameselected(slide,slide.num);">
                 <div class="disp" style="position: relative;">
-                    <div style="height: 50%; width: 90%; margin: 0 5% 0 5%;">
-                        <img style="height: auto; width: 100%;" src="{{slide.url}}" />
+                    <div style="height: 45%; width: 90%; margin: 0 5% 0 5%;">
+                        <img style="height: 100%; width: 100%;" src="{{slide.url}}" />
                     </div>
                     <span *ngIf="new_check(slide)===true" [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
                     right: -3px; font-weight: 600; line-height: 12px;
@@ -80,7 +80,7 @@
 
                     <!-- <br> -->
                     <span style="text-align: center;">
-                        <div style="height: 35px; margin-bottom: 5px;">
+                        <div style="height: 35px; margin-top:7px; margin-bottom: 5px;">
                         <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[0]}}</p>
                         <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[1]}}</p>
                         </div>
@@ -93,8 +93,8 @@
                 </div>
 
 
-                <img (click)="gotogamedetail(slide)" style="height: 15px;
-                width: 15px; z-index: 20;
+                <img (click)="gotogamedetail(slide)" style="height: 20px;
+                width: 20px; z-index: 20;
                 position: absolute;
                 left: 3px;
                 top: 2px;
@@ -107,19 +107,22 @@
     <div style="width: 100%; height: auto; display: inline-block; margin-top: 2%; position: relative; text-align: center;">
         <ion-label style="width: 40%; font-size: 15px; font-weight: 600; float: left; margin: 0;">기기 대여 여부</ion-label>
         <ion-checkbox style="float: left; z-index: 100; width: 5%;" *ngIf="count!=0" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox>
+        <!-- <ion-checkbox style="float: left; z-index: 100; width: 5%;" *ngIf="count==0" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox> -->
+
+        <span style="width: 50% !important; text-align: center;" *ngIf="count==0">게임을 선택하셔야 게임기를 빌릴수 있습니다.</span>
         <span style="width: 50% !important; text-align: center; margin-left:5%;" *ngIf="console_flag2===true">{{hardware.name}}</span>
     </div>
     <!-- <br> -->
 
-    <div style="width: 100%; height: auto; position: relative; display: inline-block; text-align: center;">
+    <div style="width: 100%; height: auto; position: relative; display: inline-block; margin-top:10px; text-align: center;">
         <ion-label style="width: 40%; font-size: 15px; font-weight: 600; margin: 0; float: left;">주변 기기 대여 여부</ion-label>
-        <ion-checkbox style="float: left; z-index: 100; width: 5%;" *ngIf="count!=0" [(ngModel)]="peri_flag" (ionChange)="peri_checkbox()"></ion-checkbox>
+        <ion-checkbox style="float: left; z-index: 100; width: 5%;" [(ngModel)]="peri_flag" (ionChange)="peri_checkbox()"></ion-checkbox>
         <span style="width: 45% !important; text-align: center; margin-left:5%;" *ngIf="peri_flag2===true&&count!=0">
             {{peripheral[0].name}}<span *ngIf=" peripheral.length>1">외 {{peripheral.length-1}}개</span>
         </span>
     </div>
 
-    <br style="height: 2%;">
+    <br style="height: 2%; ">
 
 
     <!-- <div style="width:90%; position:relative " class="main ">
@@ -139,28 +142,36 @@
                 <span style="margin-left: 30px;" class="coin ">  x {{coins}}</span>
             </div>
         </div> -->
-    <hr class="new1">
+    <hr class="new1" style="margin-top:25px;">
     <div class="pay" *ngIf="payment_flag===true">
         <div style="width:70%; float:left">
             <div class="paymoney">
-                <span>예상 대여 금액 : </span>
-                <span>{{number_format(totalprice)}}원</span>
-                <span *ngIf="coinprice>0" style="color: red; font-size: 80%;">코인({{coinprice}}원)</span>
+                <span style="font-size:15px;" >대여 금액 : </span>
+                <span style="font-size:15px;" >{{number_format(totalprice)}}원</span  >
+                <span  style="font-size:13px;"  *ngIf="coinprice>0" style="color: red; font-size: 80%;">코인({{coinprice}}원)</span>
             </div>
 
-            <div class="paymoney">
-                <span>총 보증금 : </span>
-                <span>{{number_format(contrast)}}원</span>
+            <div *ngIf="contrast!=0" class="paymoney">
+                <span style="font-size:15px;" >보증금 : </span>
+                <span style="font-size:15px;" >{{number_format(contrast)}}원</span>
             </div>
-            <div class="paymoney">
-                <span>총 결제 금액 : </span>
-                <span *ngIf="totalpaymoney==0">{{number_format(totalcontrast)}}원</span>
-                <span *ngIf="totalpaymoney!=0">{{number_format(totalpaymoney)}}원</span>
+            <div style="margin-top:5px;" class="paymoney">
+                <span style="font-size:16px;" >총 결제 금액 : </span>
+                <span style="font-size:16px;"  *ngIf="totalpaymoney==0">{{number_format(totalcontrast)}}원</span>
+                <span style="font-size:16px;"   *ngIf="totalpaymoney!=0">{{number_format(totalpaymoney)}}원</span>
             </div>
+
+          
         </div>
         <div class="discount" (click)="discount()">
             <span>할인<br>적용하기</span>
         </div>
+        <div *ngIf="contrast!=0" style="margin-top:10px; 
+        display: inline-table;" class="paymoney">
+            <span style="font-size:16.5px; color:red;" >실질 결제 금액 (총 결제금액 - 보증금) : </span>
+            <span style="font-size:16.5px; color:red;"  >{{number_format(totalcontrast-contrast)}}원</span>
+        </div>
+      
     </div>
 
     <div class="payment" (click)="goConfirm()">
@@ -168,3 +179,7 @@
     </div>
 
 </ion-content>
+
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+
