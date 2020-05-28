@@ -1,54 +1,113 @@
-import { Component } from '@angular/core';
-import { Platform ,ViewController,App,AlertController} from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform ,ViewController,App,AlertController, Nav, MenuClose} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { MypagePage} from '../pages/mypage/mypage'
+
+import { OrderpagePage } from '../pages/orderpage/orderpage';
+
+import { SignupPage } from '../pages/signup/signup';
+import { ChatPage } from '../pages/chat/chat';
+import { HomePage} from '../pages/home/home'
+import {AccessPage} from '../pages/access/access'
 import {TspagePage} from '../pages/tspage/tspage'
+import { platformBrowser } from '@angular/platform-browser';
+import { LoginpagePage } from '../pages/loginpage/loginpage';
+import { SettingPage } from '../pages/setting/setting';
+import { CoinSavePage } from '../pages/coin-save/coin-save';
+import firebase from 'firebase/app';
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   // rootPage:any = HomePage;
   // rootPage:any=MypagePage;
+  @ViewChild(Nav) nav: Nav;
   rootPage:any=TspagePage;
   app:any;
-  constructor( app : App,public alertCtrl:AlertController,statusBar: StatusBar,platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
+  id:any;
+  user:any;
+
+  firemain=firebase.database().ref();
+
+  pages:Array<{title:string,component:any}>;
+  constructor(app : App,public alertCtrl:AlertController,public statusBar: StatusBar,public platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
     this.app=app;
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      // statusBar.styleDefault();
-      // splashScreen.hide();
-
-
-      if(platform.is('android') ) {
-        statusBar.backgroundColorByHexString('#ffffff');
+    this.platform.ready().then(() => {
+      if(this.platform.is('android') ) {
+        this.statusBar.backgroundColorByHexString('#ffffff');
       };
-     
-
-      // if(platform.is("android")||platform.is("ios")){
-    
-      //   screen.lock(screen.ORIENTATIONS.PORTRAIT_PRIMARY);
-  
-      // }
- 
-       
-   
-      // setTimeout(()=>{
-      //   platform.registerBackButtonAction(() => {
-  
-      //     let nav = this.app.getActiveNav();
-      //     let activeView = nav.getActive();
-      //   console.log("back pressed");
-      //   console.log(nav)
-      //   console.log(activeView)
-      //   console.log(view)
-      //   window.alert(view.name)
-      //   view.dismiss();
-
-      //       });
-  
-      //   },200);
     });
+
+    var loginflag=localStorage.getItem('loginflag');
+
+    if(loginflag===''||loginflag==='false'||loginflag===undefined||loginflag===null){
+      this.pages=[
+        {title:'로그인',component:LoginpagePage},
+        // {title:'SETTING',component:SettingPage},
+        // {title:'COIN',component:CoinSavePage},
+      ]
+    }
+    else{
+      this.id=localStorage.getItem('id');
+      this.firemain.child('users').child(this.id).once('value').then((snap)=>{
+        console.log(snap.val());
+        this.user=snap.val();
+        this.pages=[
+          {title:'주문',component:MypagePage},
+          {title:'채팅',component:ChatPage},
+          {title:'코인',component:CoinSavePage},
+          {title:'이용안내',component:'안내'},
+          {title:'로그아웃',component:'logout'},
+          // {title:'SETTING',component:SettingPage},
+          // {title:'COIN',component:CoinSavePage},
+        ]
+      })
+    }
+  }
+
+  openPage(page){
+
+    if(page.component==='logout'){
+      this.logout();
+    }
+    else if(page.component==='안내'){
+      window.alert('안내');
+    }
+    else {
+      this.nav.push(page.component,{user:this.user})
+    }
+  }
+
+  gosetting(){
+    this.openPage({component:SettingPage})
+  }
+
+  logout() {
+    let alert = this.alertCtrl.create({
+      title: '로그아웃 하시겠습니까?',
+      buttons: [
+        {
+          text: '취소',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: '확인',
+          handler: data => {
+            localStorage.setItem("loginflag", "false");
+            localStorage.setItem("id", "");
+            window.alert("로그아웃 되었습니다.")
+            location.reload();
+            // this.confirmAlert2("로그아웃 되었습니다.");
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
 

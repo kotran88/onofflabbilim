@@ -1,88 +1,89 @@
-<!--
-  Generated template for the TspagePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<!-- <ion-header>
-  <ion-navbar>
-    <ion-title>tspage</ion-title>
-  </ion-navbar>
-</ion-header> -->
-
 <ion-content padding>
-
-  <div style="width: 80% !important; height:auto; margin-left: 2%;
-  margin-top:30px !important;line-height: 30px;
+    <!-- <button  style="left: 0px;
+      position: absolute;"  ion-button menuToggle (click)="openFirst()">
+          <img src="assets/imgs/menumenu.png" style="width:22px;" left name="menu"/>
+        </button> -->
+  <img src="assets/img/menu-icon.png" menuToggle
+  style="width: 40px;
+  height: 40px; background: transparent;
+  margin: 0; padding: 5px; margin-top: 10px;
+  float: left;"/>
+    <!-- <ion-icon name="menu"></ion-icon> -->
+  <!-- </img> -->
+  <div style="width: 70% !important; height:auto; margin-left: 12%;
+  margin-top:15px !important;line-height: 30px;
   border-radius: 30px;">
-    <ion-slides #modeSlide pager=false loop=true centeredSlides=true slidesPerView="2"
-    (ionSlideDidChange)="slideChanged()">
-      <ion-slide *ngFor="let list of select_list; let i = index;" 
-      style="width:100% !important;">
-        <span style="font-weight: 800;
-        font-size: 20px;">{{list.name}}</span>
-      </ion-slide>
-    </ion-slides>
+        <ion-slides #modeSlide pager=false loop=true centeredSlides=true slidesPerView="2" (ionSlideDidChange)="slideChanged()">
+            <!-- <ion-slide *ngFor="let list of select_list; let i = index;" style="width:100% !important;">
+                <span style="font-weight: 800; font-size: 20px; color:#70c5ed">{{list.name}}</span>
+            </ion-slide> -->
+            <ion-slide style="width:100% !important">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#70c5ed" class="slidenintendo">닌텐도 스위치</p>
+                <!-- <span style="font-weight:800; font-size:20px;">닌텐도 스위치</span> -->
+            </ion-slide>
+            <ion-slide style="width:100% !important">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#d3d3d3" class="slideps">플레이스테이션</p>
 
+                <!-- <span style="font-weight:800; font-size:20px;">플레이스테이션</span> -->
+            </ion-slide>
+        </ion-slides>
 
-    <img (click)="change_category(-1)" 
-    style="height: 30px; width: 80px; border: purple;
-    position: absolute; left: 2%; top: 30px;
-    background-color: transparent; z-index: 30;"
-    />
+        <img (click)="change_category(-1)" class="change-category" />
+        <img (click)="change_category(1)" class="change-category">
+    </div>
 
-    <img (click)="change_category(1)" 
-    style="height: 30px;width: 80px; border: red;
-    position: absolute; right: 18%; top: 30px;
-    background-color: transparent; z-index: 30;"
-    />
-  </div>
+    <div *ngIf="search_flag===true" style=" position: absolute; 
+  width: 100%; height:40px; z-index: 50; top: 0; background: white;">
+        <input *ngIf="image_flag==true" id="searchbox" placeholder="검색어를 입력해주세요." [(ngModel)]="search_str" (ngModelChange)="searching(search_str)" type="text" />
+        <input *ngIf="image_flag==false" id="closebox" placeholder="검색어를 입력해주세요." [(ngModel)]="search_str" type="text" />
+    </div>
+    <img (click)="search_area()" *ngIf="search_flag==false" src="assets/img/magnify.png" class="magnify" />
+    <img (click)="search_area()" *ngIf="search_flag==true" src="assets/img/cancel.png" class="cancelimage" />
+    <div class="daycss">
+        <span style="font-weight:900; float: left; width:45%; text-align: center; font-size: 110%; padding-left: 10px;" (click)="pick_date(1)">
+        {{startDate_text.split('-')[0]}}년 {{startDate_text.split('-')[1]}}월 {{startDate_text.split('-')[2]}}일
+      </span>
 
-  <div *ngIf="search_flag===true" style=" position: absolute; 
-  width: 100%; height:60px; z-index: 50; top: 0; background: white;">
-    <input id="searchbox" style="height: 30px;
-    padding: 10px; border: solid 1px black;
-    border-radius: 10px; width: 50%;
-    margin-left: 15%; margin-top: 30px;"
-    placeholder="검색어를 입력해주세요." [(ngModel)]="search_str" type="text"/>
-  </div>
+        <span style="font-weight:900; float: left; width: 10%; font-size:120%; text-align: center;">></span>
 
-  <img (click)="search_area()" 
-  style="height: 30px; width: 30px; border: blue;
-  position: absolute; right: 5%; top: 30px; z-index: 100;
-  background-color: transparent; z-index: 100;"/>
+        <span style="font-weight:900; float: right; width:45%; text-align: center; font-size: 110%; padding-right: 10px;" (click)="pick_date(2)">
+        {{endDate_text.split('-')[0]}}년 {{endDate_text.split('-')[1]}}월 {{endDate_text.split('-')[2]}}일
+      </span>
+    </div>
 
-  <ion-slides #gameSlide paper=true loop=false slidesPerView="3" spaceBetween="1" 
-  (ionSlideDidChange)="slideChanged2()"
-  style="margin: 0% 5% 0 5%; width: 90%;" *ngIf="init_flag===true"
-  class="gameslide fullbox">
-    <ion-slide *ngFor="let slidelist of game_slide; let i = index;" class="wd33"
-    [ngClass]="slidelist.length<2? 'halfbox':'fullbox'">
-      <div style="width: 100%; height: auto; text-align: center; margin: 1% 0 0 0;
-      padding: 5% 0 5% 0; float: left; position: relative;"
-      *ngFor="let slide of slidelist; let i = index"
-      [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'">
-        <div (click)="gameselected(slide,slide.num);" class="disp" 
-        style="position: relative;">
-          <img style="height: 60px; width: 90%;" src="{{slide.url}}" />
+    <div *ngIf="init_flag===false" class="fullbox" style="width: 100%;"></div>
 
-          <span *ngIf="new_check(slide)===true" 
-          [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'"
-          style="position: absolute; font-family: Arial Rounded MT Bold !important;
-          right: -3px; font-weight: 600; line-height: 12px;
-          border: solid 2px; background: white; color: orange; z-index: 100;
-          padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
-          ">NEW</span>
-              
-          <span *ngIf="slide.hotflag===true||slide.hotflag==='true'" 
-          style="position: absolute; font-family: Arial Rounded MT Bold !important;
+    <!-- <div style="background: transparent; position: absolute; width: 90%; margin-left: 7.75%;">
+      <div style="position: relative; width: 100%; height: auto;">
+        <div class="btn-area" (click)="sld_click('red')" style="border: solid 1px red;"></div>
+        <div class="btn-area" (click)="sld_click('orange')" style="border: solid 1px orange;"></div>
+        <div class="btn-area" (click)="sld_click('yellow')" style="border: solid 1px yellow;"></div>
+        <div class="btn-area" (click)="sld_click('green')" style="border: solid 1px green;"></div>
+        <div class="btn-area" (click)="sld_click('blue')" style="border: solid 1px blue;"></div>
+        <div class="btn-area" (click)="sld_click('indigo')" style="border: solid 1px indigo;"></div>
+      </div>
+    </div> -->
+
+    <ion-slides #gameSlide paper=false loop=false slidesPerView="3.2" (ionSlideDidChange)="slideChanged2()" style="margin: 0% 5% 0 5%; width: 90%; z-index: 10;" *ngIf="init_flag===true" class="gameslide fullbox">
+        <ion-slide *ngFor="let slidelist of game_slide; let idx = index;" class="wd33" [ngClass]="slidelist.length<2? 'halfbox':'fullbox'">
+            <div style="width: 100%; height: auto; text-align: center; margin: 1% 0 0 0; padding: 5% 0 5% 0; float: left;
+        position: relative;" *ngFor="let slide of slidelist; let i = index" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'" (click)="gameselected(slide,slide.num);">
+                <div class="disp" style="position: relative;">
+                    <img style="height: 60px; width: 90%;" src="{{slide.url}}" />
+                    <span *ngIf="new_check(slide)===true" [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
+            right: -3px; font-weight: 600; line-height: 12px;
+            border: solid 2px; background: white; color: orange; z-index: 20;
+            padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
+            ">NEW</span>
+
+                    <span *ngIf="slide.hotflag===true||slide.hotflag==='true'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
           right: -3px; top: -3px; font-weight: 600; line-height: 12px;
           border: solid 2px; background: white; color: red;
           padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
           ">HOT</span>
 
-          <br>
-          <span style="text-align: center;">
+                    <br>
+                    <span style="text-align: center;">
             <div style="height: 35px; margin-bottom: 5px;">
               <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[0]}}</p>
               <p style="margin:0px; font-weight: bold; height: auto; font-size:16px;">{{slide.name.split('\n')[1]}}</p>
@@ -93,160 +94,78 @@
               <p style="display: inline-block; margin:0px; font-weight: bold; font-size: 14px;">{{number_format(slide.price)}}원</p> <br>
             </div>
           </span>
-        </div>
+                </div>
 
-        
-        <img (click)="gotogamedetail(slide)"
-        style="height: 15px;
-        width: 15px;
+
+                <img (click)="gotogamedetail(slide)" style="height: 15px;
+        width: 15px; z-index: 20;
         position: absolute;
         left: 3px;
         top: 2px;
         background-color: white;
         border-radius: 100%;" src="assets/img/information2.png" />
-
-        <!-- <img (click)="gotogamedetail(slide)" 
-        style="height: 15px;
-        width: 15px;
-        position: absolute;
-        left: 3px;
-        top: 2px;
-        background-color: white;
-        border-radius: 100%;" src="assets/img/information2.png" /> -->
-      </div>
-    </ion-slide>
-  </ion-slides>
-  <div style="float: left; position: relative; width: 100%; margin-bottom: 3%;">
-    <span style="float: left; width:45%; text-align: center; font-size: 100%; padding-left: 10px;" (click)="pick_date(1)">
-      {{startDate_text.split('-')[0]}}년 {{startDate_text.split('-')[1]}}월 {{startDate_text.split('-')[2]}}일
-    </span>
-    <span style="float: left; width: 10%; text-align: center;">~</span>
-    <span style="float: right; width:45%; text-align: center; font-size: 100%; padding-right: 10px;" (click)="pick_date(1)">
-      {{endDate_text.split('-')[0]}}년 {{endDate_text.split('-')[1]}}월 {{endDate_text.split('-')[2]}}일
-    </span>
-  </div>
-
-  <div style="float:left; position: relative; width: 100%;">
-    <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">기기 대여 여부</ion-label>
-    <ion-checkbox style="float: left; z-index: 100;" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox>
-
-    <ion-slides #consoleSlide pager=false loop=false slidesPerView="1" centeredSlides=true
-    style="width: 50% !important; height:auto;
-    border-radius: 30px; float: left;" [ngClass]="console_flag===true? 'activate':'no_activate'"
-    (ionSlideDidChange)="slideChanged3()" class="console_selectbox">
-      <ion-slide *ngFor="let slide of hardwarearray; let i = index;" >
-        <span>{{slide.name}}</span>
-      </ion-slide>
+            </div>
+        </ion-slide>
     </ion-slides>
 
-    <div (click)="change_console(-1)" 
-    style="height: 20px; width: 50px;
-    position: absolute; left: 42%; top: 0px;
-    background-color: transparent; z-index: 100;"
-    src="assets/img/information2.png"></div>
-
-    <div (click)="change_console(1)" 
-    style="height: 20px; width: 50px;
-    position: absolute; right: 3%; top: 0px;
-    background-color: transparent; z-index: 100;"
-    src="assets/img/information2.png"></div>
-
-    <div (click)="deposit_change()"
-    style="height: 20px; width: 80px;
-    position: absolute; right: 20%; top: 0px;
-    background-color: transparent; z-index: 100;"
-    src="assets/img/information2.png"></div>
-
-    <div style="padding-top: 7%; position: relative;" *ngFor="let peri of peri_flag; let i = index;">
-      <div *ngIf="i===0">
-        <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">주변 기기 대여 여부 {{i+1}}</ion-label>
-        <ion-checkbox style="float: left; z-index: 100;" [(ngModel)]="peri_flag[i]" (ionChange)="peri_checkbox(i)"></ion-checkbox>
-      </div>
-  
-      <div *ngIf="i===1&&peri_flag[0]===true">
-        <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">주변 기기 대여 여부 {{i+1}}</ion-label>
-        <ion-checkbox style="float: left; z-index: 100;" [(ngModel)]="peri_flag[i]" (ionChange)="peri_checkbox(i)"></ion-checkbox>
-      </div>
-  
-      <div *ngIf="i===2&&peri_flag[0]===true&&peri_flag[1]===true">
-        <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">주변 기기 대여 여부 {{i+1}}</ion-label>
-        <ion-checkbox style="float: left; z-index: 100;" [(ngModel)]="peri_flag[i]" (ionChange)="peri_checkbox(i)"></ion-checkbox>
-      </div>
-  
-      <ion-slides *ngIf="i===0" #periSlide0 pager=false loop=false slidesPerView="1" centeredSlides=true
-      style="width: 50% !important; height:auto;
-      border-radius: 30px; float: left;" [ngClass]="peri===true? 'activate':'no_activate'"
-      (ionSlideDidChange)="slideChanged4(i)" class="console_selectbox">
-        <ion-slide *ngFor="let slide of peripheralarray; let i = index;" >
-          <span>{{slide.name}}</span>
-        </ion-slide>
-      </ion-slides>
-  
-      <ion-slides *ngIf="i===1&&peri_flag[0]===true" #periSlide1 pager=false loop=false slidesPerView="1" centeredSlides=true
-      style="width: 50% !important; height:auto;
-      border-radius: 30px; float: left;" [ngClass]="peri===true? 'activate':'no_activate'"
-      (ionSlideDidChange)="slideChanged4(i)" class="console_selectbox">
-        <ion-slide *ngFor="let slide of peripheralarray; let i = index;" >
-          <span>{{slide.name}}</span>
-        </ion-slide>
-      </ion-slides>
-  
-      <ion-slides *ngIf="i===2&&peri_flag[0]===true&&peri_flag[1]===true" #periSlide2 pager=false loop=false slidesPerView="1" centeredSlides=true
-      style="width: 50% !important; height:auto;
-      border-radius: 30px; float: left;" [ngClass]="peri===true? 'activate':'no_activate'"
-      (ionSlideDidChange)="slideChanged4(i)" class="console_selectbox">
-        <ion-slide *ngFor="let slide of peripheralarray; let i = index;" >
-          <span>{{slide.name}}</span>
-        </ion-slide>
-      </ion-slides>
-  
-      <div (click)="change_peri(i,-1)" 
-      style="height: 20px; width: 50px;
-      position: absolute; left: 42%; top: 25px;
-      background-color: transparent; z-index: 100;"
-      src="assets/img/information2.png"></div>
-  
-      <div (click)="change_peri(i,1)" 
-      style="height: 20px;width: 50px;
-      position: absolute; right: 3%; top: 25px;
-      background-color: transparent; z-index: 100;"
-      src="assets/img/information2.png"></div>
+    <div style="width: 100%; height: 30px;">
+        <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">기기 대여 여부</ion-label>
+        <ion-checkbox style="float: left; z-index: 100;" *ngIf="count!=0" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox>
+        <span style="width: 50% !important; text-align: center; margin-left:10px;" *ngIf="console_flag2===true">{{hardware.name}}</span>
     </div>
-  </div>
 
-  
-  <div style="border: solid 1px black; width: 100%; height: 10%; float: left;" *ngIf="payment_flag===true">
+    <div style="width: 100%; height: 30px;">
+        <ion-label style="width: 30%; font-size: 13px; margin-left: 5%; float: left;">주변 기기 대여 여부</ion-label>
+        <ion-checkbox style="float: left; z-index: 100;" *ngIf="count!=0" [(ngModel)]="peri_flag" (ionChange)="peri_checkbox()"></ion-checkbox>
+        <span style="width: 50% !important; text-align: center; margin-left:10px;" *ngIf="peri_flag2===true&&count!=0">
+            {{peripheral[0].name}}<span *ngIf=" peripheral.length>1">외 {{peripheral.length-1}}개</span>
+        </span>
+    </div>
 
-    <div style="width:90%; position:relative " class="main ">
-      <span style="margin-left:25px; font-size:17px; line-height: 40px; ">
+
+    <!-- <div style="width:90%; position:relative " class="main ">
+            <span style="margin-left:25px; font-size:17px; line-height: 40px; ">
           할인적용
           <span style="font-size:9px; color:red; "> 
               {{sale_data.coin.text}}
           </span>
-      </span>
-    </div>
-    <div class="clicked" style="background: #70c5ed; color: white; height: 80px; width: 100%; position: relative;">
-        <!-- <div style="position: absolute;" class="up "> -->
-        <img (click)="godown();" style="height: 80px; float: left;" src="assets/img/arrow_down.png" />
-        <img (click)="goup();" style="height: 80px; float: right;" src="assets/img/arrow_up.png" />
-        <div style="width: 100%; text-align: center; line-height: 80px;" class="inner">
-            <span style="display:inline-block;"> 보유 코인 : </span>
-            <img id="abc" style="height: 25px; width: 25px; font-size: 80px; bottom: 30px; position: absolute;" src="/assets/img/coinimage.png " />
-            <!-- <span style="margin-left: 30px;" class="coin ">  x {{}}</span> -->
-            <span style="margin-left: 30px;" class="coin ">  x {{coins}}</span>
+            </span>
+        </div> -->
+    <!-- <div class="clicked" style="background: #70c5ed; color: white; height: 80px; width: 100%; position: relative;">
+            <img (click)="godown();" style="height: 80px; float: left;" src="assets/img/arrow_down.png" />
+            <img (click)="goup();" style="height: 80px; float: right;" src="assets/img/arrow_up.png" />
+            <div style="width: 100%; text-align: center; line-height: 80px;" class="inner">
+                <span style="display:inline-block;"> 보유 코인 : </span>
+                <img id="abc" style="height: 25px; width: 25px; font-size: 80px; bottom: 30px; position: absolute;" src="/assets/img/coinimage.png " />
+                <span style="margin-left: 30px;" class="coin ">  x {{coins}}</span>
+            </div>
+        </div> -->
+    <hr class="new1">
+    <div class="pay" *ngIf="payment_flag===true">
+        <div style="width:80%; float:left">
+            <div class="paymoney">
+                <span>예상 대여 금액 : </span>
+                <span>{{number_format(totalprice)}}</span>
+                <span *ngIf="coinprice>0" style="color: red; font-size: 80%;">코인({{coinprice}}원)</span>
+            </div>
+
+            <div class="paymoney">
+                <span>총 보증금 : </span>
+                <span>{{number_format(contrast)}}</span>
+            </div>
+            <div class="paymoney">
+                <span>총 결제 금액 : </span>
+                <span *ngIf="totalpaymoney==0">{{number_format(totalprice+contrast)}}</span>
+                <span *ngIf="totalpaymoney!=0">{{number_format(totalpaymoney)}}</span>
+            </div>
         </div>
-        <!-- </div> -->
+        <div class="discount" (click)="discount()">
+            <span>할인<br>적용하기</span>
+        </div>
     </div>
 
-    <div>
-      <span>예상 대여 금액 : </span>
-      <span>{{number_format(totalprice)}}</span>
+    <div class="payment" (click)="goConfirm()">
+        <span>결제하기</span>
     </div>
 
-    <div>
-      <span>총 보증금 : </span>
-      <span>{{number_format(contrast)}}</span>
-    </div>
-  </div>
-    
 </ion-content>

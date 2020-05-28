@@ -1,0 +1,40 @@
+<!--
+  Generated template for the ChatPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<ion-header style="background-color: rgb(240, 239, 239);">
+    <!-- <ion-navbar> -->
+    <button (click)="goback()" style="background-color: rgb(240, 239, 239); float:left; margin-top:10px;">
+        <img src="assets/img/back.png" style="width:25px;background-color: rgb(240, 239, 239);float:left;" alt="">
+      </button>
+    <ion-title style=" height: 50px;z-index: -1;width: 100%;position: absolute;">관리자와의 대화</ion-title>
+    <!-- </ion-navbar> -->
+</ion-header>
+
+<ion-content class="chat-area" id="scrfcs">
+    <div *ngFor="let a of chat; let i = index;" (click)="keyboardchecker_reset(false)">
+        <div [ngClass]="a.user===userid ? 'my-userbox':'other-userbox'">
+            <div [ngClass]="a.user===userid ? 'my-user':'other-user'">
+                <img *ngIf="a.image!=''" src="{{a.image}}" class="img" (click)="clicked()" /> {{a.text}}
+            </div>
+            <div *ngIf="a.user!=userid" class="other_readck">{{a.ck}}</div>
+            <div *ngIf="a.user===userid" class="my_readck">{{a.ck}}</div>
+        </div>
+        <!-- <br> -->
+    </div>
+    <div id="scrfcs" style="height: 10px; width: 100%; float: left;"></div>
+</ion-content>
+
+
+<div class="input-area">
+    <button class="img-upload" (click)="takeFoto()">사진</button>
+    <ion-input (click)="keyboardchecker_reset(true)" id="input" class="text-area" placeholder="입력하세요" [(ngModel)]="input.text" type="text"></ion-input>
+    <button class="enter-button" (click)="upload(1)">
+    전송
+  </button>
+</div>

@@ -1,0 +1,60 @@
+page-payment {
+    .popover-content {
+        width: 300px;
+        border-radius: 10px;
+    }
+}
+
+.range-slider {
+    margin-top: 20px;
+}
+
+.range-md.range-has-pin {
+    padding-top: 0px;
+    padding: 0px;
+}
+
+.range-md .range-tick {
+    margin-left: -1px;
+    border-radius: 50%;
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+    width: 8px;
+    height: 8px;
+    background: #adadad;
+    pointer-events: none;
+}
+
+.range-md .range-knob {
+    left: 12px;
+    top: 10px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+    width: 25px;
+    height: 25px;
+    background: #488aff;
+    transition-timing-function: ease;
+    pointer-events: none;
+}
+
+.range-md .range-pin {
+    padding: 8px 0;
+    text-align: center;
+    // border-radius: 50%;
+    -webkit-transform: translate3d(0, 28px, 0) scale(0.01);
+    transform: translate3d(0, 28px, 0) scale(0.01);
+    position: relative;
+    top: -20px;
+    display: inline-block;
+    min-width: 28px;
+    height: 28px;
+    font-size: 12px;
+    color: #fff;
+    background: #488aff;
+    -webkit-transition: background-color 120ms ease, -webkit-transform 120ms ease;
+    transition: background-color 120ms ease, -webkit-transform 120ms ease;
+    transition: transform 120ms ease, background-color 120ms ease;
+    transition: transform 120ms ease, background-color 120ms ease, -webkit-transform 120ms ease;
+}

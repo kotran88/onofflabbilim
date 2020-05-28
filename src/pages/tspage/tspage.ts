@@ -1,13 +1,19 @@
 import { Component, NgZone, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController, LoadingController ,MenuController} from 'ionic-angular';
 import firebase from 'firebase/app';
-// import {LoginpagePage} from '../loginpage/loginpage'
-// import { GameDetailPage } from '../game-detail/game-detail';
+import {LoginpagePage} from '../loginpage/loginpage'
+import { GameDetailPage } from '../game-detail/game-detail';
 import * as $ from 'jquery';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { DepositPage } from '../deposit/deposit';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { PeripheralPage } from '../peripheral/peripheral';
+import { DiscountPage } from '../discount/discount';
+import { ConfirmPage } from '../confirm/confirm';
 
+
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 /**
  * Generated class for the TspagePage page.
  *
@@ -19,15 +25,15 @@ import { DatePicker } from '@ionic-native/date-picker/ngx';
   templateUrl: 'tspage.html',
 })
 export class TspagePage {
+  id:any;
   @ViewChild('modeSlide') slides: Slides;
   @ViewChild('gameSlide') gslides:Slides;
-  @ViewChild('consoleSlide') cslides:Slides;
-  @ViewChild('periSlide0') pslides0:Slides;
-  @ViewChild('periSlide1') pslides1:Slides;
-  @ViewChild('periSlide2') pslides2:Slides;
+  lloading:any;
 
-  search_flag=false;
+  menu_flag=false;
 
+  search_flag = false;
+  image_flag = false;
   all_data:any;
   gamearray:any;
   hardwarearray:any;
@@ -38,12 +44,12 @@ export class TspagePage {
   hardware_slide:any;
 
   console_flag=false;
-  peri_flag=[false,false,false];
+  console_flag2=false;
+  peri_flag=false;
+  peri_flag2=false;
 
   game_slide:any;
   gslide_num:any;
-  cslide_num:any;
-  pslide_num=[0,0,0];
 
   sale_data:any;
   admin:any;
@@ -51,7 +57,7 @@ export class TspagePage {
   select_list:any;
   select_num:any;
 
-  init_flag:any;
+  init_flag=false;
 
   user:any;
   diff:any;
@@ -71,16 +77,60 @@ export class TspagePage {
   consoletotalprice=0;
   peripheraltotalprice=0;
   totalprice=0;
+  coinprice=0;
 
   coins: any;
   totalcoins:any;
+  totalpaymoney = 0;
+  hwborrow : any;
 
   payment_flag=false;
+  version:any;
 
   firemain = firebase.database().ref();
-  constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController
-  ,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams
-  ,public datePicker:DatePicker) {
+  constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController,public oneSignal:OneSignal
+  ,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams,public loading:LoadingController,public appVersion:AppVersion
+  ,public datePicker:DatePicker,private menu: MenuController) {
+
+    var loginflag=localStorage.getItem('loginflag');
+    if(loginflag!=''&&loginflag!='false'&&loginflag!=undefined&&loginflag!=null){
+      var id=localStorage.getItem('id');
+      this.firemain.child('users').child(id).once('value').then((snap)=>{
+        this.user=snap.val();
+        console.log(this.user);
+      })
+    }
+
+    this.loading_on();
+    // this.sideMenu();
+
+    //version check
+
+    this.firemain.child("setting").once("value", (snapshot) => {
+      for (var a in snapshot.val()) {
+        if (a == "version") {
+          this.version = snapshot.val()[a];
+        }
+        console.log(snapshot.val()[a]);
+      }
+
+      var versionnumber = "";
+      setTimeout(()=>{
+        this.OneSignalInstall();
+      },100)
+      this.appVersion.getVersionNumber().then(version => {
+        versionnumber = version;
+        //0.2 3
+        if (Number(this.version) > Number(versionnumber)) {
+          window.alert("앱을 업데이트 해주세요!")
+          var market_url = "market://details?id=io.ionic.onofflab.bilim";
+          this.iab.create(market_url,"_blank")
+
+          
+
+        }
+      });
+    })
     var now = new Date();
 
     var tomorrow = new Date();
@@ -126,14 +176,12 @@ export class TspagePage {
 
     this.payment_ready();
 
-    this.user = this.navParams.get("user");
-
+    // this.user = this.navParams.get("user");
     this.select_list=[{}];
     this.select_list[0]={name:'닌텐도 스위치',key:'switch'};
     this.select_list[1]={name:'플레이 스테이션',key:'ps'};
     this.select_num=0;
     this.gslide_num=0;
-    this.cslide_num=0;
     console.log(this.select_list)
 
     this.gamearray=[{}];
@@ -164,15 +212,62 @@ export class TspagePage {
       for(var i in snap.val().ps.software)
         this.all_data.ps.software[cnt++]=snap.val().ps.software[i];
       console.log(this.all_data)
+      this.game_sort();
       this.generatehardware()
       this.game_init()
-      this.init_flag=true;
+      setTimeout(() => {
+        this.init_flag=true;
+        this.loading_off();
+      }, 100);
     })
   }
   search_area(){
-    this.search_flag=!this.search_flag
+    this.search_flag = true;
+    this.image_flag =! this.image_flag;
+    if(this.image_flag == false){
+      setTimeout(()=>{
+        this.search_flag = false;
+      },1000);
+    }
+    console.log("flag1 :"+this.image_flag);
+    console.log("search : "+this.search_flag);
   }
 
+  OneSignalInstall() {
+    this.oneSignal.startInit('6505b348-1705-4d73-abe4-55ab40758266');
+    console.log("onesignal-2-2");
+    // this.oneSignal.clearOneSignalNotifications();
+    console.log("onesignal 00");
+    var iosSettings = {
+      "kOSSettingsKeyAutoPrompt": true,
+      "kOSSettingsKeyInAppLaunchURL": true
+    };
+    console.log("onesignal 11");
+    this.oneSignal.iOSSettings(iosSettings);
+    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
+    console.log("onesignal 22");
+    console.log("onesiganl get id startedddddd")
+
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      console.log("received data");
+      console.log(data);
+      var welcome=data.notification.payload.title;
+    })
+    this.oneSignal.getIds().then(data => {
+      console.log(data);
+      console.log("get id success" + data.userId)
+      if (this.id != null && this.id != undefined) {
+        this.firemain.child("users").child(this.id).update({ "deviceId": data.userId })
+        localStorage.setItem("tokenvalue", data.userId);
+      }
+
+
+    }).catch((e) => {
+      // window.alert("onesignal error"+e);
+      console.log("onesignal error : " + e);
+    })
+    this.oneSignal.endInit();
+  }
   datecheck(mode,date):boolean{
     var t=new Date();
     var t2=new Date(date);
@@ -285,6 +380,7 @@ export class TspagePage {
           this.endDate=b.toISOString();
           this.endDate_text=(b.getFullYear())+"-"+(b.getMonth()+1)+ "-"+(b.getDate());
         }
+        this.totalcalculator(0);
       }
     }
     console.log(this.startDate)
@@ -324,21 +420,6 @@ export class TspagePage {
     }
   }
 
-  deposit_change(){
-    if(this.console_flag===true){
-      let modal = this.modal.create(DepositPage,{hardware:this.hardwarearray,sale:this.sale_data},{ cssClass: 'deposit-modal' });
-      modal.onDidDismiss(imagedata => {
-        if(imagedata!=undefined&&imagedata!=null){
-          this.hardware=imagedata.hardware;
-          this.contrast=imagedata.contrast;
-          this.totalcalculator(2);
-        }
-        console.log(imagedata)
-      });
-      modal.present();
-    }
-  }
-
   payment_ready(){
 
     var flag=false;
@@ -358,10 +439,13 @@ export class TspagePage {
   }
 
   totalcalculator(n){
+    console.log(n);
     if(n===1) this.gamecalculation();
     else if(n===2)this.consolecalculation();
     else if(n===3) this.peripheralcalculator();
     this.totalprice=this.gametotalprice+this.consoletotalprice+this.peripheraltotalprice;
+    this.totalprice*=this.diff;
+    this.totalprice-=this.coinprice;
   }
 
   gamecalculation(){
@@ -403,113 +487,168 @@ export class TspagePage {
   peripheralcalculator(){
     var periprice=0;
     this.peripheraltotalprice=0;
+      console.log(this.peripheral);
+      for (var i in this.peripheral) {
+        if(this.peripheral[i]===undefined) continue;
+        periprice=this.peripheral[i].pricedaily;
+        this.peripheraltotalprice += Number(periprice);
+      }
+      console.log(this.peripheraltotalprice)
 
-    console.log(this.peripheral);
-    for (var i in this.peripheral) {
-      if(this.peripheral[i]===undefined) continue;
-      periprice=this.peripheral[i].pricedaily;
-      this.peripheraltotalprice += Number(periprice);
-    }
-    console.log(this.peripheraltotalprice)
   }
-
   console_checkbox(){
     console.log(this.console_flag)
+    console.log(this.count);
+    if(this.count==0){
+      this.console_flag = false;
+      this.console_flag2 = false;
+      this.confirmAlert2('게임을 선택해야 게임기를 대여할 수 있습니다.');
+    }else{
+
     if(this.console_flag===true){
-      this.deposit_change();
-      // console.log(this.hardwarearray[this.cslide_num])
-      // this.hardware=this.hardwarearray[this.cslide_num];
-      // console.log(this.hardware);
-      // this.totalcalculator(2);
+      let modal = this.modal.create(DepositPage,{hardware:this.hardwarearray,sale:this.sale_data},{ cssClass: 'deposit-modal' });
+      modal.onDidDismiss(data => {
+        console.log(data)
+        this.hwborrow = data;
+        if(data!=null&&data.hd!=undefined){
+          this.console_flag2=true;
+          this.hardware=data.hd;
+          this.contrast=data.ct;
+          this.totalcalculator(2);
+          console.log(this.hwborrow);
+        }
+        else{
+          this.console_flag=this.console_flag2;
+        }
+      });
+      modal.present();
     }
     else{
+      this.console_flag2=false;
       this.hardware=undefined;
       this.consoletotalprice=0;
+      this.contrast=0;
       this.totalcalculator(0);
     }
+          
+  }
     // this.slides.lockSwipes(!this.console_flag);
   }
-  peri_checkbox(n){
-    console.log(n)
-    n=Number(n);
+  peri_checkbox(){
     console.log(this.peri_flag)
 
-    if(this.peri_flag[n]===true){
-      console.log(this.peripheralarray[this.pslide_num[n]])
-      this.peripheral[n]=this.peripheralarray[this.pslide_num[n]];
-      console.log(this.peripheral);
-      this.totalcalculator(3);
+    if(this.peri_flag===true){
+      console.log(this.peripheralarray)
+      let modal:any;
+      if(this.select_num===0){
+        modal = this.modal.create(PeripheralPage,{peripheral:this.peripheralarray},{ cssClass: 'peri-modal1' });
+      }
+      else if(this.select_num===1){
+        modal = this.modal.create(PeripheralPage,{peripheral:this.peripheralarray},{ cssClass: 'peri-modal2' });
+      }
+      
+      modal.onDidDismiss(data => {
+        console.log(data)
+        if(data!=null&&data.pp!=undefined){
+          this.peri_flag2=true;
+          this.peripheral=data.pp;
+          this.totalcalculator(3);
+        }
+        else{
+          this.peri_flag=this.peri_flag2;
+
+        }
+      });
+      modal.present();
     }
     else{
-      this.peripheral[n]=undefined;
+      this.peri_flag=false;
+      this.peri_flag2=false;
+      this.peripheral=undefined;
       this.peripheraltotalprice=0;
-      this.totalcalculator(3);
+      this.totalcalculator(0);
+
     }
-  }
-  console_selectbox(){
-    console.log(this.console_flag)
   }
 
   select_reset(){
     var data:any;
     var n=this.select_num
 
-    if(n==1) data=this.all_data.switch;
-    else if(n==0) data=this.all_data.ps;
+    if(n==1) data=this.all_data.switch.software;
+    else if(n==0) data=this.all_data.ps.software;
 
     for(var i in data){
       data[i].fflag=false;
     }
     
-    if(n==1) this.all_data.switch=data;
-    else if(n==0) this.all_data.ps=data;
+    if(n==1) this.all_data.switch.software=data;
+    else if(n==0) this.all_data.ps.software=data;
+
+    this.count=0;
+    this.totalprice=0;
+    this.gametotalprice=0;
+    this.consoletotalprice=0;
+    this.peripheraltotalprice=0;
+    this.totalcalculator(0);
   }
 
   slideChanged(){
     if(this.init_flag===true){
+      this.loading_on();
       this.init_flag=false;
       console.log(this.slides.getActiveIndex())
       this.select_num = this.slides.getActiveIndex();
-      this.gslides.slideTo(0);
-      this.gslide_num=0;
-      
-      this.cslides.slideTo(0);
-      this.cslide_num=0;
+      console.log(this.select_num);
+      if(this.select_num % 2 == 0){
+        $(".slidenintendo").css("color","#70c5ed");
+        $(".slideps").css("color","#d3d3d3");
+      }else if(this.select_num % 2 == 1){
+        $(".slideps").css("color","#70c5ed");
+        $(".slidenintendo").css("color","#d3d3d3");
+      }
+
+      this.gslides.centeredSlides=false;
+      console.log('false');
+
+      // this.gslide_reset();
+
       this.console_flag=false;
-      this.peri_flag=[false,false,false];
+      this.peri_flag=false;
 
       this.select_num%=2
-      // this.select_num=1-this.select_num;
+  
       this.search_str='';
       console.log(this.select_num)
       this.select_reset()
       this.generatehardware();
       this.game_init();
-      this.init_flag=true;
+      setTimeout(() => {
+        // this.gslide_reset();
+        this.init_flag=true;
+        this.loading_off();
+      }, 100);
     }
   }
 
   slideChanged2(){
+    // this.gslides.slideTo(0);
+    // this.gslide_num=3;
     this.gslide_num = this.gslides.getActiveIndex();
-    console.log(this.gslide_num)
-  }
-  slideChanged3(){
-    this.cslide_num = this.cslides.getActiveIndex();
-    this.cslide_num%=2;
-    if(this.console_flag===true){
-      this.hardware=this.hardwarearray[this.cslide_num];
-      console.log(this.hardware);
-      this.totalcalculator(2);
+    this.gslide_num%=this.game_slide.length;
+    if(this.gslide_num===0||this.gslide_num+2===(this.game_slide.length)){
+      console.log('false');
+      this.gslides.centeredSlides=false;
+      // this.gslide_num=this.game_slide.length-2;
+      // this.gslide_num=1;
     }
-    console.log(this.cslide_num)
-  }
-  slideChanged4(n){
-    if(n==0){this.pslide_num[n] = this.pslides0.getActiveIndex();}
-    else if(n==1){this.pslide_num[n] = this.pslides1.getActiveIndex();}
-    else if(n==2){this.pslide_num[n] = this.pslides2.getActiveIndex();}
-    this.pslide_num[n]%=2;
-    console.log(n);
-    console.log(this.pslide_num)
+    else{
+      console.log('true');
+      this.gslides.centeredSlides=true;
+    }
+    this.gslides.slideTo(this.gslide_num);
+    // this.ctck()
+    console.log(this.gslide_num)
   }
 
   game_init(str:string=''){
@@ -517,7 +656,7 @@ export class TspagePage {
     var Data:any;
     if(num===0){
       Data=this.all_data.switch;
-      console.log('switch')
+      console.log('switch');
     }
     else{
       Data=this.all_data.ps;
@@ -529,8 +668,11 @@ export class TspagePage {
     var cnt=0;
     for(var i in Data.software){
       if(str!=''&&str!=undefined){
+        var temp=Data.software[i].name.split('\n')[0]
+        +' '+
+        Data.software[i].name.split('\n')[1];
         console.log('search : ',str)
-        if(Data.software[i].name.indexOf(str)!=-1){
+        if(temp.indexOf(str)!=-1){
           this.gamearray[cnt++]=Data.software[i];
         }
       }
@@ -541,31 +683,48 @@ export class TspagePage {
     }
     cnt=0;
     console.log(this.gamearray);
-    this.game_sort(num);
+    // this.game_sort(num);
     this.push_slide()
     // this.init_flag=true;
   }
 
   push_slide(){
+    var game_slide2=[];
     this.game_slide=[];
+
     var num=this.gamearray.length;
     var lmt=Math.floor(num/6)*6+(num%6);
     console.log(this.gamearray);
     console.log(num)
     console.log(lmt)
 
+    // for(var i=Math.floor(lmt/2);i>0;i--){
+    //   game_slide2[i]=[];
+
+    //   if(num>(i*2)){
+    //     game_slide2[i][0]=this.gamearray[(i*2)];
+    //     game_slide2[i][0].num=(i*2);
+    //   }
+
+    //   if(num>(i*2+1)){
+    //     game_slide2[i][1]=this.gamearray[(i*2)+1];
+    //     game_slide2[i][1].num=(i*2)+1;
+    //   }
+    // }
+
     for(var i=0;i<lmt/2;i++){
-      this.game_slide[i]=[];
+      game_slide2[i]=[];
       // for(var j=0;j<6;j+=2){
         if(num<=(i*2)) break;
-        this.game_slide[i][0]=this.gamearray[(i*2)];
-        this.game_slide[i][0].num=(i*2);
+        game_slide2[i][0]=this.gamearray[(i*2)];
+        game_slide2[i][0].num=(i*2);
 
         if(num<=(i*2)+1) break;
-        this.game_slide[i][1]=this.gamearray[(i*2)+1];
-        this.game_slide[i][1].num=(i*2)+1;
+        game_slide2[i][1]=this.gamearray[(i*2)+1];
+        game_slide2[i][1].num=(i*2)+1;
       // }
     }
+    this.game_slide=game_slide2;
     console.log(this.game_slide)
   }
 
@@ -574,36 +733,45 @@ export class TspagePage {
     return String(num).replace(regexp, ',');
   }
   
-  game_sort(n){
+  game_sort(){
     var temp:any;
     var num:any;
-    console.log('sort_start')
-    for(var q=0;q<this.gamearray.length;q++){
-      this.gamearray[q].name=String(this.gamearray[q].name);
+    var Data;
+    for(var m=0;m<2;m++){
+      if(m===0) console.log('switch');
+      else console.log('ps');
 
-      if(this.gamearray[q].name.substring(0,1)==='!'){
-
-        num=this.gamearray[q].name.length;
-        this.gamearray[q].name=this.gamearray[q].name.substring(1,num);
-        continue;
-      }
-      for(var w=q+1;w<this.gamearray.length;w++){
-        if(this.gamearray[w].name.substring(0,1)==='!'){
-
-          num=this.gamearray[w].name.length;
-          this.gamearray[w].name=this.gamearray[w].name.substring(1,num);
-
-          temp=this.gamearray[q];
-          this.gamearray[q]=this.gamearray[w];
-          this.gamearray[w]=temp;
-          break;
+      if(m===0) Data=this.all_data.switch.software;
+      else Data=this.all_data.ps.software;
+  
+      console.log(Data);
+      console.log('sort_start')
+      for(var q=0;q<Data.length;q++){
+        Data[q].name=String(Data[q].name);
+  
+        if(Data[q].name.substring(0,1)==='!'){
+  
+          num=Data[q].name.length;
+          Data[q].name=Data[q].name.substring(1,num);
+          continue;
+        }
+        for(var w=q+1;w<Data.length;w++){
+          if(Data[w].name.substring(0,1)==='!'){
+  
+            num=Data[w].name.length;
+            Data[w].name=Data[w].name.substring(1,num);
+  
+            temp=Data[q];
+            Data[q]=Data[w];
+            Data[w]=temp;
+            break;
+          }
         }
       }
+      if(m===0) this.all_data.switch.software=Data;
+      else this.all_data.ps.software=Data;
     }
-    if(this.search_str===''){
-      if(n===0) this.all_data.switch.software=this.gamearray;
-      else this.all_data.ps.software=this.gamearray;
-    }
+    
     console.log(this.all_data)
   }
 
@@ -623,13 +791,10 @@ export class TspagePage {
           this.confirmAlert2('재고가 없는 게임입니다.');
         }
       }
-      else if(this.gamearray[i].fflag===false&&this.count>=3){
-        this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
-      }
       else{
         this.count=0;
         this.game=[];
-      
+        
         this.gamearray[i].fflag=!this.gamearray[i].fflag;
         console.log(this.gamearray);
         for(var j=0; j<this.gamearray.length; j++){
@@ -638,7 +803,15 @@ export class TspagePage {
             this.count++;
           }
         }
+        if(this.count>3){
+          this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
+          this.gamearray[i].fflag=false;
+        }
         console.log("count is : "+this.count);
+        if(this.count == 0){
+          this.console_flag = false;
+          this.peri_flag = false;
+        }
       }
       this.totalcalculator(1);
     })
@@ -707,7 +880,7 @@ export class TspagePage {
           text: '이동하기',
           handler: () => {
             console.log('Buy clicked');
-            // this.navCtrl.push(LoginpagePage);
+            this.navCtrl.push(LoginpagePage);
 
           }
         }],
@@ -715,42 +888,11 @@ export class TspagePage {
     alert.present({animate:false});
   }
 
-  change_peri(m,n){
-    var temp_slides:any;
-    if(m===0) {
-      console.log(this.pslides0.getActiveIndex())
-      if(n>0) this.pslides0.slideNext();
-      else this.pslides0.slidePrev();
-      console.log(this.pslides0.getActiveIndex())
-    }
-    else if(m===1){
-      console.log(this.pslides1.getActiveIndex())
-      if(n>0) this.pslides1.slideNext();
-      else this.pslides1.slidePrev();
-      console.log(this.pslides1.getActiveIndex())
-    }
-    else if(m===2){
-      console.log(this.pslides2.getActiveIndex())
-      if(n>0) this.pslides2.slideNext();
-      else this.pslides2.slidePrev();
-      console.log(this.pslides2.getActiveIndex())
-    }
-  }
-
   change_category(n){
     console.log(this.slides.getActiveIndex())
     if(n>0) this.slides.slideNext();
     else this.slides.slidePrev();
     console.log(this.slides.getActiveIndex())
-    this.slideChanged();
-  }
-
-  change_console(n){
-    console.log(this.cslides.getActiveIndex())
-    if(n>0) this.cslides.slideNext();
-    else this.cslides.slidePrev();
-    console.log(this.cslides.getActiveIndex())
-    // this.slideChanged3();
   }
 
   generatehardware() {
@@ -804,17 +946,81 @@ export class TspagePage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TspagePage');
-    $("#searchbox").on("propertychange change keyup paste input", ()=>{
-      this.gslides.slideTo(0);
-      // var currentVal = $(this).val();
-      var currentVal=this.search_str;
-
-      console.log(currentVal)
-      this.game_init(currentVal);
-      console.log("changed!");
+  loading_on(){
+    this.lloading = this.loading.create({
+      spinner: 'hide',
+      content: 'Loading Please Wait...'
     });
+    this.lloading.present();
   }
 
+  loading_off(){
+    this.lloading.dismiss()
+  }
+
+  // gslide_reset(){
+  //   var i = setInterval(()=>{
+  //     if(this.gslides!=undefined&&this.init_flag===true&&
+  //     this.gslides.getActiveIndex()!=1){
+  //       clearInterval(i);
+  //       setTimeout(() => {
+  //         this.gslides.slideTo(1);
+  //         this.gslide_num=1;
+  //       }, 500);
+  //     }
+  //   },10)
+  // }
+
+  discount(){
+    console.log('discount');
+    this.totalcalculator(0);
+    let modal = this.modal.create(DiscountPage,{"user":this.user,'sale':this.sale_data.coin.price,'price':this.totalprice+this.contrast},{ cssClass: 'discount-modal'});
+    modal.onDidDismiss(data => {
+      console.log(data);
+      if(data!=null&&data.coinprice!=undefined){
+        this.user.point=data.coin;
+        this.coinprice=data.coinprice;
+        this.totalcalculator(0);
+      }
+      console.log(this.totalpaymoney);
+    });
+    modal.present();
+  }
+  goConfirm(){
+    let modal = this.modal.create(ConfirmPage,{"user":this.user, "price":this.totalprice+this.contrast, "game":this.game, "hw":this.hwborrow, "peri":this.peripheral, "gameprice":this.totalprice, "contrast":this.contrast},{ cssClass: 'confirm-modal'});
+    modal.onDidDismiss(data => {
+      console.log(data);
+    });
+    modal.present();
+  }
+
+  searching(str){
+    console.log(str)
+    // this.loading_on();
+    this.game_init(str);
+    setTimeout(() => {
+      this.gslides.slideTo(0);
+    }, 500);
+    // this.loading_off();
+  }
+
+  ionViewDidLoad() {
+    // this.ctck()
+    // this.gslide_reset();
+    console.log('ionViewDidLoad TspagePage');
+    $("#searchbox").on("change keyup paste",()=>{
+      this.searching(this.search_str);
+    })
+    // $("#searchbox").on("propertychange change keyup paste input",()=>{
+    //   this.gslides.slideTo(0);
+    //   // var currentVal = $(this).val();
+    //   var currentVal=this.search_str;
+
+    //   console.log(currentVal)
+    //   this.loading_on();
+    //   this.game_init(currentVal);
+    //   this.loading_off();
+    //   console.log("changed!");
+    // });
+  }
 }
