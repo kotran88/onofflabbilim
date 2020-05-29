@@ -196,8 +196,10 @@ export class TspagePage {
 
       cnt=0;
       this.all_data.switch.software=[];
-      for(var i in snap.val().switch.software)
+      for(var i in snap.val().switch.software){
         this.all_data.switch.software[cnt++]=snap.val().switch.software[i];
+        this.all_data.switch.software[cnt-1].fflag=false;
+      }
       
       cnt=0;
       this.all_data.ps.hardware=[];
@@ -206,8 +208,11 @@ export class TspagePage {
       
       cnt=0;
       this.all_data.ps.software=[];
-      for(var i in snap.val().ps.software)
+      for(var i in snap.val().ps.software){
         this.all_data.ps.software[cnt++]=snap.val().ps.software[i];
+        this.all_data.ps.software[cnt-1].fflag=false;
+      }
+
       console.log(this.all_data)
       this.game_sort();
       this.generatehardware()
@@ -219,6 +224,8 @@ export class TspagePage {
     })
   }
   search_area(){
+    this.search_str='';
+    this.searching(this.search_str)
     this.search_flag = true;
     this.image_flag =! this.image_flag;
     if(this.image_flag == false){
@@ -463,8 +470,10 @@ export class TspagePage {
       // if (this.hardware != undefined) {
       //   gameprice=this.game[i].price*((100-Number(this.sale_data.percentage.console.split('%')[0]))/100);
       // }
-      gameprice=this.game[i].price;
-      this.gametotalprice += Number(gameprice);
+      if(this.game[i]!=undefined&&this.game[i]!=null){
+        gameprice=this.game[i].price;
+        this.gametotalprice += Number(gameprice);
+      }
     }
     console.log(this.gametotalprice)
   }
@@ -611,6 +620,11 @@ export class TspagePage {
         this.user.point+=(this.coinprice/this.sale_data.coin.price);
       }
       this.coinprice = 0;
+      this.contrast=0;
+      this.console_flag2=false
+      this.peri_flag2=false;
+      this.count=0;
+      this.game=[];
 
       // this.gslide_reset();
 
@@ -619,7 +633,6 @@ export class TspagePage {
 
       this.select_num%=2
   
-      this.search_str='';
       console.log(this.select_num)
       this.select_reset()
       this.generatehardware();
@@ -675,6 +688,13 @@ export class TspagePage {
         console.log('search : ',str)
         if(temp.indexOf(str)!=-1){
           this.gamearray[cnt++]=Data.software[i];
+          continue;
+        }
+
+        temp=String(Data.software[i].name).toLowerCase();
+        if(temp.indexOf(str.toLowerCase())!=-1){
+          this.gamearray[cnt++]=Data.software[i];
+          continue;
         }
       }
       else{
@@ -716,13 +736,13 @@ export class TspagePage {
     for(var i=0;i<lmt/2;i++){
       game_slide2[i]=[];
       // for(var j=0;j<6;j+=2){
-        if(num<=(i*2)) break;
-        game_slide2[i][0]=this.gamearray[(i*2)];
-        game_slide2[i][0].num=(i*2);
+      if(num<=(i*2)) break;
+      game_slide2[i][0]=this.gamearray[(i*2)];
+      game_slide2[i][0].num=(i*2);
 
-        if(num<=(i*2)+1) break;
-        game_slide2[i][1]=this.gamearray[(i*2)+1];
-        game_slide2[i][1].num=(i*2)+1;
+      if(num<=(i*2)+1) break;
+      game_slide2[i][1]=this.gamearray[(i*2)+1];
+      game_slide2[i][1].num=(i*2)+1;
       // }
     }
     this.game_slide=game_slide2;
@@ -777,6 +797,7 @@ export class TspagePage {
   }
 
   gameselected(v,i){
+    console.log(this.gamearray)
     if(this.user===undefined){
       this.confirmAlert2('로그인 후 이용할수 있습니다.')
       return;
@@ -797,37 +818,43 @@ export class TspagePage {
         }
       }
       else{
-        this.count=0;
-        this.game=[];
+        // this.count=0;
+        // this.game=[];
+        console.log(this.game)
+        if(this.game===undefined) this.game=[];
+        this.game[this.count]=undefined;
         
         this.gamearray[i].fflag=!this.gamearray[i].fflag;
-        console.log(this.gamearray);
-        for(var j=0; j<this.gamearray.length; j++){
-          if(this.gamearray[j].fflag==true){
-            this.game[this.count]=this.gamearray[j];
-            this.count++;
-          }
-        }
+
+        if(this.gamearray[i].fflag===false) this.game[--this.count]=undefined;
+        else this.game[this.count++]=this.gamearray[i];
+
+        console.log(this.game);
+        // for(var j=0; j<this.gamearray.length; j++){
+        //   if(this.gamearray.fflag==true){
+        //     this.game[this.count]=this.gamearray;
+        //     this.count++;
+        //   }
+        // }
+        console.log("count is : "+this.count);
         if(this.count>3){
           this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
           this.gamearray[i].fflag=false;
+          this.game[--this.count]=null;
         }
-        console.log("count is : "+this.count);
-        if(this.count == 0){
+        else if(this.count == 0){
           this.consoletotalprice = 0;
-          this.peripheraltotalprice = 0;
           this.contrast = 0;
           this.user.point+=(this.coinprice/this.sale_data.coin.price);
           console.log(this.user.point);
           this.coinprice = 0;
           console.log(this.coinprice);
           this.console_flag = false;
-          this.peri_flag = false;
           this.console_flag2 = false;
-          this.peri_flag2 = false;
         }
+        
+        this.totalcalculator(1);
       }
-      this.totalcalculator(1);
     })
   }
 
@@ -875,10 +902,10 @@ export class TspagePage {
       (date.getFullYear()<open.getFullYear())||
       (date.getFullYear()===open.getFullYear()&&date.getMonth()<open.getMonth())||
       (date.getFullYear()==open.getFullYear()&&date.getMonth()===open.getMonth()&&date.getDate()<open.getDate())){
-        console.log(g);
-        console.log(date)
-        console.log(open+'\n');    
-        console.log('true')
+        // console.log(g);
+        // console.log(date)
+        // console.log(open+'\n');    
+        // console.log('true')
         return true;
     }
     else return false;
@@ -1079,11 +1106,40 @@ export class TspagePage {
       }
       else return false;
   }
+
+  interlock_check():Boolean{
+    var nonlightflag = true;
+    var list=[];
+    if (this.hardware.name == '닌텐도 스위치'){}
+    else if (this.hardware.name == 'Playstation Pro'){}
+    else if (this.hardware.name == '스위치 라이트') {
+      for(var g of this.game){
+        console.log(g.name);
+        if(g.name.indexOf('링 피트')>-1 ||
+        g.name.indexOf("JUST")>-1 ||
+        g.name.indexOf("복싱")>-1){
+          nonlightflag = false;
+          list.push(g.name);
+        }
+      }
+      if(nonlightflag == false){
+        var text='';
+        for(var l of list){text+=String(l)+',<br>'}
+        this.confirmAlert2(text+'위 게임은 "스위치 라이트"에서 구동되지 않습니다.');
+        return false;
+      }
+    }
+    else return true;
+  }
+
   goConfirm(){
     if(this.reservation_check()===true){
       return;
     }
-    if(this.count>0&&this.user!=undefined){
+    else if(this.interlock_check()===false){
+      return;
+    }
+    else if(this.count>0&&this.user!=undefined){
       let modal = this.modal.create(ConfirmPage,
         {
           "user":this.user, "price":this.totalprice+this.contrast, 

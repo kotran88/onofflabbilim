@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform ,ViewController,App,AlertController, Nav, MenuClose} from 'ionic-angular';
+import { Platform ,ViewController,App,AlertController, Nav, MenuClose, Modal, ModalController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -10,6 +10,8 @@ import { LoginpagePage } from '../pages/loginpage/loginpage';
 import { SettingPage } from '../pages/setting/setting';
 import { CoinSavePage } from '../pages/coin-save/coin-save';
 import firebase from 'firebase/app';
+import { IntroducePage } from '../pages/introduce/introduce';
+import { HomeslidePage } from '../pages/homeslide/homeslide';
 @Component({
   templateUrl: 'app.html'
 })
@@ -17,6 +19,7 @@ export class MyApp {
   // rootPage:any = HomePage;
   // rootPage:any=MypagePage;
   @ViewChild(Nav) nav: Nav;
+  @ViewChild(Modal) modal: Modal;
   rootPage:any=TspagePage;
   app:any;
   id:any;
@@ -25,7 +28,7 @@ export class MyApp {
   firemain=firebase.database().ref();
 
   pages:Array<{title:string,component:any}>;
-  constructor(app : App,public alertCtrl:AlertController,public statusBar: StatusBar,public platform: Platform/* , statusBar: StatusBar, splashScreen: SplashScreen */) {
+  constructor(app : App,public alertCtrl:AlertController,public statusBar: StatusBar,public platform: Platform) {
     this.app=app;
     this.platform.ready().then(() => {
       if(this.platform.is('android') ) {
@@ -53,7 +56,7 @@ export class MyApp {
          
           {title:'코인관리',component:CoinSavePage},
           {title:'문의하기',component:ChatPage},
-          {title:'이용안내',component:'안내'},
+          {title:'이용안내',component:HomeslidePage},
           {title:'로그아웃',component:'logout'},
           // {title:'SETTING',component:SettingPage},
           // {title:'COIN',component:CoinSavePage},
@@ -67,8 +70,8 @@ export class MyApp {
     if(page.component==='logout'){
       this.logout();
     }
-    else if(page.component==='안내'){
-      window.alert('안내')
+    else if(page.component===HomeslidePage){
+      this.nav.push(HomeslidePage,{});
     }
     else {
       this.nav.push(page.component,{user:this.user})

@@ -53,18 +53,18 @@
                 <ion-label range-right name="contrast"></ion-label>
             </ion-range>
         </ion-item>
-        <div class="contrastWidth">
-            <span>보증금 : </span>
-            <span>{{number_format(contrast)}}</span>
+        <div class="contrastWidth" style="height: 20%;">
+            <span style="font-size: 150%;">보증금 : </span>
+            <span style="font-size: 150%;">{{number_format(contrast)}}</span>
             <br>
-            <span>일일 대여료 : </span>
-            <span>{{number_format(select_hardware.pricedaily)}}</span>
+            <span style="font-size: 150%;">일일 대여료 : </span>
+            <span style="font-size: 150%;">{{number_format(select_hardware.pricedaily)}}</span>
         </div>
     </div>
 
     <div style="width: 100%; position: absolute; bottom: 0; left: 0; background-color:#70c5ed">
         <button ion-button style="width: 50%; margin: 0; padding: 0; float: left;
-     text-align: center; color: rgb(83, 83, 83); background: transparent;" (click)="cancle()">취소</button>
+     text-align: center; color: rgb(255, 255, 255); background: transparent;" (click)="cancle()">취소</button>
         <button ion-button style="width: 50%; margin: 0; padding: 0; float: left;
      text-align: center; color: rgb(255, 255, 255); background: transparent;" (click)="save()">확인</button>
     </div>

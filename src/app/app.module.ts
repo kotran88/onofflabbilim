@@ -36,6 +36,7 @@ import { DepositPage } from '../pages/deposit/deposit';
 import { PeripheralPage } from '../pages/peripheral/peripheral';
 import { DiscountPage } from '../pages/discount/discount';
 import { ConfirmPage } from '../pages/confirm/confirm';
+import { HomeslidePage } from '../pages/homeslide/homeslide';
 
 
 var firebaseConfig = {
@@ -64,7 +65,8 @@ initializeApp(firebaseConfig);
     DepositPage,
     PeripheralPage,
     DiscountPage,
-    ConfirmPage
+    ConfirmPage,
+    HomeslidePage,
     // ChatroomlistPage,
   ],
   imports: [
@@ -91,6 +93,7 @@ initializeApp(firebaseConfig);
     PeripheralPage,
     DiscountPage,
     ConfirmPage,
+    HomeslidePage,
     // ChatroomlistPage,
   ],
   providers: [

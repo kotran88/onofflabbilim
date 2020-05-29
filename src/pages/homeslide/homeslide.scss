@@ -1,0 +1,24 @@
+page-homeslide {
+    .modal-wrapper {
+        width: 80%;
+        left: 10%;
+        height: 80%;
+        top: 10%;
+    }
+    .swiper-container {
+        height: 100%;
+    }
+    .slide-zoom {
+        height: auto;
+    }
+    .closebtn {
+        margin-top: 3px;
+        position: relative;
+        width: 45px;
+        height: 45px;
+        margin:auto;
+        float: right;
+        background-color: transparent;
+        z-index: 999999;
+    }
+}
