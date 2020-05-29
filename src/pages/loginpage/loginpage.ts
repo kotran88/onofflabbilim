@@ -3,17 +3,10 @@ import { IonicPage, AlertController,NavController, NavParams, ModalController ,P
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase/app';
-import { HomePage } from '../home/home';
-import { SignupPage } from '../signup/signup';
-import {IamportCordova} from '@ionic-native/iamport-cordova/'
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { dateDataSortValue } from 'ionic-angular/umd/util/datetime-util';
-import { HomeslidePage } from '../homeslide/homeslide';
-import { AccessPage } from '../access/access';
 import { HttpClient } from '@angular/common/http';
 import { TspagePage } from '../tspage/tspage';
-import { MyApp } from '../../app/app.component';
 
 /**
  * Generated class for the LoginpagePage page.
@@ -197,67 +190,6 @@ export class LoginpagePage {
     alert.present();
   }
 
-  /*
-  certified(){
-  this.phone="0"+this.phone;
-
-  console.log(this.phone);
-  console.log(this.phone.length);
-    
-    if(this.phone===this.admin_phone){
-      this.name="홍길동";
-      console.log("")
-      this.login();
-      this.certified_check=true;
-      return;
-    }
-    else if(this.name==='') this.confirmAlert2('이름을 입력해주세요.');
-    else if(this.phone==='') this.confirmAlert2('휴대폰 번호를 입력해주세요.');
-    else{
-      this.certified_check=true;
-    }
-
-    if(this.certified_check){
-      var userCode = 'imp10391932';
-      var data = {
-        merchant_uid: 'mid_' + new Date().getTime(),
-        name:this.name,
-        phone:this.phone, 
-      };
-      var params = {
-        userCode: userCode,                           // 가맹점 식별코드
-        data: data,                              // 결제 데이터
-        callback: (response) =>{
-          console.log('response');
-          console.log(response);
-          if(response.imp_success==="true"){
-            this.login();
-          }
-          else if(response.imp_success==="false"){
-            this.confirmAlert2("휴대전화 인증에 실패하였습니다.")
-            this.navCtrl.setRoot(HomePage);
-            // setTimeout(() => {
-            //   this.platform.exitApp();
-            // }, 3000);
-          }
-        },                           // 콜백 함수
-      };
-      IamportCordova.certification(params).then((snap)=>{
-        console.log('response2');
-        console.log(snap);
-
-        this.confirmAlert2("휴대전화 인증에 실패하였습니다.")
-
-        this.navCtrl.setRoot(HomePage);
-        // setTimeout(() => {
-        //   this.platform.exitApp();
-        // }, 3000);
-      });
-      // this.navCtrl.push(HomeslidePage);
-    }
-  }
-  */
-
   login(){
 
     console.log("login come!")
@@ -279,7 +211,6 @@ export class LoginpagePage {
             point:"10",
           }
         )
-        this.access_modal();
       }
       this.firemain.child('users').child(this.phone).update(
         {
@@ -290,8 +221,6 @@ export class LoginpagePage {
       )
       
       location.reload();
-      // this.navCtrl.setRoot(MyApp)
-      // this.viewCtrl.dismiss();
     })
   }
 
@@ -334,17 +263,5 @@ export class LoginpagePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginpagePage');
-  }
-
-  access_modal(){
-    let modal = this.modal.create(AccessPage,{"id":this.phone,"name":this.name},{cssClass:'access-modal'});
-    modal.onDidDismiss(data=>{
-      // this.geolocation_update();
-      // this.uuid_update();
-      // setTimeout(() => {
-      //   this.navCtrl.setRoot(HomePage,{"id":this.phone,"name":this.name})  
-      // }, 1000);
-    });
-    modal.present();
   }
 }

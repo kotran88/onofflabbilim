@@ -5,8 +5,6 @@ import { IonicPage,ViewController,Platform,ModalController,AlertController, NavC
 import firebase from 'firebase/app';
 import { ChatPage } from '../chat/chat';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { CoinsPage } from '../coins/coins';
-import { SettingPage } from '../setting/setting';
 /**
  * Generated class for the MypagePage page.
  *

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, Platform, NavController, NavParams, AlertController } from 'ionic-angular';
-import { LoginpagePage } from './../loginpage/loginpage'
 import firebase from 'firebase/app';
-import {HomePage} from './../home/home'
 /**
  * Generated class for the SettingPage page.
  *
@@ -65,8 +63,8 @@ export class SettingPage {
           text: '확인',
           handler: data => {
             localStorage.setItem("loginflag", "false");
-            this.navCtrl.setRoot(HomePage)
             this.confirmAlert2("로그아웃 되었습니다.");
+            location.reload();
           }
         }
       ]
