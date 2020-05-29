@@ -876,11 +876,6 @@ export class TspagePage {
   }
 
   new_check(g):boolean{
-<<<<<<< HEAD
-
-    // console.log(g);
-=======
->>>>>>> 9dc471dcb921649e44efaefdb42540a747ab8727
     var game=String(g.itemcode);
 
     var newflag=false;
