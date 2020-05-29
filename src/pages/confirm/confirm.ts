@@ -162,30 +162,30 @@ export class ConfirmPage {
     if(this.payment_check()===false){
       return;
     }
-    // var data = {
-    //   pay_method: 'card',
-    //   merchant_uid: 'mid_' + new Date().getTime(),
-    //   name: '게임/게임기 대여',
-    //   amount: this.totalprice,
-    //   app_scheme: 'ionickcp',
-    //   buyer_email: '',
-    //   buyer_tel: '010-1234-5678',
-    //   buyer_addr: '서울특별시 강남구 삼성동',
-    //   buyer_postcode: '123-456'
-    // };
+    var data = {
+      pay_method: 'card',
+      merchant_uid: 'mid_' + new Date().getTime(),
+      name: '게임/게임기 대여',
+      amount: this.totalprice,
+      app_scheme: 'ionickcp',
+      buyer_email: '',
+      buyer_tel: '010-1234-5678',
+      buyer_addr: '서울특별시 강남구 삼성동',
+      buyer_postcode: '123-456'
+    };
 
-    // var PaymentObject = {
-    //   userCode: "imp58611631",
-    //   data: data,
-    //   callback: (response) => {
-    //     console.log(response);
-    //     if (response.imp_success == "true") {
-    //       console.log("결제 완료 ")
-    //       console.log("payment is : ");
-    //       console.log(a);
-    //       console.log(this.hardware);
-    //       // console.log(this.coins);
-    //       console.log("coin is")
+    var PaymentObject = {
+      userCode: "imp58611631",
+      data: data,
+      callback: (response) => {
+        console.log(response);
+        if (response.imp_success == "true") {
+          console.log("결제 완료 ")
+          console.log("payment is : ");
+          console.log(a);
+          console.log(this.hardware);
+          // console.log(this.coins);
+          console.log("coin is")
           var now = new Date();
       
           var tomorrow = new Date();
@@ -231,7 +231,7 @@ export class ConfirmPage {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
               this.coin_check();
               this.game_stock_check();
-              // this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               setTimeout(() => {
                 this.navCtrl.setRoot(TspagePage);
                 // this.viewCtrl.dismiss();
@@ -240,17 +240,17 @@ export class ConfirmPage {
               console.log(e);
             })
           }
-        // }
-    //   },
-    // }
-    // // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
-    // IamportCordova.payment(PaymentObject)
-    //   .then((response) => {
-    //     this.confirmAlert2("success"+'\n'+JSON.stringify(response))
-    //   })
-    //   .catch((err) => {
-    //     this.confirmAlert2('error : '+err)
-    //   });
+        }
+      },
+    }
+    // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
+    IamportCordova.payment(PaymentObject)
+    .then((response) => {
+      this.confirmAlert2("success"+'\n'+JSON.stringify(response))
+    })
+    .catch((err) => {
+      this.confirmAlert2('error : '+err)
+    });
   }
 
   near_enddate_update(root){

@@ -2,7 +2,6 @@ import { Component, NgZone, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController, LoadingController ,MenuController} from 'ionic-angular';
 import firebase from 'firebase/app';
 import {LoginpagePage} from '../loginpage/loginpage'
-import { GameDetailPage } from '../game-detail/game-detail';
 import * as $ from 'jquery';
 import { DepositPage } from '../deposit/deposit';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
@@ -126,9 +125,6 @@ export class TspagePage {
           window.alert("앱을 업데이트 해주세요!")
           var market_url = "market://details?id=io.ionic.onofflab.bilim";
           this.iab.create(market_url,"_blank")
-
-          
-
         }
       });
     })
@@ -525,6 +521,7 @@ export class TspagePage {
     else{
       this.console_flag2=false;
       this.hardware=undefined;
+      this.hwborrow = undefined;
       this.consoletotalprice=0;
       this.contrast=0;
       this.totalcalculator(0);
@@ -838,7 +835,7 @@ export class TspagePage {
     // const browser = this.iab.create('https://store.nintendo.co.kr/70010000024287',"_blank","location=no,toolbar=no");
     if(game.detailurl!=''){
       this.loading_on();
-      const browser = this.iab.create(game.detailurl,"_blank","location=no,toolbar=no");
+      const browser = this.iab.create(game.detailurl,"_blank");
       browser.close();
       this.loading_off();
     }
@@ -851,7 +848,7 @@ export class TspagePage {
     // });
   }
 
-  new_check2(g):boolean{
+  new_check(g):boolean{
     var game=String(g.itemcode);
 
     var newflag=false;
@@ -872,33 +869,6 @@ export class TspagePage {
     // console.log(g);
     // console.log(open);
     // console.log(date);
-
-
-    if(
-      (date.getFullYear()<open.getFullYear())||
-      (date.getFullYear()===open.getFullYear()&&date.getMonth()<open.getMonth())||
-      (date.getFullYear()==open.getFullYear()&&date.getMonth()===open.getMonth()&&date.getDate()<open.getDate())){
-        console.log(g);
-        console.log(date)
-        console.log(open+'\n');    
-        console.log('true')
-        return true;
-    }
-    else return false;
-  }
-
-  new_check(g):boolean{
-
-    // console.log(g);
-    var game=String(g.description.open_date);
-
-    var newflag=false;
-    var date=new Date();
-    var open=new Date();
-    open.setFullYear(Number(game.split('.')[0]));
-    open.setMonth(Number(game.split('.')[1])-1);
-    open.setDate(Number(game.split('.')[2]));
-    date.setDate(date.getDate()-45)
 
 
     if(

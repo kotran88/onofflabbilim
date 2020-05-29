@@ -1,11 +1,10 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { IonicPage, AlertController,Content,NavController, Platform,ModalController,NavParams,LoadingController} from 'ionic-angular';
 import { Chatting } from '../../components/models/chatting';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { storage } from 'firebase';
 import firebase from 'firebase/app';
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
-import { BigpicturePage } from '../bigpicture/bigpicture'
 import { CameraselectPage} from '../cameraselect/cameraselect';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Http, RequestOptions, Headers} from '@angular/http';
@@ -26,11 +25,11 @@ import { observable } from 'rxjs';
 export class ChatPage {
 
   @ViewChild(Content) chatlist:Content
-  @ViewChild('input') myInput ;
+  @ViewChild('myinput') myInput:Input ;
 
   firemain=firebase.database().ref();
   firedata = firebase.database().ref('message');
-  mypicref=firebase.storage().ref('message');
+  mypicref:any;
 
   name:any;
   userid:any;
@@ -232,7 +231,6 @@ export class ChatPage {
       }
       else{
         this.chatlist.scrollToBottom();
-        this.myInput.setFocus();
         this.upload(0);
         this.send_push('문의 올립니다 ('+this.name+','+this.userid+')',this.input.text,'');
       }
