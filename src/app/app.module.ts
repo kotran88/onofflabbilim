@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, ViewController,IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, ViewController,IonicErrorHandler, IonicModule, NavController} from 'ionic-angular';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LoginpagePage} from './../pages/loginpage/loginpage'
@@ -45,6 +45,11 @@ import { AccessPage } from '../pages/access/access';
 import { BigpicturePage } from '../pages/bigpicture/bigpicture';
 import { ReviewPage } from '../pages/review/review';
 import { HttpClientModule } from '@angular/common/http';
+import { TspagePage } from '../pages/tspage/tspage';
+import { DepositPage } from '../pages/deposit/deposit';
+import { PeripheralPage } from '../pages/peripheral/peripheral';
+import { DiscountPage } from '../pages/discount/discount';
+import { ConfirmPage } from '../pages/confirm/confirm';
 
 
 var firebaseConfig = {
@@ -82,7 +87,12 @@ initializeApp(firebaseConfig);
     CoinSavePage,
     AccessPage,
     BigpicturePage,
-    ReviewPage
+    ReviewPage,
+    TspagePage,
+    DepositPage,
+    PeripheralPage,
+    DiscountPage,
+    ConfirmPage
     // ChatroomlistPage,
   ],
   imports: [
@@ -117,7 +127,12 @@ initializeApp(firebaseConfig);
     PaymentPage,
     HomeslidePage,
     CoinSavePage,
-    AccessPage
+    AccessPage,
+    TspagePage,
+    DepositPage,
+    PeripheralPage,
+    DiscountPage,
+    ConfirmPage,
     // ChatroomlistPage,
   ],
   providers: [

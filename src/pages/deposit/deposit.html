@@ -1,0 +1,71 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>보증금 선택</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div style="width: 100% !important; height: 30px;
+  margin-top:10px !important; line-height: 30px;
+  border-radius: 30px;" *ngIf="hardware[0].flag==='switch'">
+        <ion-slides #consoleSlide pager=false loop=true centeredSlides=true slidesPerView="2" (ionSlideDidChange)="slideChanged()">
+            <ion-slide style="width:100% !important">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#70c5ed" class="slidenintendo">닌텐도 스위치</p>
+            </ion-slide>
+            <ion-slide style="width:100% !important">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#d3d3d3" class="slidelight">스위치 라이트</p>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+    <div style="width: 100% !important; height: 30px;
+  margin-top:10px !important; line-height: 30px;
+  border-radius: 30px;" *ngIf="hardware[0].flag==='ps'">
+        <ion-slides #consoleSlide pager=false loop=true centeredSlides=true slidesPerView="2" (ionSlideDidChange)="slideChanged()">
+            <ion-slide style="width:100% !important">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#70c5ed" class="slidenintendo">play station4</p>
+            </ion-slide>
+            <ion-slide style="width:100% !important">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#d3d3d3" class="slidelight">play station4 pro</p>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+    <div style="width: 100%; height: 30%;">
+        <img style="width: 40%; height: 100%; margin-left: 30%;" src="{{hardware[select_num].url}}" />
+    </div>
+
+    <button ion-button *ngIf="select_flag===false" (click)="select()" style="background-color:#70c5ed;width: 90%; margin: 5%;border-radius: 5%;">
+    보증금 선택하기
+  </button>
+    <!--
+   <ion-item>
+            <ion-range min="0" max="{{hardware.pricenormal}}" pin="true" step="{{tick}}" snaps="true" (ionChange)="choice()" [(ngModel)]="contrast" class="range">
+                <ion-label range-left name="contrast"></ion-label>
+                <ion-label range-right name="contrast"></ion-label>
+            </ion-range>
+        </ion-item>
+-->
+    <div *ngIf="select_flag===true">
+        <ion-item>
+            <ion-range min="0" max="{{select_hardware.pricenormal}}" pin="true" step="{{tick}}" (ionChange)="deposit_change()" snaps="true" [(ngModel)]="contrast" class="range">
+                <ion-label range-left name="contrast"></ion-label>
+                <ion-label range-right name="contrast"></ion-label>
+            </ion-range>
+        </ion-item>
+        <div class="contrastWidth">
+            <span>보증금 : </span>
+            <span>{{number_format(contrast)}}</span>
+            <br>
+            <span>일일 대여료 : </span>
+            <span>{{number_format(select_hardware.pricedaily)}}</span>
+        </div>
+    </div>
+
+    <div style="width: 100%; position: absolute; bottom: 0; left: 0; background-color:#70c5ed">
+        <button ion-button style="width: 50%; margin: 0; padding: 0; float: left;
+     text-align: center; color: rgb(83, 83, 83); background: transparent;" (click)="cancle()">취소</button>
+        <button ion-button style="width: 50%; margin: 0; padding: 0; float: left;
+     text-align: center; color: rgb(255, 255, 255); background: transparent;" (click)="save()">확인</button>
+    </div>
+</ion-content>

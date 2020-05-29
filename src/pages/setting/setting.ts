@@ -26,8 +26,9 @@ export class SettingPage {
       backAction();
     }, 2)
 
-    this.id=this.navParams.get("id");
+    // this.id=this.navParams.get("id");
     this.user=this.navParams.get("user");
+    this.id=this.user.phone;
     console.log(this.id);
     console.log(this.user);
   }

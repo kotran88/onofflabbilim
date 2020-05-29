@@ -39,8 +39,8 @@ export class MypagePage {
       this.deviceIds=snap.val().deviceIds;
     })
 
-    this.id=navParams.get("id")
     this.user=navParams.get("user");
+    this.id=navParams.get("user").phone;
     console.log(this.id,this.user)
     if(this.user.points==undefined){
       this.point=0;

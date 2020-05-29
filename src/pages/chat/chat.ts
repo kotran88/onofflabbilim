@@ -26,6 +26,7 @@ import { observable } from 'rxjs';
 export class ChatPage {
 
   @ViewChild(Content) chatlist:Content
+  @ViewChild('input') myInput ;
 
   firemain=firebase.database().ref();
   firedata = firebase.database().ref('message');
@@ -44,13 +45,17 @@ export class ChatPage {
 
   input={user:'',text:'',image:'',date:'',ck:''};
   chat_cnt:any;
+  bottomcnt:any;
 
   constructor(private keyboard: Keyboard,public alertCtrl:AlertController,public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
 
+    var user=navParams.get("user");
+    this.userid=user.phone;
+    this.name=user.name;
 
-    this.userid=navParams.get("user").phone;
-    this.name=navParams.get("user").name;
-    this.admin=navParams.get("admin");
+    this.firemain.child('admin').once('value').then((snap)=>{
+      this.admin=snap.val();
+    })
 
 
     console.log(this.userid)
@@ -60,57 +65,62 @@ export class ChatPage {
     })
 
     addEventListener('keyboardWillShow', () => {
-      setTimeout(() => {
-        this.chatlist.scrollToBottom();
-      }, 1000);
+      // this.bottomcnt=setTimeout(() => {
+      //   this.chatlist.scrollToBottom();
+      // }, 1000);
     });
     addEventListener('onKeyboardWillHide',()=>{
-      console.log(this.keyboard.isVisible);
-      console.log(this.keyboard_check);
-      if(this.keyboard.isVisible!=this.keyboard_check){
-        console.log('?!?!?!?!?')
-        if(this.keyboard_check===true){
-          this.keyboard.show();
-          console.log('keyboard show!!')
-        }
-        else{
-          this.keyboard.hide();
-          console.log('keyboard hide!!')
-        }
-      }
+      // console.log(this.keyboard.isVisible);
+      // console.log(this.keyboard_check);
+      // if(this.keyboard.isVisible!=this.keyboard_check){
+      //   console.log('?!?!?!?!?')
+      //   if(this.keyboard_check===true){
+      //     this.keyboard.show();
+      //     console.log('keyboard show!!')
+      //   }
+      //   else{
+      //     this.keyboard.hide();
+      //     console.log('keyboard hide!!')
+      //   }
+      // }
     });
     addEventListener('onKeyboardHide',()=>{
-      console.log(this.keyboard.isVisible);
-      console.log(this.keyboard_check);
-      if(this.keyboard.isVisible!=this.keyboard_check){
-        console.log('?!?!?!?!?')
-        if(this.keyboard_check===true){
-          this.keyboard.show();
-          console.log('keyboard show!!')
-        }
-        else{
-          this.keyboard.hide();
-          console.log('keyboard hide!!')
-        }
-      }
+      // console.log(this.keyboard.isVisible);
+      // console.log(this.keyboard_check);
+      // if(this.keyboard.isVisible!=this.keyboard_check){
+      //   console.log('?!?!?!?!?')
+      //   if(this.keyboard_check===true){
+      //     this.keyboard.show();
+      //     console.log('keyboard show!!')
+      //   }
+      //   else{
+      //     this.keyboard.hide();
+      //     console.log('keyboard hide!!')
+      //   }
+      // }
     });
-    addEventListener('keyboardDidHide', () => {
-      console.log("Keyboard is Hidden");
-      console.log(this.keyboard.isVisible);
-      console.log(this.keyboard_check);
-      if(this.keyboard.isVisible!=this.keyboard_check){
-        console.log('?!?!?!?!?')
-        if(this.keyboard_check===true){
-          this.keyboard.show();
-          console.log('keyboard show!!')
-        }
-        else{
-          this.keyboard.hide();
-          console.log('keyboard hide!!')
-        }
-        this.keyboard_check=false;
-      }
-    });
+    let backAction =  platform.registerBackButtonAction(() => {
+      clearTimeout(this.bottomcnt);
+      this.navCtrl.pop();
+      backAction();
+    },2)
+    // addEventListener('keyboardDidHide', () => {
+    //   console.log("Keyboard is Hidden");
+    //   console.log(this.keyboard.isVisible);
+    //   console.log(this.keyboard_check);
+    //   if(this.keyboard.isVisible!=this.keyboard_check){
+    //     console.log('?!?!?!?!?')
+    //     if(this.keyboard_check===true){
+    //       this.keyboard.show();
+    //       console.log('keyboard show!!')
+    //     }
+    //     else{
+    //       this.keyboard.hide();
+    //       console.log('keyboard hide!!')
+    //     }
+    //     this.keyboard_check=false;
+    //   }
+    // });
   }
 
   keyboardchecker_reset(n){
@@ -133,6 +143,7 @@ export class ChatPage {
   }
 
   goback(){
+    clearTimeout(this.bottomcnt);
     this.navCtrl.pop();
   }
 
@@ -157,7 +168,7 @@ export class ChatPage {
     console.log(this.chat);
     console.log();
 
-    setTimeout(() => {
+    this.bottomcnt=setTimeout(() => {
       this.chatlist.scrollToBottom();
     }, 2000);
   }
@@ -220,6 +231,8 @@ export class ChatPage {
         this.input.image='';
       }
       else{
+        this.chatlist.scrollToBottom();
+        this.myInput.setFocus();
         this.upload(0);
         this.send_push('문의 올립니다 ('+this.name+','+this.userid+')',this.input.text,'');
       }
