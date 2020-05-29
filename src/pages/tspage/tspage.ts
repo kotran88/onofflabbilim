@@ -855,15 +855,26 @@ export class TspagePage {
   new_check(g):boolean{
 
     // console.log(g);
-    var game=String(g.description.open_date);
+    var game=String(g.itemcode);
 
     var newflag=false;
     var date=new Date();
     var open=new Date();
-    open.setFullYear(Number(game.split('.')[0]));
-    open.setMonth(Number(game.split('.')[1])-1);
-    open.setDate(Number(game.split('.')[2]));
+
+    open.setTime(0);
+    open.setFullYear(2000+Number(game.substring(2,4)));
+    open.setMonth(Number(game.substring(4,6))-1);
+    open.setDate(Number(game.substring(6,8)));
+
+    date.setTime(0);
+    date.setFullYear(new Date().getFullYear());
+    date.setMonth(new Date().getMonth());
+    date.setDate(new Date().getDate());
     date.setDate(date.getDate()-45)
+
+    // console.log(g);
+    // console.log(open);
+    // console.log(date);
 
 
     if(
