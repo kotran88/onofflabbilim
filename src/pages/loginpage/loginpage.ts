@@ -289,7 +289,7 @@ export class LoginpagePage {
         }
       )
       
-      location.reload();
+      this.navCtrl.setRoot(TspagePage);
       // this.navCtrl.setRoot(MyApp)
       // this.viewCtrl.dismiss();
     })

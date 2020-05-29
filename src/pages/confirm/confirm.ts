@@ -27,10 +27,7 @@ export class ConfirmPage {
   totalprice : any;
   gameprice : any;
   contrast : any;
-
-
-
-  coins: any;
+  
   startDate: any;
   endDate: any;
   startDate_text: any;
@@ -52,7 +49,10 @@ export class ConfirmPage {
   totalcoins:any;
   diff:any=3;
   lloading:any;
-  constructor(public navCtrl: NavController,public loading:LoadingController, public navParams: NavParams,public http:Http,public platform:Platform,
+  coinprice:any;
+  sale_data:any;
+
+  constructor(public viewCtrl:ViewController,public navCtrl: NavController,public loading:LoadingController, public navParams: NavParams,public http:Http,public platform:Platform,
   public geo:Geolocation,  public alertCtrl: AlertController) {
     this.user = this.navParams.get("user");
     this.totalprice = this.navParams.get("price");
@@ -61,8 +61,8 @@ export class ConfirmPage {
     this.peripheral = this.navParams.get("peri");
     this.gameprice = this.navParams.get("gameprice");
     this.contrast = this.navParams.get("contrast");
-
-
+    this.coinprice=this.navParams.get("coin");
+    this.sale_data=this.navParams.get("sale");
 
     this.startDate = this.navParams.get("start");
     this.endDate = this.navParams.get("end");
@@ -70,11 +70,6 @@ export class ConfirmPage {
     this.endDate_text = this.navParams.get("end_text");
     this.diff=this.navParams.get("diff");
     console.log(this.user);
-
-    if(this.user.point===undefined) this.user.point="10"
-
-    this.coins = this.user.point;
-    this.totalcoins=this.coins;
 
     let backAction =  platform.registerBackButtonAction(() => {
       console.log("second");
@@ -164,43 +159,33 @@ export class ConfirmPage {
     })
   }
   payment(){
-
-    
-
-
     if(this.payment_check()===false){
       return;
     }
-    var data = {
-      pay_method: 'card',
-      merchant_uid: 'mid_' + new Date().getTime(),
-      name: '게임/게임기 대여',
-      amount: this.totalprice,
-      app_scheme: 'ionickcp',
-      buyer_email: '',
-      buyer_tel: '010-1234-5678',
-      buyer_addr: '서울특별시 강남구 삼성동',
-      buyer_postcode: '123-456'
-    };
+    // var data = {
+    //   pay_method: 'card',
+    //   merchant_uid: 'mid_' + new Date().getTime(),
+    //   name: '게임/게임기 대여',
+    //   amount: this.totalprice,
+    //   app_scheme: 'ionickcp',
+    //   buyer_email: '',
+    //   buyer_tel: '010-1234-5678',
+    //   buyer_addr: '서울특별시 강남구 삼성동',
+    //   buyer_postcode: '123-456'
+    // };
 
-    var PaymentObject = {
-      userCode: "imp58611631",
-      data: data,
-      callback: (response) => {
-        console.log(response);
-        if (response.imp_success == "true") {
-          console.log("결제 완료 ")
-
-
-
-
-
-          console.log("payment is : ");
-    
-          console.log(a);
-          console.log(this.hardware);
-          console.log(this.coins);
-          console.log("coin is")
+    // var PaymentObject = {
+    //   userCode: "imp58611631",
+    //   data: data,
+    //   callback: (response) => {
+    //     console.log(response);
+    //     if (response.imp_success == "true") {
+    //       console.log("결제 완료 ")
+    //       console.log("payment is : ");
+    //       console.log(a);
+    //       console.log(this.hardware);
+    //       // console.log(this.coins);
+    //       console.log("coin is")
           var now = new Date();
       
           var tomorrow = new Date();
@@ -227,6 +212,7 @@ export class ConfirmPage {
               this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               setTimeout(() => {
                 this.navCtrl.setRoot(TspagePage);
+                // this.viewCtrl.dismiss();
               }, 1000);
             }).catch((e) => {
               console.log(e);
@@ -245,28 +231,26 @@ export class ConfirmPage {
               this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
               this.coin_check();
               this.game_stock_check();
-              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+              // this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
               setTimeout(() => {
                 this.navCtrl.setRoot(TspagePage);
+                // this.viewCtrl.dismiss();
               }, 1000);
             }).catch((e) => {
               console.log(e);
             })
           }
-
-
-
-        }
-      },
-    }
-    // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
-    IamportCordova.payment(PaymentObject)
-      .then((response) => {
-        this.confirmAlert2("success"+'\n'+JSON.stringify(response))
-      })
-      .catch((err) => {
-        this.confirmAlert2('error : '+err)
-      });
+        // }
+    //   },
+    // }
+    // // 아임포트 관리자 페이지 가입 후 발급된 가맹점 식별코드를 사용
+    // IamportCordova.payment(PaymentObject)
+    //   .then((response) => {
+    //     this.confirmAlert2("success"+'\n'+JSON.stringify(response))
+    //   })
+    //   .catch((err) => {
+    //     this.confirmAlert2('error : '+err)
+    //   });
   }
 
   near_enddate_update(root){
@@ -428,8 +412,8 @@ export class ConfirmPage {
   coin_check(){
     var now=this.today();
     this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
-    .update({reason:"밍 포인트 사용",coin:-Number(this.totalcoins-this.coins),date:now})
-    this.firemain.child('users').child(this.user.phone).update({point:Number(this.coins)})
+    .update({reason:"밍 포인트 사용",coin:-Number(this.coinprice/this.sale_data.coin.price),date:now})
+    this.firemain.child('users').child(this.user.phone).update({point:Number(this.user.point)})
   }
   reversegeo(){
     naver.maps.Service.reverseGeocode({

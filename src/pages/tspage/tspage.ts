@@ -648,7 +648,7 @@ export class TspagePage {
     }
     else{
       console.log('true');
-      this.gslides.centeredSlides=true;
+      // this.gslides.centeredSlides=true;
     }
     this.gslides.slideTo(this.gslide_num);
     // this.ctck()
@@ -807,7 +807,6 @@ export class TspagePage {
         console.log(this.gamearray);
         for(var j=0; j<this.gamearray.length; j++){
           if(this.gamearray[j].fflag==true){
-            console.log(this.gamearray[j])
             this.game[this.count]=this.gamearray[j];
             this.count++;
           }
@@ -839,7 +838,7 @@ export class TspagePage {
     // const browser = this.iab.create('https://store.nintendo.co.kr/70010000024287',"_blank","location=no,toolbar=no");
     if(game.detailurl!=''){
       this.loading_on();
-      const browser = this.iab.create(game.detailurl,"_self","location=no,toolbar=no");
+      const browser = this.iab.create(game.detailurl,"_blank","location=no,toolbar=no");
       browser.close();
       this.loading_off();
     }
@@ -850,6 +849,42 @@ export class TspagePage {
     // browser.on('loadstop').subscribe(event => {
     //   browser.insertCSS({ code: "body{color: red;" });
     // });
+  }
+
+  new_check2(g):boolean{
+    var game=String(g.itemcode);
+
+    var newflag=false;
+    var date=new Date();
+    var open=new Date();
+
+    open.setTime(0);
+    open.setFullYear(2000+Number(game.substring(2,4)));
+    open.setMonth(Number(game.substring(4,6))-1);
+    open.setDate(Number(game.substring(6,8)));
+
+    date.setTime(0);
+    date.setFullYear(new Date().getFullYear());
+    date.setMonth(new Date().getMonth());
+    date.setDate(new Date().getDate());
+    date.setDate(date.getDate()-45)
+
+    // console.log(g);
+    // console.log(open);
+    // console.log(date);
+
+
+    if(
+      (date.getFullYear()<open.getFullYear())||
+      (date.getFullYear()===open.getFullYear()&&date.getMonth()<open.getMonth())||
+      (date.getFullYear()==open.getFullYear()&&date.getMonth()===open.getMonth()&&date.getDate()<open.getDate())){
+        console.log(g);
+        console.log(date)
+        console.log(open+'\n');    
+        console.log('true')
+        return true;
+    }
+    else return false;
   }
 
   new_check(g):boolean{
@@ -1019,21 +1054,83 @@ export class TspagePage {
     });
     modal.present();
   }
+  reservation_check():boolean{
+    var alert_text='';
+      var near_date:any;
+      var near_date2:any;
+      var end_date:any;
+      var start_date:any;
+
+      for(var i in this.gamearray){
+        if(this.gamearray[i].fflag===true){
+          console.log(this.gamearray[i]);
+
+          this.gamearray[i].stock=Number(this.gamearray[i].stock)
+          this.gamearray[i].reservation=Number(this.gamearray[i].reservation)
+
+          console.log(this.gamearray[i].stock);
+          console.log(this.gamearray[i].reservation);
+          
+          if(this.gamearray[i].stock-this.gamearray[i].reservation<=0){
+
+            start_date=new Date(this.startDate_text);
+            end_date=new Date(this.endDate_text);
+            near_date=new Date(this.gamearray[i].near_start_date);
+            near_date2=new Date(this.gamearray[i].near_return_date)
+
+            near_date.setDate(near_date.getDate()-1);
+            near_date2.setDate(near_date2.getDate()+1);
+
+            start_date.setHours(0);start_date.setMinutes(0);start_date.setSeconds(0);
+            end_date.setHours(0);end_date.setMinutes(0);end_date.setSeconds(0);
+            near_date.setHours(0);near_date.setMinutes(0);near_date.setSeconds(0);
+            near_date2.setHours(0);near_date2.setMinutes(0);near_date2.setSeconds(0);
+
+            console.log(start_date);
+            console.log(end_date);
+            console.log(near_date);
+            console.log(near_date2);
+
+            if((start_date.getTime()>near_date.getTime()&&start_date.getTime()<near_date2.getTime())
+              ||(end_date.getTime()>near_date.getTime()&&end_date.getTime()<near_date2.getTime())){
+              near_date.setDate(near_date.getDate()+1);
+              near_date2.setDate(near_date2.getDate()-1);
+              if(alert_text!='') alert_text+='<br>';
+              alert_text+=''+this.gamearray[i].name+
+              " ("+(near_date.getMonth()+1)+"월"+near_date.getDate()+"일 ~ "
+              +(near_date2.getMonth()+1)+"월"+near_date2.getDate()+"일),";
+            }
+          }
+        }
+      }
+      if(alert_text!=''){
+        this.confirmAlert2(alert_text+"\b <br>예약이 있습니다.");
+        return true;
+      }
+      else return false;
+  }
   goConfirm(){
-    
-    console.log("game selected:"+this.count);
-    console.log(this.user);
-    if(this.count>0&&this.user!=undefined&&this.user!=null){
-      let modal = this.modal.create(ConfirmPage,{"user":this.user,"start":this.startDate,"end":this.endDate,"start_text":this.startDate_text,"end_text":this.endDate_text, "diff":this.diff, "price":this.totalprice+this.contrast, "game":this.game, "hw":this.hwborrow, "peri":this.peripheral, "gameprice":this.totalprice, "contrast":this.contrast},{ cssClass: 'confirm-modal'});
+    if(this.reservation_check()===true){
+      return;
+    }
+    if(this.count>0&&this.user!=undefined){
+      let modal = this.modal.create(ConfirmPage,
+        {
+          "user":this.user, "price":this.totalprice+this.contrast, 
+          "game":this.game, "hw":this.hwborrow, "peri":this.peripheral,
+          "gameprice":this.totalprice, "contrast":this.contrast,"sale":this.sale_data,
+          "coin":this.coinprice,"start":this.startDate,"end":this.endDate,
+          "start_text":this.startDate_text,"end_text":this.endDate_text,"diff":this.diff,
+        },{ cssClass: 'confirm-modal'});
       modal.onDidDismiss(data => {
         console.log(data);
       });
       modal.present();
     }
-    else if(this.user===undefined||this.user==null){
+    else if(this.user===undefined){
       this.confirmAlert2('로그인 후 이용할수 있습니다.')
     }
-    else if(this.count==0){
+    else{
       this.confirmAlert2('게임을 선택해 주세요.')
     }
   }

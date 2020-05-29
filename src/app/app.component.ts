@@ -59,7 +59,7 @@ export class MyApp {
           {title:'주문관리',component:MypagePage},
          
           {title:'코인관리',component:CoinSavePage},
-          {title:'채팅',component:ChatPage},
+          {title:'문의하기',component:ChatPage},
           {title:'이용안내',component:'안내'},
           {title:'로그아웃',component:'logout'},
           // {title:'SETTING',component:SettingPage},
@@ -75,7 +75,7 @@ export class MyApp {
       this.logout();
     }
     else if(page.component==='안내'){
-      window.alert('안내');
+      window.alert('안내')
     }
     else {
       this.nav.push(page.component,{user:this.user})
@@ -103,7 +103,7 @@ export class MyApp {
             localStorage.setItem("loginflag", "false");
             localStorage.setItem("id", "");
             window.alert("로그아웃 되었습니다.")
-            location.reload();
+            this.nav.setRoot(TspagePage);
             // this.confirmAlert2("로그아웃 되었습니다.");
           }
         }

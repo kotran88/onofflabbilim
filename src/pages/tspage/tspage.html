@@ -63,17 +63,17 @@
             <div style="width: 100%; height: 50%; text-align: center; margin: 1% 0 0 0; padding: 5% 0 5% 0; float: left;
             position: relative;" *ngFor="let slide of slidelist; let i = index" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'" (click)="gameselected(slide,slide.num);">
                 <div class="disp" style="position: relative;">
-                    <div style="height: 45%; width: 90%; margin: 0 5% 0 5%;">
+                    <div style="height: 50%; width: 90%; margin: 0 5% 0 5%;">
                         <img style="height: 100%; width: 100%;" src="{{slide.url}}" />
                     </div>
-                    <span *ngIf="new_check(slide)===true" [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
-                    right: -3px; font-weight: 600; line-height: 12px;
+                    <span *ngIf="new_check2(slide)===true" [ngClass]="(slide.hotflag===true||slide.hotflag==='true')?'hotandnew':'onlynew'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
+                    right: 0px; font-weight: 600; line-height: 12px;
                     border: solid 2px; background: white; color: orange; z-index: 20;
                     padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
                     ">NEW</span>
 
                     <span *ngIf="slide.hotflag===true||slide.hotflag==='true'" style="position: absolute; font-family: Arial Rounded MT Bold !important;
-                    right: -3px; top: -3px; font-weight: 600; line-height: 12px;
+                    right: 0px; top: -3px; font-weight: 600; line-height: 12px;
                     border: solid 2px; background: white; color: red;
                     padding: 5px; border-radius: 8px; width: 40px; padding: 2px; font-size: 75%;
                     ">HOT</span>
@@ -109,7 +109,7 @@
         <ion-checkbox style="float: left; z-index: 100; width: 5%;" *ngIf="count!=0" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox>
         <!-- <ion-checkbox style="float: left; z-index: 100; width: 5%;" *ngIf="count==0" [(ngModel)]="console_flag" (ionChange)="console_checkbox()"></ion-checkbox> -->
 
-        <span style="width: 50% !important; text-align: center;" *ngIf="count==0">게임을 선택하셔야 게임기를 빌릴수 있습니다.</span>
+        <span style="width: 50% !important; text-align: center;" *ngIf="count==0">게임을 선택해 주세요</span>
         <span style="width: 50% !important; text-align: center; margin-left:5%;" *ngIf="console_flag2===true">{{hardware.name}}</span>
     </div>
     <!-- <br> -->
@@ -142,7 +142,7 @@
                 <span style="margin-left: 30px;" class="coin ">  x {{coins}}</span>
             </div>
         </div> -->
-    <hr class="new1" style="margin-top:25px;">
+    <hr class="new1" style="margin-top:5px;">
     <div class="pay" *ngIf="payment_flag===true">
         <div style="width:70%; float:left">
             <div class="paymoney">
