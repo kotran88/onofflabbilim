@@ -484,7 +484,8 @@ export class TspagePage {
     var flag=false;
     this.consoletotalprice=0;
 
-    this.hardware.pricedaily=Number(this.sale_data.deposit[this.hardware.name][this.contrast]);
+    console.log(this.hwborrow.hd.pricedaily)
+    this.hardware.pricedaily=Number(this.hwborrow.hd.pricedaily);
     this.consoletotalprice=Number(this.hardware.pricedaily);
     console.log(this.consoletotalprice);
   }
@@ -682,10 +683,12 @@ export class TspagePage {
     var cnt=0;
     for(var i in Data.software){
       if(str!=''&&str!=undefined){
-        var temp=Data.software[i].name.split('\n')[0]
-        +' '+
-        Data.software[i].name.split('\n')[1];
+        var temp=Data.software[i].name.split('\n')[0];
+        if(Data.software[i].name.split('\n')[1]!=undefined){
+          temp+=' '+Data.software[i].name.split('\n')[1];
+        }
         console.log('search : ',str)
+        console.log(temp)
         if(temp.indexOf(str)!=-1){
           this.gamearray[cnt++]=Data.software[i];
           continue;
@@ -826,7 +829,15 @@ export class TspagePage {
         
         this.gamearray[i].fflag=!this.gamearray[i].fflag;
 
-        if(this.gamearray[i].fflag===false) this.game[--this.count]=undefined;
+        if(this.gamearray[i].fflag===false){
+          var temp=[];
+          for(var g in this.game)
+            if(this.game[g]!=undefined&&this.game[g].name!=this.gamearray[i].name)
+              temp.push(this.game[g])
+          this.game=temp;this.count--;
+          console.log(this.game)
+          // this.game[--this.count]=undefined;
+        }
         else this.game[this.count++]=this.gamearray[i];
 
         console.log(this.game);
@@ -843,6 +854,7 @@ export class TspagePage {
           this.game[--this.count]=null;
         }
         else if(this.count == 0){
+          this.game=[];
           this.consoletotalprice = 0;
           this.contrast = 0;
           this.user.point+=(this.coinprice/this.sale_data.coin.price);
@@ -852,7 +864,13 @@ export class TspagePage {
           this.console_flag = false;
           this.console_flag2 = false;
         }
-        
+        var temp=[];
+        for(var g in this.game) 
+          if(this.game[g]!=undefined)
+            temp[g]=this.game[g];
+
+        this.game=temp;
+        console.log(this.game);
         this.totalcalculator(1);
       }
     })
@@ -1110,10 +1128,12 @@ export class TspagePage {
   interlock_check():Boolean{
     var nonlightflag = true;
     var list=[];
-    if (this.hardware.name == '닌텐도 스위치'){}
+    if(this.hardware===undefined) return;
+    else if (this.hardware.name == '닌텐도 스위치'){}
     else if (this.hardware.name == 'Playstation Pro'){}
     else if (this.hardware.name == '스위치 라이트') {
       for(var g of this.game){
+        // if(g===undefined) continue;
         console.log(g.name);
         if(g.name.indexOf('링 피트')>-1 ||
         g.name.indexOf("JUST")>-1 ||
