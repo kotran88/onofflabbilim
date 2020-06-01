@@ -18,7 +18,7 @@ page-tspage {
         float: left;
         margin-bottom: 5%;
     }
-    .wd33 .slide-zoom .disp{
+    .wd33 .slide-zoom .disp {
         height: 100%;
     }
     .btn-area {
@@ -26,7 +26,7 @@ page-tspage {
         width: 31.25%;
         float: left;
     }
-    .slide-zoom{
+    .slide-zoom {
         height: 100%;
     }
     .halfbox {
@@ -205,11 +205,11 @@ page-tspage {
             font-weight: 600;
         }
     }
-    .hotandnew{
-        top: 18px; 
+    .hotandnew {
+        top: 18px;
     }
-    .onlynew{
-        top: -3px; 
+    .onlynew {
+        top: -3px;
     }
     .new1 {
         border-top: 5px dashed #70c5ed;
@@ -232,6 +232,13 @@ page-tspage {
             margin-top: 50px !important;
         }
     }
+    ion-menu ion-backdrop {
+        z-index: 99999999999999;
+        display: block;
+        opacity: 50%;
+        background: black;
+        left: 60%;
+    }
     .menu-inner {
         width: 60%;
     }
@@ -243,6 +250,7 @@ page-tspage {
     }
     ion-scroll .scroll-content {
         margin-top: 0px !important;
+        overflow-y: hidden;
     }
     .s {
         left: 0%;
@@ -262,7 +270,6 @@ page-tspage {
     .slide-zoom {}
     ion-menu.show-menu {
         z-index: 499 !important;
-        top: 8.5%;
     }
     .title {
         color: black !important;
@@ -387,6 +394,6 @@ page-tspage {
 .confirm-modal .modal-wrapper {
     width: 90%;
     left: 5%;
-    height: 80%;
+    height: 85%;
     top: 10%;
 }

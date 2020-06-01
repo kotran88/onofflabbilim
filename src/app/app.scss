@@ -6,6 +6,13 @@
     // font-weight: 500;
     // font-style: 500;
 }
+
+.toolbar-ios {
+    height: 10px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
 .md ion-menu[type=overlay] .menu-inner {
     width: 60%;
 }
@@ -14,8 +21,20 @@
     min-width: 85% !important;
 }
 
+ion-list-ios {
+    margin-top: 30px;
+}
+
+.ios-margin {
+    margin-top: 30px;
+}
+
+.android-margin {
+    margin-top: 0px;
+}
+
 ion-title {
-    line-height: 40px !important;
+    // line-height: 40px !important;
 }
 
 ion-header {
@@ -35,10 +54,9 @@ ion-header {
     border-bottom: 0px !important;
 }
 
-.toolbar-md {
-    min-height: 50px !important;
-}
-
+// .toolbar-md {
+//     min-height: 50px !important;
+// }
 ion-navbar.toolbar {
     height: 50px;
 }
@@ -54,6 +72,10 @@ ion-navbar.toolbar {
         width: 100% !important;
         color: red;
     }
+}
+
+.toolbar-ios ion-title {
+    padding: 0px !important;
 }
 
 @media not all and (min-height: 600px) and (min-width: 768px) {
@@ -73,10 +95,9 @@ ion-navbar.toolbar {
 .discount-modal .modal-wrapper {
     width: 70%;
     left: 15%;
-    height: 50%;
+    height: 50% !important;
     top: 25%;
 }
-
 
 .select-modal .modal-wrapper {
     width: 100% !important;
@@ -138,7 +159,7 @@ ion-navbar.toolbar {
     }
 }
 
-.peri-modal1{
+.peri-modal1 {
     .modal-wrapper {
         width: 90%;
         left: 5%;
@@ -147,7 +168,7 @@ ion-navbar.toolbar {
     }
 }
 
-.peri-modal2{
+.peri-modal2 {
     .modal-wrapper {
         width: 90%;
         left: 5%;

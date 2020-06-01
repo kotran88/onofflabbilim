@@ -1,5 +1,5 @@
 import { Component, NgZone, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController, LoadingController ,MenuController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController, LoadingController ,MenuController, Platform} from 'ionic-angular';
 import firebase from 'firebase/app';
 import {LoginpagePage} from '../loginpage/loginpage'
 import * as $ from 'jquery';
@@ -9,6 +9,13 @@ import { PeripheralPage } from '../peripheral/peripheral';
 import { DiscountPage } from '../discount/discount';
 import { ConfirmPage } from '../confirm/confirm';
 
+
+import { SettingPage } from '../../pages/setting/setting';
+import { CoinSavePage } from '../../pages/coin-save/coin-save';
+import { IntroducePage } from '../../pages/introduce/introduce';
+import { HomeslidePage } from '../../pages/homeslide/homeslide';
+import { ChatPage } from '../../pages/chat/chat';
+import { MypagePage } from '../../pages/mypage/mypage';
 
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
@@ -29,6 +36,7 @@ export class TspagePage {
   @ViewChild('gameSlide') gslides:Slides;
   lloading:any;
 
+  pages:Array<{title:string,component:any}>;
   menu_flag=false;
 
   search_flag = false;
@@ -86,12 +94,65 @@ export class TspagePage {
   payment_flag=false;
   version:any;
   totalcontrast = 0;
+  platformname = '';
 
   firemain = firebase.database().ref();
+
+  openPage(page){
+
+    if(page.component==='logout'){
+      this.logout();
+    }
+    else if(page.component===HomeslidePage){
+      this.navCtrl.push(HomeslidePage,{});
+    }
+    else {
+      this.navCtrl.push(page.component,{user:this.user})
+    }
+  }
+
+  gosetting(){
+    this.openPage({component:SettingPage})
+  }
+
+  logout() {
+    let alert = this.alertCtrl.create({
+      title: '로그아웃 하시겠습니까?',
+      buttons: [
+        {
+          text: '취소',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: '확인',
+          handler: data => {
+            localStorage.setItem("loginflag", "false");
+            localStorage.setItem("id", "");
+            window.alert("로그아웃 되었습니다.")
+            // this.nav.setRoot(TspagePage);
+            location.reload();
+            // this.confirmAlert2("로그아웃 되었습니다.");
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController,public oneSignal:OneSignal
   ,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams,public loading:LoadingController,public appVersion:AppVersion
-  ,public datePicker:DatePicker,private menu: MenuController) {
-
+  ,public datePicker:DatePicker,private menu: MenuController,public plt:Platform) {
+    if(this.plt.is('ios')){
+      console.log('ios');
+      this.platformname = 'ios';
+    }
+    else if(this.plt.is('android')){
+      console.log('android');
+      this.platformname = 'android';
+    }
     var loginflag=localStorage.getItem('loginflag');
     if(loginflag!=''&&loginflag!='false'&&loginflag!=undefined&&loginflag!=null){
       var id=localStorage.getItem('id');
@@ -100,7 +161,33 @@ export class TspagePage {
         console.log(this.user);
       })
     }
+    var loginflag=localStorage.getItem('loginflag');
 
+    console.log("login flag is : "+loginflag);
+    if(loginflag===''||loginflag==='false'||loginflag===undefined||loginflag===null){
+      this.pages=[
+        {title:'로그인',component:LoginpagePage},
+        // {title:'SETTING',component:SettingPage},
+        // {title:'COIN',component:CoinSavePage},
+      ]
+    }
+    else{
+      this.id=localStorage.getItem('id');
+      this.firemain.child('users').child(this.id).once('value').then((snap)=>{
+        console.log(snap.val());
+        this.user=snap.val();
+        this.pages=[
+          {title:'주문관리',component:MypagePage},
+         
+          {title:'코인관리',component:CoinSavePage},
+          {title:'문의하기',component:ChatPage},
+          {title:'이용안내',component:HomeslidePage},
+          {title:'로그아웃',component:'logout'},
+          // {title:'SETTING',component:SettingPage},
+          // {title:'COIN',component:CoinSavePage},
+        ]
+      })
+    }
     this.loading_on();
     // this.sideMenu();
 
@@ -403,6 +490,7 @@ export class TspagePage {
     var temp:any;
     if(mode===1) temp=new Date(this.startDate);
     else if(mode===2) temp=new Date(this.endDate);
+    console.log("temp is : "+temp);
     temp.setHours(1);
     this.datePicker.show({
       date: temp,
@@ -856,6 +944,7 @@ export class TspagePage {
         this.totalcalculator(1);
       }
     })
+    console.log(this.game);
   }
 
   gotogamedetail(game){
@@ -1110,26 +1199,32 @@ export class TspagePage {
   interlock_check():Boolean{
     var nonlightflag = true;
     var list=[];
-    if (this.hardware.name == '닌텐도 스위치'){}
-    else if (this.hardware.name == 'Playstation Pro'){}
-    else if (this.hardware.name == '스위치 라이트') {
-      for(var g of this.game){
-        console.log(g.name);
-        if(g.name.indexOf('링 피트')>-1 ||
-        g.name.indexOf("JUST")>-1 ||
-        g.name.indexOf("복싱")>-1){
-          nonlightflag = false;
-          list.push(g.name);
+    console.log(this.hardware)
+    if(this.hardware!=undefined){
+      if (this.hardware.name == '닌텐도 스위치'){}
+      else if (this.hardware.name == 'Playstation Pro'){}
+      else if (this.hardware.name == '스위치 라이트') {
+        for(var g of this.game){
+          console.log(g.name);
+          if(g.name.indexOf('링 피트')>-1 ||
+          g.name.indexOf("JUST")>-1 ||
+          g.name.indexOf("복싱")>-1){
+            nonlightflag = false;
+            list.push(g.name);
+          }
+        }
+        if(nonlightflag == false){
+          var text='';
+          for(var l of list){text+=String(l)+',<br>'}
+          this.confirmAlert2(text+'위 게임은 "스위치 라이트"에서 구동되지 않습니다.');
+          return false;
         }
       }
-      if(nonlightflag == false){
-        var text='';
-        for(var l of list){text+=String(l)+',<br>'}
-        this.confirmAlert2(text+'위 게임은 "스위치 라이트"에서 구동되지 않습니다.');
-        return false;
-      }
+      else return true;
+    }else{
+      return true;
     }
-    else return true;
+   
   }
 
   goConfirm(){
@@ -1140,16 +1235,36 @@ export class TspagePage {
       return;
     }
     else if(this.count>0&&this.user!=undefined){
+      console.log(this.game);
+      var newgame=[];
+      for(var i=0; i<this.game.length; i++){
+        if(this.game[i]==undefined){
+          console.log("i remove : "+i);
+          this.game.splice(i,1)
+          delete this.game[i];
+        }else{
+          newgame.push(this.game[i])
+        }
+      }
+      console.log(newgame);
       let modal = this.modal.create(ConfirmPage,
         {
           "user":this.user, "price":this.totalprice+this.contrast, 
-          "game":this.game, "hw":this.hwborrow, "peri":this.peripheral,
+          "game":newgame, "hw":this.hwborrow, "peri":this.peripheral,
           "gameprice":this.totalprice, "contrast":this.contrast,"sale":this.sale_data,
           "coin":this.coinprice,"start":this.startDate,"end":this.endDate,
           "start_text":this.startDate_text,"end_text":this.endDate_text,"diff":this.diff,
         },{ cssClass: 'confirm-modal'});
       modal.onDidDismiss(data => {
         console.log(data);
+
+
+        var id=localStorage.getItem('id');
+        this.firemain.child('users').child(id).once('value').then((snap)=>{
+          this.user=snap.val();
+          console.log(this.user);
+        })
+
       });
       modal.present();
     }

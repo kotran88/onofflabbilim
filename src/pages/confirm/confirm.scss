@@ -46,7 +46,7 @@ page-confirm {
             background-color: transparent;
             color: white;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
         }
     }
     .divaddress {
@@ -75,5 +75,18 @@ page-confirm {
             font-size: 20px;
             font-weight: 900;
         }
+    }
+    .ios-margin2 {
+        margin-top: 60px;
+    }
+    .headconfirm {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 18px;
+        font-weight: 900;
+        text-align: center;
+        margin: 0% 0% 0% 0%;
+        line-height: 2;
     }
 }

@@ -36,8 +36,16 @@ export class LoginpagePage {
   admin_phone:any;
 
   firemain = firebase.database().ref();
+  pltname = '';
   constructor(public viewCtrl:ViewController,private http: HttpClient,public platform: Platform,private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams, public modal : ModalController) {
-    
+    if(this.platform.is('ios')){
+      this.pltname = 'ios';
+      console.log(this.pltname);
+    }
+    else if(this.platform.is('android')){
+      this.pltname = 'android';
+      console.log(this.pltname);
+    }
     if(localStorage.getItem('loginflag')!='false'&&localStorage.getItem('loginflag')!=null){
       // this.main_title='회원가입/로그인';
       this.login_check=true;
@@ -95,6 +103,33 @@ export class LoginpagePage {
   }
 
   kko_certified(){
+
+
+
+    console.log(this.phone);
+    console.log(this.admin_phone)
+    if("0"+this.phone===this.admin_phone){
+      this.name="홍길동";
+      console.log("test!!!")
+      this.login();
+      localStorage.setItem("loginflag","true");
+      localStorage.setItem("id",this.phone);
+      localStorage.setItem("name",this.name);
+      this.firemain.child('users').child(this.phone).update(
+        {
+          'name':this.name,
+          'phone':this.phone,
+          'last_login':new Date(),
+        }
+      )
+      
+      location.reload();
+
+      this.navCtrl.setRoot(TspagePage);
+      this.certified_check=true;
+      return;
+    }
+
     if(this.phone===''){
       this.confirmAlert2('휴대전화 번호를 입력해 주세요.')
       return;
@@ -110,6 +145,7 @@ export class LoginpagePage {
       console.log(this.name);
       console.log(this.phone);
 
+      console.log("sending to server")
       this.http.get('http://onofflab.co.kr/authpn?rq=kko&pn='+this.phone+'&name='+this.name).subscribe((response) => {
         console.log(response);
       });

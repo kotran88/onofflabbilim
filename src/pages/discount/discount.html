@@ -5,13 +5,17 @@
   Ionic pages and navigation.
 -->
 
-<ion-header>
+<!-- <ion-header>
     <ion-navbar>
-        <ion-title>할인적용하기</ion-title>
+        <ion-title>할인 적용</ion-title>
     </ion-navbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
+    <div style="background-color:#e7e7e7">
+        <p class="headconfirm">할인적용</p>
+    </div>
+
     <div class="notice">
         코인 1개당 100원이 할인됩니다.<br> 렌탈 종료 시 사용 금액의 5%가 코인으로 적립됩니다.
     </div>
@@ -20,8 +24,7 @@
         <img (click)="goup();" style="height: 65px; float: right;" src="assets/img/arrow_up.png" />
         <div style="width: 100%; text-align: center; line-height: 65px;" class="inner">
             <span style="display:inline-block; margin-right:5px;"> 보유 코인 : &ensp; &ensp; x {{number_format(currentcoin)}}</span>
-            <img id="abc" style="height: 18px; font-size: 80px; bottom: 23px; position: absolute; left: 53%;"
-            src="/assets/img/coinimage.png " />
+            <img id="abc" style="height: 18px; font-size: 80px; bottom: 23px; position: absolute; left: 53%;" src="/assets/img/coinimage.png " />
             <!-- <span style="margin-left: 20px;" class="coin">x {{number_format(currentcoin)}}</span> -->
         </div>
     </div>

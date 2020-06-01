@@ -30,9 +30,17 @@ export class MypagePage {
   check_order:any;
   deviceIds=[];
   // deviceId="61acf6b0-73f3-40a2-8b19-fc85697494c0";
-
+  pltname = '';
   firemain = firebase.database().ref();
   constructor(public view:ViewController,public loading:LoadingController,public platform:Platform,public modal:ModalController,public alertCtrl : AlertController,public camera:Camera,public navCtrl: NavController, public navParams: NavParams, public http:Http) {
+    if(this.platform.is('ios')){
+      this.pltname = 'ios';
+      console.log(this.pltname);
+    }
+    else if(this.platform.is('android')){
+      this.pltname = 'android';
+      console.log(this.pltname);
+    }
     this.firemain.child('admin').once('value').then((snap)=>{
       this.deviceIds=snap.val().deviceIds;
     })
