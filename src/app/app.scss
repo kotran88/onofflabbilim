@@ -91,10 +91,26 @@ ion-navbar.toolbar {
 //     bottom: 0;
 //     padding: 0;
 // }
+.discount-modal .modal-wrapper {
+    width: 80%;
+    left: 10%;
+    height: 40%;
+    top: 25%;
+    position: absolute !important;
+}
+
+.confirm-modal .modal-wrapper {
+    width: 90%;
+    left: 5%;
+    height: 87%;
+    top: 10%;
+    position: absolute !important;
+}
+
 .pictureModal .modal-wrapper {
     width: 90%;
-    height: 45%;
-    position: absolute;
+    height: 45% !important;
+    position: absolute !important;
     top: 60%;
     left: 5%;
 }
@@ -104,6 +120,7 @@ ion-navbar.toolbar {
     left: 15%;
     height: 50% !important;
     top: 25%;
+    position: absolute !important;
 }
 
 .select-modal .modal-wrapper {
@@ -125,6 +142,7 @@ ion-navbar.toolbar {
         height: 75%;
         left: 10%;
         top: 10%;
+        position: absolute !important;
     }
 }
 
@@ -136,6 +154,7 @@ ion-navbar.toolbar {
         left: 5%;
         right: 5%;
         top: 5%;
+        position: absolute !important;
     }
 }
 
@@ -145,6 +164,7 @@ ion-navbar.toolbar {
         left: calc(20%/2);
         height: 80%;
         top: calc(20%/2);
+        position: absolute !important;
     }
 }
 
@@ -154,6 +174,7 @@ ion-navbar.toolbar {
         left: calc(20%/2);
         height: 70%;
         top: calc(20%/2);
+        position: absolute !important;
     }
 }
 
@@ -163,6 +184,7 @@ ion-navbar.toolbar {
         left: 5%;
         height: 70%;
         top: 20%;
+        position: absolute !important;
     }
 }
 
@@ -172,6 +194,7 @@ ion-navbar.toolbar {
         left: 5%;
         height: 70%;
         top: 20%;
+        position: absolute !important;
     }
 }
 
@@ -181,6 +204,7 @@ ion-navbar.toolbar {
         left: 5%;
         height: 70%;
         top: 20%;
+        position: absolute !important;
     }
 }
 
