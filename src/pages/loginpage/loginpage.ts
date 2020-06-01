@@ -36,8 +36,16 @@ export class LoginpagePage {
   admin_phone:any;
 
   firemain = firebase.database().ref();
+  pltname = '';
   constructor(public viewCtrl:ViewController,private http: HttpClient,public platform: Platform,private geolocation: Geolocation,private uniqueDeviceID: UniqueDeviceID,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams, public modal : ModalController) {
-    
+    if(this.platform.is('ios')){
+      this.pltname = 'ios';
+      console.log(this.pltname);
+    }
+    else if(this.platform.is('android')){
+      this.pltname = 'android';
+      console.log(this.pltname);
+    }
     if(localStorage.getItem('loginflag')!='false'&&localStorage.getItem('loginflag')!=null){
       // this.main_title='회원가입/로그인';
       this.login_check=true;

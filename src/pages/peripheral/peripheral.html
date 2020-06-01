@@ -1,13 +1,15 @@
-<ion-header>
+<!-- <ion-header>
     <ion-navbar>
         <ion-title>주변기기 선택</ion-title>
     </ion-navbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
+    <div style="background-color: #e7e7e7;">
+        <p class="headconfirm">주변기기 선택</p>
+    </div>
     <div style="width:100%; padding-left:2px; height: 90%;" *ngIf="peripheral[0].flag==='switch'">
-        <div *ngFor="let slide of peripheral; let i = index;" class="gamelist1"
-        (click)="periselected(slide,slide.num);" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'">
+        <div *ngFor="let slide of peripheral; let i = index;" class="gamelist1" (click)="periselected(slide,slide.num);" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'">
             <img style="margin:5% 5% 0 5%; height: 50%; width: 90%;" src="{{slide.url}}" />
             <div>
                 <span>{{slide.name}}</span><br>
@@ -16,8 +18,7 @@
         </div>
     </div>
     <div style="width:100%; padding-left:2px; height: 90%;" *ngIf="peripheral[0].flag==='ps'">
-        <div *ngFor="let slide of peripheral; let i = index;" class="gamelist2"
-        (click)="periselected(slide,slide.num);" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'">
+        <div *ngFor="let slide of peripheral; let i = index;" class="gamelist2" (click)="periselected(slide,slide.num);" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'">
             <img style="margin:5% 5% 0 5%; height: 40%; width: 90%;" src="{{slide.url}}" />
             <div>
                 <span>{{slide.name}}</span><br>

@@ -1,7 +1,11 @@
-<ion-content padding>
+<!-- <ion-header>
+    <ion-toolbar color="white">
+    </ion-toolbar>
+</ion-header> -->
+<ion-content padding [ngClass]="platformname == 'ios' ? 'ios-margin' : 'android-margin'">
     <img src="assets/img/menu-icon.png" menuToggle style="width: 40px;
   height: 40px; background: transparent;
-  margin: 0; padding: 5px; margin-top: 10px;
+  margin: 0; padding: 5px; margin-top:10px;
   float: left;" *ngIf="search_flag==false" />
 
     <div style="width: 70% !important; height:auto; margin-left: 15%;
@@ -58,7 +62,7 @@
       </div>
     </div> -->
 
-    <ion-slides #gameSlide paper=false loop=false slidesPerView="3.2" (ionSlideDidChange)="slideChanged2()" style="margin: 5% 5% 0 5%; width: 90%; z-index: 10; height: 45%;" *ngIf="init_flag===true" class="gameslide">
+    <ion-slides #gameSlide paper=false loop=false slidesPerView="3.2" (ionSlideDidChange)="slideChanged2()" style="margin: 3% 5% 0 5%; width: 90%; z-index: 10; height: 45%;" *ngIf="init_flag===true" class="gameslide">
         <ion-slide *ngFor="let slidelist of game_slide; let idx = index;" class="wd33" [ngClass]="slidelist.length<2? 'halfbox':'fullbox'">
             <div style="width: 100%; height: 50%; text-align: center; margin: 1% 0 0 0; padding: 5% 0 5% 0; float: left;
             position: relative;" *ngFor="let slide of slidelist; let i = index" [ngClass]="slide.stock==='0'? 'no_stock':slide.fflag==true ? 'gameshowwithborder':'gameshow'" (click)="gameselected(slide,slide.num);">
@@ -146,32 +150,32 @@
     <div class="pay" *ngIf="payment_flag===true">
         <div style="width:70%; float:left">
             <div class="paymoney">
-                <span style="font-size:15px;" >대여 금액 : </span>
-                <span style="font-size:15px;" >{{number_format(totalprice)}}원</span  >
+                <span style="font-size:15px;">대여 금액 : </span>
+                <span style="font-size:15px;">{{number_format(totalprice)}}원</span  >
                 <span  style="font-size:13px;"  *ngIf="coinprice>0" style="color: red; font-size: 80%;">코인({{coinprice}}원)</span>
             </div>
 
             <div *ngIf="contrast!=0" class="paymoney">
-                <span style="font-size:15px;" >보증금 : </span>
-                <span style="font-size:15px;" >{{number_format(contrast)}}원</span>
+                <span style="font-size:15px;">보증금 : </span>
+                <span style="font-size:15px;">{{number_format(contrast)}}원</span>
             </div>
             <div style="margin-top:5px;" class="paymoney">
-                <span style="font-size:16px;" >총 결제 금액 : </span>
-                <span style="font-size:16px;"  *ngIf="totalpaymoney==0">{{number_format(totalcontrast)}}원</span>
-                <span style="font-size:16px;"   *ngIf="totalpaymoney!=0">{{number_format(totalpaymoney)}}원</span>
+                <span style="font-size:16px;">총 결제 금액 : </span>
+                <span style="font-size:16px;" *ngIf="totalpaymoney==0">{{number_format(totalcontrast)}}원</span>
+                <span style="font-size:16px;" *ngIf="totalpaymoney!=0">{{number_format(totalpaymoney)}}원</span>
             </div>
 
-          
+
         </div>
         <div class="discount" (click)="discount()">
             <span>할인<br>적용하기</span>
         </div>
         <div *ngIf="contrast!=0" style="margin-top:10px; 
         display: inline-table;" class="paymoney">
-            <span style="font-size:16.5px; color:red;" >실질 결제 금액 (총 결제금액 - 보증금) : </span>
-            <span style="font-size:16.5px; color:red;"  >{{number_format(totalcontrast-contrast)}}원</span>
+            <span style="font-size:16.5px; color:red;">실질 결제 금액 (총 결제금액 - 보증금) : </span>
+            <span style="font-size:16.5px; color:red;">{{number_format(totalcontrast-contrast)}}원</span>
         </div>
-      
+
     </div>
 
     <div class="payment" (click)="goConfirm()">
@@ -180,30 +184,31 @@
 
 </ion-content>
 <ion-menu [content]="content">
-    <ion-header>
+    <!-- <ion-header>
         <!-- <img src="assets/img/menu-icon.png" (click)="close()"
         style="width: 17%; left: 0px;
         background: transparent; z-index: 15;
         margin: 0; padding: 5px; margin-top: 5px;
         position: absolute;"/> -->
-        <ion-toolbar>
-            <ion-title *ngIf="user===undefined||user===null" style="float: left;">로그인을 해주세요.</ion-title>
-            <ion-title *ngIf="user!=undefined&&user!=null" style="float: left;">{{user.name}}님</ion-title>
+    <!-- <ion-toolbar>
+          
         </ion-toolbar>
-        <img src="assets/img/setting.png" (click)="gosetting()"
-        menuClose *ngIf="user!=undefined||user!=null"
-        style="width: 40px; right: 0; top: 0;
+        <img src="assets/img/setting.png" (click)="gosetting()" menuClose *ngIf="user!=undefined||user!=null" style="width: 40px; right: 0; top: 0;
         background: transparent; z-index: 15;
         margin: 0; padding: 5px; margin-top: 5px;
-        position: absolute;"/>
-        <!-- <img src=“assets/img/menu-icon.png” menuToggle style=“width: 40px;
+        position: absolute;" /> -->
+    <!-- <img src=“assets/img/menu-icon.png” menuToggle style=“width: 40px;
         height: 40px; background: transparent;
         margin: 0; padding: 5px; margin-top: 10px;
         float: left;” *ngIf=“search_flag==false” /> -->
-    </ion-header>
+    <!-- </ion-header> -->
 
-    <ion-content>
+    <ion-content [ngClass]="platformname == 'ios' ? 'ios-margin' : 'android-margin'">
         <ion-list>
+            <div style="text-align: center;">
+                <p *ngIf="user===undefined||user===null" style="float: left; width:100%; margin-left:auto; margin-right:auto; font-size:20px;">로그인을 해주세요.</p>
+                <p *ngIf="user!=undefined&&user!=null" style="float: left; width:100%; margin-left:auto; margin-right:auto; font-size:20px;">{{user.name}}님</p>
+            </div>
             <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
                 {{p.title}}
             </button>
@@ -212,4 +217,3 @@
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
-

@@ -23,8 +23,8 @@ page-discount {
         text-align: center;
         padding: 2%;
         font-size: 13px;
-        padding-top:10%;
-        padding-bottom:5%;
+        padding-top: 10%;
+        padding-bottom: 5%;
     }
     .ok {
         position: fixed;
@@ -34,8 +34,7 @@ page-discount {
         padding: 2%;
         font-size: 16px;
         font-weight: 600;
-
-    height: 40px;
+        height: 40px;
         color: white;
         background-color: #70c5ed;
     }
@@ -45,5 +44,15 @@ page-discount {
         margin-top: 5%;
         font-size: 18px;
         font-weight: 800;
+    }
+    .headconfirm {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 18px;
+        font-weight: 900;
+        text-align: center;
+        margin: 0% 0% 0% 0%;
+        line-height: 2;
     }
 }

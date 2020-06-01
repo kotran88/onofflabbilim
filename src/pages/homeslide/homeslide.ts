@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Slides, ViewController } from 'ionic-angular';
+import { NavController, NavParams, Slides, ViewController, Platform } from 'ionic-angular';
 import firebase from 'firebase';
 
 /**
@@ -17,9 +17,17 @@ export class HomeslidePage {
   @ViewChild(Slides) slidess: Slides;
   firemain = firebase.database().ref();
   slides = [];
-
-  constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController) {
+  pltname = '';
+  constructor(public navCtrl: NavController, public navParams: NavParams,public platform:Platform, public viewCtrl:ViewController) {
     localStorage.setItem("firstflag","false");
+    if(this.platform.is('ios')){
+      this.pltname = 'ios';
+      console.log(this.pltname);
+    }
+    else if(this.platform.is('android')){
+      this.pltname = 'android';
+      console.log(this.pltname);
+    }
     this.firemain.child("explainpage").once("value", (snapshot) => {
 
       for (var a in snapshot.val()) {

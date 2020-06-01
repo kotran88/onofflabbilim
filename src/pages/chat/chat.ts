@@ -45,9 +45,16 @@ export class ChatPage {
   input={user:'',text:'',image:'',date:'',ck:''};
   chat_cnt:any;
   bottomcnt:any;
-
+  pltname = '';
   constructor(private keyboard: Keyboard,public alertCtrl:AlertController,public loading:LoadingController, public http:Http, private photoViewer: PhotoViewer, public platform:Platform,public modal:ModalController,private camera: Camera,public afDatabase : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
-
+    if(this.platform.is('ios')){
+      this.pltname = 'ios';
+      console.log(this.pltname);
+    }
+    else if(this.platform.is('android')){
+      this.pltname = 'android';
+      console.log(this.pltname);
+    }
     var user=navParams.get("user");
     this.userid=user.phone;
     this.name=user.name;

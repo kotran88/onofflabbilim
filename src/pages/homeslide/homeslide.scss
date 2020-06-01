@@ -16,7 +16,17 @@ page-homeslide {
         position: relative;
         width: 45px;
         height: 45px;
-        margin:auto;
+        margin: auto;
+        float: right;
+        background-color: transparent;
+        z-index: 999999;
+    }
+    .ios-button-size {
+        margin-top: 50px;
+        position: relative;
+        width: 60px;
+        height: 60px;
+        margin: auto;
         float: right;
         background-color: transparent;
         z-index: 999999;

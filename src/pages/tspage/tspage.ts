@@ -1,5 +1,5 @@
 import { Component, NgZone, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController, LoadingController ,MenuController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController, LoadingController ,MenuController, Platform} from 'ionic-angular';
 import firebase from 'firebase/app';
 import {LoginpagePage} from '../loginpage/loginpage'
 import * as $ from 'jquery';
@@ -94,6 +94,7 @@ export class TspagePage {
   payment_flag=false;
   version:any;
   totalcontrast = 0;
+  platformname = '';
 
   firemain = firebase.database().ref();
 
@@ -143,8 +144,15 @@ export class TspagePage {
 
   constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController,public oneSignal:OneSignal
   ,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams,public loading:LoadingController,public appVersion:AppVersion
-  ,public datePicker:DatePicker,private menu: MenuController) {
-
+  ,public datePicker:DatePicker,private menu: MenuController,public plt:Platform) {
+    if(this.plt.is('ios')){
+      console.log('ios');
+      this.platformname = 'ios';
+    }
+    else if(this.plt.is('android')){
+      console.log('android');
+      this.platformname = 'android';
+    }
     var loginflag=localStorage.getItem('loginflag');
     if(loginflag!=''&&loginflag!='false'&&loginflag!=undefined&&loginflag!=null){
       var id=localStorage.getItem('id');

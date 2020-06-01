@@ -51,9 +51,18 @@ export class ConfirmPage {
   lloading:any;
   coinprice:any;
   sale_data:any;
+  pltname = '';
 
   constructor(public viewCtrl:ViewController,public navCtrl: NavController,public loading:LoadingController, public navParams: NavParams,public http:Http,public platform:Platform,
   public geo:Geolocation,  public alertCtrl: AlertController) {
+    if(this.platform.is('ios')){
+      console.log('ios');
+      this.pltname = 'ios';
+    }
+    else if(this.platform.is('android')){
+      console.log('android');
+      this.pltname = 'android';
+    }
     this.user = this.navParams.get("user");
     this.totalprice = this.navParams.get("price");
     this.game = this.navParams.get("game");

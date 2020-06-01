@@ -16,8 +16,16 @@ export class CoinSavePage {
 
   coin_list=[];
   mycoins:any;
-
+  pltname = '';
   constructor(public view:ViewController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams) {
+    if(this.platform.is('ios')){
+      this.pltname = 'ios';
+      console.log(this.pltname);
+    }
+    else if(this.platform.is('android')){
+      this.pltname = 'android';
+      console.log(this.pltname);
+    }
     var data=this.navParams.get('user');
     console.log(data);
     data=data.accumulation;
