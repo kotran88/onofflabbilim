@@ -738,17 +738,17 @@ export class TspagePage {
     // this.gslide_num=3;
     this.gslide_num = this.gslides.getActiveIndex();
     this.gslide_num%=this.game_slide.length;
-    if(this.gslide_num===0||this.gslide_num+2===(this.game_slide.length)){
-      console.log('false');
-      this.gslides.centeredSlides=false;
-      // this.gslide_num=this.game_slide.length-2;
-      // this.gslide_num=1;
-    }
-    else{
-      console.log('true');
-      // this.gslides.centeredSlides=true;
-    }
-    this.gslides.slideTo(this.gslide_num);
+    // if(this.gslide_num===0||this.gslide_num+2===(this.game_slide.length)){
+    //   console.log('false');
+    //   this.gslides.centeredSlides=false;
+    //   // this.gslide_num=this.game_slide.length-2;
+    //   // this.gslide_num=1;
+    // }
+    // else{
+    //   console.log('true');
+    //   // this.gslides.centeredSlides=true;
+    // }
+    // this.gslides.slideTo(this.gslide_num);
     // this.ctck()
     console.log(this.gslide_num)
   }
@@ -914,7 +914,16 @@ export class TspagePage {
         
         this.gamearray[i].fflag=!this.gamearray[i].fflag;
 
-        if(this.gamearray[i].fflag===false) this.game[--this.count]=undefined;
+        if(this.gamearray[i].fflag===false){
+          var temp=[];
+          for(var g in this.game)
+            if(this.game[g]!=undefined&&this.game[g].name!=this.gamearray[i].name)
+              temp.push(this.game[g]);
+          // temp.push(this.gamearray[i]);
+          this.game=temp;
+          console.log(this.game);
+          this.count--;
+        }
         else this.game[this.count++]=this.gamearray[i];
 
         console.log(this.game);
@@ -928,9 +937,10 @@ export class TspagePage {
         if(this.count>3){
           this.confirmAlert2("이 이상은 '밍' 할수 없습니다.")
           this.gamearray[i].fflag=false;
-          this.game[--this.count]=null;
+          this.game[--this.count]=undefined;
         }
         else if(this.count == 0){
+          this.game=[];
           this.consoletotalprice = 0;
           this.contrast = 0;
           this.user.point+=(this.coinprice/this.sale_data.coin.price);
@@ -940,6 +950,12 @@ export class TspagePage {
           this.console_flag = false;
           this.console_flag2 = false;
         }
+        var temp=[];
+        for(var g in this.game)
+          if(this.game[g]!=undefined)
+            temp.push(this.game[g]);
+        this.game=temp;
+        console.log(this.game);
         
         this.totalcalculator(1);
       }

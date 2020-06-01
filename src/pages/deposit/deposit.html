@@ -8,34 +8,21 @@
     <div style="background-color: #e7e7e7;">
         <p class="headconfirm">보증금 선택</p>
     </div>
-    <div style="width: 100% !important; height: 30px;
+    <div style="position: absolute; width: 100% !important; height:40%;
   margin-top:10px !important; line-height: 30px;
-  border-radius: 30px;" *ngIf="hardware[0].flag==='switch'">
+  border-radius: 30px; z-index: 100;">
         <ion-slides #consoleSlide pager=false loop=true centeredSlides=true slidesPerView="2" (ionSlideDidChange)="slideChanged()">
-            <ion-slide style="width:100% !important">
-                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#70c5ed" class="slidenintendo">닌텐도 스위치</p>
+            <ion-slide style="width:100% !important; height: 100%;" class="slide_cls">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#70c5ed;" class="slidenintendo">{{hardware[0].name}}</p>
             </ion-slide>
-            <ion-slide style="width:100% !important">
-                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#d3d3d3" class="slidelight">스위치 라이트</p>
+            <ion-slide style="width:100% !important; height: 100%;" class="slide_cls">
+                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#d3d3d3;" class="slidelight">{{hardware[1].name}}</p>
             </ion-slide>
         </ion-slides>
     </div>
 
-    <div style="width: 100% !important; height: 30px;
-  margin-top:10px !important; line-height: 30px;
-  border-radius: 30px;" *ngIf="hardware[0].flag==='ps'">
-        <ion-slides #consoleSlide pager=false loop=true centeredSlides=true slidesPerView="2" (ionSlideDidChange)="slideChanged()">
-            <ion-slide style="width:100% !important">
-                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#70c5ed" class="slidenintendo">play station4</p>
-            </ion-slide>
-            <ion-slide style="width:100% !important">
-                <p style="font-weight: 800; font-size:20px; padding:0; margin:0; color:#d3d3d3" class="slidelight">play station4 pro</p>
-            </ion-slide>
-        </ion-slides>
-    </div>
-
-    <div style="width: 100%; height: 30%;">
-        <img style="width: 40%; height: 100%; margin-left: 30%;" src="{{hardware[select_num].url}}" />
+    <div style="width: 100%; height: 30%; margin-top: 20%; z-index: 100;" (click)="select()" >
+        <img style="width: 40%; height: 100%; margin-left: 30%;" src="{{hardware[select_num].url}}"/>
     </div>
 
     <button ion-button *ngIf="select_flag===false" (click)="select()" style="background-color:#70c5ed;width: 90%; margin: 5%;border-radius: 5%;">
@@ -56,7 +43,7 @@
                 <ion-label range-right name="contrast"></ion-label>
             </ion-range>
         </ion-item>
-        <div class="contrastWidth" style="height: 20%;">
+        <div class="contrastWidth" style="height: 17%;">
             <span style="font-size: 150%;">보증금 : </span>
             <span style="font-size: 150%;">{{number_format(contrast)}}</span>
             <br>
