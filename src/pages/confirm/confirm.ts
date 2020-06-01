@@ -159,6 +159,7 @@ export class ConfirmPage {
     })
   }
   payment(){
+
     if(this.payment_check()===false){
       return;
     }
@@ -182,64 +183,65 @@ export class ConfirmPage {
         if (response.imp_success == "true") {
           console.log("결제 완료 ")
           console.log("payment is : ");
-          console.log(a);
+         
           console.log(this.hardware);
           // console.log(this.coins);
           console.log("coin is")
-          var now = new Date();
+        
+    var now = new Date();
       
-          var tomorrow = new Date();
-          tomorrow.setDate(now.getDate()+1);
-          var year = now.getFullYear();
-          var month = now.getMonth() + 1;
-          var date = now.getDate();
-          var hour = now.getHours();
-          var min = now.getMinutes();
-          var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
-          var a  = ({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalprice, "payment": this.totalprice })
-      
-          if (this.hardware != undefined) {
-            var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
-              var delivery_time:any;
-              if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
-              else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
-                delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
-              }
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
-              this.coin_check();
-              this.game_stock_check();
-              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              setTimeout(() => {
-                this.navCtrl.setRoot(TspagePage);
-                // this.viewCtrl.dismiss();
-              }, 1000);
-            }).catch((e) => {
-              console.log(e);
-            })
-      
-          } 
-          else {
-      
-            var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-            this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
-              var delivery_time:any;
-              if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
-              else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
-                delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
-              }
-              this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
-              this.coin_check();
-              this.game_stock_check();
-              this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
-              setTimeout(() => {
-                this.navCtrl.setRoot(TspagePage);
-                // this.viewCtrl.dismiss();
-              }, 1000);
-            }).catch((e) => {
-              console.log(e);
-            })
-          }
+    var tomorrow = new Date();
+    tomorrow.setDate(now.getDate()+1);
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var date = now.getDate();
+    var hour = now.getHours();
+    var min = now.getMinutes();
+    var nnow = year + "-" + month + "-" + date + " " + hour + ":" + min;
+    var a  = ({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalprice, "payment": this.totalprice })
+
+    if (this.hardware != undefined) {
+      var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
+        var delivery_time:any;
+        if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
+        else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
+          delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
+        }
+        this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
+        this.coin_check();
+        this.game_stock_check();
+        this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+        setTimeout(() => {
+          // this.navCtrl.setRoot(TspagePage);
+          this.viewCtrl.dismiss();
+        }, 1000);
+      }).catch((e) => {
+        console.log(e);
+      })
+
+    } 
+    else {
+
+      var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
+      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
+        var delivery_time:any;
+        if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
+        else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
+          delivery_time="배송예정시각은 내일("+tomorrow.getDate()+")일 오전 9시~ 11시 입니다"
+        }
+        this.confirmAlert2("<p>주문이 완료되었습니다.</p><p>마이 페이지에서 상세내역 확인이 가능합니다.</p>"+delivery_time);
+        this.coin_check();
+        this.game_stock_check();
+        this.send_push('주문이 들어왔습니다.',this.user.name+'님이 주문을 하셨습니다.','');
+        setTimeout(() => {
+          // this.navCtrl.setRoot(TspagePage);
+          this.viewCtrl.dismiss();
+        }, 1000);
+      }).catch((e) => {
+        console.log(e);
+      })
+    }
         }
       },
     }
@@ -412,7 +414,7 @@ export class ConfirmPage {
   coin_check(){
     var now=this.today();
     this.firemain.child('users').child(this.user.phone).child('accumulation').child(now.toString())
-    .update({reason:"밍 포인트 사용",coin:-Number(this.coinprice/this.sale_data.coin.price),date:now})
+    .update({reason:"구매시 코인 사용",coin:-Number(this.coinprice/this.sale_data.coin.price),date:now})
     this.firemain.child('users').child(this.user.phone).update({point:Number(this.user.point)})
   }
   reversegeo(){

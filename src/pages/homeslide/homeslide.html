@@ -1,6 +1,6 @@
 <ion-content style="padding:0; margin:0; background:transparent">
-    <button class="closebtn" (click)="onClick()"><img src="./assets/img/close.png" style="background-color:transparent; width:100%;" alt=""></button>
-    <ion-slides *ngIf="slides && slides.length" pager="true" loop=true speed=1000 class="firstslide" style=" position:absolute">
+    <button class="closebtn" (click)="onClick()"><img src="assets/img/close.png" style="background-color:transparent; width:100%;" alt=""></button>
+    <ion-slides *ngIf="slides && slides.length" pager="true" loop=true speed=1000 class="firstslide" style=" position:absolute; top:5%; height: 95%;">
 
         <ion-slide style="
         background: white;" *ngFor="let slide of slides; let i = index">

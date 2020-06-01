@@ -179,7 +179,37 @@
     </div>
 
 </ion-content>
+<ion-menu [content]="content">
+    <ion-header>
+        <!-- <img src="assets/img/menu-icon.png" (click)="close()"
+        style="width: 17%; left: 0px;
+        background: transparent; z-index: 15;
+        margin: 0; padding: 5px; margin-top: 5px;
+        position: absolute;"/> -->
+        <ion-toolbar>
+            <ion-title *ngIf="user===undefined||user===null" style="float: left;">로그인을 해주세요.</ion-title>
+            <ion-title *ngIf="user!=undefined&&user!=null" style="float: left;">{{user.name}}님</ion-title>
+        </ion-toolbar>
+        <img src="assets/img/setting.png" (click)="gosetting()"
+        menuClose *ngIf="user!=undefined||user!=null"
+        style="width: 40px; right: 0; top: 0;
+        background: transparent; z-index: 15;
+        margin: 0; padding: 5px; margin-top: 5px;
+        position: absolute;"/>
+        <!-- <img src=“assets/img/menu-icon.png” menuToggle style=“width: 40px;
+        height: 40px; background: transparent;
+        margin: 0; padding: 5px; margin-top: 10px;
+        float: left;” *ngIf=“search_flag==false” /> -->
+    </ion-header>
 
+    <ion-content>
+        <ion-list>
+            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+                {{p.title}}
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
 

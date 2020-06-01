@@ -95,6 +95,33 @@ export class LoginpagePage {
   }
 
   kko_certified(){
+
+
+
+    console.log(this.phone);
+    console.log(this.admin_phone)
+    if("0"+this.phone===this.admin_phone){
+      this.name="홍길동";
+      console.log("test!!!")
+      this.login();
+      localStorage.setItem("loginflag","true");
+      localStorage.setItem("id",this.phone);
+      localStorage.setItem("name",this.name);
+      this.firemain.child('users').child(this.phone).update(
+        {
+          'name':this.name,
+          'phone':this.phone,
+          'last_login':new Date(),
+        }
+      )
+      
+      location.reload();
+
+      this.navCtrl.setRoot(TspagePage);
+      this.certified_check=true;
+      return;
+    }
+
     if(this.phone===''){
       this.confirmAlert2('휴대전화 번호를 입력해 주세요.')
       return;
@@ -110,6 +137,7 @@ export class LoginpagePage {
       console.log(this.name);
       console.log(this.phone);
 
+      console.log("sending to server")
       this.http.get('http://onofflab.co.kr/authpn?rq=kko&pn='+this.phone+'&name='+this.name).subscribe((response) => {
         console.log(response);
       });

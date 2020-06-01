@@ -55,7 +55,9 @@ ion-navbar.toolbar {
         color: red;
     }
 }
-
+.toolbar-ios ion-title{
+    padding : 0px !important;
+}
 @media not all and (min-height: 600px) and (min-width: 768px) {
     ion-modal ion-backdrop {
         visibility: visible;
@@ -73,7 +75,7 @@ ion-navbar.toolbar {
 .discount-modal .modal-wrapper {
     width: 70%;
     left: 15%;
-    height: 50%;
+    height: 50% !important;
     top: 25%;
 }
 
