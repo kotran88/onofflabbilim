@@ -199,8 +199,8 @@ export class ChatPage {
     this.photoViewer.show(image);
   }
   
-  takeFoto(){
-    let modal = this.modal.create(CameraselectPage);
+  takePhoto(){
+    let modal = this.modal.create(CameraselectPage,{},{cssClass : "pictureModal"});
     modal.onDidDismiss(data => {
       if(data!=undefined){
         console.log(data);

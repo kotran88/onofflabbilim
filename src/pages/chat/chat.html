@@ -16,7 +16,7 @@
     <!-- </ion-navbar> -->
 </ion-header>
 
-<ion-content class="chat-area" id="scrfcs">
+<ion-content class="chat-area" id="scrfcs" [ngClass]="pltname == 'ios' ? 'ios-margin' : 'android-margin'">
     <div *ngFor="let a of chat; let i = index;" (click)="keyboardchecker_reset(false)">
         <div [ngClass]="a.user===userid ? 'my-userbox':'other-userbox'">
             <div [ngClass]="a.user===userid ? 'my-user':'other-user'">
@@ -32,7 +32,7 @@
 
 
 <div class="input-area">
-    <button class="img-upload" (click)="takeFoto()">사진</button>
+    <button class="img-upload" (click)="takePhoto()">사진</button>
     <ion-input (click)="keyboardchecker_reset(true)" id="myinput" class="text-area" placeholder="입력하세요" [(ngModel)]="input.text" type="text"></ion-input>
     <button class="enter-button" (click)="upload(1)">
     전송

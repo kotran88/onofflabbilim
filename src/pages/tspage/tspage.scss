@@ -389,11 +389,13 @@ page-tspage {
     left: 10%;
     height: 40%;
     top: 25%;
+    position: absolute !important;
 }
 
 .confirm-modal .modal-wrapper {
     width: 90%;
     left: 5%;
-    height: 85%;
-    top: 10%;
+    height: 87%;
+    top: 5%;
+    position: absolute !important;
 }
