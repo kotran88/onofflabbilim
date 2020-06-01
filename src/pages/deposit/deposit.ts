@@ -57,7 +57,6 @@ export class DepositPage {
     else num=2;
 
     this.select_hardware.pricedaily=this.sale_data.deposit[this.select_hardware.name][num]
-    console.log(this.select_hardware);
   }
 
   slideChanged(){
@@ -109,8 +108,6 @@ export class DepositPage {
 
   save(){
     if(this.select_flag===true){
-      console.log(this.select_hardware.pricedaily);
-      console.log(this.contrast);
       this.view.dismiss({hd:this.select_hardware,ct:this.contrast});
     }
     else{

@@ -25,21 +25,18 @@ export class CoinSavePage {
 
     var cnt=0;
     for(var i in data){
-      if(Number(data[i].coin)!=0){
-        this.coin_list[cnt]=data[i];
+      this.coin_list[cnt]=data[i];
 
-        this.coin_list[cnt].coin=
-          Number(this.coin_list[cnt].coin);
-  
-        this.coin_list[cnt].reason=
-          String(this.coin_list[cnt].reason);
-  
-        this.coin_list[cnt].date=
-          String(this.coin_list[cnt].date);
-        
-        // if(this.coin_list[cnt].coin!=0) cnt++;
-        cnt++;
-      };
+      this.coin_list[cnt].coin=
+        Number(this.coin_list[cnt].coin);
+
+      this.coin_list[cnt].reason=
+        String(this.coin_list[cnt].reason);
+
+      this.coin_list[cnt].date=
+        String(this.coin_list[cnt].date);
+      
+      if(this.coin_list[cnt].coin!=0) cnt++;
     }
     console.log(this.coin_list)
 
