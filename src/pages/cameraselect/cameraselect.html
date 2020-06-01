@@ -1,18 +1,16 @@
 <ion-content class="main-view" padding>
     <div class="modal_content">
-        <div class="picture">
-            <div class="img">
+        <div style="width:90%; margin-left:auto; margin-right:auto; text-align:center">
+            <div class="picture">
                 <img src="./assets/img/camera.png" (click)="takePhoto()" class="btnimg" alt="">
                 <button class="btn" (click)="takePhoto()" ion-button>사진찍기</button>
             </div>
-        </div>
-        <div class="picture">
-            <div class="img">
+            <div class="picture">
                 <img src="./assets/img/gallery.png" (click)="getPhoto()" class="btnimg" alt="">
-                <button class="btn" (click)="getPhoto()" ion-button>사진가져오기</button>
+                <button class="btn" (click)="getPhoto()" ion-button>가져오기</button>
             </div>
         </div>
-        <div class="img">
+        <div style="width:80%; margin-left:auto; margin-right:auto;">
             <button class="confirmm" ion-button (click)="confirm()">돌아가기</button>
         </div>
     </div>

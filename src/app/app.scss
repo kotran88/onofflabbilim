@@ -84,12 +84,19 @@ ion-navbar.toolbar {
     }
 }
 
-.modal-wrapper {
-    width: 80%;
+// .modal-wrapper {
+//     width: 80%;
+//     height: 45%;
+//     position: absolute !important;
+//     bottom: 0;
+//     padding: 0;
+// }
+.pictureModal .modal-wrapper {
+    width: 90%;
     height: 45%;
-    position: absolute !important;
-    bottom: 0;
-    padding: 0;
+    position: absolute;
+    top: 60%;
+    left: 5%;
 }
 
 .discount-modal .modal-wrapper {
