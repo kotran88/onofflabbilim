@@ -34,6 +34,7 @@ export class TspagePage {
   id:any;
   @ViewChild('modeSlide') slides: Slides;
   @ViewChild('gameSlide') gslides:Slides;
+  @ViewChild('datePicker') datePicker;
   lloading:any;
 
   pages:Array<{title:string,component:any}>;
@@ -96,6 +97,7 @@ export class TspagePage {
   totalcontrast = 0;
   platformname = '';
 
+  year = new Date().getFullYear();
   firemain = firebase.database().ref();
 
   openPage(page){
@@ -105,6 +107,12 @@ export class TspagePage {
     }
     else if(page.component===HomeslidePage){
       this.navCtrl.push(HomeslidePage,{});
+    }
+    else if(page.component==='withdraw'){
+      this.withdraw();
+    }
+    else if(page.component==='alram'){
+      this.alram();
     }
     else {
       this.navCtrl.push(page.component,{user:this.user}).then(() => {
@@ -179,6 +187,54 @@ export class TspagePage {
     });
     alert.present();
   }
+withdraw(){
+    let alert = this.alertCtrl.create({
+      title: '정말로 탈퇴하실건가요?',
+      buttons: [
+        {
+          text: '취소',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: '확인',
+          handler: data => {
+            localStorage.setItem("loginflag", "false");
+            this.firemain.child("users").child(this.id).remove();
+            this.confirmAlert2("그동안 MING을 이용해주셔서 감사합니다.");
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  alram(){
+    let alert = this.alertCtrl.create({
+      title: '알람을 설정하시겠어요?',
+      buttons: [
+        {
+          text: '허용',
+          // role: 'cancel',
+          handler: data => {
+            this.firemain.child("users").child(this.id).update({"alert":true});
+            this.confirmAlert2("알람 ON")
+          }
+        },
+        {
+          text: '거부',
+          handler: data => {
+            this.firemain.child("users").child(this.id).update({"alert":false});
+            this.confirmAlert2("알람 OFF")
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 
   login_check(){
     var loginflag=localStorage.getItem('loginflag');
@@ -200,7 +256,9 @@ export class TspagePage {
           {title:'코인관리',component:CoinSavePage},
           {title:'문의하기',component:ChatPage},
           {title:'이용안내',component:HomeslidePage},
+          {title:'알람설정',component:'alram'},
           {title:'로그아웃',component:'logout'},
+          {title:'회원탈퇴',component:'withdraw'}
           // {title:'SETTING',component:SettingPage},
           // {title:'COIN',component:CoinSavePage},
         ]
@@ -210,7 +268,7 @@ export class TspagePage {
 
   constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController,public oneSignal:OneSignal
   ,public zone: NgZone,public navCtrl: NavController, public navParams: NavParams,public loading:LoadingController,public appVersion:AppVersion
-  ,public datePicker:DatePicker,private menu: MenuController,public plt:Platform) {
+  ,public datePick:DatePicker,private menu: MenuController,public plt:Platform) {
     if(this.plt.is('ios')){
       console.log('ios');
       this.platformname = 'ios';
@@ -256,6 +314,7 @@ export class TspagePage {
         }
       });
     })
+   
     var now = new Date();
 
     var tomorrow = new Date();
@@ -270,20 +329,24 @@ export class TspagePage {
     console.log(tomorrow);
     if(hour<9){
       this.startDate=now.toISOString();
-      // this.delivery_time="오늘("+now.getDate()+"일) 오전 9시~11시 " ;
+      console.log(this.startDate);
+      // this.delivery_time="오늘("+now.getDate()+"일) 오전 9시 >11시 " ;
       this.tomorrowflag=false; 
     }
     else if(hour>=9&&hour<13){
-      // this.delivery_time=" 오늘("+now.getDate()+"일) 오후 3시~5시 ";
+      // this.delivery_time=" 오늘("+now.getDate()+"일) 오후 3시 >5시 ";
       this.tomorrowflag=false; 
       this.startDate=now.toISOString();
+      console.log(this.startDate);
     }
     else{
       this.tomorrowflag=true;
-      // this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시~ 11시 "
+      // this.delivery_time="내일("+tomorrow.getDate()+"일) 오전 9시 > 11시 "
       this.startDate=tomorrow.toISOString();
     }
-    this.startDate_text=((tomorrow.getFullYear())+'-'+(tomorrow.getMonth()+1)+'-'+tomorrow.getDate());
+    console.log(this.startDate);
+    // this.startDate_text = this.startDate.split('-')[0]+'년 '+ this.startDate.split('-')[1]+'월 ' + this.startDate.split('-')[2]+'일  > '
+    this.startDate_text=((now.getFullYear())+'년 '+(now.getMonth()+1)+'월 '+now.getDate()+'일 > ');
 
     console.log(this.startDate_text+"zzzz")
 
@@ -291,11 +354,12 @@ export class TspagePage {
     date.setDate(date.getDate() + 2);
 
     this.endDate=date.toISOString();
-    this.endDate_text=(date.getFullYear())+'-'+(date.getMonth()+1)+'-'+(date.getDate());
+    console.log(this.endDate);
+    this.endDate_text=(date.getFullYear())+'년 '+(date.getMonth()+1)+'월 '+(date.getDate()+'일');
 
     this.datechange(1);
     this.datechange(2);
-
+    console.log(date);
     console.log(this.startDate);
     console.log(this.endDate);
 
@@ -351,6 +415,47 @@ export class TspagePage {
       }, 100);
     })
   }
+
+  mode:any;
+  num = 0;
+  
+    pick_datee(num){
+      // console.log("num is : "+num);
+      this.mode=num;
+      // this.num=num;
+        let options = {
+          date: new Date(),
+          mode: 'date',
+          androidTheme: 5,
+          okText: '확인',
+        cancelText: '취소'
+        }
+        this.datePicker.open();
+      };
+  
+      getDashboardItemsByDate(sdate){
+        console.log(sdate);
+        console.log(this.mode);
+        if(this.mode==1){
+         this.startDate=sdate;
+        //  this.startDate_text=sdate.split('-')[0]+'년 '+sdate.split('-')[1]+'월 ' +sdate.split('-')[2]+'일  > ';
+        }
+        else if(this.mode == 2){
+          this.endDate=sdate;
+        //  this.endDate_text=sdate.split('-')[0]+'년 '+sdate.split('-')[1]+'월 ' +sdate.split('-')[2]+'일';
+
+        }
+         console.log(this.startDate_text);
+         console.log(this.endDate_text);
+        // this.datechange(this.mode);
+        if(this.datecheck(this.mode,sdate)===true){
+          this.datechange(this.mode);
+        }
+
+  }
+
+
+
   search_area(){
     this.search_str='';
     this.searching(this.search_str)
@@ -401,6 +506,7 @@ export class TspagePage {
     this.oneSignal.endInit();
   }
   datecheck(mode,date):boolean{
+    console.log(mode);
     var t=new Date();
     var t2=new Date(date);
     t.setHours(1);
@@ -424,15 +530,18 @@ export class TspagePage {
     else return true;
   }
 
+
   datechange(mode){
     console.log(this.startDate);
-    console.log(this.startDate_text)
+    console.log(this.startDate_text);
     console.log(this.endDate)
     console.log(this.endDate_text)
     var a = new Date(this.startDate);
     var b = new Date(this.endDate);
     var c = new Date();
-
+    console.log(a)
+    console.log(b)
+    console.log(c)
     c.setTime(0);
     c.setFullYear(a.getFullYear());
     c.setMonth(a.getMonth());
@@ -461,7 +570,8 @@ export class TspagePage {
         a=new Date();
         if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
         this.startDate=a.toISOString();
-        this.startDate_text=(a.getFullYear())+'-'+(a.getMonth()+1)+'-'+(a.getDate());
+        console.log(this.startDate);
+        // this.startDate_text=(a.getFullYear())+'년 '+(a.getMonth()+1)+'월 '+ (a.getDate())+'일  > ';
       }
       else {
         this.confirmAlert2("반납일이 대여 시작일보다 빠를 수는 없습니다.")
@@ -469,7 +579,7 @@ export class TspagePage {
         if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
         a.setDate(a.getDate()+2);
         this.endDate=a.toISOString();
-        this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
+        this.endDate_text=(a.getFullYear())+"년 "+ (a.getMonth()+1)+"월 "+ (a.getDate())+'일';
       }
       this.datechange(mode)
     }
@@ -482,14 +592,17 @@ export class TspagePage {
           // b=new Date(this.endDate);
           // a.setDate(a.getDate()+2);
           this.startDate=a.toISOString();
-          this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
+          this.startDate_text=(a.getFullYear())+"년 "+ (a.getMonth()+1)+"월 "+ (a.getDate()+"일  > ");
+          // this.startDate_text = this.startDate.split('-')[0]+'년 '+this.startDate.split('-')[1]+'월 '+this.startDate.split('-')[2]+'일  >'
         }
         else{
           a=new Date(this.startDate);
           // if(this.tomorrowflag===true) a.setDate(a.getDate()+1);
           a.setDate(a.getDate()+2);
           this.endDate=a.toISOString();
-          this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
+          this.endDate_text=(a.getFullYear())+"년 "+ (a.getMonth()+1)+"월 "+ (a.getDate()+"일");
+          // this.endDate_text = this.endDate.split('-')[0]+'년 '+this.endDate.split('-')[1]+'월 '+this.endDate.split('-')[2]+'일'
+
         }
         this.datechange(mode);
       }
@@ -498,19 +611,21 @@ export class TspagePage {
         a=new Date(this.startDate);
         a.setDate(a.getDate()+179);
         this.endDate=a.toISOString();
-        this.endDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
+        this.endDate_text=(a.getFullYear())+"년 "+ (a.getMonth()+1)+"월 "+ (a.getDate()+"일");
         this.datechange(mode);
       }
       else{
         if(mode===1){
           a = new Date(this.startDate);
-          this.startDate=a.toISOString();
-          this.startDate_text=(a.getFullYear())+"-"+(a.getMonth()+1)+"-"+(a.getDate());
+          // this.startDate=a.toISOString();
+          console.log(a);
+          console.log(this.startDate);
+          this.startDate_text=(a.getFullYear())+"년 "+ (a.getMonth()+1)+"월 "+ (a.getDate()+"일  > ");
         }
         else{
           b = new Date(this.endDate);
           this.endDate=b.toISOString();
-          this.endDate_text=(b.getFullYear())+"-"+(b.getMonth()+1)+ "-"+(b.getDate());
+          this.endDate_text=(b.getFullYear())+"년 "+ (b.getMonth()+1)+ "월 "+ (b.getDate()+"일");
         }
         this.totalcalculator(0);
       }
@@ -520,37 +635,34 @@ export class TspagePage {
     console.log(this.endDate)
     console.log(this.endDate_text)
   }
+  // pick_date(mode){
 
-  pick_date(mode){
+  //   if(this.user===undefined){
+  //     this.confirmAlert2('로그인 후 이용할수 있습니다.')
+  //     return;
+  //   }
 
-    if(this.user===undefined){
-      // this.confirmAlert2('로그인 후 이용할수 있습니다.')
-      // this.openPage({component:LoginpagePage});
-      this.login_alert();
-      return;
-    }
-
-    var temp:any;
-    if(mode===1) temp=new Date(this.startDate);
-    else if(mode===2) temp=new Date(this.endDate);
-    console.log("temp is : "+temp);
-    temp.setHours(1);
-    this.datePicker.show({
-      date: temp,
-      mode: 'date',
-      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
-    }).then(
-      date =>{
-        console.log('Got date: ', date);
-        if(this.datecheck(mode,date)===true){
-          if(mode===1) this.startDate=date;
-          else if(mode===2) this.endDate=date;
-          this.datechange(mode);
-        }
-      },
-      err => console.log('Error occurred while getting date: ', err)
-    );
-  }
+  //   var temp:any;
+  //   if(mode===1) temp=new Date(this.startDate);
+  //   else if(mode===2) temp=new Date(this.endDate);
+  //   console.log("temp is : "+temp);
+  //   temp.setHours(1);
+  //   this.datePicker.show({
+  //     date: temp,
+  //     mode: 'date',
+  //     androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
+  //   }).then(
+  //     date =>{
+  //       console.log('Got date: ', date);
+  //       if(this.datecheck(mode,date)===true){
+  //         if(mode===1) this.startDate=date;
+  //         else if(mode===2) this.endDate=date;
+  //         this.datechange(mode);
+  //       }
+  //     },
+  //     err => console.log('Error occurred while getting date: ', err)
+  //   );
+  // }
 
   //보증금, hardware:선택한 기기
   tick_ready(hardware){
@@ -1244,7 +1356,7 @@ export class TspagePage {
               near_date2.setDate(near_date2.getDate()-1);
               if(alert_text!='') alert_text+='<br>';
               alert_text+=''+this.gamearray[i].name+
-              " ("+(near_date.getMonth()+1)+"월"+near_date.getDate()+"일 ~ "
+              " ("+(near_date.getMonth()+1)+"월"+near_date.getDate()+"일  > "
               +(near_date2.getMonth()+1)+"월"+near_date2.getDate()+"일),";
             }
           }
@@ -1348,6 +1460,9 @@ export class TspagePage {
     }, 500);
     // this.loading_off();
   }
+  /**
+   * 
+   */
 
   ionViewDidLoad() {
     // this.ctck()
