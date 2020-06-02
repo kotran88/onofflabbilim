@@ -38,6 +38,12 @@
     <img (click)="search_area()" *ngIf="search_flag==false" src="assets/img/magnify.png" class="magnify" />
     <img (click)="search_area()" *ngIf="search_flag==true" src="assets/img/cancel.png" class="cancelimage" />
     <div class="daycss">
+        <ion-datetime #datePicker style="width: 25%; display:none; position: absolute;" (ionChange)="getDashboardItemsByDate(sdate)" readonly class="date" displayFormat="YYYY MMMM DD" min={{year}} max={{year+1}} cancelText="취소" doneText="확인" [(ngModel)]="sdate"></ion-datetime>
+        <ion-input style="margin-left:3%;position: absolute;" readonly class="date" type="text" (click)="pick_datee(1)" name="startDate_text" [(ngModel)]="startDate_text"></ion-input>
+        <ion-datetime #datePicker2 style="width: 25%; display:none;position: absolute;" readonly class="date" displayFormat="YYYY MMMM DD" cancelText="취소" doneText="확인" [(ngModel)]="endDate_text"></ion-datetime>
+        <ion-input readonly style="margin-left:45%;position: absolute;" class="date" type="text" (click)="pick_datee(2)" name="endDate_text" [(ngModel)]="endDate_text"></ion-input>
+    </div>
+    <!-- <div class="daycss">
         <span style="font-weight:900; float: left; width:45%; text-align: center; font-size: 110%; padding-left: 10px;" (click)="pick_date(1)">
         {{startDate_text.split('-')[0]}}년 {{startDate_text.split('-')[1]}}월 {{startDate_text.split('-')[2]}}일
       </span>
@@ -47,7 +53,7 @@
         <span style="font-weight:900; float: right; width:45%; text-align: center; font-size: 110%; padding-right: 10px;" (click)="pick_date(2)">
         {{endDate_text.split('-')[0]}}년 {{endDate_text.split('-')[1]}}월 {{endDate_text.split('-')[2]}}일
       </span>
-    </div>
+    </div> -->
 
     <div *ngIf="init_flag===false" class="fullbox" style="width: 100%;"></div>
 
@@ -128,24 +134,6 @@
 
     <br style="height: 2%; ">
 
-
-    <!-- <div style="width:90%; position:relative " class="main ">
-            <span style="margin-left:25px; font-size:17px; line-height: 40px; ">
-          할인적용
-          <span style="font-size:9px; color:red; "> 
-              {{sale_data.coin.text}}
-          </span>
-            </span>
-        </div> -->
-    <!-- <div class="clicked" style="background: #70c5ed; color: white; height: 80px; width: 100%; position: relative;">
-            <img (click)="godown();" style="height: 80px; float: left;" src="assets/img/arrow_down.png" />
-            <img (click)="goup();" style="height: 80px; float: right;" src="assets/img/arrow_up.png" />
-            <div style="width: 100%; text-align: center; line-height: 80px;" class="inner">
-                <span style="display:inline-block;"> 보유 코인 : </span>
-                <img id="abc" style="height: 25px; width: 25px; font-size: 80px; bottom: 30px; position: absolute;" src="/assets/img/coinimage.png " />
-                <span style="margin-left: 30px;" class="coin ">  x {{coins}}</span>
-            </div>
-        </div> -->
     <hr class="new1" style="margin-top:5px;">
     <div class="pay" *ngIf="payment_flag===true">
         <div style="width:70%; float:left">
