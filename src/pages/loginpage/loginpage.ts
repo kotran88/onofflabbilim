@@ -31,7 +31,7 @@ export class LoginpagePage {
   certified_check=false;
   kko_certified_check=false;
   certified_time:any;
-  login_check:any;
+  login_check=false;
   phone_check=false;
   admin_phone:any;
 
@@ -64,6 +64,7 @@ export class LoginpagePage {
     }
     else{
       this.firemain.child('admin').child('phone').once('value').then((snap)=>{
+        console.log(snap.val())
         this.admin_phone=snap.val();
       })
     }
@@ -103,9 +104,6 @@ export class LoginpagePage {
   }
 
   kko_certified(){
-
-
-
     console.log(this.phone);
     console.log(this.admin_phone)
     if("0"+this.phone===this.admin_phone){
@@ -122,11 +120,10 @@ export class LoginpagePage {
           'last_login':new Date(),
         }
       )
-      
-      location.reload();
-
-      this.navCtrl.setRoot(TspagePage);
-      this.certified_check=true;
+      this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
+        this.viewCtrl.dismiss({flag:'login',data:snap.val()})
+        this.certified_check=true;
+      })
       return;
     }
 
@@ -255,8 +252,11 @@ export class LoginpagePage {
           'last_login':new Date(),
         }
       )
-      
-      location.reload();
+      setTimeout(() => {
+        this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
+          this.viewCtrl.dismiss({flag:'login',data:snap.val()});
+        })
+      }, 1000);
     })
   }
 

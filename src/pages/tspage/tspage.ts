@@ -107,12 +107,52 @@ export class TspagePage {
       this.navCtrl.push(HomeslidePage,{});
     }
     else {
-      this.navCtrl.push(page.component,{user:this.user})
+      this.navCtrl.push(page.component,{user:this.user}).then(() => {
+        this.navCtrl.getActive().onDidDismiss(data => {
+          console.log(data)
+          if(data.flag==='login'){
+            this.user=data.data;
+            this.login_check();
+          }
+        })
+      })
+      // let modal = this.modal.create(page.component,{user:this.user});
+      // modal.onDidDismiss(data => {
+      //   console.log(data)
+      //   if(data.flag==='login'){
+      //     this.user=data.data;
+      //     this.login_check();
+      //   }
+      //   else {}
+      // });
+      // modal.present();
     }
   }
 
   gosetting(){
     this.openPage({component:SettingPage})
+  }
+
+  login_alert(){
+    let alert = this.alertCtrl.create({
+      title: '로그인 후 이용하실수 있습니다.<br>로그인 하시겠습니까?',
+      buttons: [
+        {
+          text: '취소',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: '확인',
+          handler: data => {
+            this.openPage({component:LoginpagePage})
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   logout() {
@@ -131,15 +171,41 @@ export class TspagePage {
           handler: data => {
             localStorage.setItem("loginflag", "false");
             localStorage.setItem("id", "");
-            window.alert("로그아웃 되었습니다.")
-            // this.nav.setRoot(TspagePage);
-            location.reload();
-            // this.confirmAlert2("로그아웃 되었습니다.");
+            // window.alert("로그아웃 되었습니다.")
+            this.login_check();
           }
         }
       ]
     });
     alert.present();
+  }
+
+  login_check(){
+    var loginflag=localStorage.getItem('loginflag');
+    console.log("login flag is : "+loginflag);
+    if(loginflag===''||loginflag==='false'||loginflag===undefined||loginflag===null){
+      this.pages=[
+        {title:'로그인',component:LoginpagePage},
+        // {title:'SETTING',component:SettingPage},
+        // {title:'COIN',component:CoinSavePage},
+      ]
+    }
+    else{
+      this.id=localStorage.getItem('id');
+      this.firemain.child('users').child(this.id).once('value').then((snap)=>{
+        console.log(snap.val());
+        this.user=snap.val();
+        this.pages=[
+          {title:'주문관리',component:MypagePage},
+          {title:'코인관리',component:CoinSavePage},
+          {title:'문의하기',component:ChatPage},
+          {title:'이용안내',component:HomeslidePage},
+          {title:'로그아웃',component:'logout'},
+          // {title:'SETTING',component:SettingPage},
+          // {title:'COIN',component:CoinSavePage},
+        ]
+      })
+    }
   }
 
   constructor(private iab: InAppBrowser,public modal:ModalController, public alertCtrl:AlertController,public oneSignal:OneSignal
@@ -161,33 +227,8 @@ export class TspagePage {
         console.log(this.user);
       })
     }
-    var loginflag=localStorage.getItem('loginflag');
 
-    console.log("login flag is : "+loginflag);
-    if(loginflag===''||loginflag==='false'||loginflag===undefined||loginflag===null){
-      this.pages=[
-        {title:'로그인',component:LoginpagePage},
-        // {title:'SETTING',component:SettingPage},
-        // {title:'COIN',component:CoinSavePage},
-      ]
-    }
-    else{
-      this.id=localStorage.getItem('id');
-      this.firemain.child('users').child(this.id).once('value').then((snap)=>{
-        console.log(snap.val());
-        this.user=snap.val();
-        this.pages=[
-          {title:'주문관리',component:MypagePage},
-         
-          {title:'코인관리',component:CoinSavePage},
-          {title:'문의하기',component:ChatPage},
-          {title:'이용안내',component:HomeslidePage},
-          {title:'로그아웃',component:'logout'},
-          // {title:'SETTING',component:SettingPage},
-          // {title:'COIN',component:CoinSavePage},
-        ]
-      })
-    }
+    this.login_check();
     this.loading_on();
     // this.sideMenu();
 
@@ -483,7 +524,9 @@ export class TspagePage {
   pick_date(mode){
 
     if(this.user===undefined){
-      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      // this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      // this.openPage({component:LoginpagePage});
+      this.login_alert();
       return;
     }
 
@@ -572,7 +615,7 @@ export class TspagePage {
     var flag=false;
     this.consoletotalprice=0;
 
-    this.hardware.pricedaily=Number(this.sale_data.deposit[this.hardware.name][this.contrast]);
+    // this.hardware.pricedaily=Number(this.sale_data.deposit[this.hardware.name][this.contrast]);
     this.consoletotalprice=Number(this.hardware.pricedaily);
     console.log(this.consoletotalprice);
   }
@@ -600,14 +643,14 @@ export class TspagePage {
     if(this.console_flag===true){
       let modal = this.modal.create(DepositPage,{hardware:this.hardwarearray,sale:this.sale_data},{ cssClass: 'deposit-modal' });
       modal.onDidDismiss(data => {
-        console.log(data)
+        console.log(data.hd.pricedaily)
         this.hwborrow = data;
+        console.log(this.hwborrow);
         if(data!=null&&data.hd!=undefined){
           this.console_flag2=true;
           this.hardware=data.hd;
           this.contrast=data.ct;
           this.totalcalculator(2);
-          console.log(this.hwborrow);
         }
         else{
           this.console_flag=this.console_flag2;
@@ -887,7 +930,7 @@ export class TspagePage {
   gameselected(v,i){
     console.log(this.gamearray)
     if(this.user===undefined){
-      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      this.login_alert();
       return;
     }
     this.zone.run(()=>{
@@ -1135,7 +1178,9 @@ export class TspagePage {
 
   discount(){
     if(this.user===undefined){
-      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      // this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      // this.openPage({component:LoginpagePage});
+      this.login_alert();
       return;
     }
     else if(this.count===0){
@@ -1285,7 +1330,9 @@ export class TspagePage {
       modal.present();
     }
     else if(this.user===undefined){
-      this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      // this.confirmAlert2('로그인 후 이용할수 있습니다.')
+      // this.openPage({component:LoginpagePage});
+      this.login_alert();
     }
     else{
       this.confirmAlert2('게임을 선택해 주세요.')
