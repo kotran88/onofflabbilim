@@ -161,7 +161,21 @@ page-tspage {
         background-color: transparent;
         z-index: 100;
     }
-    .daycss {
+    .daycss-android {
+        position: relative;
+        width: 80%;
+        height: 5%;
+        padding-top: 1%;
+        padding-left: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 3%;
+        border: 1px solid rgb(187, 187, 187);
+        border-radius: 5px;
+        box-shadow: 1px 1px 1px 1px rgb(226, 226, 226);
+        background-color: #f1f1f1;
+    }
+    .daycss-ios {
         position: relative;
         width: 80%;
         height: 5%;

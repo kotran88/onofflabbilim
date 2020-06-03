@@ -37,7 +37,7 @@
     </div>
     <img (click)="search_area()" *ngIf="search_flag==false" src="assets/img/magnify.png" class="magnify" />
     <img (click)="search_area()" *ngIf="search_flag==true" src="assets/img/cancel.png" class="cancelimage" />
-    <div class="daycss">
+    <div [ngClass]="platformname == 'ios' ? 'daycss-ios' : 'daycss-android'">
         <ion-datetime #datePicker style="width: 25%; display:none; position: absolute;" (ionChange)="getDashboardItemsByDate(sdate)" readonly class="date" displayFormat="YYYY MMMM DD" min={{year}} max={{year+1}} cancelText="취소" doneText="확인" [(ngModel)]="sdate"></ion-datetime>
         <ion-input style="margin-left:3%;position: absolute;" readonly class="date" type="text" (click)="pick_datee(1)" name="startDate_text" [(ngModel)]="startDate_text"></ion-input>
         <ion-datetime #datePicker2 style="width: 25%; display:none;position: absolute;" readonly class="date" displayFormat="YYYY MMMM DD" cancelText="취소" doneText="확인" [(ngModel)]="endDate_text"></ion-datetime>
