@@ -1,5 +1,5 @@
 <!-- <ion-header>
-    <ion-toolbar color="white">
+    <ion-toolbar style="background-color: transparent;">
     </ion-toolbar>
 </ion-header> -->
 <ion-content padding [ngClass]="platformname == 'ios' ? 'ios-margin' : 'android-margin'">
@@ -30,7 +30,7 @@
         <img (click)="change_category(1)" class="change-category">
     </div>
 
-    <div *ngIf="search_flag===true" style=" position: absolute; 
+    <div *ngIf="search_flag===true" style=" position: absolute;
   width: 100%; height:40px; z-index: 50; top: 0; background: white;">
         <input *ngIf="image_flag==true" id="searchbox" placeholder="검색어를 입력해주세요." [(ngModel)]="search_str" (ngModelChange)="searching(search_str)" type="text" />
         <input *ngIf="image_flag==false" id="closebox" placeholder="검색어를 입력해주세요." [(ngModel)]="search_str" type="text" />
@@ -158,7 +158,7 @@
         <div class="discount" (click)="discount()">
             <span>할인<br>적용하기</span>
         </div>
-        <div *ngIf="contrast!=0" style="margin-top:10px; 
+        <div *ngIf="contrast!=0" style="margin-top:10px;
         display: inline-table;" class="paymoney">
             <span style="font-size:16.5px; color:red;">실질 결제 금액 (총 결제금액 - 보증금) : </span>
             <span style="font-size:16.5px; color:red;">{{number_format(totalcontrast-contrast)}}원</span>
@@ -179,7 +179,7 @@
         margin: 0; padding: 5px; margin-top: 5px;
         position: absolute;"/> -->
     <!-- <ion-toolbar>
-          
+
         </ion-toolbar>
         <img src="assets/img/setting.png" (click)="gosetting()" menuClose *ngIf="user!=undefined||user!=null" style="width: 40px; right: 0; top: 0;
         background: transparent; z-index: 15;

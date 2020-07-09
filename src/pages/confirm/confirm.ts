@@ -27,7 +27,7 @@ export class ConfirmPage {
   totalprice : any;
   gameprice : any;
   contrast : any;
-  
+
   startDate: any;
   endDate: any;
   startDate_text: any;
@@ -40,7 +40,7 @@ export class ConfirmPage {
   Delivery:any;
   Delivery_check=false;
   resultAddress : any;
-  admin:any;
+  admin={deviceIds:[]};
   firemain = firebase.database().ref();
   lastchecked : any;
   selected : any;
@@ -85,8 +85,13 @@ export class ConfirmPage {
       this.navCtrl.pop();
       backAction();
     },2)
-    this.firemain.child('admin').once('value').then((snap)=>{
-      this.admin=snap.val();
+    this.firemain.child('admin').child('deviceIds').once('value').then((snap)=>{
+      console.log(snap.val())
+      this.admin.deviceIds=[];
+      for(var s in snap.val()){
+        this.admin_push(snap.val()[s]);
+      }
+      console.log(this.admin);
     })
 
 
@@ -115,14 +120,21 @@ export class ConfirmPage {
         }
       }
     }
-   
+
     console.log(this.hwArray);
   }
 
+  admin_push(num){
+    this.firemain.child('users').child(num).child('deviceId').once('value').then((snap)=>{
+      this.admin.deviceIds.push(snap.val());
+      console.log(num,snap.val())
+    })
+  }
+
   confirmAlert2(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
-        buttons: [  
+        buttons: [
         {
           text: '확인',
           handler: () => {
@@ -192,13 +204,13 @@ export class ConfirmPage {
         if (response.imp_success == "true") {
           console.log("결제 완료 ")
           console.log("payment is : ");
-         
+
           console.log(this.hardware);
           // console.log(this.coins);
           console.log("coin is")
-        
+
     var now = new Date();
-      
+
     var tomorrow = new Date();
     tomorrow.setDate(now.getDate()+1);
     var year = now.getFullYear();
@@ -229,7 +241,7 @@ export class ConfirmPage {
         console.log(e);
       })
 
-    } 
+    }
     else {
 
       var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
@@ -291,7 +303,7 @@ export class ConfirmPage {
 
         total=date.getTime()-date2.getTime()
         total2=date3.getTime()-date.getTime();
-  
+
         console.log(date.getTime());
         console.log(date2.getTime());
         console.log(date3.getTime());
@@ -301,7 +313,7 @@ export class ConfirmPage {
 
         console.log(total);
         console.log(total2);
-  
+
         if(total>0||total2>=0){
           root.update({'near_return_date':new Date(this.endDate)});
         }
@@ -338,7 +350,7 @@ export class ConfirmPage {
 
         total=date.getTime()-date2.getTime()
         total2=date3.getTime()-date.getTime();
-  
+
         console.log(date.getTime());
         console.log(date2.getTime());
         console.log(date3.getTime());
@@ -348,7 +360,7 @@ export class ConfirmPage {
 
         console.log(total);
         console.log(total2);
-  
+
         if(total>=0||total2>=0){
           root.update({'near_start_date':new Date(this.startDate)});
         }
@@ -370,7 +382,7 @@ export class ConfirmPage {
 
           var text=hardware.itemcode.substring(0,2)+hardware.itemcode.substring(8,9);
           var root=this.firemain.child('category').child(hardware.flag).child('reservation');
-          
+
           if(text==='CNS') root.update({'CNS':String(Number(snap.val())+1)})
           else if(text==='CNL') root.update({'CNL':String(Number(snap.val())+1)})
           else if(text==='CSP') root.update({'CSP':String(Number(snap.val())+1)})
@@ -451,7 +463,7 @@ export class ConfirmPage {
             this.confirmAlert2("현재 전주와 익산지역에서만 서비스 가능합니다!")
             return;
           }
-         
+
         });
   }
   loading_on(){
@@ -466,7 +478,7 @@ export class ConfirmPage {
     if(this.lloading!=undefined){
       this.lloading.dismiss()
     }
-   
+
   }
   geolocation_update(){
     this.loading_on();
@@ -514,7 +526,7 @@ export class ConfirmPage {
       })
     })
   }
-  
+
   view(i) {
     //0번째 선택 , 1번째 선택
     // 0번째 선택되면
@@ -526,12 +538,12 @@ export class ConfirmPage {
     if(this.lastchecked==i){
       this.count++;
       //클릭한거 또 클릭함
-     
+
       if(this.count%2==0){
         this.selected=i;
 
         this.count=0;
-        
+
       }else{
         this.selected=-1;
 
@@ -542,7 +554,7 @@ export class ConfirmPage {
       this.count=0;
       this.newcount++;
       if(this.newcount%2==0){
-       
+
         this.selected=1;
 
       }else{
@@ -571,7 +583,7 @@ export class ConfirmPage {
       ck=false;
     }
     else ck=true;
-    
+
     return ck;
   }
 }

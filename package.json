@@ -57,6 +57,7 @@
         "emulate": "1.0.2",
         "firebase": "^5.11.1",
         "iamport-cordova": "^0.9.3",
+        "ionic": "^4.10.1",
         "ionic-angular": "3.9.9",
         "ionic3-star-rating": "^2.1.2",
         "ionicons": "3.0.0",

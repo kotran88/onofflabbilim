@@ -33,7 +33,7 @@ export class ChatPage {
 
   name:any;
   userid:any;
-  admin:any;
+  admin={deviceIds:[]};
   nowtime:any;
   // take_image_data:any;
   lloading:any;
@@ -59,8 +59,13 @@ export class ChatPage {
     this.userid=user.phone;
     this.name=user.name;
 
-    this.firemain.child('admin').once('value').then((snap)=>{
-      this.admin=snap.val();
+    this.firemain.child('admin').child('deviceIds').once('value').then((snap)=>{
+      console.log(snap.val())
+      this.admin.deviceIds=[];
+      for(var s in snap.val()){
+        this.admin_push(snap.val()[s]);
+      }
+      console.log(this.admin);
     })
 
 
@@ -129,14 +134,21 @@ export class ChatPage {
     // });
   }
 
+  admin_push(num){
+    this.firemain.child('users').child(num).child('deviceId').once('value').then((snap)=>{
+      this.admin.deviceIds.push(snap.val());
+      console.log(num,snap.val())
+    })
+  }
+
   keyboardchecker_reset(n){
     // this.keyboard_check=n;
   }
 
   confirmAlert2(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
-        buttons: [  
+        buttons: [
         {
           text: '확인',
           handler: () => {
@@ -198,7 +210,7 @@ export class ChatPage {
   clicked(image){
     this.photoViewer.show(image);
   }
-  
+
   takePhoto(){
     let modal = this.modal.create(CameraselectPage,{},{cssClass : "pictureModal"});
     modal.onDidDismiss(data => {
@@ -213,7 +225,7 @@ export class ChatPage {
     });
     modal.present();
   }
-  
+
   upload(mode){
     this.keyboard_check=true;
     if(mode===0){
@@ -230,7 +242,7 @@ export class ChatPage {
       console.log('user : '+this.userid)
       console.log('nowtime : '+this.now_time())
       if(this.input.text===''&&this.input.image===''){
-       this.confirmAlert2('전송할 정보를 입력해주세요.'); 
+       this.confirmAlert2('전송할 정보를 입력해주세요.');
       }
       else if(this.input.image!=''&&this.input.image!=undefined){
         this.uploadImageToFirebase(this.input.image,0)
@@ -291,7 +303,7 @@ export class ChatPage {
           console.log('eeeee');
           console.log(e);
         })
-       
+
       }).catch((e)=>{
         console.log("error is....")
         this.confirmAlert2('error : '+e);
@@ -299,7 +311,7 @@ export class ChatPage {
       })
     })
   }
-  
+
   encodeImageUri(imageUri, callback) {
     var c = document.createElement('canvas');
     var ctx = c.getContext("2d");

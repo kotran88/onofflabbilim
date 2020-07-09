@@ -314,7 +314,7 @@ withdraw(){
         }
       });
     })
-   
+
     var now = new Date();
 
     var tomorrow = new Date();
@@ -331,11 +331,11 @@ withdraw(){
       this.startDate=now.toISOString();
       console.log(this.startDate);
       // this.delivery_time="오늘("+now.getDate()+"일) 오전 9시 >11시 " ;
-      this.tomorrowflag=false; 
+      this.tomorrowflag=false;
     }
     else if(hour>=9&&hour<13){
       // this.delivery_time=" 오늘("+now.getDate()+"일) 오후 3시 >5시 ";
-      this.tomorrowflag=false; 
+      this.tomorrowflag=false;
       this.startDate=now.toISOString();
       console.log(this.startDate);
     }
@@ -380,7 +380,7 @@ withdraw(){
       console.log(snap.val())
       // this.all_data=snap.val();
       this.all_data={switch:{software:[],hardware:[]},ps:{software:[],hardware:[]},}
-      
+
       var cnt=0;
       this.all_data.switch.hardware=[];
       for(var i in snap.val().switch.hardware)
@@ -392,12 +392,12 @@ withdraw(){
         this.all_data.switch.software[cnt++]=snap.val().switch.software[i];
         this.all_data.switch.software[cnt-1].fflag=false;
       }
-      
+
       cnt=0;
       this.all_data.ps.hardware=[];
       for(var i in snap.val().ps.hardware)
         this.all_data.ps.hardware[cnt++]=snap.val().ps.hardware[i];
-      
+
       cnt=0;
       this.all_data.ps.software=[];
       for(var i in snap.val().ps.software){
@@ -418,7 +418,7 @@ withdraw(){
 
   mode:any;
   num = 0;
-  
+
     pick_datee(num){
       // console.log("num is : "+num);
       this.mode=num;
@@ -432,7 +432,7 @@ withdraw(){
         }
         this.datePicker.open();
       };
-  
+
       getDashboardItemsByDate(sdate){
         console.log(sdate);
         console.log(this.mode);
@@ -778,7 +778,7 @@ withdraw(){
       this.contrast=0;
       this.totalcalculator(0);
     }
-          
+
   }
     // this.slides.lockSwipes(!this.console_flag);
   }
@@ -794,7 +794,7 @@ withdraw(){
       else if(this.select_num===1){
         modal = this.modal.create(PeripheralPage,{peripheral:this.peripheralarray},{ cssClass: 'peri-modal2' });
       }
-      
+
       modal.onDidDismiss(data => {
         console.log(data)
         if(data!=null&&data.pp!=undefined){
@@ -829,7 +829,7 @@ withdraw(){
     for(var i in data){
       data[i].fflag=false;
     }
-    
+
     if(n==1) this.all_data.switch.software=data;
     else if(n==0) this.all_data.ps.software=data;
 
@@ -875,7 +875,7 @@ withdraw(){
       this.peri_flag=false;
 
       this.select_num%=2
-  
+
       console.log(this.select_num)
       this.select_reset()
       this.generatehardware();
@@ -996,7 +996,7 @@ withdraw(){
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
     return String(num).replace(regexp, ',');
   }
-  
+
   game_sort(){
     var temp:any;
     var num:any;
@@ -1007,24 +1007,24 @@ withdraw(){
 
       if(m===0) Data=this.all_data.switch.software;
       else Data=this.all_data.ps.software;
-  
+
       console.log(Data);
       console.log('sort_start')
       for(var q=0;q<Data.length;q++){
         Data[q].name=String(Data[q].name);
-  
+
         if(Data[q].name.substring(0,1)==='!'){
-  
+
           num=Data[q].name.length;
           Data[q].name=Data[q].name.substring(1,num);
           continue;
         }
         for(var w=q+1;w<Data.length;w++){
           if(Data[w].name.substring(0,1)==='!'){
-  
+
             num=Data[w].name.length;
             Data[w].name=Data[w].name.substring(1,num);
-  
+
             temp=Data[q];
             Data[q]=Data[w];
             Data[w]=temp;
@@ -1035,7 +1035,7 @@ withdraw(){
       if(m===0) this.all_data.switch.software=Data;
       else this.all_data.ps.software=Data;
     }
-    
+
     console.log(this.all_data)
   }
 
@@ -1050,7 +1050,7 @@ withdraw(){
       console.log(this.gamearray[i].fflag)
       if(Number(this.gamearray[i].stock)<=0){
         var date=undefined;
-        
+
         if(this.gamearray[i].near_return_date!=undefined){
           date=new Date(this.gamearray[i].near_return_date);
           console.log(date)
@@ -1066,7 +1066,7 @@ withdraw(){
         console.log(this.game)
         if(this.game===undefined) this.game=[];
         this.game[this.count]=undefined;
-        
+
         this.gamearray[i].fflag=!this.gamearray[i].fflag;
 
         if(this.gamearray[i].fflag===false){
@@ -1111,7 +1111,7 @@ withdraw(){
             temp.push(this.game[g]);
         this.game=temp;
         console.log(this.game);
-        
+
         this.totalcalculator(1);
       }
     })
@@ -1164,7 +1164,7 @@ withdraw(){
       (date.getFullYear()==open.getFullYear()&&date.getMonth()===open.getMonth()&&date.getDate()<open.getDate())){
         // console.log(g);
         // console.log(date)
-        // console.log(open+'\n');    
+        // console.log(open+'\n');
         // console.log('true')
         return true;
     }
@@ -1172,9 +1172,9 @@ withdraw(){
   }
 
   confirmAlert2(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
-        buttons: [  
+        buttons: [
         {
           text: '확인',
         }],
@@ -1184,7 +1184,7 @@ withdraw(){
   }
 
   confirmAlert(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
         buttons: [{
           text: '취소',
@@ -1239,14 +1239,14 @@ withdraw(){
           }
         }
       }
-        
+
       for (var j in this.hardwarearray) {
         if (Number(this.hardwarearray[j].stock) <= 0) {
           this.hardwarearray[j].name += "[일시품절]"
           console.log(this.hardwarearray[j].name);
         }
       }
-  
+
       for (var peri in snapshot.val().peripheral) {
         console.log(peri);
         console.log(snapshot.val().peripheral[peri]);
@@ -1329,7 +1329,7 @@ withdraw(){
 
           console.log(this.gamearray[i].stock);
           console.log(this.gamearray[i].reservation);
-          
+
           if(this.gamearray[i].stock-this.gamearray[i].reservation<=0){
 
             start_date=new Date(this.startDate_text);
@@ -1397,7 +1397,7 @@ withdraw(){
     }else{
       return true;
     }
-   
+
   }
 
   goConfirm(){
@@ -1422,7 +1422,7 @@ withdraw(){
       console.log(newgame);
       let modal = this.modal.create(ConfirmPage,
         {
-          "user":this.user, "price":this.totalprice+this.contrast, 
+          "user":this.user, "price":this.totalprice+this.contrast,
           "game":newgame, "hw":this.hwborrow, "peri":this.peripheral,
           "gameprice":this.totalprice, "contrast":this.contrast,"sale":this.sale_data,
           "coin":this.coinprice,"start":this.startDate,"end":this.endDate,
@@ -1461,7 +1461,7 @@ withdraw(){
     // this.loading_off();
   }
   /**
-   * 
+   *
    */
 
   ionViewDidLoad() {
