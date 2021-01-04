@@ -223,7 +223,7 @@ export class ConfirmPage {
 
     if (this.hardware != undefined) {
       var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
+      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"peripheral":this.peripheral, "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "hardware": this.hardware, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
         var delivery_time:any;
         if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
         else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
@@ -243,9 +243,8 @@ export class ConfirmPage {
 
     }
     else {
-
       var k = this.firemain.child("users").child(this.user.phone).child("orderlist").push().key;
-      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({ "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
+      this.firemain.child("users").child(this.user.phone).child("orderlist").child(k).update({"peripheral":this.peripheral, "phone": this.user.phone, "key": k, "status": "paid", "startDate": this.startDate_text, "endDate": this.endDate_text, "diff": this.diff, "orderdate": nnow, "game": this.game, "totalprice": this.totalprice, "payment": this.totalprice }).then(() => {
         var delivery_time:any;
         if(hour<9) delivery_time="배송예정시각은 오늘("+now.getDate()+") 오전 9시~11시 입니다.";
         else if(hour>=9&&hour<13){delivery_time="배송예정시각은 오늘("+now.getDate()+") 오후 3시~5시 입니다.";}else{
@@ -492,6 +491,7 @@ export class ConfirmPage {
 
     this.loading_off();
       this.reversegeo();
+      // this.payment();
 
     }).catch((error) => {
 
