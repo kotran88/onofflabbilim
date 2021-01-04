@@ -3,7 +3,7 @@ import { IonicPage, AlertController,Content,NavController, Platform,ModalControl
 import { Chatting } from '../../components/models/chatting';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { storage } from 'firebase';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { CameraselectPage} from '../cameraselect/cameraselect';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
@@ -332,6 +332,7 @@ export class ChatPage {
 
     // this.status_change(this.check_order,'delivered');
 
+    console.log(this.admin.deviceIds);
     console.log("sendpushnotification")
     let data={
       "app_id": "6505b348-1705-4d73-abe4-55ab40758266",

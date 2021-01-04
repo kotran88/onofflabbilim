@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams,Platform, AlertController, ViewController,LoadingController } from 'ionic-angular';
 import { DeliveryAreaPage } from '../delivery-area/delivery-area';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IamportCordova, PaymentObject } from '@ionic-native/iamport-cordova';
 

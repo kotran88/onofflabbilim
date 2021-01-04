@@ -9,7 +9,7 @@ import {TspagePage} from '../pages/tspage/tspage'
 import { LoginpagePage } from '../pages/loginpage/loginpage';
 import { SettingPage } from '../pages/setting/setting';
 import { CoinSavePage } from '../pages/coin-save/coin-save';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 import { IntroducePage } from '../pages/introduce/introduce';
 import { HomeslidePage } from '../pages/homeslide/homeslide';
 @Component({
@@ -53,7 +53,7 @@ export class MyApp {
         this.user=snap.val();
         this.pages=[
           {title:'주문관리',component:MypagePage},
-         
+
           {title:'코인관리',component:CoinSavePage},
           {title:'문의하기',component:ChatPage},
           {title:'이용안내',component:HomeslidePage},

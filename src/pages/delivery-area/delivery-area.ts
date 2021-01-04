@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage,AlertController, Platform,NavController, NavParams, ViewController } from 'ionic-angular';
 import * as $ from 'jquery'
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 
 /**
  * Generated class for the DeliveryAreaPage page.
@@ -22,7 +22,7 @@ export class DeliveryAreaPage {
   name:any;
   phone:any;
   constructor(public alertCtrl:AlertController,public platform:Platform,public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController) {
-    
+
     this.Delivery=this.navParams.get('Delivery');
     this.name=this.navParams.get('user').name;
     this.phone=this.navParams.get('user').phone;
@@ -30,12 +30,12 @@ export class DeliveryAreaPage {
 
     console.log(this.Delivery)
     if(this.Delivery!=undefined){
-     
+
     }
     else{
       this.Delivery={adress:'',code:'',detail_adress:''}
     }
-    
+
     console.log(this.Delivery);
 
     let backAction =  platform.registerBackButtonAction(() => {
@@ -46,9 +46,9 @@ export class DeliveryAreaPage {
 
   }
   confirmAlert2(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
-        buttons: [  
+        buttons: [
         {
           text: '확인',
           handler: () => {
@@ -71,7 +71,7 @@ export class DeliveryAreaPage {
       this.Delivery.detail_adress =  $("#adress_C").val();
     }
   }
-  
+
   dismiss(){
     this.viewCtrl.dismiss();
   }

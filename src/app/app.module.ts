@@ -8,7 +8,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MyApp } from './app.component';
-import { initializeApp } from "firebase/app";
+import firebase from "firebase"
 
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
@@ -49,7 +49,7 @@ var firebaseConfig = {
   appId: "1:609791307988:web:12d29bbbed509f9f930b41",
   measurementId: "G-ZCMV9QVCVE"
 };
-initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 @NgModule({
   declarations: [

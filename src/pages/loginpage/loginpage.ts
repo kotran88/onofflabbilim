@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, AlertController,NavController, NavParams, ModalController ,Platform,ViewController} from 'ionic-angular';
 
 import { AngularFireAuth } from 'angularfire2/auth';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HttpClient } from '@angular/common/http';
@@ -59,7 +59,7 @@ export class LoginpagePage {
       }else{
         this.loginagain();
       }
-      
+
       // this.number=localStorage.getItem('number');
     }
     else{
@@ -72,9 +72,9 @@ export class LoginpagePage {
     console.log(this.login_check)
   }
   confirmAlert2(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
-        buttons: [  
+        buttons: [
         {
           text: '확인',
           handler: () => {
@@ -161,9 +161,9 @@ export class LoginpagePage {
       kko_certified_time.setTime(time*1000);
       this.certified_time=''+this.str_format(kko_certified_time.getMinutes(),2)+':'+
                               this.str_format(kko_certified_time.getSeconds(),2);
-      
+
       this.kko_certified_check=true;
-  
+
       timer=setInterval(()=>{
         time-=1;
         kko_certified_time.setTime(time*1000);
@@ -197,7 +197,7 @@ export class LoginpagePage {
       })
     }
   }
-  
+
   login_alert(){
     let alert = this.alertCtrl.create({
       title: '인증에 성공하였습니다.',
@@ -230,7 +230,7 @@ export class LoginpagePage {
     console.log(this.name);
 
     this.firemain.child('users').child(this.phone).once('value').then((snap)=>{
-      
+
       console.log(snap.val());
       if(snap.val().alert===undefined||snap.val().alert===null){
         this.firemain.child('users').child(this.phone).update({alert:true})

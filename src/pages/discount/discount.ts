@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 import * as $ from 'jquery';
 
 import { NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
@@ -89,7 +89,7 @@ export class DiscountPage {
   goup(){
     console.log("goup")
     console.log(this.currentcoin);
-  
+
     if(this.currentcoin>=this.totalcoin){
       this.confirmAlert2('보유코인을 초과 할 수 없습니다.')
     }
@@ -139,7 +139,7 @@ export class DiscountPage {
       },10);
     }
   }
-  
+
   number_format(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
     return String(num).replace(regexp, ',');

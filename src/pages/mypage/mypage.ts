@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Http, RequestOptions, Headers} from '@angular/http';
 import { updateDate } from 'ionic-angular/umd/util/datetime-util';
 import { IonicPage,ViewController,Platform,ModalController,AlertController, NavController, NavParams, LoadingController } from 'ionic-angular';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 import { ChatPage } from '../chat/chat';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 /**
@@ -88,9 +88,9 @@ export class MypagePage {
   }
 
   confirmAlert2(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
-        buttons: [  
+        buttons: [
         {
           text: '확인',
           handler: () => {
@@ -112,7 +112,7 @@ export class MypagePage {
   }
 
   status_change(status){
-    
+
     console.log('status : ',status)
     this.firemain.child('users').child(this.id).child('orderlist').child(this.check_order.key).update({status:status}).then(()=>{
       this.refreshorder();
@@ -219,7 +219,7 @@ export class MypagePage {
           console.log('eeeee');
           console.log(e);
         })
-       
+
       }).catch((e)=>{
         console.log("error is....")
         this.confirmAlert2('error : '+e);
@@ -227,7 +227,7 @@ export class MypagePage {
       })
     })
   }
-  
+
   encodeImageUri(imageUri, callback) {
     var c = document.createElement('canvas');
     var ctx = c.getContext("2d");

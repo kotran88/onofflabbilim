@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, Platform, NavController, NavParams, AlertController } from 'ionic-angular';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 /**
  * Generated class for the SettingPage page.
  *
@@ -31,9 +31,9 @@ export class SettingPage {
     console.log(this.user);
   }
   confirmAlert2(str) {
-    let alert = this.alertCtrl.create({      
+    let alert = this.alertCtrl.create({
         subTitle: str,
-        buttons: [  
+        buttons: [
         {
           text: '확인',
           handler: () => {
@@ -71,7 +71,7 @@ export class SettingPage {
     });
     alert.present();
   }
-  
+
   withdraw(){
     let alert = this.alertCtrl.create({
       title: '정말로 탈퇴하실건가요?',

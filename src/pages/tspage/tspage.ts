@@ -1,6 +1,6 @@
 import { Component, NgZone, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Slides, ModalController, LoadingController ,MenuController, Platform} from 'ionic-angular';
-import firebase from 'firebase/app';
+import * as firebase from "firebase";
 import {LoginpagePage} from '../loginpage/loginpage'
 import * as $ from 'jquery';
 import { DepositPage } from '../deposit/deposit';
